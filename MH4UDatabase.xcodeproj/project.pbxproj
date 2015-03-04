@@ -7,10 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		499F66047D4F8AC8382E0904 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D81653FF5EF53FDB102D0403 /* libPods.a */; };
+		E71F7D551AA6B2FD00162587 /* MonsterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E71F7D541AA6B2FD00162587 /* MonsterViewController.m */; };
+		E71F7D571AA6BC2B00162587 /* mh4u.db in Resources */ = {isa = PBXBuildFile; fileRef = E71F7D561AA6BC2B00162587 /* mh4u.db */; };
+		E786C0B61AA7AE9F001C17F8 /* ArmorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E786C0B51AA7AE9F001C17F8 /* ArmorViewController.m */; };
 		E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF01AA6AC96007C05E0 /* main.m */; };
 		E7EB7DF41AA6AC96007C05E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF31AA6AC96007C05E0 /* AppDelegate.m */; };
 		E7EB7DF71AA6AC96007C05E0 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF61AA6AC96007C05E0 /* MasterViewController.m */; };
-		E7EB7DFA1AA6AC96007C05E0 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF91AA6AC96007C05E0 /* DetailViewController.m */; };
 		E7EB7DFD1AA6AC96007C05E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7EB7DFB1AA6AC96007C05E0 /* Main.storyboard */; };
 		E7EB7DFF1AA6AC96007C05E0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7EB7DFE1AA6AC96007C05E0 /* Images.xcassets */; };
 		E7EB7E021AA6AC96007C05E0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7EB7E001AA6AC96007C05E0 /* LaunchScreen.xib */; };
@@ -28,6 +31,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0DA25932ADF33E4E62A2F9CB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		CBEDC553F9524B0EE6960A11 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		D81653FF5EF53FDB102D0403 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E71F7D531AA6B2FD00162587 /* MonsterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonsterViewController.h; sourceTree = "<group>"; };
+		E71F7D541AA6B2FD00162587 /* MonsterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonsterViewController.m; sourceTree = "<group>"; };
+		E71F7D561AA6BC2B00162587 /* mh4u.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = mh4u.db; sourceTree = "<group>"; };
+		E786C0B41AA7AE9F001C17F8 /* ArmorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArmorViewController.h; sourceTree = "<group>"; };
+		E786C0B51AA7AE9F001C17F8 /* ArmorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmorViewController.m; sourceTree = "<group>"; };
 		E7EB7DEB1AA6AC96007C05E0 /* MH4UDatabase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MH4UDatabase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7EB7DEF1AA6AC96007C05E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E7EB7DF01AA6AC96007C05E0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -35,8 +46,6 @@
 		E7EB7DF31AA6AC96007C05E0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E7EB7DF51AA6AC96007C05E0 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		E7EB7DF61AA6AC96007C05E0 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		E7EB7DF81AA6AC96007C05E0 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		E7EB7DF91AA6AC96007C05E0 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		E7EB7DFC1AA6AC96007C05E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E7EB7DFE1AA6AC96007C05E0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E7EB7E011AA6AC96007C05E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -50,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				499F66047D4F8AC8382E0904 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,12 +73,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3EF6A24D361691F39C3EEE8F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D81653FF5EF53FDB102D0403 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D1CEF9968D44CA6F70ECFB76 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0DA25932ADF33E4E62A2F9CB /* Pods.debug.xcconfig */,
+				CBEDC553F9524B0EE6960A11 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		E7EB7DE21AA6AC96007C05E0 = {
 			isa = PBXGroup;
 			children = (
 				E7EB7DED1AA6AC96007C05E0 /* MH4UDatabase */,
 				E7EB7E0A1AA6AC96007C05E0 /* MH4UDatabaseTests */,
 				E7EB7DEC1AA6AC96007C05E0 /* Products */,
+				D1CEF9968D44CA6F70ECFB76 /* Pods */,
+				3EF6A24D361691F39C3EEE8F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -84,12 +113,14 @@
 		E7EB7DED1AA6AC96007C05E0 /* MH4UDatabase */ = {
 			isa = PBXGroup;
 			children = (
+				E71F7D531AA6B2FD00162587 /* MonsterViewController.h */,
+				E71F7D541AA6B2FD00162587 /* MonsterViewController.m */,
+				E786C0B41AA7AE9F001C17F8 /* ArmorViewController.h */,
+				E786C0B51AA7AE9F001C17F8 /* ArmorViewController.m */,
 				E7EB7DF21AA6AC96007C05E0 /* AppDelegate.h */,
 				E7EB7DF31AA6AC96007C05E0 /* AppDelegate.m */,
 				E7EB7DF51AA6AC96007C05E0 /* MasterViewController.h */,
 				E7EB7DF61AA6AC96007C05E0 /* MasterViewController.m */,
-				E7EB7DF81AA6AC96007C05E0 /* DetailViewController.h */,
-				E7EB7DF91AA6AC96007C05E0 /* DetailViewController.m */,
 				E7EB7DFB1AA6AC96007C05E0 /* Main.storyboard */,
 				E7EB7DFE1AA6AC96007C05E0 /* Images.xcassets */,
 				E7EB7E001AA6AC96007C05E0 /* LaunchScreen.xib */,
@@ -101,6 +132,7 @@
 		E7EB7DEE1AA6AC96007C05E0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E71F7D561AA6BC2B00162587 /* mh4u.db */,
 				E7EB7DEF1AA6AC96007C05E0 /* Info.plist */,
 				E7EB7DF01AA6AC96007C05E0 /* main.m */,
 			);
@@ -131,9 +163,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E7EB7E111AA6AC96007C05E0 /* Build configuration list for PBXNativeTarget "MH4UDatabase" */;
 			buildPhases = (
+				DAD14A79569C904F79476E87 /* Check Pods Manifest.lock */,
 				E7EB7DE71AA6AC96007C05E0 /* Sources */,
 				E7EB7DE81AA6AC96007C05E0 /* Frameworks */,
 				E7EB7DE91AA6AC96007C05E0 /* Resources */,
+				3DB19F6E224FED1C20DF955E /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -205,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7EB7DFD1AA6AC96007C05E0 /* Main.storyboard in Resources */,
+				E71F7D571AA6BC2B00162587 /* mh4u.db in Resources */,
 				E7EB7E021AA6AC96007C05E0 /* LaunchScreen.xib in Resources */,
 				E7EB7DFF1AA6AC96007C05E0 /* Images.xcassets in Resources */,
 			);
@@ -219,15 +254,49 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3DB19F6E224FED1C20DF955E /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DAD14A79569C904F79476E87 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E7EB7DE71AA6AC96007C05E0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E71F7D551AA6B2FD00162587 /* MonsterViewController.m in Sources */,
+				E786C0B61AA7AE9F001C17F8 /* ArmorViewController.m in Sources */,
 				E7EB7DF41AA6AC96007C05E0 /* AppDelegate.m in Sources */,
 				E7EB7DF71AA6AC96007C05E0 /* MasterViewController.m in Sources */,
 				E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */,
-				E7EB7DFA1AA6AC96007C05E0 /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,6 +418,7 @@
 		};
 		E7EB7E121AA6AC96007C05E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0DA25932ADF33E4E62A2F9CB /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = MH4UDatabase/Info.plist;
@@ -359,6 +429,7 @@
 		};
 		E7EB7E131AA6AC96007C05E0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CBEDC553F9524B0EE6960A11 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = MH4UDatabase/Info.plist;
@@ -420,6 +491,7 @@
 				E7EB7E131AA6AC96007C05E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E7EB7E141AA6AC96007C05E0 /* Build configuration list for PBXNativeTarget "MH4UDatabaseTests" */ = {
 			isa = XCConfigurationList;
@@ -428,6 +500,7 @@
 				E7EB7E161AA6AC96007C05E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
