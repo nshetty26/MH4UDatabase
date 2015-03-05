@@ -15,24 +15,31 @@
 @property (nonatomic) NSArray *displayedArmor;
 @property (nonatomic) UITableView *armorTable;
 @property (nonatomic) NSMutableArray *allArmorArray;
+@property (nonatomic) ArmorStats *statView;
+@property (nonatomic) UITabBar *armorTab;
 @end
 
 @implementation ArmorViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UITabBar *monstersTab = [[UITabBar alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 49)];
+    _armorTab = [[UITabBar alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 49)];
     UITabBarItem *blade = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemBookmarks tag:2];
     UITabBarItem *gunner = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemDownloads tag:3];
     UITabBarItem *allArmor = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemFavorites tag:1];
-    monstersTab.delegate = self;
-    [monstersTab setItems:@[allArmor, blade, gunner]];
-    [monstersTab setSelectedItem:allArmor];
+    _armorTab.delegate = self;
+    [_armorTab setItems:@[allArmor, blade, gunner]];
+    [_armorTab setSelectedItem:allArmor];
     _armorTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 49, self.view.frame.size.width, self.view.frame.size.height)];
     [self populateAllMonsters];
     _armorTable.dataSource = self;
+    _armorTable.delegate = self;
+
     [self.view addSubview:_armorTable];
-    [self.view addSubview:monstersTab];}
+    [self.view addSubview:_armorTab];
+
+
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -66,7 +73,7 @@
     }
     
     
-    NSString *monsterQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name, armor.slot, armor.defense, armor.max_defense, armor.fire_res, armor.thunder_res, armor.dragon_res, armor.water_res, armor.ice_res, armor.gender, armor.hunter_type, armor.num_slots from armor INNER JOIN items on armor._id = items._id"];
+    NSString *monsterQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name, armor.slot, armor.defense, armor.max_defense, items.rarity, items.buy, armor.fire_res, armor.thunder_res, armor.dragon_res, armor.water_res, armor.ice_res, armor.gender, armor.hunter_type, armor.num_slots from armor INNER JOIN items on armor._id = items._id"];
     _mhDBPath = [[NSBundle mainBundle] pathForResource:@"mh4u" ofType:@".db"];
     _mh4DB = [FMDatabase databaseWithPath:_mhDBPath];
     
@@ -79,6 +86,8 @@
             armor.armorID = [s intForColumn:@"_id"];
             armor.name = [s stringForColumn:@"name"];
             armor.slot = [s stringForColumn:@"slot"];
+            armor.rarity = [s intForColumn:@"rarity"];
+            armor.price = [s intForColumn:@"buy"];
             armor.defense = [s intForColumn:@"defense"];
             armor.maxDefense = [s intForColumn:@"max_defense"];
             armor.fireResistance = [s intForColumn:@"fire_res"];
@@ -90,20 +99,9 @@
             armor.hunterType = [s stringForColumn:@"hunter_type"];
             armor.numSlots = [s intForColumn:@"num_slots"];
             
-//            Monster *monster = [[Monster alloc] init];
-//            monster.monsterID = [s intForColumn:@"_id"];
-//            monster.monsterClass = [s stringForColumn:@"class"];
-//            monster.monsterName = [s stringForColumn:@"name"];
-//            monster.trait = [s stringForColumn:@"trait"];
-//            monster.iconName = [s stringForColumn:@"icon_name"];
             [_allArmorArray addObject:armor];
         }
-    }
-//    [_allArmorArray sortUsingComparator:^NSComparisonResult(id monster1, id monster2){
-//        Monster *mon1 = (Monster *)monster1;
-//        Monster *mon2 = (Monster *)monster2;
-//        return [(NSString *) mon1.monsterName compare:mon2.monsterName options:NSNumericSearch];
-//    }];
+    };
     
     _displayedArmor = _allArmorArray;
     
@@ -116,12 +114,31 @@
     return _allArmorArray.count;
 }
 
+-(void)closeArmorStats {
+    [_statView removeFromSuperview];
+    _statView = nil;
+    [self.view addSubview:_armorTable];
+    [self.view addSubview:_armorTab];
+}
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"armorCell"];
     Armor *armor = [_displayedArmor objectAtIndex:indexPath.row];
     //cell.textLabel.text = monster.monsterName;
     cell.textLabel.text = armor.name;
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [_armorTable removeFromSuperview];
+    Armor *armor = _displayedArmor[indexPath.row];
+    UIBarButtonItem *close = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:self action:@selector(closeArmorStats)];
+    self.navigationItem.rightBarButtonItem = close;
+    //ArmorStats *statView = [[ArmorStats alloc] initWithFrame:_armorTable.frame andArmor:_displayedArmor[indexPath.row]];
+    _statView = [[[NSBundle mainBundle] loadNibNamed:@"ArmorView" owner:self options:nil] lastObject];
+    [_statView populateArmor:armor];
+    [self.view addSubview:_statView];
 }
 
 /*
@@ -133,6 +150,25 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+@end
+
+@implementation ArmorStats
+
+-(void)populateArmor:(Armor *)armor
+{
+    _armorName.text = armor.name;
+    _IconImageView = nil;
+    _armorPart.text = armor.slot;
+    _armorSlots.text = [NSString stringWithFormat:@"%i", armor.numSlots];
+    _armorRarity.text = [NSString stringWithFormat:@"%i", armor.rarity];
+    _armorPrice.text = [NSString stringWithFormat:@"%i", armor.price];;
+    _armorFR.text = [NSString stringWithFormat:@"%i", armor.fireResistance];
+    _armorWR.text= [NSString stringWithFormat:@"%i", armor.waterResistance];
+    _armorIR.text = [NSString stringWithFormat:@"%i", armor.iceResistance];
+    _armorTR.text =[NSString stringWithFormat:@"%i", armor.thunderResistance];
+    _armorDR.text = [NSString stringWithFormat:@"%i", armor.dragonResistance];
+}
 
 @end
 
