@@ -67,20 +67,28 @@
     
     [_armorTable reloadData];
 }
--(void)populateAllMonsters {
-    if (_allArmorArray == nil) {
-        _allArmorArray = [[NSMutableArray alloc] init];
-    }
-    
-    
-    NSString *monsterQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name, armor.slot, armor.defense, armor.max_defense, items.rarity, items.buy, armor.fire_res, armor.thunder_res, armor.dragon_res, armor.water_res, armor.ice_res, armor.gender, armor.hunter_type, armor.num_slots from armor INNER JOIN items on armor._id = items._id"];
+
+-(FMResultSet *)DBquery:(NSString *)query
+{
     _mhDBPath = [[NSBundle mainBundle] pathForResource:@"mh4u" ofType:@".db"];
     _mh4DB = [FMDatabase databaseWithPath:_mhDBPath];
     
     if (![_mh4DB open]) {
-        return;
+        return nil;
     } else {
-        FMResultSet *s = [_mh4DB executeQuery:monsterQuery];
+        FMResultSet *s = [_mh4DB executeQuery:query];
+        return s;
+    }
+}
+-(void)populateAllMonsters {
+    if (_allArmorArray == nil) {
+        _allArmorArray = [[NSMutableArray alloc] init];
+    }
+
+    NSString *monsterQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name, armor.slot, armor.defense, armor.max_defense, items.rarity, items.buy, armor.fire_res, armor.thunder_res, armor.dragon_res, armor.water_res, armor.ice_res, armor.gender, armor.hunter_type, armor.num_slots from armor INNER JOIN items on armor._id = items._id"];
+        FMResultSet *s = [self DBquery:monsterQuery];
+    
+    if (s) {
         while ([s next]) {
             Armor *armor = [[Armor alloc] init];
             armor.armorID = [s intForColumn:@"_id"];
@@ -98,14 +106,57 @@
             armor.gender = [s stringForColumn:@"gender"];
             armor.hunterType = [s stringForColumn:@"hunter_type"];
             armor.numSlots = [s intForColumn:@"num_slots"];
-            
             [_allArmorArray addObject:armor];
         }
-    };
+    }
     
     _displayedArmor = _allArmorArray;
     
     
+}
+
+-(void)closeDB
+{
+    if (_mh4DB) {
+        _mh4DB = nil;
+    }
+}
+
+-(NSDictionary *)getArmorSkillsfor:(int)armorID{
+    NSString *skillQuery = [NSString stringWithFormat:@"SELECT skill_trees._id, skill_trees.name, item_to_skill_tree.point_value FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id where items._id = %i", armorID];
+
+    NSMutableDictionary *skillTreeDictionary = [[NSMutableDictionary alloc] init];
+    FMResultSet *s = [self DBquery:skillQuery];
+    if (s) {
+        while ([s next]) {
+            int skillTreeID = [s intForColumn:@"_id"];
+            NSString *skillName = [s stringForColumn:@"name"];
+            int value = [s intForColumn:@"point_value"];
+            [skillTreeDictionary setObject:@[skillName, [NSNumber numberWithInt:value]] forKey:[NSNumber numberWithInt:skillTreeID]];
+        }
+    } else {
+        return nil;
+    }
+    
+    return skillTreeDictionary;
+}
+
+-(NSDictionary *)getComponentsfor:(int)armorID {
+    //TODO: Work out duplicate components
+    NSString *componentQuery = [NSString stringWithFormat:@"Select components.component_item_id, items.name from components Inner JOIN items on components.component_item_id = items._id where created_item_id = %i", armorID];
+    NSMutableDictionary *componentDictionary = [[NSMutableDictionary alloc] init];
+    FMResultSet *s = [self DBquery:componentQuery];
+    if (s) {
+        while ([s next]) {
+            int componentID = [s intForColumn:@"component_item_id"];
+            NSString *name = [s stringForColumn:@"name"];
+            [componentDictionary setObject:@[name] forKey:[NSNumber numberWithInt:componentID]];
+        }
+    } else {
+        return nil;
+    }
+    
+    return componentDictionary;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -135,8 +186,9 @@
     Armor *armor = _displayedArmor[indexPath.row];
     UIBarButtonItem *close = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:self action:@selector(closeArmorStats)];
     self.navigationItem.rightBarButtonItem = close;
-    //ArmorStats *statView = [[ArmorStats alloc] initWithFrame:_armorTable.frame andArmor:_displayedArmor[indexPath.row]];
     _statView = [[[NSBundle mainBundle] loadNibNamed:@"ArmorView" owner:self options:nil] lastObject];
+    NSDictionary *skillDictionary = [self getArmorSkillsfor:armor.armorID];
+    NSDictionary *componentDictionary = [self getComponentsfor:armor.armorID];
     [_statView populateArmor:armor];
     [self.view addSubview:_statView];
 }
