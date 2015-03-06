@@ -8,6 +8,7 @@
 
 #import "MasterViewController.h"
 #import "MonsterViewController.h"
+#import "ItemViewController.h"
 #import "MH4UDBEngine.h"
 #import "ArmorViewController.h"
 
@@ -68,6 +69,10 @@
         aVC.allArmorArray = [_dbEngine populateArmorArray];
         aVC.dbEngine = _dbEngine;
         
+    } else if ([[segue identifier] isEqualToString:@"showItem"]) {
+        ItemViewController *iVC = (ItemViewController *)[segue destinationViewController];
+        iVC.allItems = [_dbEngine populateItemArray];
+        iVC.dbEngine = _dbEngine;
     }
 //    } else if ([[segue identifier] isEqualToString:@"showWeapons"]) {
 //        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
@@ -109,5 +114,9 @@
 //        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
 //    }
 //}
+
+@end
+
+@implementation CombiningCell
 
 @end

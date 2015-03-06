@@ -7,6 +7,7 @@
 //
 
 #import "ArmorViewController.h"
+#import "ItemViewController.h"
 #import "MH4UDBEngine.h"
 #import <FMDB.h>
 
@@ -114,6 +115,62 @@
     }
     
     return componentsArray;
+}
+
+#pragma - Item Queries
+-(NSArray *)populateItemArray {
+    NSMutableArray *itemsArray = [[NSMutableArray alloc] init];
+    NSString *itemQuery = [NSString stringWithFormat:@"SELECT * From items WHERE items.type NOT IN ('Armor','Weapon')"];
+    FMResultSet *s = [self DBquery:itemQuery];
+    while ([s next]) {
+        Item *item = [[Item alloc] init];
+        item.itemID = [s intForColumn:@"_id"];
+        item.name = [s stringForColumn:@"name"];
+        item.type = [s stringForColumn:@"type"];
+        item.rarity = [s intForColumn:@"rarity"];
+        item.capacity = [s intForColumn:@"carry_capacity"];
+        item.price = [s intForColumn:@"buy"];
+        item.salePrice = [s intForColumn:@"sell"];
+        item.itemDescription = [s stringForColumn:@"description"];
+        item.icon = [s stringForColumn:@"icon_name"];
+        [itemsArray addObject:item];
+    }
+    
+    return itemsArray;
+}
+
+-(void)getCombiningItemsForItem:(Item*)item
+{
+    NSMutableArray *combinedItemsArray = [[NSMutableArray alloc] init];
+    NSString *combinedItemsQuery = [NSString stringWithFormat:@"SELECT * FROM combining where combining.created_item_id = %i OR combining.item_1_id = %i OR combining.item_2_id = %i", item.itemID, item.itemID, item.itemID];
+    FMResultSet *s = [self DBquery:combinedItemsQuery];
+    while ([s next]) {
+        int createdID = [s intForColumn:@"created_item_id"];
+        int item_1_id = [s intForColumn:@"item_1_id"];
+        int item_2_id = [s intForColumn:@"item_2_id"];
+        int minimumMade = [s intForColumn:@"amount_made_min"];
+        int maximumMade = [s intForColumn:@"amount_made_max"];
+        int percentage = [s intForColumn:@"percentage"];
+        [combinedItemsArray addObject:@[[NSNumber numberWithInt:createdID],[NSNumber numberWithInt:item_1_id], [NSNumber numberWithInt:item_2_id], [NSNumber numberWithInt:minimumMade], [NSNumber numberWithInt:maximumMade], [NSNumber numberWithInt:percentage]]];
+                           
+    }
+    
+    item.combinedItemsArray = combinedItemsArray;
+}
+
+-(NSArray *)infoForCombinedTableCellItem:(NSNumber *)itemID
+{
+    NSString *itemPartQuery = [NSString stringWithFormat:@"SELECT name, icon_name FROM items where _id = %@", itemID];
+    NSArray *info;
+    FMResultSet *s = [self DBquery:itemPartQuery];
+    if ([s next]) {
+        NSString *name = [s stringForColumn:@"name"];
+        NSString *icon = [s stringForColumn:@"icon_name"];
+        info = @[name, icon];
+    }
+    
+    return info;
+
 }
 
 

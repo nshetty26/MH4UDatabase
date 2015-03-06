@@ -13,7 +13,7 @@
 @interface ArmorViewController ()
 @property (nonatomic) NSArray *displayedArmor;
 @property (nonatomic) UITableView *armorTable;
-@property (nonatomic) ArmorStats *statView;
+@property (nonatomic) ArmorView *statView;
 @property (nonatomic) UITabBar *armorFilterTab;
 @property (nonatomic) UITabBar *armorDetailTab;
 @property (nonatomic) UITableView *skillTable;
@@ -199,7 +199,7 @@
 
 @end
 
-@implementation ArmorStats
+@implementation ArmorView
 
 -(void)populateArmor:(Armor *)armor
 {

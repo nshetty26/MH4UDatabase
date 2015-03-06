@@ -143,6 +143,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="r6R-MW-zfj" kind="showDetail" identifier="showItem" id="eiA-aC-ak4"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CombiningCell" textLabel="Umz-Dz-06N" style="IBUITableViewCellStyleDefault" id="s5Z-Cp-QSt">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -202,6 +205,35 @@
             </objects>
             <point key="canvasLocation" x="709" y="-630"/>
         </scene>
+        <!--Item View Controller-->
+        <scene sceneID="aB2-JW-K9r">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FBe-cy-i6I" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="r6R-MW-zfj" customClass="ItemViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="7qA-vK-fVb"/>
+                        <viewControllerLayoutGuide type="bottom" id="JCG-YD-ida"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ZL8-dd-9hY">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="82c-hG-eT5" id="Jqd-GT-FCb"/>
+                    </connections>
+                </viewController>
+                <searchDisplayController id="82c-hG-eT5">
+                    <connections>
+                        <outlet property="delegate" destination="r6R-MW-zfj" id="cNc-9V-2KH"/>
+                        <outlet property="searchContentsController" destination="r6R-MW-zfj" id="ZQu-pl-gR6"/>
+                        <outlet property="searchResultsDataSource" destination="r6R-MW-zfj" id="I14-DY-tOa"/>
+                        <outlet property="searchResultsDelegate" destination="r6R-MW-zfj" id="VMm-Pv-hCU"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="1408" y="-1013"/>
+        </scene>
         <!--Armor View Controller-->
         <scene sceneID="6Pt-vc-OWu">
             <objects>
@@ -218,7 +250,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ouv-NE-x82" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1379" y="-544"/>
+            <point key="canvasLocation" x="1755" y="-358"/>
         </scene>
     </scenes>
 </document>

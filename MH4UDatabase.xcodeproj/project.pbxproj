@@ -836,6 +836,9 @@
 		E78AFC171AA92A12009B16C3 /* sword_and_shield7.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8DF1AA92A12009B16C3 /* sword_and_shield7.png */; };
 		E78AFC181AA92A12009B16C3 /* sword_and_shield8.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8E01AA92A12009B16C3 /* sword_and_shield8.png */; };
 		E78AFC191AA92A12009B16C3 /* sword_and_shield9.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8E11AA92A12009B16C3 /* sword_and_shield9.png */; };
+		E78AFC1C1AA939EB009B16C3 /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E78AFC1B1AA939EB009B16C3 /* ItemViewController.m */; };
+		E78AFC1E1AA94897009B16C3 /* ItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78AFC1D1AA94897009B16C3 /* ItemView.xib */; };
+		E78AFC221AA9530F009B16C3 /* UICombiningTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78AFC211AA9530F009B16C3 /* UICombiningTableCell.xib */; };
 		E7A0213E1AA7EF2E00941343 /* ArmorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7A0213D1AA7EF2E00941343 /* ArmorView.xib */; };
 		E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF01AA6AC96007C05E0 /* main.m */; };
 		E7EB7DF41AA6AC96007C05E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF31AA6AC96007C05E0 /* AppDelegate.m */; };
@@ -1691,6 +1694,10 @@
 		E78AF8DF1AA92A12009B16C3 /* sword_and_shield7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sword_and_shield7.png; sourceTree = "<group>"; };
 		E78AF8E01AA92A12009B16C3 /* sword_and_shield8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sword_and_shield8.png; sourceTree = "<group>"; };
 		E78AF8E11AA92A12009B16C3 /* sword_and_shield9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sword_and_shield9.png; sourceTree = "<group>"; };
+		E78AFC1A1AA939EB009B16C3 /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
+		E78AFC1B1AA939EB009B16C3 /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
+		E78AFC1D1AA94897009B16C3 /* ItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemView.xib; sourceTree = "<group>"; };
+		E78AFC211AA9530F009B16C3 /* UICombiningTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UICombiningTableCell.xib; sourceTree = "<group>"; };
 		E7A0213D1AA7EF2E00941343 /* ArmorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArmorView.xib; sourceTree = "<group>"; };
 		E7EB7DEB1AA6AC96007C05E0 /* MH4UDatabase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MH4UDatabase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7EB7DEF1AA6AC96007C05E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2788,9 +2795,13 @@
 				E77A7BE31AA91D490087247F /* MH4UDBEngine.m */,
 				E71F7D531AA6B2FD00162587 /* MonsterViewController.h */,
 				E71F7D541AA6B2FD00162587 /* MonsterViewController.m */,
+				E78AFC1A1AA939EB009B16C3 /* ItemViewController.h */,
+				E78AFC1B1AA939EB009B16C3 /* ItemViewController.m */,
 				E786C0B41AA7AE9F001C17F8 /* ArmorViewController.h */,
 				E786C0B51AA7AE9F001C17F8 /* ArmorViewController.m */,
+				E78AFC211AA9530F009B16C3 /* UICombiningTableCell.xib */,
 				E7A0213D1AA7EF2E00941343 /* ArmorView.xib */,
+				E78AFC1D1AA94897009B16C3 /* ItemView.xib */,
 				E7EB7DF21AA6AC96007C05E0 /* AppDelegate.h */,
 				E7EB7DF31AA6AC96007C05E0 /* AppDelegate.m */,
 				E7EB7DF51AA6AC96007C05E0 /* MasterViewController.h */,
@@ -3087,6 +3098,7 @@
 				E78AF9421AA92A12009B16C3 /* BBQSpit-White.png in Resources */,
 				E78AF9AE1AA92A12009B16C3 /* Fang-Teal.png in Resources */,
 				E78AFB3B1AA92A12009B16C3 /* MH4U-Najarala_Icon.png in Resources */,
+				E78AFC221AA9530F009B16C3 /* UICombiningTableCell.xib in Resources */,
 				E78AFBC61AA92A12009B16C3 /* hammer6.png in Resources */,
 				E78AFA2D1AA92A12009B16C3 /* Mushroom-White.png in Resources */,
 				E78AF9B61AA92A12009B16C3 /* Fish-Grey.png in Resources */,
@@ -3135,6 +3147,7 @@
 				E78AF9BD1AA92A12009B16C3 /* Fishing-Spear.png in Resources */,
 				E78AFA7C1AA92A12009B16C3 /* Seed-Yellow.png in Resources */,
 				E78AFC081AA92A12009B16C3 /* switch_axe2.png in Resources */,
+				E78AFC1E1AA94897009B16C3 /* ItemView.xib in Resources */,
 				E78AF91D1AA92A12009B16C3 /* Ammo-Cyan.png in Resources */,
 				E78AFB571AA92A12009B16C3 /* MH4U-Tetsucabra_Icon.png in Resources */,
 				E78AFB8A1AA92A12009B16C3 /* Thunder.png in Resources */,
@@ -3800,6 +3813,7 @@
 				E71F7D551AA6B2FD00162587 /* MonsterViewController.m in Sources */,
 				E786C0B61AA7AE9F001C17F8 /* ArmorViewController.m in Sources */,
 				E7EB7DF41AA6AC96007C05E0 /* AppDelegate.m in Sources */,
+				E78AFC1C1AA939EB009B16C3 /* ItemViewController.m in Sources */,
 				E77A7BE41AA91D490087247F /* MH4UDBEngine.m in Sources */,
 				E7EB7DF71AA6AC96007C05E0 /* MasterViewController.m in Sources */,
 				E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */,

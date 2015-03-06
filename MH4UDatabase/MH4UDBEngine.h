@@ -8,11 +8,15 @@
 
 #import <UIKit/UIKit.h>
 @class Armor;
-
+@class Item;
 
 @interface MH4UDBEngine : NSObject
 
 -(NSArray *)populateArmorArray;
 -(Armor *)populateArmor:(Armor *)armor;
+
+-(NSArray *)populateItemArray;
+-(void)getCombiningItemsForItem:(Item*)item;
+-(NSArray *)infoForCombinedTableCellItem:(NSNumber *)itemID;
 @end
 
