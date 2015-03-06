@@ -14,6 +14,7 @@
 @property (nonatomic) FMDatabase *mh4DB;
 @property (nonatomic) NSArray *displayedMonsters;
 @property (nonatomic) UITableView *monsterTable;
+
 @property (nonatomic) NSMutableArray *allMonsterArray;
 
 @end
@@ -30,7 +31,6 @@
     [monstersTab setItems:@[allMonsters, largeMonsters, smallMonsters]];
     [monstersTab setSelectedItem:allMonsters];
     _monsterTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 49, self.view.frame.size.width, self.view.frame.size.height)];
-    //[self databaseOperationWithWhereClause:@"1=1"];
     [self populateAllMonsters];
     _monsterTable.dataSource = self;
     [self.view addSubview:_monsterTable];
@@ -94,16 +94,20 @@
     
 }
 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _displayedMonsters.count;
+    
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
 
-    return _allMonsterArray.count;
-}
+
+
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"monsterCell"];

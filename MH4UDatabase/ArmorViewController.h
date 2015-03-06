@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@class MH4UDBEngine;
 
 @interface ArmorViewController : UIViewController <UITableViewDataSource, UITabBarDelegate, UITableViewDelegate>
-
+@property (strong, nonatomic) NSArray *allArmorArray;
+@property (strong, nonatomic) MH4UDBEngine *dbEngine;
 @end
 
 @interface Armor : NSObject
@@ -29,6 +31,8 @@
 @property (nonatomic) NSString *gender;
 @property (nonatomic) NSString *hunterType;
 @property (nonatomic) int numSlots;
+@property (nonatomic) NSArray *skillsArray;
+@property (nonatomic) NSArray *componentArray;
 
 @end
 

@@ -7,36 +7,62 @@
 //
 
 #import "ArmorViewController.h"
+#import "MH4UDBEngine.h"
 #import <FMDB.h>
 
 @interface ArmorViewController ()
-@property (nonatomic) NSString *mhDBPath;
-@property (nonatomic) FMDatabase *mh4DB;
 @property (nonatomic) NSArray *displayedArmor;
 @property (nonatomic) UITableView *armorTable;
-@property (nonatomic) NSMutableArray *allArmorArray;
 @property (nonatomic) ArmorStats *statView;
-@property (nonatomic) UITabBar *armorTab;
+@property (nonatomic) UITabBar *armorFilterTab;
+@property (nonatomic) UITabBar *armorDetailTab;
+@property (nonatomic) UITableView *skillTable;
+@property (nonatomic) UITableView *componentTable;
+@property (nonatomic) Armor *selectedArmor;
+@property (nonatomic) CGRect properFrame;
 @end
 
 @implementation ArmorViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _armorTab = [[UITabBar alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 49)];
+    _displayedArmor = _allArmorArray;
+    
+    _armorFilterTab = [[UITabBar alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 49)];
     UITabBarItem *blade = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemBookmarks tag:2];
     UITabBarItem *gunner = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemDownloads tag:3];
     UITabBarItem *allArmor = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemFavorites tag:1];
-    _armorTab.delegate = self;
-    [_armorTab setItems:@[allArmor, blade, gunner]];
-    [_armorTab setSelectedItem:allArmor];
+    _armorFilterTab.delegate = self;
+    [_armorFilterTab setItems:@[allArmor, blade, gunner]];
+    [_armorFilterTab setSelectedItem:allArmor];
+    
+    _armorDetailTab = [[UITabBar alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 49)];
+    UITabBarItem *statSheet = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemContacts tag:4];
+    UITabBarItem *skillSheet = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemHistory tag:5];
+    UITabBarItem *componentSheet = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:6];
+    _armorDetailTab.delegate = self;
+    [_armorDetailTab setItems:@[statSheet, skillSheet, componentSheet]];
+    [_armorDetailTab setSelectedItem:statSheet];
+
+
+
     _armorTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 49, self.view.frame.size.width, self.view.frame.size.height)];
-    [self populateAllMonsters];
     _armorTable.dataSource = self;
     _armorTable.delegate = self;
+    
+    _properFrame = CGRectMake(_armorTable.frame.origin.x, _armorTable.frame.origin.y + 52, _armorTable.frame.size.width, _armorTable.frame.size.height);
+    
+    _skillTable = [[UITableView alloc] initWithFrame:_properFrame];
+    _skillTable.dataSource = self;
+    _skillTable.delegate = self;
+    _skillTable.frame = _properFrame;
+    
+    _componentTable = [[UITableView alloc] initWithFrame:_properFrame];
+    _componentTable.delegate = self;
+    _componentTable.dataSource = self;
 
     [self.view addSubview:_armorTable];
-    [self.view addSubview:_armorTab];
+    [self.view addSubview:_armorFilterTab];
 
 
 }
@@ -61,136 +87,104 @@
                 Armor *armor = (Armor *)evaluatedObject;
                 return [armor.hunterType isEqualToString:@"Gunner"];}]];
             break;
+        case 4:
+            if (_componentTable.superview != nil) {
+                [_componentTable removeFromSuperview];
+            }
+            
+            if (_skillTable.superview != nil) {
+                [_skillTable removeFromSuperview];
+            }
+            
+            [self.view addSubview:_statView];
+            [self.view addSubview:_armorDetailTab];
+            break;
+        case 5:
+            if (_componentTable.superview != nil) {
+                [_componentTable removeFromSuperview];
+            }
+            
+            if (_statView.superview != nil) {
+                [_statView removeFromSuperview];
+            }
+            [self.view addSubview:_skillTable];
+            [self.view addSubview:_armorDetailTab];
+            break;
+        case 6:
+            if (_skillTable.superview != nil) {
+                [_skillTable removeFromSuperview];
+            }
+            if (_statView.superview != nil) {
+                [_statView removeFromSuperview];
+            }
+            [self.view addSubview:_componentTable];
+            [self.view addSubview:_armorDetailTab];
+            break;
         default:
             break;
     }
-    
-    [_armorTable reloadData];
-}
-
--(FMResultSet *)DBquery:(NSString *)query
-{
-    _mhDBPath = [[NSBundle mainBundle] pathForResource:@"mh4u" ofType:@".db"];
-    _mh4DB = [FMDatabase databaseWithPath:_mhDBPath];
-    
-    if (![_mh4DB open]) {
-        return nil;
-    } else {
-        FMResultSet *s = [_mh4DB executeQuery:query];
-        return s;
-    }
-}
--(void)populateAllMonsters {
-    if (_allArmorArray == nil) {
-        _allArmorArray = [[NSMutableArray alloc] init];
-    }
-
-    NSString *monsterQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name, armor.slot, armor.defense, armor.max_defense, items.rarity, items.buy, armor.fire_res, armor.thunder_res, armor.dragon_res, armor.water_res, armor.ice_res, armor.gender, armor.hunter_type, armor.num_slots from armor INNER JOIN items on armor._id = items._id"];
-        FMResultSet *s = [self DBquery:monsterQuery];
-    
-    if (s) {
-        while ([s next]) {
-            Armor *armor = [[Armor alloc] init];
-            armor.armorID = [s intForColumn:@"_id"];
-            armor.name = [s stringForColumn:@"name"];
-            armor.slot = [s stringForColumn:@"slot"];
-            armor.rarity = [s intForColumn:@"rarity"];
-            armor.price = [s intForColumn:@"buy"];
-            armor.defense = [s intForColumn:@"defense"];
-            armor.maxDefense = [s intForColumn:@"max_defense"];
-            armor.fireResistance = [s intForColumn:@"fire_res"];
-            armor.thunderResistance = [s intForColumn:@"thunder_res"];
-            armor.dragonResistance = [s intForColumn:@"dragon_res"];
-            armor.waterResistance = [s intForColumn:@"water_res"];
-            armor.iceResistance = [s intForColumn:@"ice_res"];
-            armor.gender = [s stringForColumn:@"gender"];
-            armor.hunterType = [s stringForColumn:@"hunter_type"];
-            armor.numSlots = [s intForColumn:@"num_slots"];
-            [_allArmorArray addObject:armor];
-        }
+    [tabBar setSelectedItem:item];
+    if ([tabBar isEqual:_armorFilterTab]) {
+        [_armorTable reloadData];
     }
     
-    _displayedArmor = _allArmorArray;
-    
-    
-}
-
--(void)closeDB
-{
-    if (_mh4DB) {
-        _mh4DB = nil;
-    }
-}
-
--(NSDictionary *)getArmorSkillsfor:(int)armorID{
-    NSString *skillQuery = [NSString stringWithFormat:@"SELECT skill_trees._id, skill_trees.name, item_to_skill_tree.point_value FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id where items._id = %i", armorID];
-
-    NSMutableDictionary *skillTreeDictionary = [[NSMutableDictionary alloc] init];
-    FMResultSet *s = [self DBquery:skillQuery];
-    if (s) {
-        while ([s next]) {
-            int skillTreeID = [s intForColumn:@"_id"];
-            NSString *skillName = [s stringForColumn:@"name"];
-            int value = [s intForColumn:@"point_value"];
-            [skillTreeDictionary setObject:@[skillName, [NSNumber numberWithInt:value]] forKey:[NSNumber numberWithInt:skillTreeID]];
-        }
-    } else {
-        return nil;
-    }
-    
-    return skillTreeDictionary;
-}
-
--(NSDictionary *)getComponentsfor:(int)armorID {
-    //TODO: Work out duplicate components
-    NSString *componentQuery = [NSString stringWithFormat:@"Select components.component_item_id, items.name from components Inner JOIN items on components.component_item_id = items._id where created_item_id = %i", armorID];
-    NSMutableDictionary *componentDictionary = [[NSMutableDictionary alloc] init];
-    FMResultSet *s = [self DBquery:componentQuery];
-    if (s) {
-        while ([s next]) {
-            int componentID = [s intForColumn:@"component_item_id"];
-            NSString *name = [s stringForColumn:@"name"];
-            [componentDictionary setObject:@[name] forKey:[NSNumber numberWithInt:componentID]];
-        }
-    } else {
-        return nil;
-    }
-    
-    return componentDictionary;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
-    return _allArmorArray.count;
+    if ([tableView isEqual:_armorTable]) {
+        return _displayedArmor.count;
+    } else if ([tableView isEqual:_componentTable]) {
+        return _selectedArmor.componentArray.count;
+    } else if ([tableView isEqual:_skillTable]) {
+        return _selectedArmor.skillsArray.count;
+    } else  {
+        return 0;
+    }
 }
 
 -(void)closeArmorStats {
     [_statView removeFromSuperview];
     _statView = nil;
     [self.view addSubview:_armorTable];
-    [self.view addSubview:_armorTab];
+    [self.view addSubview:_armorFilterTab];
+    self.navigationItem.rightBarButtonItems = nil;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"armorCell"];
-    Armor *armor = [_displayedArmor objectAtIndex:indexPath.row];
-    //cell.textLabel.text = monster.monsterName;
-    cell.textLabel.text = armor.name;
+    if ([tableView isEqual:_armorTable]) {
+        Armor *armor = [_displayedArmor objectAtIndex:indexPath.row];
+        cell.textLabel.text = armor.name;
+    } else if ([tableView isEqual:_skillTable]) {
+        NSArray *skillArray = _selectedArmor.skillsArray[indexPath.row];
+        cell.textLabel.text = [skillArray objectAtIndex:1];
+    } else if ([tableView isEqual:_componentTable]) {
+        NSArray *componentArray = _selectedArmor.componentArray[indexPath.row];
+        cell.textLabel.text = [componentArray objectAtIndex:1];
+    }
+
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [_armorTable removeFromSuperview];
-    Armor *armor = _displayedArmor[indexPath.row];
-    UIBarButtonItem *close = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:self action:@selector(closeArmorStats)];
-    self.navigationItem.rightBarButtonItem = close;
-    _statView = [[[NSBundle mainBundle] loadNibNamed:@"ArmorView" owner:self options:nil] lastObject];
-    NSDictionary *skillDictionary = [self getArmorSkillsfor:armor.armorID];
-    NSDictionary *componentDictionary = [self getComponentsfor:armor.armorID];
-    [_statView populateArmor:armor];
-    [self.view addSubview:_statView];
+    if ([tableView isEqual:_armorTable]) {
+        [_armorTable removeFromSuperview];
+        UIBarButtonItem *close = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:self action:@selector(closeArmorStats)];
+        Armor *armor = _displayedArmor[indexPath.row];
+        _selectedArmor = armor;
+        [_dbEngine populateArmor:armor];
+        self.navigationItem.rightBarButtonItem = close;
+        _statView = [[[NSBundle mainBundle] loadNibNamed:@"ArmorView" owner:self options:nil] lastObject];
+        [_statView populateArmor:armor];
+        [self.view addSubview:_statView];
+        _statView.frame = _properFrame;
+        [_armorDetailTab setSelectedItem:[_armorDetailTab.items firstObject]];
+        [self.view addSubview:_armorDetailTab];
+    }
+
 }
 
 /*
@@ -210,7 +204,7 @@
 -(void)populateArmor:(Armor *)armor
 {
     _armorName.text = armor.name;
-    _IconImageView = nil;
+    _IconImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@%i.png", armor.slot, armor.rarity]];
     _armorPart.text = armor.slot;
     _armorSlots.text = [NSString stringWithFormat:@"%i", armor.numSlots];
     _armorRarity.text = [NSString stringWithFormat:@"%i", armor.rarity];
@@ -220,6 +214,8 @@
     _armorIR.text = [NSString stringWithFormat:@"%i", armor.iceResistance];
     _armorTR.text =[NSString stringWithFormat:@"%i", armor.thunderResistance];
     _armorDR.text = [NSString stringWithFormat:@"%i", armor.dragonResistance];
+    
+    
 }
 
 @end

@@ -8,11 +8,14 @@
 
 #import "MasterViewController.h"
 #import "MonsterViewController.h"
+#import "MH4UDBEngine.h"
+#import "ArmorViewController.h"
 
 @interface MasterViewController ()
 
 @property NSMutableArray *objects;
 @property (strong, nonatomic) NSArray  *menuOptions;
+@property (strong, nonatomic) MH4UDBEngine *dbEngine;
 @end
 
 @implementation MasterViewController
@@ -27,6 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _dbEngine = [[MH4UDBEngine alloc] init];
     if (!_menuOptions) {
         _menuOptions = [NSArray arrayWithObjects:@"Monster", @"Weapon", @"Armor", @"Quest", @"Item", @"Combining", @"Location", @"Decoration", nil];
     }
@@ -55,10 +59,14 @@
 #pragma mark - Segues
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+
     if ([[segue identifier] isEqualToString:@"showMonsters"]) {
         //MonsterViewController *mVC = (MonsterViewController *)[segue destinationViewController];
         //mVC.navigationItem.leftItemsSupplementBackButton = YES;
     } else if ([[segue identifier] isEqualToString:@"showArmor"]){
+        ArmorViewController *aVC = (ArmorViewController *)[segue destinationViewController];
+        aVC.allArmorArray = [_dbEngine populateArmorArray];
+        aVC.dbEngine = _dbEngine;
         
     }
 //    } else if ([[segue identifier] isEqualToString:@"showWeapons"]) {
