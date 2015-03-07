@@ -9,11 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @class DetailViewController;
-@class ItemViewController;
 
 @interface MasterViewController : UITableViewController
 
-@property (strong, nonatomic) ItemViewController *detailViewController;
+@property (strong, nonatomic) DetailViewController *detailViewController;
 
 @end
 
