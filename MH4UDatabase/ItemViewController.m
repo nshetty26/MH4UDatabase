@@ -7,7 +7,7 @@
 //
 
 #import "ItemViewController.h"
-#import "MasterViewController.h"
+#import "MenuViewController.h"
 #import "MH4UDBEngine.h"
 
 @interface ItemViewController ()
@@ -141,6 +141,7 @@
     Item *item = _displayedItems[indexPath.row];
     _detailItemView = [[[NSBundle mainBundle] loadNibNamed:@"ItemView" owner:self options:nil] lastObject];
     [_detailItemView populateViewWithItem:item];
+    _detailItemView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height);
     [_dbEngine getCombiningItemsForItem:item];
     _selectedItem = item;
     [_itemTable removeFromSuperview];

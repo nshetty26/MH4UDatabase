@@ -840,9 +840,10 @@
 		E78AFC1E1AA94897009B16C3 /* ItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78AFC1D1AA94897009B16C3 /* ItemView.xib */; };
 		E78AFC221AA9530F009B16C3 /* UICombiningTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78AFC211AA9530F009B16C3 /* UICombiningTableCell.xib */; };
 		E7A0213E1AA7EF2E00941343 /* ArmorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7A0213D1AA7EF2E00941343 /* ArmorView.xib */; };
+		E7D4B5251AAB693D00C22D41 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D4B5241AAB693D00C22D41 /* DetailViewController.m */; };
 		E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF01AA6AC96007C05E0 /* main.m */; };
 		E7EB7DF41AA6AC96007C05E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF31AA6AC96007C05E0 /* AppDelegate.m */; };
-		E7EB7DF71AA6AC96007C05E0 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF61AA6AC96007C05E0 /* MasterViewController.m */; };
+		E7EB7DF71AA6AC96007C05E0 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF61AA6AC96007C05E0 /* MenuViewController.m */; };
 		E7EB7DFD1AA6AC96007C05E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7EB7DFB1AA6AC96007C05E0 /* Main.storyboard */; };
 		E7EB7DFF1AA6AC96007C05E0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7EB7DFE1AA6AC96007C05E0 /* Images.xcassets */; };
 		E7EB7E021AA6AC96007C05E0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7EB7E001AA6AC96007C05E0 /* LaunchScreen.xib */; };
@@ -1699,13 +1700,15 @@
 		E78AFC1D1AA94897009B16C3 /* ItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemView.xib; sourceTree = "<group>"; };
 		E78AFC211AA9530F009B16C3 /* UICombiningTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UICombiningTableCell.xib; sourceTree = "<group>"; };
 		E7A0213D1AA7EF2E00941343 /* ArmorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArmorView.xib; sourceTree = "<group>"; };
+		E7D4B5231AAB693D00C22D41 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		E7D4B5241AAB693D00C22D41 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		E7EB7DEB1AA6AC96007C05E0 /* MH4UDatabase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MH4UDatabase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7EB7DEF1AA6AC96007C05E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E7EB7DF01AA6AC96007C05E0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E7EB7DF21AA6AC96007C05E0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E7EB7DF31AA6AC96007C05E0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E7EB7DF51AA6AC96007C05E0 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		E7EB7DF61AA6AC96007C05E0 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		E7EB7DF51AA6AC96007C05E0 /* MenuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
+		E7EB7DF61AA6AC96007C05E0 /* MenuViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		E7EB7DFC1AA6AC96007C05E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E7EB7DFE1AA6AC96007C05E0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E7EB7E011AA6AC96007C05E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -2791,6 +2794,8 @@
 		E7EB7DED1AA6AC96007C05E0 /* MH4UDatabase */ = {
 			isa = PBXGroup;
 			children = (
+				E7D4B5231AAB693D00C22D41 /* DetailViewController.h */,
+				E7D4B5241AAB693D00C22D41 /* DetailViewController.m */,
 				E77A7BE51AA91D5A0087247F /* MH4UDBEngine.h */,
 				E77A7BE31AA91D490087247F /* MH4UDBEngine.m */,
 				E71F7D531AA6B2FD00162587 /* MonsterViewController.h */,
@@ -2804,8 +2809,8 @@
 				E78AFC1D1AA94897009B16C3 /* ItemView.xib */,
 				E7EB7DF21AA6AC96007C05E0 /* AppDelegate.h */,
 				E7EB7DF31AA6AC96007C05E0 /* AppDelegate.m */,
-				E7EB7DF51AA6AC96007C05E0 /* MasterViewController.h */,
-				E7EB7DF61AA6AC96007C05E0 /* MasterViewController.m */,
+				E7EB7DF51AA6AC96007C05E0 /* MenuViewController.h */,
+				E7EB7DF61AA6AC96007C05E0 /* MenuViewController.m */,
 				E7EB7DFB1AA6AC96007C05E0 /* Main.storyboard */,
 				E7EB7DFE1AA6AC96007C05E0 /* Images.xcassets */,
 				E7EB7E001AA6AC96007C05E0 /* LaunchScreen.xib */,
@@ -3813,9 +3818,10 @@
 				E71F7D551AA6B2FD00162587 /* MonsterViewController.m in Sources */,
 				E786C0B61AA7AE9F001C17F8 /* ArmorViewController.m in Sources */,
 				E7EB7DF41AA6AC96007C05E0 /* AppDelegate.m in Sources */,
+				E7D4B5251AAB693D00C22D41 /* DetailViewController.m in Sources */,
 				E78AFC1C1AA939EB009B16C3 /* ItemViewController.m in Sources */,
 				E77A7BE41AA91D490087247F /* MH4UDBEngine.m in Sources */,
-				E7EB7DF71AA6AC96007C05E0 /* MasterViewController.m in Sources */,
+				E7EB7DF71AA6AC96007C05E0 /* MenuViewController.m in Sources */,
 				E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

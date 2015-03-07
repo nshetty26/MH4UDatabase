@@ -12,6 +12,8 @@
 @interface ArmorViewController : UIViewController <UITableViewDataSource, UITabBarDelegate, UITableViewDelegate>
 @property (strong, nonatomic) NSArray *allArmorArray;
 @property (strong, nonatomic) MH4UDBEngine *dbEngine;
+@property (nonatomic) CGRect tabBarFrame;
+@property (nonatomic) CGRect tableFrame;
 @end
 
 @interface Armor : NSObject
