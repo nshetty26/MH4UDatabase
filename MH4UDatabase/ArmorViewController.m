@@ -28,7 +28,7 @@
     [super viewDidLoad];
     _displayedArmor = _allArmorArray;
     
-    _armorFilterTab = [[UITabBar alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 49)];
+    _armorFilterTab = [[UITabBar alloc] initWithFrame:_tabbarFrame];
     UITabBarItem *blade = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemBookmarks tag:2];
     UITabBarItem *gunner = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemDownloads tag:3];
     UITabBarItem *allArmor = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemFavorites tag:1];
@@ -36,7 +36,7 @@
     [_armorFilterTab setItems:@[allArmor, blade, gunner]];
     [_armorFilterTab setSelectedItem:allArmor];
     
-    _armorDetailTab = [[UITabBar alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 49)];
+    _armorDetailTab = [[UITabBar alloc] initWithFrame:_tabbarFrame];
     UITabBarItem *statSheet = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemContacts tag:4];
     UITabBarItem *skillSheet = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemHistory tag:5];
     UITabBarItem *componentSheet = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:6];
@@ -46,18 +46,18 @@
 
 
 
-    _armorTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 49, self.view.frame.size.width, self.view.frame.size.height)];
+    _armorTable = [[UITableView alloc] initWithFrame:_tableFrame];
     _armorTable.dataSource = self;
     _armorTable.delegate = self;
     
     _properFrame = CGRectMake(_armorTable.frame.origin.x, _armorTable.frame.origin.y + 52, _armorTable.frame.size.width, _armorTable.frame.size.height);
     
-    _skillTable = [[UITableView alloc] initWithFrame:_properFrame];
+    _skillTable = [[UITableView alloc] initWithFrame:_tableFrame];
     _skillTable.dataSource = self;
     _skillTable.delegate = self;
     _skillTable.frame = _properFrame;
     
-    _componentTable = [[UITableView alloc] initWithFrame:_properFrame];
+    _componentTable = [[UITableView alloc] initWithFrame:_tableFrame];
     _componentTable.delegate = self;
     _componentTable.dataSource = self;
 
@@ -179,6 +179,7 @@
         self.navigationItem.rightBarButtonItem = close;
         _statView = [[[NSBundle mainBundle] loadNibNamed:@"ArmorView" owner:self options:nil] lastObject];
         [_statView populateArmor:armor];
+        _statView.frame = _tableFrame;
         [self.view addSubview:_statView];
         _statView.frame = _properFrame;
         [_armorDetailTab setSelectedItem:[_armorDetailTab.items firstObject]];

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
@@ -36,7 +36,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hNX-df-RvK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="894" y="260"/>
+            <point key="canvasLocation" x="852" y="267"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">
@@ -45,6 +45,7 @@
                     <toolbarItems/>
                     <connections>
                         <segue destination="RMx-3f-FxP" kind="relationship" relationship="masterViewController" id="BlO-5A-QYV"/>
+                        <segue destination="UOV-0e-bSI" kind="relationship" relationship="detailViewController" id="tgj-8m-G5O"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cZU-Oi-B1e" sceneMemberID="firstResponder"/>
@@ -208,7 +209,6 @@
         <!--Item View Controller-->
         <scene sceneID="aB2-JW-K9r">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FBe-cy-i6I" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="r6R-MW-zfj" customClass="ItemViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="7qA-vK-fVb"/>
@@ -223,6 +223,7 @@
                         <outlet property="searchDisplayController" destination="82c-hG-eT5" id="Jqd-GT-FCb"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FBe-cy-i6I" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <searchDisplayController id="82c-hG-eT5">
                     <connections>
                         <outlet property="delegate" destination="r6R-MW-zfj" id="cNc-9V-2KH"/>
@@ -253,4 +254,7 @@
             <point key="canvasLocation" x="1755" y="-358"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="tgj-8m-G5O"/>
+    </inferredMetricsTieBreakers>
 </document>
