@@ -35,9 +35,6 @@
     if (!_menuOptions) {
         _menuOptions = [NSArray arrayWithObjects:@"Monster", @"Weapon", @"Armor", @"Quest", @"Item", @"Combining", @"Location", @"Decoration", nil];
     }
-    
-    
-    NSLog(@"test");
     // Do any additional setup after loading the view, typically from a nib.
     //self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
@@ -63,9 +60,7 @@
 #pragma mark - Segues
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    CGRect detailRect = self.view.frame;
-    CGRect tabRect = CGRectMake(detailRect.origin.x, detailRect.origin.y, detailRect.size.width, 44);
-    CGRect tableRect = CGRectMake(detailRect.origin.x, detailRect.origin.y + 44, detailRect.size.width, detailRect.size.height - 44);
+
     if ([[segue identifier] isEqualToString:@"showMonsters"]) {
         //MonsterViewController *mVC = (MonsterViewController *)[segue destinationViewController];
         //mVC.navigationItem.leftItemsSupplementBackButton = YES;
@@ -73,8 +68,6 @@
         ArmorViewController *aVC = (ArmorViewController *)[segue destinationViewController];
         aVC.allArmorArray = [_dbEngine populateArmorArray];
         aVC.dbEngine = _dbEngine;
-        aVC.tabbarFrame = tableRect;
-        aVC.tableFrame = tableRect
         
     } else if ([[segue identifier] isEqualToString:@"showItem"]) {
         ItemViewController *iVC = (ItemViewController *)[segue destinationViewController];

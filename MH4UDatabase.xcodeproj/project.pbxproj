@@ -843,6 +843,7 @@
 		E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF01AA6AC96007C05E0 /* main.m */; };
 		E7EB7DF41AA6AC96007C05E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF31AA6AC96007C05E0 /* AppDelegate.m */; };
 		E7EB7DF71AA6AC96007C05E0 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF61AA6AC96007C05E0 /* MasterViewController.m */; };
+		E7EB7DFD1AA6AC96007C05E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7EB7DFB1AA6AC96007C05E0 /* Main.storyboard */; };
 		E7EB7DFF1AA6AC96007C05E0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7EB7DFE1AA6AC96007C05E0 /* Images.xcassets */; };
 		E7EB7E021AA6AC96007C05E0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7EB7E001AA6AC96007C05E0 /* LaunchScreen.xib */; };
 		E7EB7E0E1AA6AC96007C05E0 /* MH4UDatabaseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7E0D1AA6AC96007C05E0 /* MH4UDatabaseTests.m */; };
@@ -1705,6 +1706,7 @@
 		E7EB7DF31AA6AC96007C05E0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E7EB7DF51AA6AC96007C05E0 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		E7EB7DF61AA6AC96007C05E0 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		E7EB7DFC1AA6AC96007C05E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E7EB7DFE1AA6AC96007C05E0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E7EB7E011AA6AC96007C05E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		E7EB7E071AA6AC96007C05E0 /* MH4UDatabaseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MH4UDatabaseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2804,6 +2806,7 @@
 				E7EB7DF31AA6AC96007C05E0 /* AppDelegate.m */,
 				E7EB7DF51AA6AC96007C05E0 /* MasterViewController.h */,
 				E7EB7DF61AA6AC96007C05E0 /* MasterViewController.m */,
+				E7EB7DFB1AA6AC96007C05E0 /* Main.storyboard */,
 				E7EB7DFE1AA6AC96007C05E0 /* Images.xcassets */,
 				E7EB7E001AA6AC96007C05E0 /* LaunchScreen.xib */,
 				E7EB7DEE1AA6AC96007C05E0 /* Supporting Files */,
@@ -3128,6 +3131,7 @@
 				E78AFB431AA92A12009B16C3 /* MH4U-Rajang_Icon.png in Resources */,
 				E78AFAD31AA92A12009B16C3 /* maps_mh4_arena.png in Resources */,
 				E78AF9C91AA92A12009B16C3 /* Herb-Blue.png in Resources */,
+				E7EB7DFD1AA6AC96007C05E0 /* Main.storyboard in Resources */,
 				E78AF9FB1AA92A12009B16C3 /* Liquid-Pink.png in Resources */,
 				E78AF93D1AA92A12009B16C3 /* Barrel-White.png in Resources */,
 				E78AFABA1AA92A12009B16C3 /* Traptool-Cyan.png in Resources */,
@@ -3835,6 +3839,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		E7EB7DFB1AA6AC96007C05E0 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E7EB7DFC1AA6AC96007C05E0 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 		E7EB7E001AA6AC96007C05E0 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3930,7 +3942,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = MH4UDatabase/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -3942,7 +3953,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = MH4UDatabase/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
