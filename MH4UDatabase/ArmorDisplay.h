@@ -11,7 +11,7 @@
 @class MH4UDBEngine;
 @class DetailViewController;
 
-@interface ArmorDisplay : NSObject <UITableViewDataSource, UITabBarDelegate, UITableViewDelegate>
+@interface ArmorDisplay : NSObject <UITableViewDataSource, UITabBarDelegate, UITableViewDelegate, UISearchBarDelegate>
 @property (strong, nonatomic) NSArray *allArmorArray;
 @property (strong, nonatomic) MH4UDBEngine *dbEngine;
 @property (strong, nonatomic) DetailViewController *dVC;
@@ -46,6 +46,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *armorName;
 @property (weak, nonatomic) IBOutlet UIImageView *IconImageView;
 @property (weak, nonatomic) IBOutlet UILabel *armorPart;
+@property (weak, nonatomic) IBOutlet UILabel *armorDefense;
 @property (weak, nonatomic) IBOutlet UILabel *armorSlots;
 @property (weak, nonatomic) IBOutlet UILabel *armorRarity;
 @property (weak, nonatomic) IBOutlet UILabel *armorPrice;

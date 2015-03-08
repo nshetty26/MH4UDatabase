@@ -65,7 +65,7 @@
 -(NSArray *)populateArmorArray {
     NSMutableArray *armorArray = [[NSMutableArray alloc] init];
     
-    NSString *armorQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name, armor.hunter_type from armor INNER JOIN items on armor._id = items._id"];
+    NSString *armorQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name,items.rarity, armor.hunter_type, armor.slot from armor INNER JOIN items on armor._id = items._id"];
     FMResultSet *s = [self DBquery:armorQuery];
     
     if (s) {
@@ -74,6 +74,8 @@
             armor.armorID = [s intForColumn:@"_id"];
             armor.name = [s stringForColumn:@"name"];
             armor.hunterType = [s stringForColumn:@"hunter_type"];
+            armor.slot = [s stringForColumn:@"slot"];
+            armor.rarity = [s intForColumn:@"rarity"];
             [armorArray addObject:armor];
             //NSLog(@"Armor %@ populated", armor.name);
         }
@@ -89,8 +91,7 @@
     NSString *armorQuery = [NSString stringWithFormat:@"SELECT armor.slot, armor.defense, armor.max_defense, items.rarity, items.buy, armor.fire_res, armor.thunder_res, armor.dragon_res, armor.water_res, armor.ice_res, armor.gender, armor.num_slots from armor INNER JOIN items on armor._id = items._id WHERE armor._id = %i", armor.armorID];
     FMResultSet *s = [self DBquery:armorQuery];
     if ([s next]) {
-        armor.slot = [s stringForColumn:@"slot"];
-        armor.rarity = [s intForColumn:@"rarity"];
+        //armor.rarity = [s intForColumn:@"rarity"];
         armor.price = [s intForColumn:@"buy"];
         armor.defense = [s intForColumn:@"defense"];
         armor.maxDefense = [s intForColumn:@"max_defense"];

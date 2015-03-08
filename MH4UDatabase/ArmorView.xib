@@ -34,8 +34,8 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Defense: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Gm-9l-uIU">
-                    <rect key="frame" x="148" y="162" width="73" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="min %i - %i max" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Gm-9l-uIU">
+                    <rect key="frame" x="148" y="162" width="213" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
@@ -144,6 +144,7 @@
             <connections>
                 <outlet property="IconImageView" destination="5dt-wN-JhO" id="hnf-3I-mz4"/>
                 <outlet property="armorDR" destination="Tq8-NL-xzv" id="Acj-J8-jF6"/>
+                <outlet property="armorDefense" destination="4Gm-9l-uIU" id="Pf7-by-0mD"/>
                 <outlet property="armorFR" destination="WEC-nJ-CpV" id="Y0o-wl-wof"/>
                 <outlet property="armorIR" destination="Jin-Yv-H5F" id="tH6-KB-FGV"/>
                 <outlet property="armorName" destination="BvP-QP-3Rh" id="QCO-Ix-jxE"/>
