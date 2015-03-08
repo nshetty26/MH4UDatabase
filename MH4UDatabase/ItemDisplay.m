@@ -100,12 +100,12 @@
     
     _itemDetailBar = [[UITabBar alloc] initWithFrame:_dVC.tabBarFrame];
     
-    _itemDetail = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemContacts tag:1];
-    _combining = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemFavorites tag:2];
-    _usage = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemDownloads tag:3];
-    _monster = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemFavorites tag:4];
-    _quest = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemFavorites tag:5];
-    _location = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemFavorites tag:6];
+    _itemDetail = [[UITabBarItem alloc] initWithTitle:@"Item Detail" image:nil tag:1];
+    _combining = [[UITabBarItem alloc] initWithTitle:@"Combining" image:nil tag:2];
+    _usage = [[UITabBarItem alloc] initWithTitle:@"Usage" image:nil tag:3];
+    _monster = [[UITabBarItem alloc] initWithTitle:@"Monster Drop" image:nil tag:4];
+    _quest = [[UITabBarItem alloc] initWithTitle:@"Quest Reward" image:nil tag:5];
+    _location = [[UITabBarItem alloc] initWithTitle:@"Location" image:nil tag:6];
     
     [_itemDetailBar setItems:@[_itemDetail, _combining, _usage, _monster, _quest, _location]];
     _itemDetailBar.delegate = self;
@@ -204,28 +204,32 @@
     else if ([tableView isEqual:_usageTable]){
         NSArray *usageArray = _selectedItem.usageItemsArray[indexPath.row];
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"itemIdentifier"];
-        cell.textLabel.text = usageArray[1];
+        NSString *label = [NSString stringWithFormat:@"%@: %@ %@", usageArray[0], usageArray[1], usageArray[2]];
+        cell.textLabel.text = label;
         return cell;
     }
     
     else if ([tableView isEqual:_monsterDropTable]){
-        NSArray *usageArray = _selectedItem.monsterDropsArray[indexPath.row];
+        NSArray *monsterDropArray = _selectedItem.monsterDropsArray[indexPath.row];
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"itemIdentifier"];
-        cell.textLabel.text = usageArray[1];
+        NSString *label = [NSString stringWithFormat:@" %@: %@ %@, %@ %@%@", monsterDropArray[0], monsterDropArray[1], monsterDropArray[2], monsterDropArray[3], monsterDropArray[4], @"%"];
+        cell.textLabel.text = label;
         return cell;
     }
     
     else if ([tableView isEqual:_questRewardTable]){
-        NSArray *usageArray = _selectedItem.questRewardsArray[indexPath.row];
+        NSArray *questRewardArray = _selectedItem.questRewardsArray[indexPath.row];
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"itemIdentifier"];
-        cell.textLabel.text = usageArray[1];
+        NSString *label = [NSString stringWithFormat:@" %@: %@ %@, %@ %@ %@%@", questRewardArray[0], questRewardArray[1], questRewardArray[2], questRewardArray[3], questRewardArray[4], questRewardArray[5], @"%"];
+        cell.textLabel.text = label;
         return cell;
     }
     
     else if ([tableView isEqual:_locationTable]){
-        NSArray *usageArray = _selectedItem.locationsArray[indexPath.row];
+        NSArray *locationArray = _selectedItem.locationsArray[indexPath.row];
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"itemIdentifier"];
-        cell.textLabel.text = usageArray[1];
+        NSString *label = [NSString stringWithFormat:@" %@: %@ %@, %@ %@ %@%@", locationArray[0], locationArray[1], locationArray[2], locationArray[3], locationArray[4], locationArray[5], @"%"];
+        cell.textLabel.text = label;
         return cell;
     }
     
@@ -265,14 +269,14 @@
         _detailItemView = [[[NSBundle mainBundle] loadNibNamed:@"ItemView" owner:self options:nil] lastObject];
         [_detailItemView populateViewWithItem:item];
         _detailItemView.frame = _dVC.tableFrame;
-
         _selectedItem = item;
         [_itemTable removeFromSuperview];
         UIBarButtonItem *close = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:self action:@selector(closeItemDetail)];
         _dVC.navigationItem.rightBarButtonItems = @[close];
+        [self setDetailTabBarforItem:item];
         [_dVC.view addSubview:_detailItemView];
         [_dVC.view addSubview:_itemDetailBar];
-        [_itemDetailBar setSelectedItem:[_itemDetailBar.items firstObject]];
+        
         [_combiningTable reloadData];
     }
 
@@ -306,6 +310,34 @@
             [tableView removeFromSuperview];
         }
     }
+}
+
+-(void)setDetailTabBarforItem:(Item *)item {
+    
+    NSMutableArray *tabItems = [[NSMutableArray alloc] initWithObjects:_itemDetail, nil];
+    [_itemDetailBar setSelectedItem:[_itemDetailBar.items firstObject]];
+    
+    if (item.combinedItemsArray.count > 0) {
+        [tabItems addObject:_combining];
+    }
+    
+    if (item.usageItemsArray.count > 0) {
+        [tabItems addObject:_usage];
+    }
+    
+    if (item.monsterDropsArray.count > 0) {
+        [tabItems addObject:_monster];
+    }
+    
+    if (item.questRewardsArray.count > 0) {
+        [tabItems addObject:_quest];
+    }
+    
+    if (item.locationsArray.count > 0) {
+        [tabItems addObject:_location];
+    }
+    
+    _itemDetailBar.items = tabItems;
 }
 
 @end

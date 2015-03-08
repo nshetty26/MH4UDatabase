@@ -204,13 +204,14 @@
 -(void)getUsageItemsForItem:(Item*)item
 {
     NSMutableArray *usageItemsArray = [[NSMutableArray alloc] init];
-    NSString *usageQuery = [NSString stringWithFormat:@"select components.created_item_id, items.name from components inner join items on items._id = components.created_item_id where components.component_item_id = %i", item.itemID];;
+    NSString *usageQuery = [NSString stringWithFormat:@"select components.created_item_id, items.name, components.type, components.quantity from components inner join items on items._id = components.created_item_id where components.component_item_id = %i", item.itemID];;
     FMResultSet *s = [self DBquery:usageQuery];
     while ([s next]) {
-        int createdID = [s intForColumn:@"created_item_id"];
         NSString *itemName = [s stringForColumn:@"name"];
-
-        [usageItemsArray addObject:@[[NSNumber numberWithInt:createdID],itemName]];
+        NSString *type =[s stringForColumn:@"type"];
+        int quantity = [s intForColumn:@"quantity"];
+    
+        [usageItemsArray addObject:@[itemName, type, [NSNumber numberWithInt:quantity]]];
         
     }
     
@@ -220,13 +221,16 @@
 -(void)getMonsterDropsForItem:(Item*)item
 {
     NSMutableArray *monsterDropArray = [[NSMutableArray alloc] init];
-    NSString *monsterQuery = [NSString stringWithFormat:@" SELECT items.name, condition, monsters.name as mName, rank, stack_size, percentage from hunting_rewards inner join monsters on monsters._id = hunting_rewards.monster_id inner join items on items._id = hunting_rewards.item_id where hunting_rewards.item_id = %i", item.itemID];;
+    NSString *monsterQuery = [NSString stringWithFormat:@"SELECT items.name, condition, monsters.name as mName, rank, stack_size, percentage from hunting_rewards inner join monsters on monsters._id = hunting_rewards.monster_id inner join items on items._id = hunting_rewards.item_id where hunting_rewards.item_id = %i", item.itemID];;
     FMResultSet *s = [self DBquery:monsterQuery];
     while ([s next]) {
-        int createdID = [s intForColumn:@"rank"];
-        NSString *itemName = [s stringForColumn:@"mName"];
+        NSString *monsterName = [s stringForColumn:@"mName"];
+        NSString *rank = [s stringForColumn:@"rank"];
+        NSString *condition = [s stringForColumn:@"condition"];
+        int stackSize = [s intForColumn:@"stack_size"];
+        int percentage = [s intForColumn:@"percentage"];
         
-        [monsterDropArray addObject:@[[NSNumber numberWithInt:createdID],itemName]];
+        [monsterDropArray addObject:@[monsterName, rank, condition, [NSNumber numberWithInt:stackSize],[NSNumber numberWithInt:percentage]]];
         
     }
     
@@ -236,13 +240,18 @@
 -(void)getQuestRewardsForItem:(Item*)item
 {
     NSMutableArray *questRewardArray = [[NSMutableArray alloc] init];
-    NSString *questRewardQuery = [NSString stringWithFormat:@" select quests.name as qName, items.name, reward_slot, percentage, stack_size from quest_rewards inner join quests on quest_rewards.quest_id = quests._id inner join items on quest_rewards.item_id = items._id where items._id = %i ORDER BY  percentage Desc", item.itemID];
+    NSString *questRewardQuery = [NSString stringWithFormat:@"select quests.name as qName, quests.hub, quests.stars, items.name, reward_slot, percentage, stack_size from quest_rewards inner join quests on quest_rewards.quest_id = quests._id inner join items on quest_rewards.item_id = items._id where items._id = %i ORDER BY  percentage Desc", item.itemID];
     FMResultSet *s = [self DBquery:questRewardQuery];
     while ([s next]) {
-        int createdID = [s intForColumn:@"stack_size"];
-        NSString *itemName = [s stringForColumn:@"qName"];
+        NSString *questName = [s stringForColumn:@"qName"];
+        NSString *hub = [s stringForColumn:@"hub"];
+        int stars = [s intForColumn:@"stars"];
+        NSString *rewardSlot = [s stringForColumn:@"reward_slot"];
+        int stackSize = [s intForColumn:@"stack_size"];
+        int percentage = [s intForColumn:@"percentage"];
         
-        [questRewardArray addObject:@[[NSNumber numberWithInt:createdID],itemName]];
+        
+        [questRewardArray addObject:@[questName, hub, [NSNumber numberWithInt:stars],rewardSlot, [NSNumber numberWithInt:stackSize], [NSNumber numberWithInt:percentage]]];
         
     }
     
@@ -255,10 +264,14 @@
     NSString *locationsQuery = [NSString stringWithFormat:@"SELECT item_id, locations.name as lName, area, site, rank, quantity, percentage from gathering INNER JOIN locations ON gathering.location_id = locations._id where gathering.item_id = %i order by percentage desc", item.itemID];
     FMResultSet *s = [self DBquery:locationsQuery];
     while ([s next]) {
-        int createdID = [s intForColumn:@"quantity"];
-        NSString *itemName = [s stringForColumn:@"lName"];
+        NSString *locationName = [s stringForColumn:@"lName"];
+        NSString *rank = [s stringForColumn:@"rank"];
+        NSString *area = [s stringForColumn:@"area"];
+        NSString *site = [s stringForColumn:@"site"];
+        int quantity = [s intForColumn:@"quantity"];
+        int percentage = [s intForColumn:@"percentage"];
         
-        [locationsArray addObject:@[[NSNumber numberWithInt:createdID],itemName]];
+        [locationsArray addObject:@[locationName, rank, area, site, [NSNumber numberWithInt:quantity], [NSNumber numberWithInt:percentage]]];
         
     }
     
