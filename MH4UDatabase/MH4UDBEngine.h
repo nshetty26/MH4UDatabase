@@ -12,6 +12,8 @@
 
 @interface MH4UDBEngine : NSObject
 
+-(NSArray *)populateAllMonsterArray;
+
 -(NSArray *)populateArmorArray;
 -(Armor *)populateArmor:(Armor *)armor;
 

@@ -35,7 +35,7 @@
 
     _dbEngine = [[MH4UDBEngine alloc] init];
     if (!_menuOptions) {
-        _menuOptions = [NSArray arrayWithObjects:@"Monster", @"Weapon", @"Armor", @"Quest", @"Item", @"Combining", @"Location", @"Decoration", nil];
+        _menuOptions = [NSArray arrayWithObjects:@"Monsters", @"Weapon", @"Armor", @"Quest", @"Item", @"Combining", @"Location", @"Decoration", nil];
     }
     // Do any additional setup after loading the view, typically from a nib.
     //self.navigationItem.leftBarButtonItem = self.editButtonItem;
@@ -66,9 +66,11 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
-    if ([[segue identifier] isEqualToString:@"showMonsters"]) {
-        //MonsterViewController *mVC = (MonsterViewController *)[segue destinationViewController];
-        //mVC.navigationItem.leftItemsSupplementBackButton = YES;
+    if ([[segue identifier] isEqualToString:@"showMonster"]) {
+        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
+        controller.dbEngine = _dbEngine;
+        [controller setDetailItem:@"Monster"];
+
     } else if ([[segue identifier] isEqualToString:@"showArmor"]){
         DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
         controller.dbEngine = _dbEngine;

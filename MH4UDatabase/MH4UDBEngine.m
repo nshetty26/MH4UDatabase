@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 GuthuDesigns. All rights reserved.
 //
 
+#import "MonsterDisplay.h"
 #import "ArmorDisplay.h"
 #import "ItemDisplay.h"
 #import "MH4UDBEngine.h"
@@ -30,6 +31,33 @@
         FMResultSet *s = [_mh4DB executeQuery:query];
         return s;
     }
+}
+
+
+#pragma mark Monster Queries
+-(NSArray *)populateAllMonsterArray {
+    NSMutableArray *allMonsterArray = [[NSMutableArray alloc] init];
+    
+    NSString *monsterQuery = [NSString stringWithFormat:@"SELECT * FROM Monsters"];
+    
+    FMResultSet *s = [self DBquery:monsterQuery];
+    while ([s next]) {
+        Monster *monster = [[Monster alloc] init];
+        monster.monsterID = [s intForColumn:@"_id"];
+        monster.monsterClass = [s stringForColumn:@"class"];
+        monster.monsterName = [s stringForColumn:@"name"];
+        monster.trait = [s stringForColumn:@"trait"];
+        monster.iconName = [s stringForColumn:@"icon_name"];
+        [allMonsterArray addObject:monster];
+    }
+    
+    [allMonsterArray sortUsingComparator:^NSComparisonResult(id monster1, id monster2){
+        Monster *mon1 = (Monster *)monster1;
+        Monster *mon2 = (Monster *)monster2;
+        return [(NSString *) mon1.monsterName compare:mon2.monsterName options:NSNumericSearch];
+    }];
+    
+    return allMonsterArray;
 }
 
 
