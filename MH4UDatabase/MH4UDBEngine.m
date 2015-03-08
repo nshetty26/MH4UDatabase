@@ -186,7 +186,7 @@
     item.combinedItemsArray = combinedItemsArray;
 }
 
--(NSArray *)infoForCombinedTableCellItem:(NSNumber *)itemID
+-(NSArray *)infoForCombinedTableCellforItemID:(NSNumber *)itemID
 {
     NSString *itemPartQuery = [NSString stringWithFormat:@"SELECT name, icon_name FROM items where _id = %@", itemID];
     NSArray *info;
@@ -199,6 +199,85 @@
     
     return info;
 
+}
+
+-(void)getUsageItemsForItem:(Item*)item
+{
+    NSMutableArray *usageItemsArray = [[NSMutableArray alloc] init];
+    NSString *usageQuery = [NSString stringWithFormat:@"select components.created_item_id, items.name from components inner join items on items._id = components.created_item_id where components.component_item_id = %i", item.itemID];;
+    FMResultSet *s = [self DBquery:usageQuery];
+    while ([s next]) {
+        int createdID = [s intForColumn:@"created_item_id"];
+        NSString *itemName = [s stringForColumn:@"name"];
+
+        [usageItemsArray addObject:@[[NSNumber numberWithInt:createdID],itemName]];
+        
+    }
+    
+    item.usageItemsArray = usageItemsArray;
+}
+
+-(void)getMonsterDropsForItem:(Item*)item
+{
+    NSMutableArray *monsterDropArray = [[NSMutableArray alloc] init];
+    NSString *monsterQuery = [NSString stringWithFormat:@" SELECT items.name, condition, monsters.name as mName, rank, stack_size, percentage from hunting_rewards inner join monsters on monsters._id = hunting_rewards.monster_id inner join items on items._id = hunting_rewards.item_id where hunting_rewards.item_id = %i", item.itemID];;
+    FMResultSet *s = [self DBquery:monsterQuery];
+    while ([s next]) {
+        int createdID = [s intForColumn:@"rank"];
+        NSString *itemName = [s stringForColumn:@"mName"];
+        
+        [monsterDropArray addObject:@[[NSNumber numberWithInt:createdID],itemName]];
+        
+    }
+    
+    item.monsterDropsArray = monsterDropArray;
+}
+
+-(void)getQuestRewardsForItem:(Item*)item
+{
+    NSMutableArray *questRewardArray = [[NSMutableArray alloc] init];
+    NSString *questRewardQuery = [NSString stringWithFormat:@" select quests.name as qName, items.name, reward_slot, percentage, stack_size from quest_rewards inner join quests on quest_rewards.quest_id = quests._id inner join items on quest_rewards.item_id = items._id where items._id = %i ORDER BY  percentage Desc", item.itemID];
+    FMResultSet *s = [self DBquery:questRewardQuery];
+    while ([s next]) {
+        int createdID = [s intForColumn:@"stack_size"];
+        NSString *itemName = [s stringForColumn:@"qName"];
+        
+        [questRewardArray addObject:@[[NSNumber numberWithInt:createdID],itemName]];
+        
+    }
+    
+    item.questRewardsArray = questRewardArray;
+}
+
+-(void)getLocationsForItem:(Item*)item
+{
+    NSMutableArray *locationsArray = [[NSMutableArray alloc] init];
+    NSString *locationsQuery = [NSString stringWithFormat:@"SELECT item_id, locations.name as lName, area, site, rank, quantity, percentage from gathering INNER JOIN locations ON gathering.location_id = locations._id where gathering.item_id = %i order by percentage desc", item.itemID];
+    FMResultSet *s = [self DBquery:locationsQuery];
+    while ([s next]) {
+        int createdID = [s intForColumn:@"quantity"];
+        NSString *itemName = [s stringForColumn:@"lName"];
+        
+        [locationsArray addObject:@[[NSNumber numberWithInt:createdID],itemName]];
+        
+    }
+    
+    item.locationsArray = locationsArray;
+}
+
+-(NSArray *)infoForUsageTableCellforItemID:(NSNumber *)itemID
+{
+    NSString * usageQuery = [NSString stringWithFormat:@"select components.created_item_id, i2.name, i1.name, components.quantity, components.type from components inner join items as i1 on i1._id = components.component_item_id inner join items as i2 on i2._id = components.created_item_id where i1._id = %i", itemID.intValue];
+    NSArray *usageInfo;
+    
+    FMResultSet *s = [self DBquery:usageQuery];
+    if ([s next]) {
+        int createdID = [s intForColumn:@"components.created_item_id"];
+        NSString *name = [s stringForColumn:@"i2.name"];
+        usageInfo = @[[NSNumber numberWithInt:createdID], name];
+    }
+    
+    return usageInfo;
 }
 
 

@@ -32,6 +32,10 @@
 @property (nonatomic) NSString *itemDescription;
 @property (nonatomic) NSString *icon;
 @property (nonatomic) NSArray *combinedItemsArray;
+@property (nonatomic) NSArray *usageItemsArray;
+@property (nonatomic) NSArray *monsterDropsArray;
+@property (nonatomic) NSArray *questRewardsArray;
+@property (nonatomic) NSArray *locationsArray;
 
 @end
 

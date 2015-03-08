@@ -19,6 +19,11 @@
 
 -(NSArray *)populateItemArray;
 -(void)getCombiningItemsForItem:(Item*)item;
--(NSArray *)infoForCombinedTableCellItem:(NSNumber *)itemID;
+-(NSArray *)infoForCombinedTableCellforItemID:(NSNumber *)itemID;
+-(void)getUsageItemsForItem:(Item*)item;
+-(NSArray *)infoForUsageTableCellforItemID:(NSNumber *)itemID;
+-(void)getMonsterDropsForItem:(Item*)item;
+-(void)getQuestRewardsForItem:(Item*)item;
+-(void)getLocationsForItem:(Item*)item;
 @end
 
