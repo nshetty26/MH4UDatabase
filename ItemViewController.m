@@ -160,21 +160,3 @@
 
 @end
 
-@implementation Item
-
-@end
-
-@implementation ItemView
-
--(void)populateViewWithItem:(Item *)item {
-    _iconImageView.image = [UIImage imageNamed:item.icon];
-    _itemName.text = item.name;
-    _rareLabel.text = [NSString stringWithFormat:@"%i", item.rarity];
-    _capacityLabel.text = [NSString stringWithFormat:@"%i", item.capacity];
-    _priceLabel.text = [NSString stringWithFormat:@"%i", item.price];
-    _salePriceLabel.text = [NSString stringWithFormat:@"%i", item.salePrice];
-    _itemDescription.text = [NSString stringWithFormat:@"%@", item.itemDescription];;
-    
-}
-
-@end

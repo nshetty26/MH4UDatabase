@@ -8,10 +8,7 @@
 
 #import "MenuViewController.h"
 #import "DetailViewController.h"
-#import "MonsterViewController.h"
-#import "ItemViewController.h"
 #import "MH4UDBEngine.h"
-#import "ArmorViewController.h"
 
 @interface MenuViewController ()
 
@@ -46,7 +43,6 @@
     //UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     //self.navigationItem.rightBarButtonItem = addButton;
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
-    CGRect viewFrame = _detailViewController.view.frame;
     CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
     CGRect navigationBar = self.navigationController.view.frame;
     _heightDifference = statusBar.size.height + navigationBar.size.height;
@@ -74,15 +70,16 @@
         //MonsterViewController *mVC = (MonsterViewController *)[segue destinationViewController];
         //mVC.navigationItem.leftItemsSupplementBackButton = YES;
     } else if ([[segue identifier] isEqualToString:@"showArmor"]){
-        ArmorViewController *aVC = (ArmorViewController *)[segue destinationViewController];
-        aVC.allArmorArray = [_dbEngine populateArmorArray];
-        aVC.dbEngine = _dbEngine;
-        
+        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
+        controller.dbEngine = _dbEngine;
+        [controller setDetailItem:@"Armor"];
         
     } else if ([[segue identifier] isEqualToString:@"showItem"]) {
-        ItemViewController *iVC = (ItemViewController *)[segue destinationViewController];
-        iVC.allItems = [_dbEngine populateItemArray];
-        iVC.dbEngine = _dbEngine;
+        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
+        controller.dbEngine = _dbEngine;
+        [controller setDetailItem:@"Item"];
+
+    } else if ([[segue identifier] isEqualToString:@"showWeapon"]) {
     }
 //    } else if ([[segue identifier] isEqualToString:@"showWeapons"]) {
 //        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
@@ -103,9 +100,9 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *menuOption = _menuOptions[indexPath.row];
-    NSString *resuseIdentifier = [NSString stringWithFormat:@"%@Cell", menuOption];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:resuseIdentifier forIndexPath:indexPath];
+    NSString *menuOption = [_menuOptions objectAtIndex:indexPath.row];
+    NSString *reuseIdentifier = [NSString stringWithFormat:@"%@Cell", menuOption];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
 
     cell.textLabel.text = menuOption;
     return cell;

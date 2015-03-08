@@ -1,19 +1,23 @@
 //
-//  ArmorViewController.h
+//  ArmorDisplay.h
 //  MH4UDatabase
 //
-//  Created by Neil Shetty on 3/4/15.
+//  Created by Neil Shetty on 3/7/15.
 //  Copyright (c) 2015 GuthuDesigns. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-@class MH4UDBEngine;
 
-@interface ArmorViewController : UIViewController <UITableViewDataSource, UITabBarDelegate, UITableViewDelegate>
+@class MH4UDBEngine;
+@class DetailViewController;
+
+@interface ArmorDisplay : NSObject <UITableViewDataSource, UITabBarDelegate, UITableViewDelegate>
 @property (strong, nonatomic) NSArray *allArmorArray;
 @property (strong, nonatomic) MH4UDBEngine *dbEngine;
-@property (nonatomic) CGRect tabBarFrame;
-@property (nonatomic) CGRect tableFrame;
+@property (strong, nonatomic) DetailViewController *dVC;
+
+- (void)setupArmorView;
+
 @end
 
 @interface Armor : NSObject
@@ -53,3 +57,4 @@
 
 -(void)populateArmor:(Armor *)armor;
 @end
+

@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 GuthuDesigns. All rights reserved.
 //
 
-#import "ArmorViewController.h"
-#import "ItemViewController.h"
+#import "ArmorDisplay.h"
+#import "ItemDisplay.h"
 #import "MH4UDBEngine.h"
 #import <FMDB.h>
 

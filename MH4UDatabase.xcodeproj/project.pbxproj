@@ -8,10 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		499F66047D4F8AC8382E0904 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D81653FF5EF53FDB102D0403 /* libPods.a */; };
-		E71F7D551AA6B2FD00162587 /* MonsterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E71F7D541AA6B2FD00162587 /* MonsterViewController.m */; };
 		E71F7D571AA6BC2B00162587 /* mh4u.db in Resources */ = {isa = PBXBuildFile; fileRef = E71F7D561AA6BC2B00162587 /* mh4u.db */; };
 		E77A7BE41AA91D490087247F /* MH4UDBEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = E77A7BE31AA91D490087247F /* MH4UDBEngine.m */; };
-		E786C0B61AA7AE9F001C17F8 /* ArmorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E786C0B51AA7AE9F001C17F8 /* ArmorViewController.m */; };
 		E78AF8E21AA92A12009B16C3 /* arms1.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF5931AA92A10009B16C3 /* arms1.png */; };
 		E78AF8E31AA92A12009B16C3 /* arms10.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF5941AA92A10009B16C3 /* arms10.png */; };
 		E78AF8E41AA92A12009B16C3 /* arms2.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF5951AA92A10009B16C3 /* arms2.png */; };
@@ -836,10 +834,11 @@
 		E78AFC171AA92A12009B16C3 /* sword_and_shield7.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8DF1AA92A12009B16C3 /* sword_and_shield7.png */; };
 		E78AFC181AA92A12009B16C3 /* sword_and_shield8.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8E01AA92A12009B16C3 /* sword_and_shield8.png */; };
 		E78AFC191AA92A12009B16C3 /* sword_and_shield9.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8E11AA92A12009B16C3 /* sword_and_shield9.png */; };
-		E78AFC1C1AA939EB009B16C3 /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E78AFC1B1AA939EB009B16C3 /* ItemViewController.m */; };
 		E78AFC1E1AA94897009B16C3 /* ItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78AFC1D1AA94897009B16C3 /* ItemView.xib */; };
 		E78AFC221AA9530F009B16C3 /* UICombiningTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78AFC211AA9530F009B16C3 /* UICombiningTableCell.xib */; };
 		E7A0213E1AA7EF2E00941343 /* ArmorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7A0213D1AA7EF2E00941343 /* ArmorView.xib */; };
+		E7ACDA6A1AABD9CB009FA074 /* ArmorDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = E7ACDA691AABD9CB009FA074 /* ArmorDisplay.m */; };
+		E7ACDA6D1AABE1EA009FA074 /* ItemDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = E7ACDA6C1AABE1EA009FA074 /* ItemDisplay.m */; };
 		E7D4B5251AAB693D00C22D41 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D4B5241AAB693D00C22D41 /* DetailViewController.m */; };
 		E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF01AA6AC96007C05E0 /* main.m */; };
 		E7EB7DF41AA6AC96007C05E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF31AA6AC96007C05E0 /* AppDelegate.m */; };
@@ -864,13 +863,9 @@
 		0DA25932ADF33E4E62A2F9CB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		CBEDC553F9524B0EE6960A11 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D81653FF5EF53FDB102D0403 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E71F7D531AA6B2FD00162587 /* MonsterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonsterViewController.h; sourceTree = "<group>"; };
-		E71F7D541AA6B2FD00162587 /* MonsterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonsterViewController.m; sourceTree = "<group>"; };
 		E71F7D561AA6BC2B00162587 /* mh4u.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = mh4u.db; sourceTree = "<group>"; };
 		E77A7BE31AA91D490087247F /* MH4UDBEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MH4UDBEngine.m; sourceTree = "<group>"; };
 		E77A7BE51AA91D5A0087247F /* MH4UDBEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MH4UDBEngine.h; sourceTree = "<group>"; };
-		E786C0B41AA7AE9F001C17F8 /* ArmorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArmorViewController.h; sourceTree = "<group>"; };
-		E786C0B51AA7AE9F001C17F8 /* ArmorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmorViewController.m; sourceTree = "<group>"; };
 		E78AF5931AA92A10009B16C3 /* arms1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arms1.png; sourceTree = "<group>"; };
 		E78AF5941AA92A10009B16C3 /* arms10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arms10.png; sourceTree = "<group>"; };
 		E78AF5951AA92A10009B16C3 /* arms2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arms2.png; sourceTree = "<group>"; };
@@ -1695,11 +1690,13 @@
 		E78AF8DF1AA92A12009B16C3 /* sword_and_shield7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sword_and_shield7.png; sourceTree = "<group>"; };
 		E78AF8E01AA92A12009B16C3 /* sword_and_shield8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sword_and_shield8.png; sourceTree = "<group>"; };
 		E78AF8E11AA92A12009B16C3 /* sword_and_shield9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sword_and_shield9.png; sourceTree = "<group>"; };
-		E78AFC1A1AA939EB009B16C3 /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
-		E78AFC1B1AA939EB009B16C3 /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
 		E78AFC1D1AA94897009B16C3 /* ItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemView.xib; sourceTree = "<group>"; };
 		E78AFC211AA9530F009B16C3 /* UICombiningTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UICombiningTableCell.xib; sourceTree = "<group>"; };
 		E7A0213D1AA7EF2E00941343 /* ArmorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArmorView.xib; sourceTree = "<group>"; };
+		E7ACDA691AABD9CB009FA074 /* ArmorDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmorDisplay.m; sourceTree = "<group>"; };
+		E7ACDA6B1AABD9DA009FA074 /* ArmorDisplay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArmorDisplay.h; sourceTree = "<group>"; };
+		E7ACDA6C1AABE1EA009FA074 /* ItemDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemDisplay.m; sourceTree = "<group>"; };
+		E7ACDA6E1AABE201009FA074 /* ItemDisplay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemDisplay.h; sourceTree = "<group>"; };
 		E7D4B5231AAB693D00C22D41 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		E7D4B5241AAB693D00C22D41 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		E7EB7DEB1AA6AC96007C05E0 /* MH4UDatabase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MH4UDatabase.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2794,16 +2791,14 @@
 		E7EB7DED1AA6AC96007C05E0 /* MH4UDatabase */ = {
 			isa = PBXGroup;
 			children = (
+				E7ACDA6E1AABE201009FA074 /* ItemDisplay.h */,
+				E7ACDA6C1AABE1EA009FA074 /* ItemDisplay.m */,
+				E7ACDA6B1AABD9DA009FA074 /* ArmorDisplay.h */,
+				E7ACDA691AABD9CB009FA074 /* ArmorDisplay.m */,
 				E7D4B5231AAB693D00C22D41 /* DetailViewController.h */,
 				E7D4B5241AAB693D00C22D41 /* DetailViewController.m */,
 				E77A7BE51AA91D5A0087247F /* MH4UDBEngine.h */,
 				E77A7BE31AA91D490087247F /* MH4UDBEngine.m */,
-				E71F7D531AA6B2FD00162587 /* MonsterViewController.h */,
-				E71F7D541AA6B2FD00162587 /* MonsterViewController.m */,
-				E78AFC1A1AA939EB009B16C3 /* ItemViewController.h */,
-				E78AFC1B1AA939EB009B16C3 /* ItemViewController.m */,
-				E786C0B41AA7AE9F001C17F8 /* ArmorViewController.h */,
-				E786C0B51AA7AE9F001C17F8 /* ArmorViewController.m */,
 				E78AFC211AA9530F009B16C3 /* UICombiningTableCell.xib */,
 				E7A0213D1AA7EF2E00941343 /* ArmorView.xib */,
 				E78AFC1D1AA94897009B16C3 /* ItemView.xib */,
@@ -3815,11 +3810,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E71F7D551AA6B2FD00162587 /* MonsterViewController.m in Sources */,
-				E786C0B61AA7AE9F001C17F8 /* ArmorViewController.m in Sources */,
+				E7ACDA6D1AABE1EA009FA074 /* ItemDisplay.m in Sources */,
+				E7ACDA6A1AABD9CB009FA074 /* ArmorDisplay.m in Sources */,
 				E7EB7DF41AA6AC96007C05E0 /* AppDelegate.m in Sources */,
 				E7D4B5251AAB693D00C22D41 /* DetailViewController.m in Sources */,
-				E78AFC1C1AA939EB009B16C3 /* ItemViewController.m in Sources */,
 				E77A7BE41AA91D490087247F /* MH4UDBEngine.m in Sources */,
 				E7EB7DF71AA6AC96007C05E0 /* MenuViewController.m in Sources */,
 				E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */,
