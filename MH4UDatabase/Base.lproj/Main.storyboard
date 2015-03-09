@@ -23,6 +23,7 @@
         <!--Detail View Controller-->
         <scene sceneID="5hy-HU-hNe">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dCa-Wr-NOQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="XtR-3u-fFz" customClass="DetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hac-xq-w6J"/>
@@ -43,7 +44,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="aOZ-k3-R3H"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dCa-Wr-NOQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1310" y="-581"/>
         </scene>

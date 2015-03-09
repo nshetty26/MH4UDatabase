@@ -7,7 +7,9 @@
 //
 
 #import "MenuViewController.h"
+#import "ItemsViewController.h"
 #import "DetailViewController.h"
+#import "WeaponViewController.h"
 #import "MH4UDBEngine.h"
 
 @interface MenuViewController ()
@@ -65,7 +67,8 @@
 #pragma mark - Segues
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-
+    UINavigationController *nC = [segue destinationViewController];
+    
     if ([[segue identifier] isEqualToString:@"showMonster"]) {
         DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
         controller.dbEngine = _dbEngine;
@@ -77,11 +80,19 @@
         [controller setDetailItem:@"Armor"];
         
     } else if ([[segue identifier] isEqualToString:@"showItem"]) {
-        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
-        controller.dbEngine = _dbEngine;
-        [controller setDetailItem:@"Item"];
+        ItemsViewController *iVC = [[ItemsViewController alloc] init];
+        iVC.allItems = [_dbEngine populateItemArray];
+        iVC.dbEngine = _dbEngine;
+        [nC setViewControllers:@[iVC]];
+        //controller.dbEngine = _dbEngine;
+        //[controller setDetailItem:@"Item"];
 
     } else if ([[segue identifier] isEqualToString:@"showWeapon"]) {
+        
+        WeaponViewController *wc = [[WeaponViewController alloc] init];
+        [nC setViewControllers:@[wc]];
+        NSLog(@"Pause");
+
     }
 //    } else if ([[segue identifier] isEqualToString:@"showWeapons"]) {
 //        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];

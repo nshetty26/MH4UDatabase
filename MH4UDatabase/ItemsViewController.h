@@ -1,8 +1,8 @@
 //
-//  ItemDisplay.h
+//  ItemViewController.h
 //  MH4UDatabase
 //
-//  Created by Neil Shetty on 3/7/15.
+//  Created by Neil Shetty on 3/9/15.
 //  Copyright (c) 2015 GuthuDesigns. All rights reserved.
 //
 
@@ -11,13 +11,11 @@
 @class CombiningCell;
 @class DetailViewController;
 
-@interface ItemDisplay : NSObject <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UITabBarDelegate>
+@interface ItemsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UITabBarDelegate>
 @property (strong, nonatomic) NSArray *allItems;
 @property (strong, nonatomic) DetailViewController *dVC;
 @property (strong, nonatomic) MH4UDBEngine *dbEngine;
 @property (nonatomic) CombiningCell *combiningCell;
-
--(void)setupItemDisplay;
 
 @end
 
@@ -40,15 +38,3 @@
 @end
 
 
-@interface ItemView : UIView
-@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
-@property (weak, nonatomic) IBOutlet UILabel *itemName;
-@property (weak, nonatomic) IBOutlet UILabel *rareLabel;
-@property (weak, nonatomic) IBOutlet UILabel *capacityLabel;
-@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
-@property (weak, nonatomic) IBOutlet UILabel *salePriceLabel;
-@property (weak, nonatomic) IBOutlet UITextView *itemDescription;
-
--(void)populateViewWithItem:(Item *)item;
-
-@end

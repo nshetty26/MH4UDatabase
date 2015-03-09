@@ -7,14 +7,13 @@
 //
 
 #import "DetailViewController.h"
+#import "ItemsViewController.h"
 #import "MonsterDisplay.h"
 #import "ArmorDisplay.h"
-#import "ItemDisplay.h"
 #import "MH4UDBEngine.h"
 
 @interface DetailViewController ()
 @property (strong, nonatomic) ArmorDisplay *armorDisplay;
-@property (strong, nonatomic) ItemDisplay *itemDisplay;
 @property (strong, nonatomic) MonsterDisplay *monsterDisplay;
 
 @end
@@ -47,11 +46,13 @@
         _armorDisplay.allArmorArray = [_dbEngine populateArmorArray];
         [_armorDisplay setupArmorView];
     } else if ([_detailItem isEqualToString:@"Item"]) {
-        _itemDisplay = [[ItemDisplay alloc] init];
-        _itemDisplay.dVC = self;
-        _itemDisplay.dbEngine = _dbEngine;
-        _itemDisplay.allItems = [_dbEngine populateItemArray];
-        [_itemDisplay setupItemDisplay];
+        ItemsViewController *iVC = [[ItemsViewController alloc] init];
+        [self.navigationController pushViewController:iVC animated:NO];
+//        _itemDisplay = [[ItemDisplay alloc] init];
+//        _itemDisplay.dVC = self;
+//        _itemDisplay.dbEngine = _dbEngine;
+//        _itemDisplay.allItems = [_dbEngine populateItemArray];
+//        [_itemDisplay setupItemDisplay];
     } else if ([_detailItem isEqualToString:@"Monster"]) {
         _monsterDisplay = [[MonsterDisplay alloc] init];
         _monsterDisplay.dVC = self;
