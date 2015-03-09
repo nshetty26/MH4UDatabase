@@ -60,6 +60,29 @@
     return allMonsterArray;
 }
 
+-(void)getDamageForMonster:(Monster *)monster {
+    NSMutableArray *monsterDamageArray = [[NSMutableArray alloc] init];
+    NSString *monsterDamageQuery = [NSString stringWithFormat:@"select monsters.name, monster_damage.body_part, monster_damage.cut, monster_damage.impact, monster_damage.shot, monster_damage.fire, monster_damage.water, monster_damage.ice, monster_damage.thunder, monster_damage.dragon, monster_damage.ko from monster_damage inner join monsters on monster_damage.monster_id = monsters._id where monsters._id = %i order by monster_damage.body_part", monster.monsterID];
+    
+    FMResultSet *s = [self DBquery:monsterDamageQuery];
+    while ([s next]) {
+        MonsterDamage *md = [[MonsterDamage alloc] init];
+        md.bodyPart = [s stringForColumn:@"body_part"];
+        md.cutDamage = [s intForColumn:@"cut"];
+        md.impactDamage = [s intForColumn:@"impact"];
+        md.shotDamage = [s intForColumn:@"shot"];
+        md.fireDamage = [s intForColumn:@"fire"];
+        md.waterDamage = [s intForColumn:@"water"];
+        md.iceDamage = [s intForColumn:@"ice"];
+        md.thunderDamage = md.cutDamage = [s intForColumn:@"thunder"];
+        md.dragonDamage = [s intForColumn:@"dragon"];
+        md.stun = [s intForColumn:@"ko"];
+        [monsterDamageArray addObject:md];
+    }
+    
+    monster.monsterDetailDamage = monsterDamageArray;
+}
+
 
 #pragma mark Armor Queries
 -(NSArray *)populateArmorArray {

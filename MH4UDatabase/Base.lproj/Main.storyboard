@@ -4,25 +4,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
-        <!--Monster View Controller-->
-        <scene sceneID="Af4-rD-gg1">
-            <objects>
-                <viewController id="UOV-0e-bSI" customClass="MonsterViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Q23-M0-7Ev"/>
-                        <viewControllerLayoutGuide type="bottom" id="AEy-9u-UOI"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="pIN-nY-SII">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="MT0-ia-JHc"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hNX-df-RvK" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="109" y="-785"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="0au-JS-Kal">
             <objects>
@@ -51,19 +32,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p7S-dv-1Uz">
-                                <rect key="frame" x="265" y="233" width="144" height="67"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="If you are seeing this then you are on an iPad, please swipe right to bring up the menu" translatesAutoresizingMaskIntoConstraints="NO" id="pMl-16-UHp">
+                                <rect key="frame" x="230" y="237" width="240" height="135"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="aOZ-k3-R3H"/>
-                    <connections>
-                        <outlet property="detailDescriptionLabel" destination="p7S-dv-1Uz" id="mZf-iO-Fwp"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dCa-Wr-NOQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -257,54 +235,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="425" y="-1763"/>
-        </scene>
-        <!--Item View Controller-->
-        <scene sceneID="aB2-JW-K9r">
-            <objects>
-                <viewController id="r6R-MW-zfj" customClass="ItemViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="7qA-vK-fVb"/>
-                        <viewControllerLayoutGuide type="bottom" id="JCG-YD-ida"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ZL8-dd-9hY">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <connections>
-                        <outlet property="searchDisplayController" destination="82c-hG-eT5" id="Jqd-GT-FCb"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FBe-cy-i6I" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="82c-hG-eT5">
-                    <connections>
-                        <outlet property="delegate" destination="r6R-MW-zfj" id="cNc-9V-2KH"/>
-                        <outlet property="searchContentsController" destination="r6R-MW-zfj" id="ZQu-pl-gR6"/>
-                        <outlet property="searchResultsDataSource" destination="r6R-MW-zfj" id="I14-DY-tOa"/>
-                        <outlet property="searchResultsDelegate" destination="r6R-MW-zfj" id="VMm-Pv-hCU"/>
-                    </connections>
-                </searchDisplayController>
-            </objects>
-            <point key="canvasLocation" x="84" y="-739"/>
-        </scene>
-        <!--Armor View Controller-->
-        <scene sceneID="6Pt-vc-OWu">
-            <objects>
-                <viewController id="q6v-Pd-Z6Z" customClass="ArmorViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="rwH-PL-3mT"/>
-                        <viewControllerLayoutGuide type="bottom" id="f5n-tB-fdc"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="jwX-up-h7N">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="Vcq-Oc-Kx9"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ouv-NE-x82" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2055" y="-1288"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 @class Armor;
 @class Item;
+@class Monster;
 
 @interface MH4UDBEngine : NSObject
 
 -(NSArray *)populateAllMonsterArray;
+-(void)getDamageForMonster:(Monster *)monster;
 
 -(NSArray *)populateArmorArray;
 -(Armor *)populateArmor:(Armor *)armor;

@@ -836,6 +836,8 @@
 		E78AFC191AA92A12009B16C3 /* sword_and_shield9.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8E11AA92A12009B16C3 /* sword_and_shield9.png */; };
 		E78AFC1E1AA94897009B16C3 /* ItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78AFC1D1AA94897009B16C3 /* ItemView.xib */; };
 		E78AFC221AA9530F009B16C3 /* UICombiningTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78AFC211AA9530F009B16C3 /* UICombiningTableCell.xib */; };
+		E78F92791AAD07AE003A297F /* MonsterDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78F92781AAD07AE003A297F /* MonsterDetail.xib */; };
+		E78F927D1AAD1719003A297F /* MonsterDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78F927C1AAD1719003A297F /* MonsterDetailCell.xib */; };
 		E7A0213E1AA7EF2E00941343 /* ArmorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7A0213D1AA7EF2E00941343 /* ArmorView.xib */; };
 		E7ACDA6A1AABD9CB009FA074 /* ArmorDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = E7ACDA691AABD9CB009FA074 /* ArmorDisplay.m */; };
 		E7ACDA6D1AABE1EA009FA074 /* ItemDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = E7ACDA6C1AABE1EA009FA074 /* ItemDisplay.m */; };
@@ -1693,6 +1695,8 @@
 		E78AF8E11AA92A12009B16C3 /* sword_and_shield9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sword_and_shield9.png; sourceTree = "<group>"; };
 		E78AFC1D1AA94897009B16C3 /* ItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemView.xib; sourceTree = "<group>"; };
 		E78AFC211AA9530F009B16C3 /* UICombiningTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UICombiningTableCell.xib; sourceTree = "<group>"; };
+		E78F92781AAD07AE003A297F /* MonsterDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MonsterDetail.xib; sourceTree = "<group>"; };
+		E78F927C1AAD1719003A297F /* MonsterDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MonsterDetailCell.xib; sourceTree = "<group>"; };
 		E7A0213D1AA7EF2E00941343 /* ArmorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArmorView.xib; sourceTree = "<group>"; };
 		E7ACDA691AABD9CB009FA074 /* ArmorDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmorDisplay.m; sourceTree = "<group>"; };
 		E7ACDA6B1AABD9DA009FA074 /* ArmorDisplay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArmorDisplay.h; sourceTree = "<group>"; };
@@ -2804,6 +2808,8 @@
 				E7D4B5241AAB693D00C22D41 /* DetailViewController.m */,
 				E77A7BE51AA91D5A0087247F /* MH4UDBEngine.h */,
 				E77A7BE31AA91D490087247F /* MH4UDBEngine.m */,
+				E78F92781AAD07AE003A297F /* MonsterDetail.xib */,
+				E78F927C1AAD1719003A297F /* MonsterDetailCell.xib */,
 				E78AFC211AA9530F009B16C3 /* UICombiningTableCell.xib */,
 				E7A0213D1AA7EF2E00941343 /* ArmorView.xib */,
 				E78AFC1D1AA94897009B16C3 /* ItemView.xib */,
@@ -3251,6 +3257,7 @@
 				E78AFB8B1AA92A12009B16C3 /* unknown.png in Resources */,
 				E78AF98B1AA92A12009B16C3 /* Charm-Stone-Blue.png in Resources */,
 				E78AF8E51AA92A12009B16C3 /* arms3.png in Resources */,
+				E78F92791AAD07AE003A297F /* MonsterDetail.xib in Resources */,
 				E78AFB291AA92A12009B16C3 /* MH4U-Great_Jaggi_Icon.png in Resources */,
 				E78AF9911AA92A12009B16C3 /* Coin-Blue.png in Resources */,
 				E78AFB121AA92A12009B16C3 /* MH4U-Chaotic_Gore_Magala_Icon.png in Resources */,
@@ -3569,6 +3576,7 @@
 				E78AFBAE1AA92A12009B16C3 /* great_sword3.png in Resources */,
 				E78AFB2D1AA92A12009B16C3 /* MH4U-Ioprey_Icon.png in Resources */,
 				E78AFBEB1AA92A12009B16C3 /* lance3.png in Resources */,
+				E78F927D1AAD1719003A297F /* MonsterDetailCell.xib in Resources */,
 				E78AF9561AA92A12009B16C3 /* Bone-Purple.png in Resources */,
 				E78AFA711AA92A12009B16C3 /* Scraps-White.png in Resources */,
 				E78AFB281AA92A12009B16C3 /* MH4U-Gravios_Icon.png in Resources */,

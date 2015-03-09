@@ -279,23 +279,18 @@
     switch (indexPath.section) {
         case 1:
             armor = [_headArray objectAtIndex:indexPath.row];
-            NSLog(@"1");
             break;
         case 2:
             armor = [_bodyArray objectAtIndex:indexPath.row];
-            NSLog(@"2");
             break;
         case 3:
             armor = [_armArray objectAtIndex:indexPath.row];
-            NSLog(@"3");
             break;
         case 4:
             armor = [_waitArray objectAtIndex:indexPath.row];
-            NSLog(@"4");
             break;
         case 5:
             armor = [_legArray objectAtIndex:indexPath.row];
-            NSLog(@"5");
             break;
         default:
             break;
