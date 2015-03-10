@@ -835,6 +835,7 @@
 		E78AFC181AA92A12009B16C3 /* sword_and_shield8.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8E01AA92A12009B16C3 /* sword_and_shield8.png */; };
 		E78AFC191AA92A12009B16C3 /* sword_and_shield9.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8E11AA92A12009B16C3 /* sword_and_shield9.png */; };
 		E78AFC221AA9530F009B16C3 /* UICombiningTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78AFC211AA9530F009B16C3 /* UICombiningTableCell.xib */; };
+		E78C04931AAF4BE5005ECCF6 /* ArmorsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E78C04921AAF4BE5005ECCF6 /* ArmorsViewController.m */; };
 		E78F92791AAD07AE003A297F /* MonsterDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78F92781AAD07AE003A297F /* MonsterDetail.xib */; };
 		E78F927D1AAD1719003A297F /* MonsterDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78F927C1AAD1719003A297F /* MonsterDetailCell.xib */; };
 		E7A0213E1AA7EF2E00941343 /* ArmorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7A0213D1AA7EF2E00941343 /* ArmorView.xib */; };
@@ -1696,6 +1697,8 @@
 		E78AF8E01AA92A12009B16C3 /* sword_and_shield8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sword_and_shield8.png; sourceTree = "<group>"; };
 		E78AF8E11AA92A12009B16C3 /* sword_and_shield9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sword_and_shield9.png; sourceTree = "<group>"; };
 		E78AFC211AA9530F009B16C3 /* UICombiningTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UICombiningTableCell.xib; path = MH4UDatabase/UICombiningTableCell.xib; sourceTree = "<group>"; };
+		E78C04911AAF4BE5005ECCF6 /* ArmorsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArmorsViewController.h; sourceTree = "<group>"; };
+		E78C04921AAF4BE5005ECCF6 /* ArmorsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmorsViewController.m; sourceTree = "<group>"; };
 		E78F92781AAD07AE003A297F /* MonsterDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MonsterDetail.xib; path = MH4UDatabase/MonsterDetail.xib; sourceTree = "<group>"; };
 		E78F927C1AAD1719003A297F /* MonsterDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MonsterDetailCell.xib; path = MH4UDatabase/MonsterDetailCell.xib; sourceTree = "<group>"; };
 		E7A0213D1AA7EF2E00941343 /* ArmorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmorView.xib; path = MH4UDatabase/ArmorView.xib; sourceTree = "<group>"; };
@@ -2827,6 +2830,8 @@
 		E7EB7DED1AA6AC96007C05E0 /* MH4UDatabase */ = {
 			isa = PBXGroup;
 			children = (
+				E78C04911AAF4BE5005ECCF6 /* ArmorsViewController.h */,
+				E78C04921AAF4BE5005ECCF6 /* ArmorsViewController.m */,
 				E7AF5F8D1AAE318300847512 /* WeaponViewController.h */,
 				E7AF5F8E1AAE318300847512 /* WeaponViewController.m */,
 				E7AF5F861AAE2F6E00847512 /* ItemsViewController.h */,
@@ -3858,6 +3863,7 @@
 				E7D4B5251AAB693D00C22D41 /* DetailViewController.m in Sources */,
 				E77A7BE41AA91D490087247F /* MH4UDBEngine.m in Sources */,
 				E7EB7DF71AA6AC96007C05E0 /* MenuViewController.m in Sources */,
+				E78C04931AAF4BE5005ECCF6 /* ArmorsViewController.m in Sources */,
 				E7AF5F8F1AAE318300847512 /* WeaponViewController.m in Sources */,
 				E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */,
 			);

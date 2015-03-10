@@ -104,35 +104,15 @@
         _itemDetailVC.selectedItem = item;
         _itemDetailVC.dbEngine = _dbEngine;
         _itemDetailVC.heightDifference = _heightDifference;
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Items" style:UIBarButtonItemStylePlain target:nil action:nil];
+        [self.navigationItem setBackBarButtonItem:backButton];
         [self.navigationController pushViewController:_itemDetailVC animated:YES];
-//        _pushedVC = [[UIViewController alloc] init];
-//        _detailItemView = [[[NSBundle mainBundle] loadNibNamed:@"ItemDetailView" owner:self options:nil] lastObject];
-//        [_detailItemView populateViewWithItem:item];
-//
-//        [_pushedVC.view addSubview:_detailItemView];
-//        [self setDetailTabBarforItem:item];
-//        [_pushedVC.view addSubview:_detailItemView];
-//        [_pushedVC.view addSubview:_itemDetailBar];
-//        [_combiningTable reloadData];
-//        [self.navigationController pushViewController:_pushedVC animated:YES];
-        //UINavigationController *nc = self.navigationController;
+        
         NSLog(@"Pause");
         
     }
     
 }
-
-//-(void)closeItemDetail
-//{
-//    [_itemDetailBar removeFromSuperview];
-//    [_detailItemView removeFromSuperview];
-//    [_combiningTable removeFromSuperview];
-//    
-//    [_dVC.view addSubview:_itemTable];
-//    [_dVC.view addSubview:_itemSearch];
-//    
-//    _dVC.navigationItem.rightBarButtonItems = nil;
-//}
 
 -(void)populateDetailsforItem:(Item*)item{
     [_dbEngine getCombiningItemsForItem:item];

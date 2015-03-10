@@ -69,6 +69,7 @@
     _detailItemView.frame = vcFrame;
     [_detailItemView populateViewWithItem:_selectedItem];
     [self setDetailTabBarforItem:_selectedItem];
+    [_itemDetailBar setSelectedItem:_itemDetail];
     [self.view addSubview:_detailItemView];
     [self.view addSubview:_itemDetailBar];
 
