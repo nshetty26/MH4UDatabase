@@ -7,9 +7,10 @@
 //
 
 #import "MonsterDisplay.h"
-#import "ArmorDisplay.h"
+
 #import "ItemsViewController.h"
 #import "MH4UDBEngine.h"
+#import "MH4UDBEntity.h"
 #import <FMDB.h>
 
 

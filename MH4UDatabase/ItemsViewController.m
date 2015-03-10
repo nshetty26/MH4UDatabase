@@ -11,6 +11,7 @@
 #import "MH4UDBEngine.h"
 #import "ItemsViewController.h"
 #import "ItemDetailViewController.h"
+#import "MH4UDBEntity.h"
 
 @interface ItemsViewController ()
 @property (nonatomic) NSArray *displayedItems;
@@ -129,7 +130,4 @@
 }
 @end
 
-@implementation Item
-
-@end
 

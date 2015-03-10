@@ -7,13 +7,14 @@
 //
 
 #import "DetailViewController.h"
+#import "ArmorsViewController.h"
 #import "ItemsViewController.h"
 #import "MonsterDisplay.h"
-#import "ArmorDisplay.h"
+#import "MH4UDBEntity.h"
 #import "MH4UDBEngine.h"
 
 @interface DetailViewController ()
-@property (strong, nonatomic) ArmorDisplay *armorDisplay;
+//@property (strong, nonatomic) ArmorDisplay *armorDisplay;
 @property (strong, nonatomic) MonsterDisplay *monsterDisplay;
 
 @end
@@ -40,11 +41,11 @@
     _tableFrame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + _heightDifference + _tabBarFrame.size.height, self.view.frame.size.width, self.view.frame.size.height);
     
     if ([_detailItem isEqualToString:@"Armor"]) {
-        _armorDisplay = [[ArmorDisplay alloc] init];
-        _armorDisplay.dVC = self;
-        _armorDisplay.dbEngine = _dbEngine;
-        _armorDisplay.allArmorArray = [_dbEngine populateArmorArray];
-        [_armorDisplay setupArmorView];
+//        _armorDisplay = [[ArmorDisplay alloc] init];
+//        _armorDisplay.dVC = self;
+//        _armorDisplay.dbEngine = _dbEngine;
+//        _armorDisplay.allArmorArray = [_dbEngine populateArmorArray];
+//        [_armorDisplay setupArmorView];
     } else if ([_detailItem isEqualToString:@"Item"]) {
         ItemsViewController *iVC = [[ItemsViewController alloc] init];
         [self.navigationController pushViewController:iVC animated:NO];

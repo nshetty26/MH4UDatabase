@@ -8,6 +8,7 @@
 
 #import "MenuViewController.h"
 #import "ItemsViewController.h"
+#import "ArmorsViewController.h"
 #import "DetailViewController.h"
 #import "WeaponViewController.h"
 #import "MH4UDBEngine.h"
@@ -68,6 +69,11 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     UINavigationController *nC = [segue destinationViewController];
+    UIBarButtonItem *menu = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleDone target:nil action:nil];
+    CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
+    CGRect navigationBar = nC.navigationBar.frame;
+    int heightDifference = statusBar.size.height + navigationBar.size.height;
+
     
     if ([[segue identifier] isEqualToString:@"showMonster"]) {
         DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
@@ -75,9 +81,13 @@
         [controller setDetailItem:@"Monster"];
 
     } else if ([[segue identifier] isEqualToString:@"showArmor"]){
-        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
-        controller.dbEngine = _dbEngine;
-        [controller setDetailItem:@"Armor"];
+        ArmorsViewController *aVC = [[ArmorsViewController alloc] init];
+        aVC.allArmorArray = [_dbEngine populateArmorArray];
+        aVC.dbEngine = _dbEngine;
+        aVC.heightDifference = heightDifference;
+        [nC setViewControllers:@[aVC]];
+        
+
         
     } else if ([[segue identifier] isEqualToString:@"showItem"]) {
         ItemsViewController *iVC = [[ItemsViewController alloc] init];
@@ -94,12 +104,8 @@
         NSLog(@"Pause");
 
     }
-//    } else if ([[segue identifier] isEqualToString:@"showWeapons"]) {
-//        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
-//        controller.detailDescriptionLabel.text = @"Weapon View";
-//        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-
-//    }
+    
+    [self.navigationItem setBackBarButtonItem:menu];
 }
 
 #pragma mark - Table View

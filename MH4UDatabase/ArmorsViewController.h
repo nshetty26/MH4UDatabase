@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@class MH4UDBEngine;
 
-@interface ArmorsViewController : UIViewController
+@interface ArmorsViewController : UIViewController <UITableViewDataSource, UITabBarDelegate, UITableViewDelegate, UISearchBarDelegate>
+@property (strong, nonatomic) NSArray *allArmorArray;
+@property (strong, nonatomic) MH4UDBEngine *dbEngine;
+@property (nonatomic) int heightDifference;
 
 @end

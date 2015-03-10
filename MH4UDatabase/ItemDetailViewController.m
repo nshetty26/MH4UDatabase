@@ -8,6 +8,7 @@
 
 #import "ItemDetailViewController.h"
 #import "MH4UDBEngine.h"
+#import "MH4UDBEntity.h"
 #import "MenuViewController.h"
 #import "ItemsViewController.h"
 

@@ -19,22 +19,5 @@
 
 @end
 
-@interface Item : NSObject
-@property (nonatomic) int itemID;
-@property (nonatomic) NSString *name;
-@property (nonatomic) NSString *type;
-@property (nonatomic) int rarity;
-@property (nonatomic) int capacity;
-@property (nonatomic) int price;
-@property (nonatomic) int salePrice;
-@property (nonatomic) NSString *itemDescription;
-@property (nonatomic) NSString *icon;
-@property (nonatomic) NSArray *combinedItemsArray;
-@property (nonatomic) NSArray *usageItemsArray;
-@property (nonatomic) NSArray *monsterDropsArray;
-@property (nonatomic) NSArray *questRewardsArray;
-@property (nonatomic) NSArray *locationsArray;
-
-@end
 
 
