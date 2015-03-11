@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MonsterDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface MonsterDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarDelegate>
 @property (nonatomic) Monster *selectedMonster;
 @property (nonatomic) int heightDifference;
 @end

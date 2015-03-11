@@ -141,13 +141,13 @@
     
     for (NSString *rank in ranks) {
         NSMutableArray *itemDrops = [[NSMutableArray alloc] init];
-        NSString *rankQuery = [NSString stringWithFormat:@"SELECT hunting_rewards.item_id, items.name, hunting_rewards.condition, hunting_rewards.rank, hunting_rewards.stack_size, hunting_rewards.percentage from hunting_rewards inner join items on items._id = hunting_rewards.item_id where hunting_rewards.monster_id = %i and hunting_rewards.rank = '%@'", monster.monsterID, rank];
+        NSString *rankQuery = [NSString stringWithFormat:@"SELECT hunting_rewards.item_id as itemID, items.name, hunting_rewards.condition, hunting_rewards.rank, hunting_rewards.stack_size, hunting_rewards.percentage from hunting_rewards inner join items on items._id = hunting_rewards.item_id where hunting_rewards.monster_id = %i and hunting_rewards.rank = '%@'", monster.monsterID, rank];
         
         FMResultSet *s = [self DBquery:rankQuery];
         
         while ([s next]) {
             Item *huntingDrop = [[Item alloc] init];
-            huntingDrop.itemID = [s intForColumn:@"item_id"];
+            huntingDrop.itemID = [s intForColumn:@"itemID"];
             huntingDrop.name = [s stringForColumn:@"name"];
             huntingDrop.condition = [s stringForColumn:@"condition"];
             huntingDrop.capacity = [s intForColumn:@"stack_size"];

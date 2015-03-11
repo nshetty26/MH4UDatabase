@@ -24,6 +24,10 @@
 
 @interface MonsterDetailViewController ()
 @property (nonatomic) UITableView *monsterDetailTable;
+@property (nonatomic) UITableView *statusEffectTable;
+@property (nonatomic) UITableView *habitatTable;
+@property (nonatomic) UITableView *rankDropTable;
+@property (nonatomic) UITableView *questTable;
 @property (nonatomic) UITabBar *monsterDetailTabBar;
 @property (nonatomic) UITabBarItem *detail;
 @property (nonatomic) UITabBarItem *status;
@@ -43,28 +47,53 @@
     // Do any additional setup after loading the view.
     CGRect vcFrame = self.view.frame;
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
-    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
+    CGRect fullViewFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
 
     _monsterDetailTabBar = [[UITabBar alloc] initWithFrame:tabBarFrame];
+    _monsterDetailTabBar.delegate = self;
+    
     _detail = [[UITabBarItem alloc] initWithTitle:@"Detail" image:nil tag:1];
     _status = [[UITabBarItem alloc] initWithTitle:@"Status" image:nil tag:2];
-    _habitat = [[UITabBarItem alloc] initWithTitle:@"Status" image:nil tag:3];
-    _lowRank = [[UITabBarItem alloc] initWithTitle:@"Status" image:nil tag:4];
-    _highRank = [[UITabBarItem alloc] initWithTitle:@"Status" image:nil tag:5];
-    _gRank = [[UITabBarItem alloc] initWithTitle:@"Status" image:nil tag:6];
-    _quest = [[UITabBarItem alloc] initWithTitle:@"Status" image:nil tag:7];
+    _habitat = [[UITabBarItem alloc] initWithTitle:@"Habitat" image:nil tag:3];
+    _lowRank = [[UITabBarItem alloc] initWithTitle:@"Low Rank" image:nil tag:4];
+    _highRank = [[UITabBarItem alloc] initWithTitle:@"High Rank" image:nil tag:5];
+    _gRank = [[UITabBarItem alloc] initWithTitle:@"G Rank" image:nil tag:6];
+    _quest = [[UITabBarItem alloc] initWithTitle:@"Quest" image:nil tag:7];
+    
     [_monsterDetailTabBar setItems:@[_detail, _status, _habitat, _lowRank, _highRank, _gRank, _quest]];
     [_monsterDetailTabBar setSelectedItem:_detail];
     
     _monsterDetailView = [[[NSBundle mainBundle] loadNibNamed:@"DetailedMonsterView" owner:self options:nil] lastObject];
-    _monsterDetailView.frame = tableWithSearch;
+    _monsterDetailView.frame = fullViewFrame;
     _monsterDetailView.monsterName.text = _selectedMonster.monsterName;
     _monsterDetailView.monsterImage.image = [UIImage imageNamed:_selectedMonster.iconName];
+    
+    CGRect tableFrame = CGRectMake(vcFrame.origin.x, _monsterDetailView.monsterImage.frame.origin.y + _monsterDetailView.monsterImage.frame.size.height + 20, vcFrame.size.height, vcFrame.size.width);
     
     _monsterDetailTable = [[UITableView alloc] init];
     _monsterDetailTable.delegate = self;
     _monsterDetailTable.dataSource = self;
-    _monsterDetailTable.frame = CGRectMake(vcFrame.origin.x, _monsterDetailView.monsterImage.frame.origin.y + _monsterDetailView.monsterImage.frame.size.height + 20, vcFrame.size.height, vcFrame.size.width);
+    _monsterDetailTable.frame = tableFrame;
+    
+    _statusEffectTable = [[UITableView alloc] init];
+    _statusEffectTable.delegate = self;
+    _statusEffectTable.dataSource = self;
+    _statusEffectTable.frame = tableFrame;
+    
+    _habitatTable = [[UITableView alloc] init];
+    _habitatTable.delegate = self;
+    _habitatTable.dataSource = self;
+    _habitatTable.frame = tableFrame;
+    
+    _rankDropTable = [[UITableView alloc] init];
+    _rankDropTable.delegate = self;
+    _rankDropTable.dataSource = self;
+    _rankDropTable.frame = tableFrame;
+    
+    _questTable = [[UITableView alloc] init];
+    _questTable.delegate = self;
+    _questTable.dataSource = self;
+    _questTable.frame = tableFrame;
     
     [_monsterDetailView addSubview:_monsterDetailTable];
     [self.view addSubview:_monsterDetailView];
@@ -75,13 +104,18 @@
 {
     if ([tableView isEqual:_monsterDetailTable]){
         return _selectedMonster.monsterDetailDamage.count;
+    } else if  ([tableView isEqual:_statusEffectTable]){
+        return _selectedMonster.monsterStatusEffects.count;
+    } else if  ([tableView isEqual:_habitatTable]){
+        return _selectedMonster.monsterHabitats.count;
+    } else if  ([tableView isEqual:_rankDropTable]){
+        return _selectedMonster.lowRankDrops.count;
+    } else if ([tableView isEqual:_questTable]){
+        return _selectedMonster.questInfos.count;
     } else {
         return 0;
     }
-    
-    
 }
-
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView isEqual:_monsterDetailTable]) {
@@ -91,6 +125,26 @@
             mDC = [tableView dequeueReusableCellWithIdentifier:@"monsterDetailCell"];
         }
         return mDC;
+    } else if  ([tableView isEqual:_statusEffectTable]){
+        UITableViewCell *cell = [[UITableViewCell alloc] init];
+        MonsterStatusEffect *mse = _selectedMonster.monsterStatusEffects[indexPath.row];
+        cell.textLabel.text = mse.status;
+        return cell;
+    } else if  ([tableView isEqual:_habitatTable]){
+        UITableViewCell *cell = [[UITableViewCell alloc] init];
+        MonsterHabitat *mh = _selectedMonster.monsterHabitats[indexPath.row];
+        cell.textLabel.text = mh.locationName;
+        return cell;
+    } else if  ([tableView isEqual:_rankDropTable]){
+        UITableViewCell *cell = [[UITableViewCell alloc] init];
+        Item *huntingDrop = _selectedMonster.lowRankDrops[indexPath.row];
+        cell.textLabel.text = huntingDrop.name;
+        return cell;
+    } else if ([tableView isEqual:_questTable]){
+        UITableViewCell *cell = [[UITableViewCell alloc] init];
+        NSArray *questInfo = _selectedMonster.questInfos[indexPath.row];
+        cell.textLabel.text = questInfo[1];
+        return cell;
     } else {
         return nil;
     }
@@ -123,9 +177,49 @@
     }
 }
 
+-(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    [self removeViewsFromDetail];
+    //[self.view addSubview:_monsterDetailView];
+    switch (item.tag) {
+            case 1:
+            [_monsterDetailView addSubview:_monsterDetailTable];
+            break;
+        case 2:
+            [_monsterDetailView addSubview:_statusEffectTable];
+            break;
+        case 3:
+            [_monsterDetailView addSubview:_habitatTable];
+            break;
+        case 4:
+            [_monsterDetailView addSubview:_rankDropTable];
+            break;
+        case 5:
+            [_monsterDetailView addSubview:_rankDropTable];
+            break;
+        case 6:
+            [_monsterDetailView addSubview:_rankDropTable];
+            break;
+        case 7:
+            [self.view addSubview:_questTable];
+            break;
+        default:
+            break;
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)removeViewsFromDetail {
+    NSArray *allViews = @[_monsterDetailTable, _statusEffectTable, _habitatTable, _rankDropTable, _habitatTable];
+    
+    for (UIView *view in allViews) {
+        if (view.superview != nil) {
+            [view removeFromSuperview];
+        }
+    }
 }
 
 /*
