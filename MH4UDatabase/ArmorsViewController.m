@@ -28,6 +28,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Armors" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [self.navigationItem setBackBarButtonItem:backButton];
     _displayedArmor = _allArmorArray;
     CGRect vcFrame = self.view.frame;
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
@@ -208,14 +210,12 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([tableView isEqual:_armorTable]) {
-        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Armors" style:UIBarButtonItemStylePlain target:nil action:nil];
         Armor *armor = [self returnArmorAtIndexPath:indexPath];
         _selectedArmor = armor;
         [_dbEngine populateArmor:armor];
         ArmorDetailViewController *aDVC = [[ArmorDetailViewController alloc] init];
         aDVC.heightDifference = _heightDifference;
         aDVC.selectedArmor = armor;
-        [self.navigationItem setBackBarButtonItem:backButton];
         [self.navigationController pushViewController:aDVC animated:YES];
         
     }

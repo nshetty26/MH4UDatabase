@@ -12,90 +12,90 @@
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9dr-3O-Jwk" id="lXQ-Yw-aAo">
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Body Part" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0tU-eb-Slc">
-                        <rect key="frame" x="8" y="8" width="87" height="45"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Great_Sword_Icon_White.png" translatesAutoresizingMaskIntoConstraints="NO" id="cJT-b2-9uy">
-                        <rect key="frame" x="103" y="4" width="17" height="19"/>
+                        <rect key="frame" x="131" y="4" width="17" height="19"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="hammer1.png" translatesAutoresizingMaskIntoConstraints="NO" id="AUz-W7-W3o">
-                        <rect key="frame" x="103" y="25" width="17" height="19"/>
+                        <rect key="frame" x="131" y="25" width="17" height="19"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bow1.png" translatesAutoresizingMaskIntoConstraints="NO" id="FjU-so-uw4">
-                        <rect key="frame" x="103" y="47" width="17" height="19"/>
+                        <rect key="frame" x="131" y="47" width="17" height="19"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Stun.png" translatesAutoresizingMaskIntoConstraints="NO" id="Z9s-2V-eRo">
-                        <rect key="frame" x="152" y="4" width="17" height="19"/>
-                    </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Fire.png" translatesAutoresizingMaskIntoConstraints="NO" id="qfS-K4-Tbf">
-                        <rect key="frame" x="152" y="25" width="17" height="19"/>
-                    </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Water.png" translatesAutoresizingMaskIntoConstraints="NO" id="kAf-0K-Ek6">
-                        <rect key="frame" x="152" y="47" width="17" height="19"/>
-                    </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Ice.png" translatesAutoresizingMaskIntoConstraints="NO" id="YgN-9t-mth">
                         <rect key="frame" x="200" y="4" width="17" height="19"/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Thunder.png" translatesAutoresizingMaskIntoConstraints="NO" id="Cs6-zE-HcC">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Fire.png" translatesAutoresizingMaskIntoConstraints="NO" id="qfS-K4-Tbf">
                         <rect key="frame" x="200" y="25" width="17" height="19"/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Dragon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Lhj-HA-AZk">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Water.png" translatesAutoresizingMaskIntoConstraints="NO" id="kAf-0K-Ek6">
                         <rect key="frame" x="200" y="47" width="17" height="19"/>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Ice.png" translatesAutoresizingMaskIntoConstraints="NO" id="YgN-9t-mth">
+                        <rect key="frame" x="267" y="4" width="17" height="19"/>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Thunder.png" translatesAutoresizingMaskIntoConstraints="NO" id="Cs6-zE-HcC">
+                        <rect key="frame" x="267" y="25" width="17" height="19"/>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Dragon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Lhj-HA-AZk">
+                        <rect key="frame" x="267" y="47" width="17" height="19"/>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AXb-Ru-Dxh">
-                        <rect key="frame" x="124" y="3" width="41" height="21"/>
+                        <rect key="frame" x="152" y="3" width="41" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G2W-EQ-3hD">
-                        <rect key="frame" x="123" y="24" width="42" height="21"/>
+                        <rect key="frame" x="151" y="24" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yhc-HC-H1x">
-                        <rect key="frame" x="124" y="46" width="42" height="21"/>
+                        <rect key="frame" x="152" y="46" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bwu-mu-PD8">
-                        <rect key="frame" x="172" y="24" width="42" height="21"/>
+                        <rect key="frame" x="220" y="24" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yrk-cO-835">
-                        <rect key="frame" x="173" y="46" width="42" height="21"/>
+                        <rect key="frame" x="221" y="46" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XnD-E0-Lt2">
-                        <rect key="frame" x="225" y="3" width="42" height="21"/>
+                        <rect key="frame" x="292" y="3" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eV6-0q-npw">
-                        <rect key="frame" x="224" y="24" width="42" height="21"/>
+                        <rect key="frame" x="291" y="24" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1h-66-IIP">
-                        <rect key="frame" x="225" y="46" width="42" height="21"/>
+                        <rect key="frame" x="292" y="46" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sUY-Tr-Oud">
-                        <rect key="frame" x="173" y="3" width="42" height="21"/>
+                        <rect key="frame" x="221" y="3" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Body Part" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0tU-eb-Slc">
+                        <rect key="frame" x="8" y="3" width="87" height="64"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -113,7 +113,7 @@
                 <outlet property="thunderLabel" destination="eV6-0q-npw" id="9GA-Jw-saq"/>
                 <outlet property="waterLabel" destination="yrk-cO-835" id="Y7T-GQ-7DL"/>
             </connections>
-            <point key="canvasLocation" x="83" y="243"/>
+            <point key="canvasLocation" x="67" y="222"/>
         </tableViewCell>
     </objects>
     <resources>

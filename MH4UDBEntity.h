@@ -38,6 +38,9 @@
 @property (nonatomic) int capacity;
 @property (nonatomic) int price;
 @property (nonatomic) int salePrice;
+@property (nonatomic) NSString *condition;
+@property (nonatomic) int stackSize;
+@property (nonatomic) int percentage;
 @property (nonatomic) NSString *itemDescription;
 @property (nonatomic) NSString *icon;
 @property (nonatomic) NSArray *combinedItemsArray;
@@ -45,4 +48,54 @@
 @property (nonatomic) NSArray *monsterDropsArray;
 @property (nonatomic) NSArray *questRewardsArray;
 @property (nonatomic) NSArray *locationsArray;
+@end
+
+@interface Monster : NSObject
+
+@property (nonatomic) int monsterID;
+@property (nonatomic) NSString *monsterClass;
+@property (nonatomic) NSString *monsterName;
+@property (nonatomic) NSString *trait;
+@property (nonatomic) NSString *iconName;
+@property (nonatomic) NSArray *monsterDetailDamage;
+@property (nonatomic) NSArray *monsterStatusEffects;
+@property (nonatomic) NSArray *monsterHabitats;
+@property (nonatomic) NSArray *lowRankDrops;
+@property (nonatomic) NSArray *highRankDrops;
+@property (nonatomic) NSArray *gRankDrops;
+@property (nonatomic) NSArray *questInfos;
+@end
+
+@interface MonsterDamage : NSObject
+@property (nonatomic) NSString *bodyPart;
+@property (nonatomic) int cutDamage;
+@property (nonatomic) int impactDamage;
+@property (nonatomic) int shotDamage;
+@property (nonatomic) int fireDamage;
+@property (nonatomic) int waterDamage;
+@property (nonatomic) int iceDamage;
+@property (nonatomic) int thunderDamage;
+@property (nonatomic) int dragonDamage;
+@property (nonatomic) int stun;
+
+@end
+
+@interface MonsterStatusEffect : NSObject
+@property (nonatomic) NSString *status;
+@property (nonatomic) int initial;
+@property (nonatomic) int increase;
+@property (nonatomic) int max;
+@property (nonatomic) int duration;
+@property (nonatomic) int damage;
+
+@end
+
+@interface MonsterHabitat : NSObject
+@property (nonatomic) int locationID;
+@property (nonatomic) NSString *locationName;
+@property (nonatomic) int initial;
+@property (nonatomic) NSString *movePath;
+@property (nonatomic) int restArea;
+@property (nonatomic) NSString *fullPath;
+
 @end

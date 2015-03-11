@@ -8,6 +8,7 @@
 
 #import "MenuViewController.h"
 #import "ItemsViewController.h"
+#import "MonstersViewController.h"
 #import "ArmorsViewController.h"
 #import "DetailViewController.h"
 #import "WeaponViewController.h"
@@ -35,6 +36,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    UIBarButtonItem *menu = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleDone target:nil action:nil];
+     [self.navigationItem setBackBarButtonItem:menu];
 
     _dbEngine = [[MH4UDBEngine alloc] init];
     if (!_menuOptions) {
@@ -69,16 +72,18 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     UINavigationController *nC = [segue destinationViewController];
-    UIBarButtonItem *menu = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleDone target:nil action:nil];
+
     CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
     CGRect navigationBar = nC.navigationBar.frame;
     int heightDifference = statusBar.size.height + navigationBar.size.height;
 
     
     if ([[segue identifier] isEqualToString:@"showMonster"]) {
-        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
-        controller.dbEngine = _dbEngine;
-        [controller setDetailItem:@"Monster"];
+        MonstersViewController *mVC = [[MonstersViewController alloc] init];
+        mVC.allMonstersArray = [_dbEngine populateAllMonsterArray];
+        mVC.dbEngine = _dbEngine;
+        mVC.heightDifference = heightDifference;
+        [nC setViewControllers:@[mVC]];
 
     } else if ([[segue identifier] isEqualToString:@"showArmor"]){
         ArmorsViewController *aVC = [[ArmorsViewController alloc] init];
@@ -105,7 +110,7 @@
 
     }
     
-    [self.navigationItem setBackBarButtonItem:menu];
+   
 }
 
 #pragma mark - Table View

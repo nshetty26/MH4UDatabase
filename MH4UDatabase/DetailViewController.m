@@ -55,11 +55,11 @@
 //        _itemDisplay.allItems = [_dbEngine populateItemArray];
 //        [_itemDisplay setupItemDisplay];
     } else if ([_detailItem isEqualToString:@"Monster"]) {
-        _monsterDisplay = [[MonsterDisplay alloc] init];
-        _monsterDisplay.dVC = self;
-        _monsterDisplay.dbEngine = _dbEngine;
-        _monsterDisplay.allMonstersArray = [_dbEngine populateAllMonsterArray];
-        [_monsterDisplay setupMonsterDisplay];
+//        _monsterDisplay = [[MonsterDisplay alloc] init];
+//        _monsterDisplay.dVC = self;
+//        _monsterDisplay.dbEngine = _dbEngine;
+//        _monsterDisplay.allMonstersArray = [_dbEngine populateAllMonsterArray];
+//        [_monsterDisplay setupMonsterDisplay];
     }
 }
 

@@ -1,32 +1,24 @@
 //
-//  MonsterDisplayh.h
+//  MonsterDetailViewController.h
 //  MH4UDatabase
 //
-//  Created by Neil Shetty on 3/7/15.
+//  Created by Neil Shetty on 3/10/15.
 //  Copyright (c) 2015 GuthuDesigns. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@class MH4UDBEngine;
-@class DetailViewController;
-
-@interface MonsterDisplay : NSObject  <UITableViewDelegate, UITableViewDataSource, UITabBarDelegate>
-
-@property (strong, nonatomic) DetailViewController *dVC;
-@property (strong, nonatomic) MH4UDBEngine *dbEngine;
-@property (strong, nonatomic) NSArray *allMonstersArray;
-
--(void)setupMonsterDisplay;
-
+@interface MonsterDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@property (nonatomic) Monster *selectedMonster;
+@property (nonatomic) int heightDifference;
 @end
 
-@interface MonsterDetailView : UIView
+@interface DetailedMonsterView : UIView
 @property (weak, nonatomic) IBOutlet UIImageView *monsterImage;
 @property (weak, nonatomic) IBOutlet UILabel *monsterName;
-@property (weak, nonatomic) IBOutlet UITableView *monsterDetailTable;
 
 @end
+
 
 @interface MonsterDetailCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *bodyPart;
@@ -41,4 +33,3 @@
 @property (weak, nonatomic) IBOutlet UILabel *dragonLabel;
 
 @end
-

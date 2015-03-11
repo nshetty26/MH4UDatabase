@@ -27,6 +27,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Items" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [self.navigationItem setBackBarButtonItem:backButton];
     _displayedItems = _allItems;
     CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
     CGRect navigationBar = self.navigationController.navigationBar.frame;
@@ -105,8 +107,6 @@
         _itemDetailVC.selectedItem = item;
         _itemDetailVC.dbEngine = _dbEngine;
         _itemDetailVC.heightDifference = _heightDifference;
-        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Items" style:UIBarButtonItemStylePlain target:nil action:nil];
-        [self.navigationItem setBackBarButtonItem:backButton];
         [self.navigationController pushViewController:_itemDetailVC animated:YES];
         
         NSLog(@"Pause");

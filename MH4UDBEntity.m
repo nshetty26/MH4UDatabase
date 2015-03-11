@@ -15,3 +15,19 @@
 @implementation Item
 
 @end
+
+@implementation Monster
+
+@end
+
+@implementation MonsterDamage
+
+@end
+
+@implementation MonsterStatusEffect
+
+@end
+
+@implementation MonsterHabitat
+
+@end

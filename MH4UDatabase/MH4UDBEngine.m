@@ -61,6 +61,14 @@
     return allMonsterArray;
 }
 
+-(void)getDetailsForMonster:(Monster *)monster {
+    [self getDamageForMonster:monster];
+    [self getStatusEffectsForMonster:monster];
+    [self getHabitatsForMonster:monster];
+    [self getHuntingDropsForMonster:monster];
+    [self getQuestsForMonster:monster];
+}
+
 -(void)getDamageForMonster:(Monster *)monster {
     NSMutableArray *monsterDamageArray = [[NSMutableArray alloc] init];
     NSString *monsterDamageQuery = [NSString stringWithFormat:@"select monsters.name, monster_damage.body_part, monster_damage.cut, monster_damage.impact, monster_damage.shot, monster_damage.fire, monster_damage.water, monster_damage.ice, monster_damage.thunder, monster_damage.dragon, monster_damage.ko from monster_damage inner join monsters on monster_damage.monster_id = monsters._id where monsters._id = %i order by monster_damage.body_part", monster.monsterID];
@@ -81,9 +89,99 @@
         [monsterDamageArray addObject:md];
     }
     
+    [monsterDamageArray sortUsingComparator:^NSComparisonResult(id damage1, id damage2){
+        MonsterDamage *dam1 = (MonsterDamage *) damage1;
+        MonsterDamage *dam2 = (MonsterDamage *) damage2;
+        return [(NSString *) dam1.bodyPart compare:dam2.bodyPart options:NSNumericSearch];
+    }];
+    
     monster.monsterDetailDamage = monsterDamageArray;
 }
 
+-(void)getStatusEffectsForMonster:(Monster *)monster {
+    NSMutableArray *monsterEffects = [[NSMutableArray alloc] init];
+    NSString *statusQuery = [NSString stringWithFormat:@"SELECT status, initial, increase, max, duration, damage FROM monster_status where monster_status.monster_id = %i", monster.monsterID];
+    
+    FMResultSet *s = [self DBquery:statusQuery];
+    while ([s next]) {
+        MonsterStatusEffect *mse = [[MonsterStatusEffect alloc] init];
+        mse.status  = [s stringForColumn:@"status"];
+        mse.initial = [s intForColumn:@"initial"];
+        mse.increase = [s intForColumn:@"increase"];
+        mse.max = [s intForColumn:@"max"];
+        mse.duration = [s intForColumn:@"duration"];
+        mse.damage = [s intForColumn:@"damage"];
+        [monsterEffects addObject:mse];
+    }
+    
+    monster.monsterStatusEffects = monsterEffects;
+}
+
+-(void)getHabitatsForMonster:(Monster *)monster {
+    NSMutableArray *habitatArray = [[NSMutableArray alloc] init];
+    NSString *habitatQuery = [NSString stringWithFormat:@" SELECT monster_habitat.location_id, locations.name, monster_habitat.start_area, monster_habitat.move_area, monster_habitat.rest_area From monster_habitat INNER JOIN locations on monster_habitat.location_id = locations._id WHERE monster_habitat.monster_id = %i", monster.monsterID];
+    
+    FMResultSet *s = [self DBquery:habitatQuery];
+    while ([s next]) {
+        MonsterHabitat *mh = [[MonsterHabitat alloc] init];
+        mh.locationID = [s intForColumn:@"location_id"];
+        mh.locationName = [s stringForColumn:@"name"];
+        mh.initial = [s intForColumn:@"start_area"];
+        NSString *moveArea = [s stringForColumn:@"move_area"];
+        mh.movePath = [moveArea stringByReplacingOccurrencesOfString:@"\\" withString:@", "];
+        mh.restArea = [s intForColumn:@"rest_area"];
+        mh.fullPath = [NSString stringWithFormat:@"%i -> %@-> %i", mh.initial, mh.movePath, mh.restArea];
+        [habitatArray addObject:mh];
+    }
+    monster.monsterHabitats = habitatArray;
+}
+
+-(void)getHuntingDropsForMonster:(Monster *)monster {
+    NSArray *ranks = @[@"LR", @"HR", @"G"];
+    
+    for (NSString *rank in ranks) {
+        NSMutableArray *itemDrops = [[NSMutableArray alloc] init];
+        NSString *rankQuery = [NSString stringWithFormat:@"SELECT hunting_rewards.item_id, items.name, hunting_rewards.condition, hunting_rewards.rank, hunting_rewards.stack_size, hunting_rewards.percentage from hunting_rewards inner join items on items._id = hunting_rewards.item_id where hunting_rewards.monster_id = %i and hunting_rewards.rank = '%@'", monster.monsterID, rank];
+        
+        FMResultSet *s = [self DBquery:rankQuery];
+        
+        while ([s next]) {
+            Item *huntingDrop = [[Item alloc] init];
+            huntingDrop.itemID = [s intForColumn:@"item_id"];
+            huntingDrop.name = [s stringForColumn:@"name"];
+            huntingDrop.condition = [s stringForColumn:@"condition"];
+            huntingDrop.capacity = [s intForColumn:@"stack_size"];
+            [itemDrops addObject:huntingDrop];
+        }
+        
+        if ([rank isEqual:@"LR"]) {
+            monster.lowRankDrops = itemDrops;
+        } else if ([rank isEqualToString:@"HR"]) {
+            monster.highRankDrops = itemDrops;
+        } else if ([rank isEqualToString:@"G"]) {
+            monster.gRankDrops = itemDrops;
+        }
+    }
+
+}
+
+-(void)getQuestsForMonster:(Monster *)monster {
+    NSMutableArray *questArray = [[NSMutableArray alloc] init];
+    NSString *questQuery = [NSString stringWithFormat:@"select quests.name, quests.hub, quests.stars, monster_to_quest.unstable from monster_to_quest inner join quests on quests._id = monster_to_quest.quest_id where monster_to_quest.monster_id = %i", monster.monsterID];
+    
+    FMResultSet *s = [self DBquery:questQuery];
+    
+    while ([s next]) {
+        int questID = [s intForColumn:@"item_id"];
+        NSString *name = [s stringForColumn:@"name"];
+        int stars = [s intForColumn:@"stars"];
+        NSString *hub = [s stringForColumn:@"hub"];
+        NSString *fullHub = [NSString stringWithFormat:@"%@ %i", hub, stars];
+        NSString *unstable = [s stringForColumn:@"unstable"];
+        [questArray addObject:@[[NSNumber numberWithInt:questID], name, fullHub, unstable]];
+    }
+    monster.questInfos = questArray;
+}
 
 #pragma mark Armor Queries
 -(NSArray *)populateArmorArray {

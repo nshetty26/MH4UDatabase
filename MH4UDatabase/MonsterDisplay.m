@@ -150,9 +150,7 @@
     }
 }
 
--(void)populateDetailForMonster:(Monster*) monster {
-    [_dbEngine getDamageForMonster:monster];
-}
+
 
 @end
 

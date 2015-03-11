@@ -16,7 +16,7 @@
 
 @end
 
-@interface ArmorView : UIView
+@interface DetailedArmorView : UIView
 @property (weak, nonatomic) IBOutlet UILabel *armorName;
 @property (weak, nonatomic) IBOutlet UIImageView *IconImageView;
 @property (weak, nonatomic) IBOutlet UILabel *armorPart;
