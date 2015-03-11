@@ -502,5 +502,30 @@
         
 }
 
+-(NSArray *)getSkillsForSkillTreeID:(int)skillTreeID {
+    NSMutableArray *skillsArray = [[NSMutableArray alloc] init];
+    NSString *skillsQuery = [NSString stringWithFormat:@"SELECT required_skill_tree_points, name, description from skills where skills.skill_tree_id = %i", skillTreeID];
+    
+    FMResultSet *s = [self DBquery:skillsQuery];
+
+    while ([s next]) {
+        int pointsNeeded = [s intForColumn:@"required_skill_tree_points"];
+        NSString *name = [s stringForColumn:@"name"];
+        NSString *skillDescription = [s stringForColumn:@"description"];
+        [skillsArray addObject:@[[NSNumber numberWithInt:pointsNeeded], name, skillDescription]];
+    }
+    
+    [skillsArray sortUsingComparator:^NSComparisonResult(id skill1, id skill2){
+        NSArray *skillArray1 = (NSArray *)skill1;
+        NSArray *skillArray2 = (NSArray *)skill2;
+        NSNumber *pointsNeeded1 = skillArray1[0];
+        NSNumber *pointsNeeded2 = skillArray2[0];
+        return [(NSNumber *) pointsNeeded1 compare:pointsNeeded2];
+    }];
+    
+    return skillsArray;
+
+}
+
 
 @end
