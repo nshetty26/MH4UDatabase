@@ -141,7 +141,7 @@
     
     for (NSString *rank in ranks) {
         NSMutableArray *itemDrops = [[NSMutableArray alloc] init];
-        NSString *rankQuery = [NSString stringWithFormat:@"SELECT hunting_rewards.item_id as itemID, items.name, hunting_rewards.condition, hunting_rewards.rank, hunting_rewards.stack_size, hunting_rewards.percentage from hunting_rewards inner join items on items._id = hunting_rewards.item_id where hunting_rewards.monster_id = %i and hunting_rewards.rank = '%@'", monster.monsterID, rank];
+        NSString *rankQuery = [NSString stringWithFormat:@"SELECT items._id as itemID, items.name, hunting_rewards.condition, hunting_rewards.rank, hunting_rewards.stack_size, hunting_rewards.percentage from hunting_rewards inner join items on items._id = hunting_rewards.item_id where hunting_rewards.monster_id = %i and hunting_rewards.rank = '%@'", monster.monsterID, rank];
         
         FMResultSet *s = [self DBquery:rankQuery];
         
@@ -167,12 +167,12 @@
 
 -(void)getQuestsForMonster:(Monster *)monster {
     NSMutableArray *questArray = [[NSMutableArray alloc] init];
-    NSString *questQuery = [NSString stringWithFormat:@"select quests.name, quests.hub, quests.stars, monster_to_quest.unstable from monster_to_quest inner join quests on quests._id = monster_to_quest.quest_id where monster_to_quest.monster_id = %i", monster.monsterID];
+    NSString *questQuery = [NSString stringWithFormat:@"select quests._id as qID, quests.name, quests.hub, quests.stars, monster_to_quest.unstable from monster_to_quest inner join quests on quests._id = monster_to_quest.quest_id where monster_to_quest.monster_id = %i", monster.monsterID];
     
     FMResultSet *s = [self DBquery:questQuery];
     
     while ([s next]) {
-        int questID = [s intForColumn:@"item_id"];
+        int questID = [s intForColumn:@"qID"];
         NSString *name = [s stringForColumn:@"name"];
         int stars = [s intForColumn:@"stars"];
         NSString *hub = [s stringForColumn:@"hub"];

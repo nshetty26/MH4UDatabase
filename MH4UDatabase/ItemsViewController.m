@@ -27,6 +27,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
+    
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Items" style:UIBarButtonItemStylePlain target:nil action:nil];
     [self.navigationItem setBackBarButtonItem:backButton];
     _displayedItems = _allItems;
@@ -45,6 +52,7 @@
     _itemTable.delegate = self;
     
     _itemSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
+    [_itemSearch setShowsCancelButton:YES];
     _itemSearch.delegate = self;
     
     [self.view addSubview:_itemTable];
@@ -52,14 +60,11 @@
 
 }
 
-
-
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     if (searchText.length == 0) {
-        _displayedItems = _allItems;
-        [_itemTable reloadData];
-        return;
+        [self showAllItems];
     }
+    else {
     NSArray *searchedItems = [_allItems filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
         Item *item = (Item*)evaluatedObjected;
         if ([item.name.lowercaseString containsString:searchText.lowercaseString]) {
@@ -72,6 +77,26 @@
     
     _displayedItems = searchedItems;
     [_itemTable reloadData];
+    }
+}
+
+-(void)showAllItems {
+    _displayedItems = _allItems;
+    [_itemTable reloadData];
+}
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [self showAllItems];
+    searchBar.text = @"";
+    [searchBar resignFirstResponder];
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+}
+
+-(void)dismissKeyboard {
+    [_itemSearch resignFirstResponder];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -107,6 +132,7 @@
         _itemDetailVC.selectedItem = item;
         _itemDetailVC.dbEngine = _dbEngine;
         _itemDetailVC.heightDifference = _heightDifference;
+        [_itemSearch resignFirstResponder];
         [self.navigationController pushViewController:_itemDetailVC animated:YES];
         
         NSLog(@"Pause");

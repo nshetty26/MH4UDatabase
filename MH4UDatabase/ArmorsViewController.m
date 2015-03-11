@@ -28,6 +28,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
+    
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Armors" style:UIBarButtonItemStylePlain target:nil action:nil];
     [self.navigationItem setBackBarButtonItem:backButton];
     _displayedArmor = _allArmorArray;
@@ -47,6 +54,7 @@
     [_armorFilterTab setSelectedItem:allArmor];
     
     _armorSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
+    [_armorSearch setShowsCancelButton:YES];
     _armorSearch.delegate = self;
     
     _armorTable = [[UITableView alloc] initWithFrame:tableWithSearch];
@@ -63,8 +71,7 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     if (searchText.length == 0) {
-        _displayedArmor = _allArmorArray;
-        [_armorTable reloadData];
+        [self showallArmor];
         return;
     }
     NSArray *searchedArmor = [_allArmorArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
@@ -79,6 +86,25 @@
     
     _displayedArmor = searchedArmor;
     [_armorTable reloadData];
+}
+
+-(void)showallArmor {
+    _displayedArmor = _allArmorArray;
+    [_armorTable reloadData];
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+}
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [self showallArmor];
+    searchBar.text = @"";
+    [searchBar resignFirstResponder];
+}
+
+-(void)dismissKeyboard {
+    [_armorSearch resignFirstResponder];
 }
 
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
@@ -197,10 +223,9 @@
 {
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"armorCell"];
     if ([tableView isEqual:_armorTable]) {
-        //Armor *armor = [_displayedArmor objectAtIndex:indexPath.row];
         Armor *armor = [self returnArmorAtIndexPath:indexPath];
         cell.textLabel.text = armor.name;
-        cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@%i.png",armor.slot, armor.rarity]];
+        cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@%i.png",[armor.slot lowercaseString], armor.rarity]];
         return cell;
     } else {
         return nil;
@@ -216,6 +241,7 @@
         ArmorDetailViewController *aDVC = [[ArmorDetailViewController alloc] init];
         aDVC.heightDifference = _heightDifference;
         aDVC.selectedArmor = armor;
+        [_armorSearch resignFirstResponder];
         [self.navigationController pushViewController:aDVC animated:YES];
         
     }

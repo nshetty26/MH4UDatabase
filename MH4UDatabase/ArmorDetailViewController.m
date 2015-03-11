@@ -10,7 +10,7 @@
 #import "MH4UDBEntity.h"
 
 @interface ArmorDetailViewController ()
-@property (strong, nonatomic) ArmorView *statView;
+@property (strong, nonatomic) DetailedArmorView *statView;
 @property (strong, nonatomic) UITabBar *armorDetailTab;
 @property (strong, nonatomic) UITableView *skillTable;
 @property (strong, nonatomic) UITableView *componentTable;
@@ -41,7 +41,7 @@
     _componentTable.delegate = self;
     _componentTable.dataSource = self;
     
-    _statView = [[[NSBundle mainBundle] loadNibNamed:@"ArmorView" owner:self options:nil] lastObject];
+    _statView = [[[NSBundle mainBundle] loadNibNamed:@"DetailedArmorView" owner:self options:nil] lastObject];
     _statView.frame = tablewithTabbar;
     [_statView populateArmor:_selectedArmor];
     [self.view addSubview:_statView];
@@ -116,12 +116,12 @@
 
 @end
 
-@implementation ArmorView
+@implementation DetailedArmorView
 
 -(void)populateArmor:(Armor *)armor
 {
     _armorName.text = armor.name;
-    _IconImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@%i.png", armor.slot, armor.rarity]];
+    _IconImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@%i.png", [armor.slot lowercaseString], armor.rarity]];
     _armorPart.text = armor.slot;
     _armorSlots.text = [NSString stringWithFormat:@"%i", armor.numSlots];
     _armorRarity.text = [NSString stringWithFormat:@"%i", armor.rarity];

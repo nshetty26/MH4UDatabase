@@ -37,6 +37,7 @@
 @property (nonatomic) UITabBarItem *gRank;
 @property (nonatomic) UITabBarItem *quest;
 @property (nonatomic) DetailedMonsterView *monsterDetailView;
+@property (nonatomic) NSArray *monsterDrops;
 
 @end
 
@@ -60,7 +61,7 @@
     _gRank = [[UITabBarItem alloc] initWithTitle:@"G Rank" image:nil tag:6];
     _quest = [[UITabBarItem alloc] initWithTitle:@"Quest" image:nil tag:7];
     
-    [_monsterDetailTabBar setItems:@[_detail, _status, _habitat, _lowRank, _highRank, _gRank, _quest]];
+    [self setDetailTabBarItems];
     [_monsterDetailTabBar setSelectedItem:_detail];
     
     _monsterDetailView = [[[NSBundle mainBundle] loadNibNamed:@"DetailedMonsterView" owner:self options:nil] lastObject];
@@ -109,7 +110,15 @@
     } else if  ([tableView isEqual:_habitatTable]){
         return _selectedMonster.monsterHabitats.count;
     } else if  ([tableView isEqual:_rankDropTable]){
-        return _selectedMonster.lowRankDrops.count;
+        if ([_monsterDetailTabBar.selectedItem isEqual:_lowRank]) {
+            return _selectedMonster.lowRankDrops.count;
+        } else if ([_monsterDetailTabBar.selectedItem isEqual:_highRank]) {
+            return _selectedMonster.highRankDrops.count;
+        } else if ([_monsterDetailTabBar.selectedItem isEqual:_gRank]) {
+            return _selectedMonster.gRankDrops.count;
+        } else {
+            return 0;
+        }
     } else if ([tableView isEqual:_questTable]){
         return _selectedMonster.questInfos.count;
     } else {
@@ -137,7 +146,14 @@
         return cell;
     } else if  ([tableView isEqual:_rankDropTable]){
         UITableViewCell *cell = [[UITableViewCell alloc] init];
-        Item *huntingDrop = _selectedMonster.lowRankDrops[indexPath.row];
+        if ([_monsterDetailTabBar.selectedItem isEqual:_lowRank]) {
+            _monsterDrops = _selectedMonster.lowRankDrops;
+        } else if ([_monsterDetailTabBar.selectedItem isEqual:_highRank]) {
+            _monsterDrops = _selectedMonster.highRankDrops;
+        } else if ([_monsterDetailTabBar.selectedItem isEqual:_gRank]) {
+            _monsterDrops = _selectedMonster.gRankDrops;
+        }
+        Item *huntingDrop = _monsterDrops[indexPath.row];
         cell.textLabel.text = huntingDrop.name;
         return cell;
     } else if ([tableView isEqual:_questTable]){
@@ -191,13 +207,12 @@
             [_monsterDetailView addSubview:_habitatTable];
             break;
         case 4:
-            [_monsterDetailView addSubview:_rankDropTable];
-            break;
         case 5:
-            [_monsterDetailView addSubview:_rankDropTable];
-            break;
         case 6:
-            [_monsterDetailView addSubview:_rankDropTable];
+            if (_rankDropTable.superview == nil) {
+                [_monsterDetailView addSubview:_rankDropTable];
+            }
+            [_rankDropTable reloadData];
             break;
         case 7:
             [self.view addSubview:_questTable];
@@ -205,6 +220,8 @@
         default:
             break;
     }
+    
+    [tabBar setSelectedItem:item];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -212,8 +229,37 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)setDetailTabBarItems {
+    NSMutableArray *tabItems = [[NSMutableArray alloc] initWithObjects:_detail, nil];
+    if (_selectedMonster.monsterStatusEffects.count > 0) {
+        [tabItems addObject:_status];
+    }
+    if (_selectedMonster.monsterHabitats.count > 0 ) {
+        [tabItems addObject:_habitat];
+    }
+    if (_selectedMonster.lowRankDrops.count > 0 ) {
+        [tabItems addObject:_lowRank];
+    }
+    if (_selectedMonster.highRankDrops.count > 0 ) {
+        [tabItems addObject:_highRank];
+    }
+    if (_selectedMonster.gRankDrops.count > 0 ) {
+        [tabItems addObject:_gRank];
+    }
+    if (_selectedMonster.questInfos.count > 0 ) {
+        [tabItems addObject:_quest];
+    }
+    
+    [_monsterDetailTabBar setItems:tabItems];
+}
+
 -(void)removeViewsFromDetail {
-    NSArray *allViews = @[_monsterDetailTable, _statusEffectTable, _habitatTable, _rankDropTable, _habitatTable];
+    
+    if (_rankDropTable.superview != nil && ([_monsterDetailTabBar.selectedItem isEqual:_lowRank] || [_monsterDetailTabBar.selectedItem isEqual:_highRank] || [_monsterDetailTabBar.selectedItem isEqual:_gRank])) {
+        return;
+    }
+    
+    NSArray *allViews = @[_monsterDetailTable, _statusEffectTable, _habitatTable, _rankDropTable, _questTable];
     
     for (UIView *view in allViews) {
         if (view.superview != nil) {
