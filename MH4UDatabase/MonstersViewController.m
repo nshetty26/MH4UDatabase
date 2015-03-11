@@ -13,10 +13,12 @@
 
 @interface MonstersViewController ()
 @property (nonatomic) NSArray *displayedMonsters;
+@property (nonatomic) NSArray *smallMonsters;
+@property (nonatomic) NSArray *bigMonsters;
 @property (nonatomic) UITableView *monsterTable;
-@property (nonatomic) UITableView *monsterDetailTable;
 @property (nonatomic) UITabBar *monstersTab;
 @property (nonatomic) Monster *selectedMonster;
+@property (nonatomic) UISearchBar *monsterSearch;
 
 @end
 
@@ -35,6 +37,9 @@
     
     _monstersTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
     
+    _monsterSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
+    _monsterSearch.delegate = self;
+    
     
     UITabBarItem *allMonsters = [[UITabBarItem alloc] initWithTitle:@"All" image:nil tag:1];
     UITabBarItem *largeMonsters = [[UITabBarItem alloc] initWithTitle:@"Large" image:nil tag:2];
@@ -46,12 +51,54 @@
     _monsterTable = [[UITableView alloc] initWithFrame:tableWithSearch];
     _monsterTable.dataSource = self;
     _monsterTable.delegate = self;
-
-    _monsterDetailTable.dataSource = self;
-    _monsterDetailTable.delegate = self;
     
     [self.view addSubview:_monsterTable];
     [self.view addSubview:_monstersTab];
+    [self.view addSubview:_monsterSearch];
+}
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [_monsterSearch setShowsCancelButton:YES];
+    if (searchText.length == 0) {
+        [self showMonsters];
+    }
+    else {
+        NSArray *searchedMonsters = [_displayedMonsters filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
+            Monster *monster = (Monster*)evaluatedObjected;
+            if ([monster.monsterName.lowercaseString containsString:searchText.lowercaseString]) {
+                return YES;
+            } else {
+                return NO;
+            }
+            
+        }]];
+        
+        _displayedMonsters = searchedMonsters;
+        [_monsterTable reloadData];
+    }
+}
+
+-(void)showMonsters {
+    if ([_monstersTab selectedItem].tag == 1) {
+        _displayedMonsters = _allMonstersArray;
+    } else if ([_monstersTab selectedItem].tag == 2) {
+        _displayedMonsters = _bigMonsters;
+    } else if ([_monstersTab selectedItem].tag == 3) {
+        _displayedMonsters = _smallMonsters;
+    }
+    
+    [_monsterTable reloadData];
+}
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:NO];
+    [self showMonsters];
+    searchBar.text = @"";
+    [searchBar resignFirstResponder];
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
 }
 
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
@@ -60,14 +107,16 @@
             _displayedMonsters = _allMonstersArray;
             break;
         case 2:
-            _displayedMonsters = [_allMonstersArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
+            _bigMonsters = [_allMonstersArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
                 Monster *mon = (Monster *)evaluatedObject;
                 return [mon.monsterClass isEqualToString:@"Boss"];}]];
+            _displayedMonsters = _bigMonsters;
             break;
         case 3:
-            _displayedMonsters = [_allMonstersArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
+            _smallMonsters = [_allMonstersArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
                 Monster *mon = (Monster *)evaluatedObject;
                 return [mon.monsterClass isEqualToString:@"Minion"];}]];
+            _displayedMonsters = _smallMonsters;
             break;
         default:
             break;
@@ -80,8 +129,6 @@
 {
     if ([tableView isEqual:_monsterTable]) {
         return _displayedMonsters.count;
-    } else if ([tableView isEqual:_monsterDetailTable]){
-        return _selectedMonster.monsterDetailDamage.count;
     } else {
         return 0;
     }

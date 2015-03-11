@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 GuthuDesigns. All rights reserved.
 //
 
+/*
+ SELECT weapons._id, items.name, wtype, creation_cost, upgrade_cost, attack, max_attack, element, element_attack, element_2, element_2_attack, awaken, awaken_attack, defense, sharpness, affinity, horn_notes, shelling_type, phial, charges, coatings, recoil, reload_speed, rapid_fire, deviation, ammo, sharpness_file, num_slots, tree_depth, final from weapons inner join items on items._id = weapons._id
+ */
+
 #import "WeaponViewController.h"
 
 @interface WeaponViewController ()
@@ -16,7 +20,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view setBackgroundColor:[UIColor blueColor]];
     // Do any additional setup after loading the view.
 }
 

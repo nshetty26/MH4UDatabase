@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class MH4UDBEngine;
 
-@interface MonstersViewController : UIViewController <UITabBarDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface MonstersViewController : UIViewController <UITabBarDelegate, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 
 @property (strong, nonatomic) MH4UDBEngine *dbEngine;
 @property (strong, nonatomic) NSArray *allMonstersArray;

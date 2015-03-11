@@ -16,6 +16,10 @@
 
 @end
 
+@implementation Combining
+
+@end
+
 @implementation Monster
 
 @end

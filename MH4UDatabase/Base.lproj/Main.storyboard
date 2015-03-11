@@ -23,7 +23,6 @@
         <!--Detail View Controller-->
         <scene sceneID="5hy-HU-hNe">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dCa-Wr-NOQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="XtR-3u-fFz" customClass="DetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hac-xq-w6J"/>
@@ -44,6 +43,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="aOZ-k3-R3H"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dCa-Wr-NOQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1310" y="-581"/>
         </scene>
@@ -189,6 +189,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="aVI-RD-mrv" kind="showDetail" identifier="showCombined" id="mnZ-1P-liJ"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationCell" textLabel="qRV-GQ-Mi9" style="IBUITableViewCellStyleDefault" id="SXT-1O-JBP">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -208,13 +211,13 @@
                                     <segue destination="aVI-RD-mrv" kind="showDetail" identifier="showLocation" id="xvP-hv-RQE"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DecorationCell" textLabel="kMu-bk-dUr" style="IBUITableViewCellStyleDefault" id="bbR-7f-ygF">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DecorationsCell" textLabel="kMu-bk-dUr" style="IBUITableViewCellStyleDefault" id="bbR-7f-ygF">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bbR-7f-ygF" id="i3t-HG-W3M">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kMu-bk-dUr">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Decorations" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kMu-bk-dUr">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -222,6 +225,24 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SkillTreeCell" textLabel="Igy-W9-a18" style="IBUITableViewCellStyleDefault" id="n6O-Ih-HFQ">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n6O-Ih-HFQ" id="oBC-ok-Neh">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Skill Tree" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Igy-W9-a18">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="aVI-RD-mrv" kind="showDetail" identifier="showSkillTree" id="5Rh-95-ntL"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <sections/>
@@ -238,6 +259,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="NF8-Yt-YQ3"/>
+        <segue reference="5Rh-95-ntL"/>
     </inferredMetricsTieBreakers>
 </document>

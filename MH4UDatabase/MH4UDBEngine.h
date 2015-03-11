@@ -20,6 +20,8 @@
 -(Armor *)populateArmor:(Armor *)armor;
 
 -(NSArray *)populateItemArray;
+-(Item *)getItemForName:(NSString *)name;
+
 -(void)getCombiningItemsForItem:(Item*)item;
 -(NSArray *)infoForCombinedTableCellforItemID:(NSNumber *)itemID;
 -(void)getUsageItemsForItem:(Item*)item;
@@ -27,5 +29,10 @@
 -(void)getMonsterDropsForItem:(Item*)item;
 -(void)getQuestRewardsForItem:(Item*)item;
 -(void)getLocationsForItem:(Item*)item;
+
+-(NSArray *)getCombiningItems;
+
+-(NSArray *)getSkillTrees;
+
 @end
 

@@ -7,11 +7,14 @@
 //
 
 #import "MenuViewController.h"
+#import "SkillTreeViewController.h"
 #import "ItemsViewController.h"
+#import "ItemDetailViewController.h"
 #import "MonstersViewController.h"
 #import "ArmorsViewController.h"
 #import "DetailViewController.h"
 #import "WeaponViewController.h"
+#import "CombiningViewController.h"
 #import "MH4UDBEngine.h"
 
 @interface MenuViewController ()
@@ -41,7 +44,7 @@
 
     _dbEngine = [[MH4UDBEngine alloc] init];
     if (!_menuOptions) {
-        _menuOptions = [NSArray arrayWithObjects:@"Monsters", @"Weapon", @"Armor", @"Quest", @"Item", @"Combining", @"Location", @"Decoration", nil];
+        _menuOptions = [NSArray arrayWithObjects:@"Monsters", @"Weapon", @"Armor", @"Quest", @"Item", @"Combining", @"Location", @"Decorations", @"Skill Tree", nil];
     }
     // Do any additional setup after loading the view, typically from a nib.
     //self.navigationItem.leftBarButtonItem = self.editButtonItem;
@@ -72,7 +75,6 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     UINavigationController *nC = [segue destinationViewController];
-
     CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
     CGRect navigationBar = nC.navigationBar.frame;
     int heightDifference = statusBar.size.height + navigationBar.size.height;
@@ -108,8 +110,19 @@
         [nC setViewControllers:@[wc]];
         NSLog(@"Pause");
 
+    } else if ([[segue identifier] isEqualToString:@"showCombined"]) {
+        CombiningViewController *cVC = [[CombiningViewController alloc] init];
+        cVC.allCombined = [_dbEngine getCombiningItems];
+        cVC.dbEngine = _dbEngine;
+        cVC.heightDifference = heightDifference;
+        [nC setViewControllers:@[cVC]];
+        
+    } else if ([[segue identifier] isEqualToString:@"showSkillTree"]) {
+        SkillTreeViewController *stVC = [[SkillTreeViewController   alloc] init];
+        stVC.allSkillTrees = [_dbEngine getSkillTrees];
+        stVC.heightDifference = heightDifference;
+        [nC setViewControllers:@[stVC]];
     }
-    
    
 }
 
@@ -125,7 +138,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *menuOption = [_menuOptions objectAtIndex:indexPath.row];
-    NSString *reuseIdentifier = [NSString stringWithFormat:@"%@Cell", menuOption];
+    NSString *reuseIdentifier = [NSString stringWithFormat:@"%@Cell", [menuOption stringByReplacingOccurrencesOfString:@" " withString:@""]];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
 
     cell.textLabel.text = menuOption;
@@ -150,4 +163,15 @@
 
 @implementation CombiningCell
 
+
+- (IBAction)launchDetailItem:(id)sender {
+    ItemDetailViewController *iDVC = [[ItemDetailViewController alloc] init];
+    UIButton *button = (UIButton *)sender;
+    Item *selectedItem = [_dbEngine getItemForName:button.titleLabel.text];
+    iDVC.selectedItem = selectedItem;
+    iDVC.dbEngine = _dbEngine;
+    iDVC.heightDifference = _heightDifference;
+    [_nC pushViewController:iDVC animated:YES];
+    
+}
 @end

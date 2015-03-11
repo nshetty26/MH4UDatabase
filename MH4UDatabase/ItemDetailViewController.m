@@ -7,6 +7,7 @@
 //
 
 #import "ItemDetailViewController.h"
+#import "CombiningViewController.h"
 #import "MH4UDBEngine.h"
 #import "MH4UDBEntity.h"
 #import "MenuViewController.h"
@@ -26,6 +27,7 @@
 @property (nonatomic) UITableView *questRewardTable;
 @property (nonatomic) UITableView *locationTable;
 @property (nonatomic) UITabBar *itemDetailBar;
+@property (nonatomic, strong) CombiningViewController *cVC;
 @end
 
 @implementation ItemDetailViewController
@@ -36,9 +38,14 @@
     CGRect tabBarFrame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + _heightDifference , self.view.frame.size.width, 49);
     CGRect vcFrame = CGRectMake(self.view.frame.origin.x, tabBarFrame.origin.y + tabBarFrame.size.height, self.view.frame.size.width, self.view.frame.size.height);
     
+    [self populateDetailsforItem:_selectedItem];
+    
     _combiningTable = [[UITableView alloc] initWithFrame:vcFrame];
-    _combiningTable.dataSource = self;
-    _combiningTable.delegate = self;
+    _cVC = [[CombiningViewController alloc] init];
+    _cVC.allCombined = _selectedItem.combinedItemsArray;
+    _cVC.dbEngine = _dbEngine;
+    _combiningTable.dataSource = _cVC;
+    _combiningTable.delegate = _cVC;
     
     _usageTable = [[UITableView alloc] initWithFrame:vcFrame];
     _usageTable.dataSource = self;
@@ -235,6 +242,14 @@
             [view removeFromSuperview];
         }
     }
+}
+
+-(void)populateDetailsforItem:(Item*)item{
+    [_dbEngine getCombiningItemsForItem:item];
+    [_dbEngine getUsageItemsForItem:item];
+    [_dbEngine getMonsterDropsForItem:item];
+    [_dbEngine getQuestRewardsForItem:item];
+    [_dbEngine getLocationsForItem:item];
 }
 
 /*

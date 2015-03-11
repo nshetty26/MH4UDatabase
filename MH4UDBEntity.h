@@ -50,6 +50,16 @@
 @property (nonatomic) NSArray *locationsArray;
 @end
 
+@interface Combining : NSObject
+@property (nonatomic) Item *combinedItem;
+@property (nonatomic) Item *item1;
+@property (nonatomic) Item *item2;
+@property (nonatomic) int minMade;
+@property (nonatomic) int maxMade;
+@property (nonatomic) int percentage;
+
+@end
+
 @interface Monster : NSObject
 
 @property (nonatomic) int monsterID;

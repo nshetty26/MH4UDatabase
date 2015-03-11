@@ -268,7 +268,7 @@
     return componentsArray;
 }
 
-#pragma - Item Queries
+#pragma - mark Item Queries
 -(NSArray *)populateItemArray {
     NSMutableArray *itemsArray = [[NSMutableArray alloc] init];
     NSString *itemQuery = [NSString stringWithFormat:@"SELECT * From items WHERE items.type NOT IN ('Armor','Weapon')"];
@@ -290,19 +290,80 @@
     return itemsArray;
 }
 
+-(Item *)getItemForID:(int)itemID {
+    NSString *itemQuery = [NSString stringWithFormat:@"SELECT _id, name, type, sub_type, rarity, carry_capacity, buy, sell, description, icon_name FROM items where _id = %i", itemID];
+    Item *item = [[Item alloc] init];
+    FMResultSet *s = [_mh4DB executeQuery:itemQuery];
+    if ([s next]) {
+        item.itemID = [s intForColumn:@"_id"];
+        item.name = [s stringForColumn:@"name"];
+        item.type = [s stringForColumn:@"type"];
+        item.rarity = [s intForColumn:@"rarity"];
+        item.capacity = [s intForColumn:@"carry_capacity"];
+        item.price = [s intForColumn:@"buy"];
+        item.salePrice = [s intForColumn:@"sell"];
+        item.icon = [s stringForColumn:@"icon_name"];
+        item.itemDescription = [s stringForColumn:@"description"];
+        return item;
+    } else {
+        return nil;
+    }
+}
+
+-(Item *)getItemForName:(NSString *)name {
+    NSString *itemQuery = [NSString stringWithFormat:@"SELECT _id, name, type, sub_type, rarity, carry_capacity, buy, sell, description, icon_name FROM items where name LIKE '%@'", name];
+    Item *item = [[Item alloc] init];
+    FMResultSet *s = [_mh4DB executeQuery:itemQuery];
+    if ([s next]) {
+        item.itemID = [s intForColumn:@"_id"];
+        item.name = [s stringForColumn:@"name"];
+        item.type = [s stringForColumn:@"type"];
+        item.rarity = [s intForColumn:@"rarity"];
+        item.capacity = [s intForColumn:@"carry_capacity"];
+        item.price = [s intForColumn:@"buy"];
+        item.salePrice = [s intForColumn:@"sell"];
+        item.icon = [s stringForColumn:@"icon_name"];
+        item.itemDescription = [s stringForColumn:@"description"];
+        return item;
+    } else {
+        return nil;
+    }
+}
+
+-(NSArray *)getCombiningItems {
+    NSMutableArray *combiningArray = [[NSMutableArray alloc] init];
+    NSString *combiningQuery = @"SELECT created_item_id, item_1_id, item_2_id, amount_made_min, amount_made_max, percentage from combining";
+    FMResultSet *s = [self DBquery:combiningQuery];
+    if (s) {
+        while ([s next]) {
+            Combining *combiningCombo = [[Combining alloc] init];
+            combiningCombo.combinedItem = [self getItemForID:[s intForColumn:@"created_item_id"]];
+            combiningCombo.item1 = [self getItemForID:[s intForColumn:@"item_1_id"]];
+            combiningCombo.item2 = [self getItemForID:[s intForColumn:@"item_2_id"]];
+            combiningCombo.minMade = [s intForColumn:@"amount_made_min"];
+            combiningCombo.maxMade = [s intForColumn:@"amount_made_max"];
+            combiningCombo.percentage = [s intForColumn:@"percentage"];
+            [combiningArray addObject:combiningCombo];
+        }
+    }
+    
+    return combiningArray;
+}
+
 -(void)getCombiningItemsForItem:(Item*)item
 {
     NSMutableArray *combinedItemsArray = [[NSMutableArray alloc] init];
     NSString *combinedItemsQuery = [NSString stringWithFormat:@"SELECT * FROM combining where combining.created_item_id = %i OR combining.item_1_id = %i OR combining.item_2_id = %i", item.itemID, item.itemID, item.itemID];
     FMResultSet *s = [self DBquery:combinedItemsQuery];
     while ([s next]) {
-        int createdID = [s intForColumn:@"created_item_id"];
-        int item_1_id = [s intForColumn:@"item_1_id"];
-        int item_2_id = [s intForColumn:@"item_2_id"];
-        int minimumMade = [s intForColumn:@"amount_made_min"];
-        int maximumMade = [s intForColumn:@"amount_made_max"];
-        int percentage = [s intForColumn:@"percentage"];
-        [combinedItemsArray addObject:@[[NSNumber numberWithInt:createdID],[NSNumber numberWithInt:item_1_id], [NSNumber numberWithInt:item_2_id], [NSNumber numberWithInt:minimumMade], [NSNumber numberWithInt:maximumMade], [NSNumber numberWithInt:percentage]]];
+        Combining *combiningCombo = [[Combining alloc] init];
+        combiningCombo.combinedItem = [self getItemForID:[s intForColumn:@"created_item_id"]];
+        combiningCombo.item1 = [self getItemForID:[s intForColumn:@"item_1_id"]];
+        combiningCombo.item2 = [self getItemForID:[s intForColumn:@"item_2_id"]];
+        combiningCombo.minMade = [s intForColumn:@"amount_made_min"];
+        combiningCombo.maxMade = [s intForColumn:@"amount_made_max"];
+        combiningCombo.percentage = [s intForColumn:@"percentage"];
+        [combinedItemsArray addObject:combiningCombo];
                            
     }
     
@@ -414,6 +475,31 @@
     }
     
     return usageInfo;
+}
+
+-(NSArray *)getSkillTrees {
+    NSMutableArray *skillTrees = [[NSMutableArray alloc] init];
+    NSString *skillTreeQuery = @"select * from skill_trees";
+    
+    FMResultSet *s = [self DBquery:skillTreeQuery];
+    
+    while ([s next]) {
+        int skillTreeID = [s intForColumn:@"_id"];
+        NSString *skillTreeName = [s stringForColumn:@"name"];
+        [skillTrees addObject:@[[NSNumber numberWithInt:skillTreeID], skillTreeName]];
+    }
+    
+    [skillTrees sortUsingComparator:^NSComparisonResult(id tree1, id tree2){
+        NSArray *skillTree1 = (NSArray *)tree1;
+        NSArray *skillTree2 = (NSArray *)tree2;
+        NSString *skillTree1Name = skillTree1[1];
+        NSString  *skillTree2Name = skillTree2[1];
+        return [(NSString *) skillTree1Name compare:skillTree2Name options:NSNumericSearch];
+    }];
+    
+    return skillTrees;
+        
+        
 }
 
 

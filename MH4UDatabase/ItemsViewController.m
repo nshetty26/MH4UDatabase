@@ -28,12 +28,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
-                                   initWithTarget:self
-                                   action:@selector(dismissKeyboard)];
-    
-    [self.view addGestureRecognizer:tap];
-    
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Items" style:UIBarButtonItemStylePlain target:nil action:nil];
     [self.navigationItem setBackBarButtonItem:backButton];
     _displayedItems = _allItems;
@@ -52,7 +46,6 @@
     _itemTable.delegate = self;
     
     _itemSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
-    [_itemSearch setShowsCancelButton:YES];
     _itemSearch.delegate = self;
     
     [self.view addSubview:_itemTable];
@@ -61,6 +54,7 @@
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [_itemSearch setShowsCancelButton:YES];
     if (searchText.length == 0) {
         [self showAllItems];
     }
@@ -86,6 +80,7 @@
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:NO];
     [self showAllItems];
     searchBar.text = @"";
     [searchBar resignFirstResponder];
@@ -95,9 +90,6 @@
     [searchBar resignFirstResponder];
 }
 
--(void)dismissKeyboard {
-    [_itemSearch resignFirstResponder];
-}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([tableView isEqual:_itemTable]) {
@@ -127,7 +119,6 @@
     
     if ([tableView isEqual:_itemTable]) {
         Item *item = _displayedItems[indexPath.row];
-        [self populateDetailsforItem:item];
         _itemDetailVC = [[ItemDetailViewController alloc] init];
         _itemDetailVC.selectedItem = item;
         _itemDetailVC.dbEngine = _dbEngine;
@@ -139,14 +130,6 @@
         
     }
     
-}
-
--(void)populateDetailsforItem:(Item*)item{
-    [_dbEngine getCombiningItemsForItem:item];
-    [_dbEngine getUsageItemsForItem:item];
-    [_dbEngine getMonsterDropsForItem:item];
-    [_dbEngine getQuestRewardsForItem:item];
-    [_dbEngine getLocationsForItem:item];
 }
 
 
