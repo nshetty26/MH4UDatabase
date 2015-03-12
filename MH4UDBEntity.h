@@ -40,6 +40,7 @@
 @property (nonatomic) int salePrice;
 @property (nonatomic) NSString *condition;
 @property (nonatomic) int stackSize;
+@property (nonatomic) int skillValue;
 @property (nonatomic) int percentage;
 @property (nonatomic) NSString *itemDescription;
 @property (nonatomic) NSString *icon;
@@ -115,7 +116,7 @@
 @property NSArray *headArray;
 @property NSArray *bodyArray;
 @property NSArray *armArray;
-@property NSArray *waitArray;
+@property NSArray *waistArray;
 @property NSArray *legArray;
 @property NSArray *jewelArray;
 

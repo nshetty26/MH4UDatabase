@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 GuthuDesigns. All rights reserved.
 //
 
+/*
+ SELECT items.name, skill_trees.name, point_value FROM item_to_skill_tree inner join skill_trees on skill_trees._id = item_to_skill_tree.skill_tree_id inner join items on items._id = item_to_skill_tree.item_id 
+ */
+
 #import "ItemDetailViewController.h"
 #import "CombiningViewController.h"
 #import "MH4UDBEngine.h"
@@ -26,6 +30,8 @@
 @property (nonatomic) UITableView *monsterDropTable;
 @property (nonatomic) UITableView *questRewardTable;
 @property (nonatomic) UITableView *locationTable;
+@property (nonatomic) UITableView *skillsTable;
+@property (nonatomic) UITableView *componentTable;
 @property (nonatomic) UITabBar *itemDetailBar;
 @property (nonatomic, strong) CombiningViewController *cVC;
 @end

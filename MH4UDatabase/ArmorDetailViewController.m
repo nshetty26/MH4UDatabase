@@ -7,6 +7,7 @@
 //
 
 #import "ArmorDetailViewController.h"
+#import "MH4UDBEngine.h"
 #import "MH4UDBEntity.h"
 
 @interface ArmorDetailViewController ()
@@ -20,6 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [_dbEngine populateArmor:_selectedArmor];
     CGRect vcFrame = self.view.frame;
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
     CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);

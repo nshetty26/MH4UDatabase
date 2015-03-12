@@ -10,6 +10,7 @@
 @class Armor;
 @class Item;
 @class Monster;
+@class SkillCollection;
 
 @interface MH4UDBEngine : NSObject
 
@@ -33,7 +34,7 @@
 -(NSArray *)getCombiningItems;
 
 -(NSArray *)getSkillTrees;
--(NSArray *)getSkillsForSkillTreeID:(int)skillTreeID;
+-(SkillCollection *)getSkillCollectionForSkillTreeID:(int)skillTreeID;
 
 
 @end

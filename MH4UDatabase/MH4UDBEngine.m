@@ -505,8 +505,9 @@
         
 }
 
--(NSArray *)getSkillsForSkillTreeID:(int)skillTreeID {
+-(SkillCollection *)getSkillCollectionForSkillTreeID:(int)skillTreeID {
     NSMutableArray *skillsArray = [[NSMutableArray alloc] init];
+    SkillCollection *skillCollection = [[SkillCollection alloc] init];
     NSString *skillsQuery = [NSString stringWithFormat:@"SELECT required_skill_tree_points, name, description from skills where skills.skill_tree_id = %i", skillTreeID];
     
     FMResultSet *s = [self DBquery:skillsQuery];
@@ -525,10 +526,66 @@
         NSNumber *pointsNeeded2 = skillArray2[0];
         return [(NSNumber *) pointsNeeded1 compare:pointsNeeded2];
     }];
+    skillCollection.skillArray = skillsArray;
+    [self getEquipmentForSkillCollection:skillCollection andSkillTreeID:skillTreeID];
+    [self getJewelsForSkillCollection:skillCollection andSkillTreeID:skillTreeID];
+    return skillCollection;
+}
+
+-(void)getEquipmentForSkillCollection:(SkillCollection *)skillCollection andSkillTreeID:(int)skillTreeID{
     
-    return skillsArray;
+    NSArray *equipmentParts = @[@"Head", @"Body", @"Arms", @"Waist", @"Legs"];
+    for (NSString *part in equipmentParts) {
+        NSString *equipmentQuery = [NSString stringWithFormat:@"SELECT items._id as itemID, items.name as itemName, items.rarity, armor.slot, skill_trees._id, skill_trees.name, item_to_skill_tree.point_value FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id inner join armor on armor._id = items._id where skill_trees._id = %i and armor.slot = '%@'", skillTreeID, part];
+        NSMutableArray *equipmentArray = [[NSMutableArray alloc] init];
+        
+        FMResultSet *s = [self DBquery:equipmentQuery];
+        
+        while ([s next]) {
+            Armor *armor = [[Armor alloc] init];
+            armor.armorID = [s intForColumn:@"itemID"];
+            armor.name = [s stringForColumn:@"itemName"];
+            armor.slot = [s stringForColumn:@"slot"];
+            armor.rarity = [s intForColumn:@"rarity"];
+            armor.skillsArray = @[[NSNumber numberWithInt:[s intForColumn:@"point_value"]]];
+            [equipmentArray addObject:armor];
+        }
+        
+        if ([part isEqualToString:@"Head"]) {
+            skillCollection.headArray = equipmentArray;
+        } else if ([part isEqualToString:@"Body"]) {
+            skillCollection.bodyArray = equipmentArray;
+        } else if ([part isEqualToString:@"Arms"]) {
+            skillCollection.armArray = equipmentArray;
+        } else if ([part isEqualToString:@"Waist"]) {
+            skillCollection.waistArray = equipmentArray;
+        } else if ([part isEqualToString:@"Legs"]) {
+            skillCollection.legArray = equipmentArray;
+        }
+    }
 
 }
+
+-(void)getJewelsForSkillCollection:(SkillCollection *)skillCollection andSkillTreeID:(int)skillTreeID{
+    NSString *jewelQuery = [NSString stringWithFormat:@" SELECT items._id as itemID, items.name as itemName, items.icon_name, items.type, skill_trees._id, skill_trees.name, item_to_skill_tree.point_value FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id where skill_trees._id = %i and type = 'Decoration'", skillTreeID];
+    NSMutableArray *jewelArray = [[NSMutableArray alloc] init];
+    FMResultSet *s = [self DBquery:jewelQuery];
+    
+    while ([s next]) {
+        Item *item = [[Item alloc] init];
+        item.itemID = [s intForColumn:@"itemID"];
+        item.name = [s stringForColumn:@"itemName"];
+        item.icon = [s stringForColumn:@"icon_name"];
+        item.skillValue = [s intForColumn:@"point_value"];
+        [jewelArray addObject:item];
+    }
+    
+    skillCollection.jewelArray = jewelArray;
+    
+}
+/*
+ SELECT items._id as itemID, items.name as itemName, items.type, skill_trees._id, skill_trees.name, item_to_skill_tree.point_value FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id where skill_trees._id = 4 and type = 'Decoration'
+*/
 
 
 @end

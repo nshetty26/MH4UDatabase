@@ -231,10 +231,10 @@
     if ([tableView isEqual:_armorTable]) {
         Armor *armor = [self returnArmorAtIndexPath:indexPath];
         _selectedArmor = armor;
-        [_dbEngine populateArmor:armor];
         ArmorDetailViewController *aDVC = [[ArmorDetailViewController alloc] init];
         aDVC.heightDifference = _heightDifference;
         aDVC.selectedArmor = armor;
+        aDVC.dbEngine = _dbEngine;
         [_armorSearch resignFirstResponder];
         [self.navigationController pushViewController:aDVC animated:YES];
         

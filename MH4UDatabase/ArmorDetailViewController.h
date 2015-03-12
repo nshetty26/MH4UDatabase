@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 @class Armor;
+@class MH4UDBEngine;
 
 @interface ArmorDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarDelegate>
 
 @property (nonatomic) Armor *selectedArmor;
+@property (nonatomic) MH4UDBEngine *dbEngine;
 @property (nonatomic) int heightDifference;
 
 @end

@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@class MH4UDBEngine;
 
 @interface SkillTreeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
 @property (nonatomic) NSArray *allSkillTrees;
 @property (nonatomic) int heightDifference;
-
+@property (nonatomic) MH4UDBEngine *dbEngine;
 @end

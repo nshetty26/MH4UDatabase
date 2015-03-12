@@ -35,3 +35,7 @@
 @implementation MonsterHabitat
 
 @end
+
+@implementation SkillCollection
+
+@end

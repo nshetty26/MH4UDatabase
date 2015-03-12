@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 @class SkillCollection;
+@class MH4UDBEngine;
 
 @interface SkillDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarDelegate>
 
 @property (nonatomic) int heightDifference;
-@property (nonatomic) SkillCollection *skillCollection;
+@property (nonatomic) MH4UDBEngine *dbEngine;
+@property (nonatomic) int skillTreeID;
+@property (nonatomic) NSString *skilTreeName;
 
 @end

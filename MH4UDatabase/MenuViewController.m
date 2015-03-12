@@ -121,6 +121,7 @@
         SkillTreeViewController *stVC = [[SkillTreeViewController   alloc] init];
         stVC.allSkillTrees = [_dbEngine getSkillTrees];
         stVC.heightDifference = heightDifference;
+        stVC.dbEngine = _dbEngine;
         [nC setViewControllers:@[stVC]];
     }
    

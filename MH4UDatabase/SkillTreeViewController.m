@@ -7,6 +7,7 @@
 //
 
 #import "SkillTreeViewController.h"
+#import "SkillDetailViewController.h"
 
 @interface SkillTreeViewController ()
 @property (nonatomic) UITableView *skillTreeTableView;
@@ -18,6 +19,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Skill Tree" style:UIBarButtonItemStyleDone target:nil action:nil];
+    [self.navigationItem setBackBarButtonItem:backButton];
+    
     // Do any additional setup after loading the view.
     CGRect vcFrame = self.view.frame;
     CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 44);
@@ -40,6 +44,14 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray *skillTree = _allSkillTrees[indexPath.row];
+    SkillDetailViewController *sdVC = [[SkillDetailViewController alloc] init];
+    sdVC.heightDifference = _heightDifference;
+    sdVC.dbEngine = _dbEngine;
+    sdVC.skilTreeName = skillTree[1];
+    NSNumber *skillTreeID = skillTree[0];
+    sdVC.skillTreeID = [skillTreeID intValue];
+    [self.navigationController pushViewController:sdVC animated:YES];
     
 }
 
