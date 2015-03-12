@@ -211,7 +211,11 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"armorCell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"armorCell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"armorCell"];
+    }
+
     if ([tableView isEqual:_armorTable]) {
         Armor *armor = [self returnArmorAtIndexPath:indexPath];
         cell.textLabel.text = armor.name;

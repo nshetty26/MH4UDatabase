@@ -134,18 +134,21 @@
             mDC = [tableView dequeueReusableCellWithIdentifier:@"monsterDetailCell"];
         }
         return mDC;
-    } else if  ([tableView isEqual:_statusEffectTable]){
-        UITableViewCell *cell = [[UITableViewCell alloc] init];
+    }
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"monsterDetailCell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"monsterDetailCell"];
+    }
+    
+    if  ([tableView isEqual:_statusEffectTable]){
         MonsterStatusEffect *mse = _selectedMonster.monsterStatusEffects[indexPath.row];
         cell.textLabel.text = mse.status;
         return cell;
     } else if  ([tableView isEqual:_habitatTable]){
-        UITableViewCell *cell = [[UITableViewCell alloc] init];
         MonsterHabitat *mh = _selectedMonster.monsterHabitats[indexPath.row];
         cell.textLabel.text = mh.locationName;
         return cell;
     } else if  ([tableView isEqual:_rankDropTable]){
-        UITableViewCell *cell = [[UITableViewCell alloc] init];
         if ([_monsterDetailTabBar.selectedItem isEqual:_lowRank]) {
             _monsterDrops = _selectedMonster.lowRankDrops;
         } else if ([_monsterDetailTabBar.selectedItem isEqual:_highRank]) {
@@ -157,7 +160,6 @@
         cell.textLabel.text = huntingDrop.name;
         return cell;
     } else if ([tableView isEqual:_questTable]){
-        UITableViewCell *cell = [[UITableViewCell alloc] init];
         NSArray *questInfo = _selectedMonster.questInfos[indexPath.row];
         cell.textLabel.text = questInfo[1];
         return cell;

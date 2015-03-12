@@ -115,7 +115,7 @@
     cell.maxCombined.text = [NSString stringWithFormat:@"%i - %i",combineCombo.minMade, combineCombo.maxMade];
     cell.percentageCombined.text = [NSString stringWithFormat:@"%i%@", combineCombo.percentage, @"%"];
     cell.item1ImageView.image = [UIImage imageNamed:combineCombo.item1.icon];
-    cell.item2ImageView.image = [UIImage imageNamed:combineCombo.item1.icon];
+    cell.item2ImageView.image = [UIImage imageNamed:combineCombo.item2.icon];
 
 }
 

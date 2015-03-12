@@ -65,7 +65,11 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"armorCell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"armorCell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"armorCell"];
+    }
+
     if ([tableView isEqual:_skillTable]) {
         NSArray *skillArray = _selectedArmor.skillsArray[indexPath.row];
         NSString *detailLabel = [NSString stringWithFormat:@"%@: %@", [skillArray objectAtIndex:1], [skillArray objectAtIndex:2]];

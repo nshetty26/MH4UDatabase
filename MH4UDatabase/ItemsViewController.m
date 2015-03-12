@@ -103,7 +103,11 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView isEqual:_itemTable]) {
         Item *item = _displayedItems[indexPath.row];
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"itemIdentifier"];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"itemIdentifier"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"itemIdentifier"];
+        }
+        
         cell.imageView.image = [UIImage imageNamed:item.icon];
         cell.textLabel.text = item.name;
         return cell;
@@ -125,8 +129,6 @@
         _itemDetailVC.heightDifference = _heightDifference;
         [_itemSearch resignFirstResponder];
         [self.navigationController pushViewController:_itemDetailVC animated:YES];
-        
-        NSLog(@"Pause");
         
     }
     

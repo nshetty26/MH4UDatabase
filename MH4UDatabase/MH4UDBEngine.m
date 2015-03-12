@@ -233,7 +233,7 @@
 }
 
 -(NSArray *)getArmorSkillsfor:(int)armorID{
-    NSString *skillQuery = [NSString stringWithFormat:@"SELECT skill_trees._id, skill_trees.name, item_to_skill_tree.point_value FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id where items._id = %i", armorID];
+    NSString *skillQuery = [NSString stringWithFormat:@"SELECT items._id as itemID, skill_trees._id, skill_trees.name, item_to_skill_tree.point_value FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id where items._id = %i", armorID];
     
     NSMutableArray *skillTreeArray = [[NSMutableArray alloc] init];
     FMResultSet *s = [self DBquery:skillQuery];
@@ -242,7 +242,8 @@
             int skillTreeID = [s intForColumn:@"_id"];
             NSString *skillName = [s stringForColumn:@"name"];
             int value = [s intForColumn:@"point_value"];
-            [skillTreeArray addObject:@[[NSNumber numberWithInt:skillTreeID], skillName, [NSNumber numberWithInt:value]]];
+            int armorID = [s intForColumn:@"itemID"];
+            [skillTreeArray addObject:@[[NSNumber numberWithInt:skillTreeID], skillName, [NSNumber numberWithInt:value], [NSNumber numberWithInt:armorID]]];
         }
     } else {
         return nil;
@@ -476,6 +477,8 @@
     
     return usageInfo;
 }
+
+#pragma mark - Skill Queries
 
 -(NSArray *)getSkillTrees {
     NSMutableArray *skillTrees = [[NSMutableArray alloc] init];

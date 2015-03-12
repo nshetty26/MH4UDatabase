@@ -33,6 +33,8 @@
 -(NSArray *)getCombiningItems;
 
 -(NSArray *)getSkillTrees;
+-(NSArray *)getSkillsForSkillTreeID:(int)skillTreeID;
+
 
 @end
 

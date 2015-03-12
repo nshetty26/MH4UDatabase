@@ -138,7 +138,11 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView isEqual:_monsterTable]) {
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"monsterCell"];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"monsterCell"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"monsterCell"];
+        }
+        
         Monster *monster = [_displayedMonsters objectAtIndex:indexPath.row];
         cell.textLabel.text = monster.monsterName;
         cell.imageView.image = [UIImage imageNamed:monster.iconName];

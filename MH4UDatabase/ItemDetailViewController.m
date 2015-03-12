@@ -112,9 +112,13 @@
         return combiningCell;
     }
     
-    else if ([tableView isEqual:_usageTable]){
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"itemIdentifier"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"itemIdentifier"];
+    }
+    
+    if ([tableView isEqual:_usageTable]){
         NSArray *usageArray = _selectedItem.usageItemsArray[indexPath.row];
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"itemIdentifier"];
         NSString *label = [NSString stringWithFormat:@"%@: %@ %@", usageArray[0], usageArray[1], usageArray[2]];
         cell.textLabel.text = label;
         return cell;
@@ -122,7 +126,6 @@
     
     else if ([tableView isEqual:_monsterDropTable]){
         NSArray *monsterDropArray = _selectedItem.monsterDropsArray[indexPath.row];
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"itemIdentifier"];
         NSString *label = [NSString stringWithFormat:@" %@: %@ %@, %@ %@%@", monsterDropArray[0], monsterDropArray[1], monsterDropArray[2], monsterDropArray[3], monsterDropArray[4], @"%"];
         cell.textLabel.text = label;
         return cell;
@@ -130,7 +133,6 @@
     
     else if ([tableView isEqual:_questRewardTable]){
         NSArray *questRewardArray = _selectedItem.questRewardsArray[indexPath.row];
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"itemIdentifier"];
         NSString *label = [NSString stringWithFormat:@" %@: %@ %@, %@ %@ %@%@", questRewardArray[0], questRewardArray[1], questRewardArray[2], questRewardArray[3], questRewardArray[4], questRewardArray[5], @"%"];
         cell.textLabel.text = label;
         return cell;
@@ -138,7 +140,6 @@
     
     else if ([tableView isEqual:_locationTable]){
         NSArray *locationArray = _selectedItem.locationsArray[indexPath.row];
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"itemIdentifier"];
         NSString *label = [NSString stringWithFormat:@" %@: %@ %@, %@ %@ %@%@", locationArray[0], locationArray[1], locationArray[2], locationArray[3], locationArray[4], locationArray[5], @"%"];
         cell.textLabel.text = label;
         return cell;
@@ -147,7 +148,6 @@
     else {
         return nil;
     }
-    
     
 }
 

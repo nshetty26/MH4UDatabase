@@ -109,3 +109,14 @@
 @property (nonatomic) NSString *fullPath;
 
 @end
+
+@interface SkillCollection : NSObject
+@property NSArray *skillArray;
+@property NSArray *headArray;
+@property NSArray *bodyArray;
+@property NSArray *armArray;
+@property NSArray *waitArray;
+@property NSArray *legArray;
+@property NSArray *jewelArray;
+
+@end
