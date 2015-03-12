@@ -120,27 +120,65 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"itemIdentifier"];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"itemIdentifier"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"itemIdentifier"];
     }
     
     if ([tableView isEqual:_usageTable]){
         NSArray *usageArray = _selectedItem.usageItemsArray[indexPath.row];
-        NSString *label = [NSString stringWithFormat:@"%@: %@ %@", usageArray[0], usageArray[1], usageArray[2]];
+        NSString *label = [NSString stringWithFormat:@"%@", usageArray[0]];
         cell.textLabel.text = label;
+        cell.detailTextLabel.text = usageArray[1];
+        CGRect cellFrame = cell.frame;
+        CGRect textView = CGRectMake(cellFrame.size.width - 60, cellFrame.size.height - 10, 30, 20);
+        UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
+        [cell addSubview:acessoryText];
+        acessoryText.textAlignment =  NSTextAlignmentRight;
+        acessoryText.text = [NSString stringWithFormat:@"%@",usageArray[2]];
+        UIFont *font = [acessoryText.font fontWithSize:11];
+        acessoryText.font = font;
+        cell.accessoryView = acessoryText;
+        cell.imageView.image = [UIImage imageNamed:usageArray[3]];
         return cell;
     }
     
     else if ([tableView isEqual:_monsterDropTable]){
         NSArray *monsterDropArray = _selectedItem.monsterDropsArray[indexPath.row];
-        NSString *label = [NSString stringWithFormat:@" %@: %@ %@, %@ %@%@", monsterDropArray[0], monsterDropArray[1], monsterDropArray[2], monsterDropArray[3], monsterDropArray[4], @"%"];
+        NSString *label = [NSString stringWithFormat:@"%@", monsterDropArray[0]];
         cell.textLabel.text = label;
+        NSString *detailLabel = [NSString stringWithFormat:@"%@ %@", monsterDropArray[1], monsterDropArray[2]];
+        cell.textLabel.text = label;
+        cell.detailTextLabel.text = detailLabel;
+        CGRect cellFrame = cell.frame;
+        CGRect textView = CGRectMake(cellFrame.size.width - 60, cellFrame.size.height - 10, 30, 20);
+        UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
+        [cell addSubview:acessoryText];
+        acessoryText.textAlignment =  NSTextAlignmentRight;
+        acessoryText.text = [NSString stringWithFormat:@"%@%@",monsterDropArray[4], @"%"];
+        UIFont *font = [acessoryText.font fontWithSize:11];
+        acessoryText.font = font;
+        cell.accessoryView = acessoryText;
+        cell.imageView.image = [UIImage imageNamed:monsterDropArray[5]];
+
         return cell;
     }
     
     else if ([tableView isEqual:_questRewardTable]){
         NSArray *questRewardArray = _selectedItem.questRewardsArray[indexPath.row];
-        NSString *label = [NSString stringWithFormat:@" %@: %@ %@, %@ %@ %@%@", questRewardArray[0], questRewardArray[1], questRewardArray[2], questRewardArray[3], questRewardArray[4], questRewardArray[5], @"%"];
+        NSString *label = [NSString stringWithFormat:@"%@", questRewardArray[0]];
+        NSString *quest = [questRewardArray[3] isEqualToString:@"A"] ? @"Main" : @"Sub";
+        NSString *detailLabel = [NSString stringWithFormat:@"%@ %@ %@ Quest", questRewardArray[1], questRewardArray[2], quest];
         cell.textLabel.text = label;
+        cell.detailTextLabel.text = detailLabel;
+        CGRect cellFrame = cell.frame;
+        CGRect textView = CGRectMake(cellFrame.size.width - 60, cellFrame.size.height - 10, 30, 20);
+        UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
+        [cell addSubview:acessoryText];
+        acessoryText.textAlignment =  NSTextAlignmentRight;
+        acessoryText.text = [NSString stringWithFormat:@"%@%@",questRewardArray[5], @"%"];
+        UIFont *font = [acessoryText.font fontWithSize:11];
+        acessoryText.font = font;
+        cell.accessoryView = acessoryText;
+
         return cell;
     }
     

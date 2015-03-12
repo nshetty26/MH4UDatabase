@@ -391,14 +391,15 @@
 -(void)getUsageItemsForItem:(Item*)item
 {
     NSMutableArray *usageItemsArray = [[NSMutableArray alloc] init];
-    NSString *usageQuery = [NSString stringWithFormat:@"select components.created_item_id, items.name, components.type, components.quantity from components inner join items on items._id = components.created_item_id where components.component_item_id = %i", item.itemID];;
+    NSString *usageQuery = [NSString stringWithFormat:@"select components.created_item_id, items.name, components.type, components.quantity, items.icon_name from components inner join items on items._id = components.created_item_id where components.component_item_id = %i", item.itemID];;
     FMResultSet *s = [self DBquery:usageQuery];
     while ([s next]) {
         NSString *itemName = [s stringForColumn:@"name"];
         NSString *type =[s stringForColumn:@"type"];
         int quantity = [s intForColumn:@"quantity"];
+        NSString *icon = [s stringForColumn:@"icon_name"];
     
-        [usageItemsArray addObject:@[itemName, type, [NSNumber numberWithInt:quantity]]];
+        [usageItemsArray addObject:@[itemName, type, [NSNumber numberWithInt:quantity], icon]];
         
     }
     
@@ -408,7 +409,7 @@
 -(void)getMonsterDropsForItem:(Item*)item
 {
     NSMutableArray *monsterDropArray = [[NSMutableArray alloc] init];
-    NSString *monsterQuery = [NSString stringWithFormat:@"SELECT items.name, condition, monsters.name as mName, rank, stack_size, percentage from hunting_rewards inner join monsters on monsters._id = hunting_rewards.monster_id inner join items on items._id = hunting_rewards.item_id where hunting_rewards.item_id = %i", item.itemID];;
+    NSString *monsterQuery = [NSString stringWithFormat:@"SELECT items.name, condition, monsters.name as mName, rank, stack_size, percentage, monsters.icon_name from hunting_rewards inner join monsters on monsters._id = hunting_rewards.monster_id inner join items on items._id = hunting_rewards.item_id where hunting_rewards.item_id = %i", item.itemID];;
     FMResultSet *s = [self DBquery:monsterQuery];
     while ([s next]) {
         NSString *monsterName = [s stringForColumn:@"mName"];
@@ -416,8 +417,9 @@
         NSString *condition = [s stringForColumn:@"condition"];
         int stackSize = [s intForColumn:@"stack_size"];
         int percentage = [s intForColumn:@"percentage"];
+        NSString *icon = [s stringForColumn:@"icon_name"];
         
-        [monsterDropArray addObject:@[monsterName, rank, condition, [NSNumber numberWithInt:stackSize],[NSNumber numberWithInt:percentage]]];
+        [monsterDropArray addObject:@[monsterName, rank, condition, [NSNumber numberWithInt:stackSize],[NSNumber numberWithInt:percentage], icon]];
         
     }
     
