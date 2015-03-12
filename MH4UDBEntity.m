@@ -39,3 +39,7 @@
 @implementation SkillCollection
 
 @end
+
+@implementation Decoration
+
+@end

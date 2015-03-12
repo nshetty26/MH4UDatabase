@@ -112,12 +112,18 @@
 @end
 
 @interface SkillCollection : NSObject
-@property NSArray *skillArray;
-@property NSArray *headArray;
-@property NSArray *bodyArray;
-@property NSArray *armArray;
-@property NSArray *waistArray;
-@property NSArray *legArray;
-@property NSArray *jewelArray;
+@property (nonatomic) NSArray *skillArray;
+@property (nonatomic) NSArray *headArray;
+@property (nonatomic) NSArray *bodyArray;
+@property (nonatomic) NSArray *armArray;
+@property (nonatomic) NSArray *waistArray;
+@property (nonatomic) NSArray *legArray;
+@property (nonatomic) NSArray *decorationArray;
+
+@end
+
+@interface Decoration : Item
+@property (nonatomic) NSArray *skillArray;
+@property (nonatomic) NSArray *componentArray;
 
 @end

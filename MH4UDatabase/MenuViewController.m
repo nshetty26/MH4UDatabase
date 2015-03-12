@@ -7,6 +7,7 @@
 //
 
 #import "MenuViewController.h"
+#import "DecorationsViewController.h"
 #import "SkillTreeViewController.h"
 #import "ItemsViewController.h"
 #import "ItemDetailViewController.h"
@@ -117,6 +118,12 @@
         cVC.heightDifference = heightDifference;
         [nC setViewControllers:@[cVC]];
         
+    } else if ([[segue identifier] isEqualToString:@"showDecorations"]) {
+        DecorationsViewController *dVC = [[DecorationsViewController   alloc] init];
+        dVC.allDecorations = [_dbEngine getAllDecorations];
+        dVC.heightDifference = heightDifference;
+        dVC.dbEngine = _dbEngine;
+        [nC setViewControllers:@[dVC]];
     } else if ([[segue identifier] isEqualToString:@"showSkillTree"]) {
         SkillTreeViewController *stVC = [[SkillTreeViewController   alloc] init];
         stVC.allSkillTrees = [_dbEngine getSkillTrees];

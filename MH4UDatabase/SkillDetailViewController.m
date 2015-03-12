@@ -23,7 +23,7 @@
 @property (nonatomic) UITabBarItem *arm;
 @property (nonatomic) UITabBarItem *waist;
 @property (nonatomic) UITabBarItem *leg;
-@property (nonatomic) UITabBarItem *jewels;
+@property (nonatomic) UITabBarItem *decorations;
 @end
 
 @implementation SkillDetailViewController
@@ -43,7 +43,7 @@
     _arm = [[UITabBarItem alloc] initWithTitle:@"Arm" image:nil tag:4];
     _waist = [[UITabBarItem alloc] initWithTitle:@"Waist" image:nil tag:5];
     _leg = [[UITabBarItem alloc] initWithTitle:@"Legs" image:nil tag:6];
-    _jewels = [[UITabBarItem alloc] initWithTitle:@"Jewels" image:nil tag:7];
+    _decorations = [[UITabBarItem alloc] initWithTitle:@"Decorations" image:nil tag:7];
     
     _skillCollection = [_dbEngine getSkillCollectionForSkillTreeID:_skillTreeID];
     [self setDetailTabBarItems];
@@ -104,7 +104,7 @@
         } else if (_skillDetailTab.selectedItem.tag == 6) {
             return _skillCollection.legArray.count;
         } else if (_skillDetailTab.selectedItem.tag == 7) {
-            return _skillCollection.jewelArray.count;
+            return _skillCollection.decorationArray.count;
         } else {
             return 0;
         }
@@ -150,7 +150,7 @@
         } else if (_skillDetailTab.selectedItem.tag == 6) {
             armor = _skillCollection.legArray[indexPath.row];
         } else if (_skillDetailTab.selectedItem.tag == 7) {
-            jewel = _skillCollection.jewelArray[indexPath.row];
+            jewel = _skillCollection.decorationArray[indexPath.row];
         }
         
         if (armor) {
@@ -184,7 +184,6 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:_skilTreeName style:UIBarButtonItemStyleDone target:nil action:nil];
     [self.navigationItem setBackBarButtonItem:backButton];
     Armor *armor;
@@ -206,7 +205,7 @@
             armor = _skillCollection.legArray[indexPath.row];
             break;
         case 7:
-            jewel = _skillCollection.jewelArray[indexPath.row];
+            jewel = _skillCollection.decorationArray[indexPath.row];
             break;
         default:
             break;
@@ -245,8 +244,8 @@
         [tabItems addObject:_leg];
     }
     
-    if (_skillCollection.jewelArray.count > 0) {
-        [tabItems addObject:_jewels];
+    if (_skillCollection.decorationArray.count > 0) {
+        [tabItems addObject:_decorations];
     }
     
     [_skillDetailTab setItems:tabItems];

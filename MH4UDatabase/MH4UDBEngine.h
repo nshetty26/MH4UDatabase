@@ -23,6 +23,7 @@
 -(NSArray *)populateItemArray;
 -(Item *)getItemForName:(NSString *)name;
 
+
 -(void)getCombiningItemsForItem:(Item*)item;
 -(NSArray *)infoForCombinedTableCellforItemID:(NSNumber *)itemID;
 -(void)getUsageItemsForItem:(Item*)item;
@@ -35,6 +36,9 @@
 
 -(NSArray *)getSkillTrees;
 -(SkillCollection *)getSkillCollectionForSkillTreeID:(int)skillTreeID;
+
+-(NSArray *)getAllDecorations;
+-(NSArray *)getComponentsfor:(int)armorID;
 
 
 @end

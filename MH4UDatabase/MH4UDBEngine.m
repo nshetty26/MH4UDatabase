@@ -528,7 +528,7 @@
     }];
     skillCollection.skillArray = skillsArray;
     [self getEquipmentForSkillCollection:skillCollection andSkillTreeID:skillTreeID];
-    [self getJewelsForSkillCollection:skillCollection andSkillTreeID:skillTreeID];
+    [self getDecorationsForSkillCollection:skillCollection andSkillTreeID:skillTreeID];
     return skillCollection;
 }
 
@@ -566,9 +566,9 @@
 
 }
 
--(void)getJewelsForSkillCollection:(SkillCollection *)skillCollection andSkillTreeID:(int)skillTreeID{
+-(void)getDecorationsForSkillCollection:(SkillCollection *)skillCollection andSkillTreeID:(int)skillTreeID{
     NSString *jewelQuery = [NSString stringWithFormat:@" SELECT items._id as itemID, items.name as itemName, items.icon_name, items.type, skill_trees._id, skill_trees.name, item_to_skill_tree.point_value FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id where skill_trees._id = %i and type = 'Decoration'", skillTreeID];
-    NSMutableArray *jewelArray = [[NSMutableArray alloc] init];
+    NSMutableArray *decorationArray = [[NSMutableArray alloc] init];
     FMResultSet *s = [self DBquery:jewelQuery];
     
     while ([s next]) {
@@ -577,11 +577,46 @@
         item.name = [s stringForColumn:@"itemName"];
         item.icon = [s stringForColumn:@"icon_name"];
         item.skillValue = [s intForColumn:@"point_value"];
-        [jewelArray addObject:item];
+        [decorationArray addObject:item];
     }
     
-    skillCollection.jewelArray = jewelArray;
+    skillCollection.decorationArray = decorationArray;
     
+}
+
+-(NSArray *)getAllDecorations {
+    NSString *decorationQuery = @"select items._id as itemID, items.rarity, items.buy, items.description, items.carry_capacity, items.sell, items.name, item_to_skill_tree._id,  items.icon_name from items inner join decorations on items._id = decorations._id inner join item_to_skill_tree on item_to_skill_tree.item_id = items._id";
+    NSMutableArray *decorationArray = [[NSMutableArray alloc] init];
+    
+    FMResultSet *s = [self DBquery:decorationQuery];
+    while ([s next]) {
+        Decoration *decoration = [[Decoration alloc] init];
+        decoration.itemID = [s intForColumn:@"itemID"];
+        decoration.itemDescription = [s stringForColumn:@"description"];
+        decoration.price = [s intForColumn:@"buy"];
+        decoration.salePrice = [s intForColumn:@"sell"];
+        decoration.rarity = [s intForColumn:@"rarity"];
+        decoration.name = [s stringForColumn:@"name"];
+        decoration.icon = [s stringForColumn:@"icon_name"];
+        decoration.skillArray = [self getSkillTreesForDecorationID:decoration.itemID];
+        [decorationArray addObject:decoration];
+    }
+    
+    return decorationArray;
+}
+
+-(NSArray *)getSkillTreesForDecorationID:(int)decorationID {
+    NSString *skillTreeQuery = [NSString stringWithFormat:@"SELECT skill_trees._id, skill_trees.name, item_to_skill_tree.point_value from item_to_skill_tree inner join skill_trees on skill_trees._id = item_to_skill_tree.skill_tree_id where item_to_skill_tree.item_id = %i", decorationID];
+    NSMutableArray *skillsArray = [[NSMutableArray alloc] init];
+    FMResultSet *s = [_mh4DB executeQuery:skillTreeQuery];
+    while ([s next]) {
+        int skillTreeID = [s intForColumn:@"_id"];
+        NSString *skillTreeName = [s stringForColumn:@"name"];
+        int pointValue = [s intForColumn:@"point_value"];
+        [skillsArray addObject:@[[NSNumber numberWithInt:skillTreeID], skillTreeName, [NSNumber numberWithInt:pointValue]]];
+    }
+    
+    return skillsArray;
 }
 /*
  SELECT items._id as itemID, items.name as itemName, items.type, skill_trees._id, skill_trees.name, item_to_skill_tree.point_value FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id where skill_trees._id = 4 and type = 'Decoration'

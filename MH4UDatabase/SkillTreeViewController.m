@@ -39,6 +39,44 @@
 
 }
 
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [_skillTreeSearch setShowsCancelButton:YES];
+    if (searchText.length == 0) {
+        [self showAllItems];
+    }
+    else {
+        NSArray *searchedItems = [_allSkillTrees filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
+            NSArray *skillTree = (NSArray *)evaluatedObjected;
+            NSString *skillTreeName = skillTree[1];
+            if ([skillTreeName.lowercaseString containsString:searchText.lowercaseString]) {
+                return YES;
+            } else {
+                return NO;
+            }
+            
+        }]];
+        
+        _displayedSkillTree = searchedItems;
+        [_skillTreeTableView reloadData];
+    }
+}
+
+-(void)showAllItems {
+    _displayedSkillTree = _allSkillTrees;
+    [_skillTreeTableView reloadData];
+}
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:NO];
+    [self showAllItems];
+    searchBar.text = @"";
+    [searchBar resignFirstResponder];
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _displayedSkillTree.count;
 }
