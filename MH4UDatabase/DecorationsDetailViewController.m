@@ -23,6 +23,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSString *decorationName = _selectedDecoration.name;
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:decorationName style:UIBarButtonItemStyleDone target:nil action:nil];
+    [self.navigationItem setBackBarButtonItem:backButton];
     [self populateDecorationComponent];
     // Do any additional setup after loading the view.
     CGRect vcFrame = self.view.frame;
@@ -63,8 +66,18 @@
     }
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSString *itemName = cell.textLabel.text;
+    
+    if ([tableView isEqual:_componentTable]) {
+        ItemDetailViewController *iDVC = [[ItemDetailViewController alloc] init];
+        
+        iDVC.selectedItem = [_dbEngine getItemForName:itemName];
+        iDVC.dbEngine = _dbEngine;
+        iDVC.heightDifference = _heightDifference;
+        [self.navigationController pushViewController:iDVC animated:YES];
+    }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -76,11 +89,27 @@
     
     if ([tableView isEqual:_skillTable]) {
         NSArray *skillArray = _selectedDecoration.skillArray[indexPath.row];
-        NSString *detailLabel = [NSString stringWithFormat:@"%@: %@", [skillArray objectAtIndex:1], [skillArray objectAtIndex:2]];
+        NSString *detailLabel = [NSString stringWithFormat:@"%@", [skillArray objectAtIndex:1]];
         cell.textLabel.text = detailLabel;
+        CGRect cellFrame = cell.frame;
+        CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 30, 20);
+        UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
+        [cell addSubview:acessoryText];
+        acessoryText.textAlignment =  NSTextAlignmentRight;
+        acessoryText.text = [NSString stringWithFormat:@"%@", skillArray[2]];
+        [cell setAccessoryView: acessoryText];
     } else if ([tableView isEqual:_componentTable]) {
         NSArray *componentArray = _selectedDecoration.componentArray[indexPath.row];
         cell.textLabel.text = [componentArray objectAtIndex:1];
+        cell.imageView.image = [UIImage imageNamed:componentArray[2]];
+        CGRect cellFrame = cell.frame;
+        CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 40, 20);
+        UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
+        [cell addSubview:acessoryText];
+        acessoryText.textAlignment =  NSTextAlignmentRight;
+        acessoryText.text = [NSString stringWithFormat:@"%@", componentArray[3]];
+        [cell setAccessoryView: acessoryText];
+
     }
     
     return cell;

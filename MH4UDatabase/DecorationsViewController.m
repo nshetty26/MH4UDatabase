@@ -112,6 +112,7 @@
     acessoryText.textAlignment =  NSTextAlignmentRight;
     UIFont *font = [acessoryText.font fontWithSize:8];
     acessoryText.font = font;
+    
     NSArray *skill1 = decoration.skillArray[0];
     if (decoration.skillArray.count == 1) {
         acessoryText.text = [NSString stringWithFormat:@"%@ %@", skill1[1], skill1[2]];

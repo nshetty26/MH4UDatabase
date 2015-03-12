@@ -251,6 +251,9 @@
 }
 
 -(void)populateDetailsforItem:(Item*)item{
+    if (!item.rarity) {
+        item = [_dbEngine getItemForName:item.name];
+    }
     [_dbEngine getCombiningItemsForItem:item];
     [_dbEngine getUsageItemsForItem:item];
     [_dbEngine getMonsterDropsForItem:item];

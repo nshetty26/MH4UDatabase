@@ -253,14 +253,16 @@
 }
 
 -(NSArray *)getComponentsfor:(int)armorID {
-    NSString *componentQuery = [NSString stringWithFormat:@"Select components.component_item_id, items.name from components Inner JOIN items on components.component_item_id = items._id where created_item_id = %i", armorID];
+    NSString *componentQuery = [NSString stringWithFormat:@"Select components.component_item_id, items.name, items.icon_name, components.quantity from components Inner JOIN items on components.component_item_id = items._id where created_item_id = %i", armorID];
     NSMutableArray *componentsArray = [[NSMutableArray alloc] init];
     FMResultSet *s = [self DBquery:componentQuery];
     if (s) {
         while ([s next]) {
             int componentID = [s intForColumn:@"component_item_id"];
             NSString *name = [s stringForColumn:@"name"];
-            [componentsArray addObject:@[[NSNumber numberWithInt:componentID], name]];
+            NSString *iconName = [s stringForColumn:@"icon_name"];
+            int quantity = [s intForColumn:@"quantity"];
+            [componentsArray addObject:@[[NSNumber numberWithInt:componentID], name, iconName, [NSNumber numberWithInt:quantity]]];
         }
     } else {
         return nil;
@@ -572,12 +574,13 @@
     FMResultSet *s = [self DBquery:jewelQuery];
     
     while ([s next]) {
-        Item *item = [[Item alloc] init];
-        item.itemID = [s intForColumn:@"itemID"];
-        item.name = [s stringForColumn:@"itemName"];
-        item.icon = [s stringForColumn:@"icon_name"];
-        item.skillValue = [s intForColumn:@"point_value"];
-        [decorationArray addObject:item];
+        Decoration *decoration = [[Decoration alloc] init];
+        decoration.itemID = [s intForColumn:@"itemID"];
+        decoration.name = [s stringForColumn:@"itemName"];
+        decoration.icon = [s stringForColumn:@"icon_name"];
+        decoration.skillValue = [s intForColumn:@"point_value"];
+        decoration.skillArray = [self getSkillTreesForDecorationID:decoration.itemID];
+        [decorationArray addObject:decoration];
     }
     
     skillCollection.decorationArray = decorationArray;

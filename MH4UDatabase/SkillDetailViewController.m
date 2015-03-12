@@ -9,6 +9,7 @@
 #import "SkillDetailViewController.h"
 #import "ItemDetailViewController.h"
 #import "ArmorDetailViewController.h"
+#import "DecorationsDetailViewController.h"
 #import "MH4UDBEngine.h"
 #import "MH4UDBEntity.h"
 
@@ -138,7 +139,7 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"equipmentCell"];
         }
         Armor *armor;
-        Item *jewel;
+        Item *decoration;
         if (_skillDetailTab.selectedItem.tag == 2) {
             armor = _skillCollection.headArray[indexPath.row];
         }  else if (_skillDetailTab.selectedItem.tag == 3) {
@@ -150,7 +151,7 @@
         } else if (_skillDetailTab.selectedItem.tag == 6) {
             armor = _skillCollection.legArray[indexPath.row];
         } else if (_skillDetailTab.selectedItem.tag == 7) {
-            jewel = _skillCollection.decorationArray[indexPath.row];
+            decoration = _skillCollection.decorationArray[indexPath.row];
         }
         
         if (armor) {
@@ -165,16 +166,16 @@
             acessoryText.text = [NSString stringWithFormat:@"%@", armor.skillsArray[0]];
             cell.accessoryView = acessoryText;
             return cell;
-        } else if (jewel) {
-            cell.textLabel.text = jewel.name;
+        } else if (decoration) {
+            cell.textLabel.text = decoration.name;
             cell.detailTextLabel.text = @"";
-            cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", jewel.icon]];
+            cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", decoration.icon]];
             CGRect cellFrame = cell.frame;
             CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 30, 20);
             UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
             [cell addSubview:acessoryText];
             acessoryText.textAlignment =  NSTextAlignmentRight;
-            acessoryText.text = [NSString stringWithFormat:@"%i", jewel.skillValue];
+            acessoryText.text = [NSString stringWithFormat:@"%i", decoration.skillValue];
             cell.accessoryView = acessoryText;
             return cell;
         }
@@ -187,7 +188,7 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:_skilTreeName style:UIBarButtonItemStyleDone target:nil action:nil];
     [self.navigationItem setBackBarButtonItem:backButton];
     Armor *armor;
-    Item *jewel;
+    Decoration *decoration;
     switch (_skillDetailTab.selectedItem.tag) {
         case 2:
             armor = _skillCollection.headArray[indexPath.row];
@@ -205,7 +206,7 @@
             armor = _skillCollection.legArray[indexPath.row];
             break;
         case 7:
-            jewel = _skillCollection.decorationArray[indexPath.row];
+            decoration = _skillCollection.decorationArray[indexPath.row];
             break;
         default:
             break;
@@ -216,13 +217,12 @@
         aDVC.heightDifference = _heightDifference;
         aDVC.dbEngine = _dbEngine;
         [self.navigationController pushViewController:aDVC animated:YES];
-    } else if (jewel) {
-        ItemDetailViewController *iDVC = [[ItemDetailViewController alloc] init];
-        Item *selectedItem = [_dbEngine getItemForName:jewel.name];
-        iDVC.selectedItem = selectedItem;
-        iDVC.dbEngine = _dbEngine;
-        iDVC.heightDifference = _heightDifference;
-        [self.navigationController pushViewController:iDVC animated:YES];
+    } else if (decoration) {
+        DecorationsDetailViewController *dDVC = [[DecorationsDetailViewController alloc] init];
+        dDVC.selectedDecoration = decoration;
+        dDVC.dbEngine = _dbEngine;
+        dDVC.heightDifference = _heightDifference;
+        [self.navigationController pushViewController:dDVC animated:YES];
     }
 }
 

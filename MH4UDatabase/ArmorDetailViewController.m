@@ -7,6 +7,7 @@
 //
 
 #import "ArmorDetailViewController.h"
+#import "ItemDetailViewController.h"
 #import "MH4UDBEngine.h"
 #import "MH4UDBEntity.h"
 
@@ -22,6 +23,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [_dbEngine populateArmor:_selectedArmor];
+    NSString *armorName = _selectedArmor.name;
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:armorName style:UIBarButtonItemStyleDone target:nil action:nil];
+    [self.navigationItem setBackBarButtonItem:backButton];
     CGRect vcFrame = self.view.frame;
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
     CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
@@ -61,8 +65,17 @@
     }
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSString *itemName = cell.textLabel.text;
+    if ([tableView isEqual:_componentTable]) {
+        ItemDetailViewController *iDVC = [[ItemDetailViewController alloc] init];
+        
+        iDVC.selectedItem = [_dbEngine getItemForName:itemName];
+        iDVC.dbEngine = _dbEngine;
+        iDVC.heightDifference = _heightDifference;
+        [self.navigationController pushViewController:iDVC animated:YES];
+    }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -74,11 +87,27 @@
 
     if ([tableView isEqual:_skillTable]) {
         NSArray *skillArray = _selectedArmor.skillsArray[indexPath.row];
-        NSString *detailLabel = [NSString stringWithFormat:@"%@: %@", [skillArray objectAtIndex:1], [skillArray objectAtIndex:2]];
+        NSString *detailLabel = [NSString stringWithFormat:@"%@", [skillArray objectAtIndex:1]];
         cell.textLabel.text = detailLabel;
+        CGRect cellFrame = cell.frame;
+        CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 50, 20);
+        UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
+        [cell addSubview:acessoryText];
+        acessoryText.textAlignment =  NSTextAlignmentRight;
+        acessoryText.text = [NSString stringWithFormat:@"%@",[skillArray objectAtIndex:2]];
+        [cell setAccessoryView: acessoryText];
     } else if ([tableView isEqual:_componentTable]) {
         NSArray *componentArray = _selectedArmor.componentArray[indexPath.row];
         cell.textLabel.text = [componentArray objectAtIndex:1];
+        cell.imageView.image = [UIImage imageNamed:componentArray[2]];
+        CGRect cellFrame = cell.frame;
+        CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 30, 20);
+        UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
+        [cell addSubview:acessoryText];
+        acessoryText.textAlignment =  NSTextAlignmentRight;
+        acessoryText.text = [NSString stringWithFormat:@"%@", componentArray[3]];
+        [cell setAccessoryView: acessoryText];
+        
     }
     
     return cell;
