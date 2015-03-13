@@ -640,6 +640,8 @@
     return questArray;
 }
 
+#pragma mark - Quest Queries
+
 -(void)getQuestInfoforQuest:(Quest*)quest {
     NSString *questInfoQuery = [NSString stringWithFormat:@"select quests.hrp, quests.reward, quests.fee, quests.goal, quests.sub_goal, quests.sub_hrp, quests.sub_reward from quests inner join locations on locations._id = quests.location_id where quests._id = %i", quest.questID];
     FMResultSet *s = [self DBquery:questInfoQuery];
@@ -668,22 +670,55 @@
         monster.iconName = [s stringForColumn:@"icon_name"];
         [monsterArray addObject:monster];
     }
+    [monsterArray sortUsingComparator:^NSComparisonResult(id monster1, id monster2){
+        Monster *mon1 = (Monster *)monster1;
+        Monster *mon2 = (Monster *)monster2;
+        return [(NSString *) mon1.monsterName compare:mon2.monsterName options:NSNumericSearch];
+    }];
+
     return monsterArray;
 }
 
 -(NSArray *)getRewardsForQuestID:(int)questID {
     NSMutableArray *rewardArray = [[NSMutableArray alloc] init];
-    NSString *questRewards = [NSString stringWithFormat:@"SELECT quest_rewards.item_id, items.name, items.icon_name, quest_rewards.reward_slot, quest_rewards.percentage from quest_rewards inner join items on items._id = quest_rewards.item_id where quest_rewards.quest_id = %i", questID];
+    NSString *questRewards = [NSString stringWithFormat:@"SELECT quest_rewards.item_id, items.name, items.icon_name, items.rarity, items.type, items.carry_capacity, items.buy, items.sell, items.description, quest_rewards.reward_slot, quest_rewards.percentage from quest_rewards inner join items on items._id = quest_rewards.item_id where quest_rewards.quest_id = %i", questID];
     FMResultSet *s = [_mh4DB executeQuery:questRewards];
     while ([s next]) {
         Item *item = [[Item alloc] init];
         item.itemID = [s intForColumn:@"item_id"];
         item.name = [s stringForColumn:@"name"];
+        item.type = [s stringForColumn:@"type"];
+        item.rarity = [s intForColumn:@"rarity"];
+        item.capacity = [s intForColumn:@"carry_capacity"];
+        item.price = [s intForColumn:@"buy"];
+        item.salePrice = [s intForColumn:@"sell"];
+        item.itemDescription = [s stringForColumn:@"description"];
         item.icon = [s stringForColumn:@"icon_name"];
         item.percentage = [s intForColumn:@"percentage"];
         NSString *rewardType = [s stringForColumn:@"reward_slot"];
+        if ([rewardType isEqualToString:@"A"]) {
+            rewardType = @"Main Quest";
+        } else {
+            rewardType = @"Sub Quest";
+        }
         [rewardArray addObject:@[rewardType, item]];
     }
+    
+    [rewardArray sortUsingComparator:^NSComparisonResult(id i1, id i2){
+        NSArray *itemArray1 = (NSArray *)i1;
+        NSArray *itemArray2 = (NSArray *)i2;
+        Item *item1 = (Item *)itemArray1[1];
+        Item *item2 = (Item *)itemArray2[1];
+        if (item1.percentage > item2.percentage) {
+            return -1;
+        } else if (item1.percentage < item2.percentage) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }];
+
+    
     return rewardArray;
 }
 

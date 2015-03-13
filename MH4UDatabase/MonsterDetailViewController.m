@@ -21,6 +21,7 @@
 
 #import "MH4UDBEntity.h"
 #import "MonsterDetailViewController.h"
+#import "MH4UDBEngine.h"
 
 @interface MonsterDetailViewController ()
 @property (nonatomic) UITableView *monsterDetailTable;
@@ -46,6 +47,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self populateDetailForMonster:_selectedMonster];
     CGRect vcFrame = self.view.frame;
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
     CGRect fullViewFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
@@ -268,6 +270,10 @@
             [view removeFromSuperview];
         }
     }
+}
+
+-(void)populateDetailForMonster:(Monster*) monster {
+    [_dbEngine getDetailsForMonster:monster];
 }
 
 /*

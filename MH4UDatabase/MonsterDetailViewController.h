@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+@class Monster;
+@class MH4UDBEngine;
 
 @interface MonsterDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarDelegate>
 @property (nonatomic) Monster *selectedMonster;
 @property (nonatomic) int heightDifference;
+@property (nonatomic) MH4UDBEngine *dbEngine;
 @end
 
 @interface DetailedMonsterView : UIView

@@ -189,7 +189,7 @@
         cell.textLabel.text = label;
         cell.detailTextLabel.text = detailLabel;
         CGRect cellFrame = cell.frame;
-        CGRect textView = CGRectMake(cellFrame.size.width - 80, cellFrame.size.height - 10, 60, 20);
+        CGRect textView = CGRectMake(cellFrame.size.width - 80, cellFrame.size.height - 10, 70, 20);
         UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
         [cell addSubview:accessoryText];
         accessoryText.textAlignment =  NSTextAlignmentRight;

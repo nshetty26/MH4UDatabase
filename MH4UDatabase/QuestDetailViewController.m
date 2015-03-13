@@ -7,6 +7,8 @@
 //
 
 #import "QuestDetailViewController.h"
+#import "MonsterDetailViewController.h"
+#import "ItemDetailViewController.h"
 #import "MH4UDBEngine.h"
 #import "MH4UDBEntity.h"
 
@@ -23,14 +25,14 @@
     [super viewDidLoad];
     [_dbEngine getQuestInfoforQuest:_selectedQuest];
     // Do any additional setup after loading the view from its nib.
-    NSString *decorationName = _selectedQuest.name;
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:decorationName style:UIBarButtonItemStyleDone target:nil action:nil];
+    NSString *questName = _selectedQuest.name;
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:questName style:UIBarButtonItemStyleDone target:nil action:nil];
     [self.navigationItem setBackBarButtonItem:backButton];
     
     // Do any additional setup after loading the view.
     CGRect vcFrame = self.view.frame;
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
-    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - _heightDifference - tabBarFrame.size.height);
     
     _questDetailTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
     UITabBarItem *detailView = [[UITabBarItem alloc] initWithTitle:@"Detail" image:nil tag:1];
@@ -57,11 +59,30 @@
     
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([tableView isEqual:_monsterTable]) {
+        Monster *monster = _selectedQuest.monsters[indexPath.row];
+        MonsterDetailViewController *mDVC = [[MonsterDetailViewController alloc] init];
+        mDVC.heightDifference = _heightDifference;
+        mDVC.selectedMonster = monster;
+        mDVC.dbEngine = _dbEngine;
+        [self.navigationController pushViewController:mDVC animated:YES];
+        
+    } else if ([tableView isEqual:_rewardTable]) {
+        Item *item = [_selectedQuest.rewards[indexPath.row] objectAtIndex:1];
+        ItemDetailViewController *iDVC = [[ItemDetailViewController alloc] init];
+        iDVC.selectedItem = item;
+        iDVC.heightDifference = _heightDifference;
+        iDVC.dbEngine = _dbEngine;
+        [self.navigationController pushViewController:iDVC animated:YES];
+    }
+}
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"armorCell"];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"armorCell"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"armorCell"];
     }
     
     if ([tableView isEqual:_monsterTable]) {
@@ -74,6 +95,18 @@
         Item *item = itemArray[1];
         cell.textLabel.text = item.name;
         cell.imageView.image = [UIImage imageNamed:item.icon];
+        cell.detailTextLabel.text = itemArray[0];
+        CGRect cellFrame = cell.frame;
+        CGRect textView = CGRectMake(cellFrame.size.width - 60, cellFrame.origin.y + 5, 50, 24);
+        UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
+        [accessoryText setNumberOfLines:2];
+        [accessoryText setLineBreakMode:NSLineBreakByWordWrapping];
+        [cell addSubview:accessoryText];
+        accessoryText.textAlignment =  NSTextAlignmentRight;
+        UIFont *font = [accessoryText.font fontWithSize:10];
+        accessoryText.font = font;
+        accessoryText.text = [NSString stringWithFormat:@"%i%@", item.percentage, @"%"];
+        
         return cell;
     }
     
@@ -147,13 +180,13 @@
     _questLocation.text = quest.location;
     _questGoal.text = quest.goal;
     
-    if (quest.subQuest) {
+    if (![quest.subQuest isEqualToString:@"None"]) {
         _subQuestDescription.text = quest.subQuest;
         _subQuestHRP.text = [NSString stringWithFormat:@"%i", quest.subHRP];
         _subQuestRewardValue.text = [NSString stringWithFormat:@"%iz", quest.subQuestReward];;
     } else {
-        _subQuestRewardLabel.hidden = YES;
-        _subQuestRewardValue.hidden = YES;
+        _subQuestLabel.hidden = YES;
+        _subQuestDescription.hidden = YES;
         _subQuestHRP.hidden = YES;
         _subQuestHRPValue.hidden = YES;
         _subQuestRewardLabel.hidden = YES;

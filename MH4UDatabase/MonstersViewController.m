@@ -156,7 +156,6 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView isEqual:_monsterTable]) {
         Monster *monster = _displayedMonsters[indexPath.row];
-        [self populateDetailForMonster:monster];
         _selectedMonster = monster;
         MonsterDetailViewController *mDVC = [[MonsterDetailViewController alloc] init];
         mDVC.selectedMonster = _selectedMonster;
@@ -166,9 +165,7 @@
     }
 }
 
--(void)populateDetailForMonster:(Monster*) monster {
-    [_dbEngine getDetailsForMonster:monster];
-}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
