@@ -846,6 +846,9 @@
 		E7A00DF81AAFBDB90037BE61 /* MonstersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A00DF71AAFBDB90037BE61 /* MonstersViewController.m */; };
 		E7A00DFB1AAFC0830037BE61 /* MonsterDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A00DFA1AAFC0830037BE61 /* MonsterDetailViewController.m */; };
 		E7A0213E1AA7EF2E00941343 /* DetailedArmorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7A0213D1AA7EF2E00941343 /* DetailedArmorView.xib */; };
+		E7AB48B71AB2903200060D7E /* QuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AB48B61AB2903200060D7E /* QuestsViewController.m */; };
+		E7AB48BF1AB2B4F600060D7E /* QuestDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AB48BE1AB2B4F600060D7E /* QuestDetailViewController.m */; };
+		E7AB48C11AB2B68000060D7E /* DetailedQuestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7AB48C01AB2B68000060D7E /* DetailedQuestView.xib */; };
 		E7AF5F881AAE2F6E00847512 /* ItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AF5F871AAE2F6E00847512 /* ItemsViewController.m */; };
 		E7AF5F8A1AAE303600847512 /* DetailedItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7AF5F891AAE303600847512 /* DetailedItemView.xib */; };
 		E7AF5F8F1AAE318300847512 /* WeaponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AF5F8E1AAE318300847512 /* WeaponViewController.m */; };
@@ -1723,6 +1726,11 @@
 		E7A00DF91AAFC0830037BE61 /* MonsterDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonsterDetailViewController.h; sourceTree = "<group>"; };
 		E7A00DFA1AAFC0830037BE61 /* MonsterDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonsterDetailViewController.m; sourceTree = "<group>"; };
 		E7A0213D1AA7EF2E00941343 /* DetailedArmorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DetailedArmorView.xib; path = MH4UDatabase/DetailedArmorView.xib; sourceTree = "<group>"; };
+		E7AB48B51AB2903200060D7E /* QuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestsViewController.h; sourceTree = "<group>"; };
+		E7AB48B61AB2903200060D7E /* QuestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestsViewController.m; sourceTree = "<group>"; };
+		E7AB48BD1AB2B4F600060D7E /* QuestDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestDetailViewController.h; sourceTree = "<group>"; };
+		E7AB48BE1AB2B4F600060D7E /* QuestDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestDetailViewController.m; sourceTree = "<group>"; };
+		E7AB48C01AB2B68000060D7E /* DetailedQuestView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailedQuestView.xib; sourceTree = "<group>"; };
 		E7AF5F861AAE2F6E00847512 /* ItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemsViewController.h; sourceTree = "<group>"; };
 		E7AF5F871AAE2F6E00847512 /* ItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemsViewController.m; sourceTree = "<group>"; };
 		E7AF5F891AAE303600847512 /* DetailedItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DetailedItemView.xib; path = MH4UDatabase/DetailedItemView.xib; sourceTree = "<group>"; };
@@ -2813,6 +2821,7 @@
 				E7AF5F891AAE303600847512 /* DetailedItemView.xib */,
 				E78F927C1AAD1719003A297F /* MonsterDetailCell.xib */,
 				E7A0213D1AA7EF2E00941343 /* DetailedArmorView.xib */,
+				E7AB48C01AB2B68000060D7E /* DetailedQuestView.xib */,
 			);
 			name = Nibs;
 			sourceTree = "<group>";
@@ -2853,6 +2862,10 @@
 		E7EB7DED1AA6AC96007C05E0 /* MH4UDatabase */ = {
 			isa = PBXGroup;
 			children = (
+				E7AB48BD1AB2B4F600060D7E /* QuestDetailViewController.h */,
+				E7AB48BE1AB2B4F600060D7E /* QuestDetailViewController.m */,
+				E7AB48B51AB2903200060D7E /* QuestsViewController.h */,
+				E7AB48B61AB2903200060D7E /* QuestsViewController.m */,
 				E78ED7C31AB21E0200E80635 /* DecorationsDetailViewController.h */,
 				E78ED7C41AB21E0200E80635 /* DecorationsDetailViewController.m */,
 				E78ED7C01AB20DC100E80635 /* DecorationsViewController.h */,
@@ -3118,6 +3131,7 @@
 				E78AFA2F1AA92A12009B16C3 /* Nectar-Blue.png in Resources */,
 				E78AF9BB1AA92A12009B16C3 /* Fish-White.png in Resources */,
 				E78AFACB1AA92A12009B16C3 /* Wystone-Cyan.png in Resources */,
+				E7AB48C11AB2B68000060D7E /* DetailedQuestView.xib in Resources */,
 				E78AF9A61AA92A12009B16C3 /* Fang-DarkGreen.png in Resources */,
 				E78AF9F91AA92A12009B16C3 /* Liquid-Grey.png in Resources */,
 				E78AF9541AA92A12009B16C3 /* Bone-Orange.png in Resources */,
@@ -3904,10 +3918,12 @@
 				E77A7BE41AA91D490087247F /* MH4UDBEngine.m in Sources */,
 				E7EB7DF71AA6AC96007C05E0 /* MenuViewController.m in Sources */,
 				E78C04931AAF4BE5005ECCF6 /* ArmorsViewController.m in Sources */,
+				E7AB48BF1AB2B4F600060D7E /* QuestDetailViewController.m in Sources */,
 				E72E4EAE1AB0C67E0043CC6A /* CombiningViewController.m in Sources */,
 				E7AF5F8F1AAE318300847512 /* WeaponViewController.m in Sources */,
 				E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */,
 				E734F05A1AB0F9DA0037E684 /* SkillTreeViewController.m in Sources */,
+				E7AB48B71AB2903200060D7E /* QuestsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

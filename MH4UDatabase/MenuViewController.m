@@ -7,6 +7,7 @@
 //
 
 #import "MenuViewController.h"
+#import "QuestsViewController.h"
 #import "DecorationsViewController.h"
 #import "SkillTreeViewController.h"
 #import "ItemsViewController.h"
@@ -130,6 +131,12 @@
         stVC.heightDifference = heightDifference;
         stVC.dbEngine = _dbEngine;
         [nC setViewControllers:@[stVC]];
+    } else if ([[segue identifier] isEqualToString:@"showQuests"]) {
+        QuestsViewController *qVC = [[QuestsViewController alloc] init];
+        qVC.heightDifference = heightDifference;
+        qVC.allQuestsArray = [_dbEngine getAllQuests];
+        qVC.dbEngine = _dbEngine;
+        [nC setViewControllers:@[qVC]];
     }
    
 }

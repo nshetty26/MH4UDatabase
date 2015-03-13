@@ -170,22 +170,33 @@
         cell.textLabel.text = label;
         cell.detailTextLabel.text = detailLabel;
         CGRect cellFrame = cell.frame;
-        CGRect textView = CGRectMake(cellFrame.size.width - 60, cellFrame.size.height - 10, 30, 20);
-        UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
-        [cell addSubview:acessoryText];
-        acessoryText.textAlignment =  NSTextAlignmentRight;
-        acessoryText.text = [NSString stringWithFormat:@"%@%@",questRewardArray[5], @"%"];
-        UIFont *font = [acessoryText.font fontWithSize:11];
-        acessoryText.font = font;
-        cell.accessoryView = acessoryText;
+        CGRect textView = CGRectMake(cellFrame.size.width - 65, cellFrame.size.height - 10, 35, 20);
+        UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
+        [cell addSubview:accessoryText];
+        accessoryText.textAlignment =  NSTextAlignmentRight;
+        accessoryText.text = [NSString stringWithFormat:@"%@%@",questRewardArray[5], @"%"];
+        UIFont *font = [accessoryText.font fontWithSize:11];
+        accessoryText.font = font;
+        cell.accessoryView = accessoryText;
 
         return cell;
     }
     
     else if ([tableView isEqual:_locationTable]){
         NSArray *locationArray = _selectedItem.locationsArray[indexPath.row];
-        NSString *label = [NSString stringWithFormat:@" %@: %@ %@, %@ %@ %@%@", locationArray[0], locationArray[1], locationArray[2], locationArray[3], locationArray[4], locationArray[5], @"%"];
+        NSString *label = [NSString stringWithFormat:@"%@", locationArray[0]];
+        NSString *detailLabel = [NSString stringWithFormat:@"%@ %@", locationArray[1], locationArray[2]];
         cell.textLabel.text = label;
+        cell.detailTextLabel.text = detailLabel;
+        CGRect cellFrame = cell.frame;
+        CGRect textView = CGRectMake(cellFrame.size.width - 80, cellFrame.size.height - 10, 60, 20);
+        UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
+        [cell addSubview:accessoryText];
+        accessoryText.textAlignment =  NSTextAlignmentRight;
+        accessoryText.text = [NSString stringWithFormat:@"%@ %@%@",locationArray[3], locationArray[5], @"%"];
+        UIFont *font = [accessoryText.font fontWithSize:11];
+        accessoryText.font = font;
+        cell.accessoryView = accessoryText;
         return cell;
     }
     

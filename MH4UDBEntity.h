@@ -61,6 +61,25 @@
 
 @end
 
+@interface Quest : NSObject
+@property (nonatomic) int questID;
+@property (nonatomic) NSString *name;
+@property (nonatomic) NSString *goal;
+@property (nonatomic) NSString *hub;
+@property (nonatomic) NSString *type;
+@property (nonatomic) int stars;
+@property (nonatomic) NSString *location;
+@property (nonatomic) int fee;
+@property (nonatomic) int reward;
+@property (nonatomic) int hrp;
+@property (nonatomic) NSString *subQuest;
+@property (nonatomic) int subQuestReward;
+@property (nonatomic) int subHRP;
+@property (nonatomic) NSArray *monsters;
+@property (nonatomic) NSArray *rewards;
+@end
+
+
 @interface Monster : NSObject
 
 @property (nonatomic) int monsterID;

@@ -623,9 +623,68 @@
     
     return skillsArray;
 }
-/*
- SELECT items._id as itemID, items.name as itemName, items.type, skill_trees._id, skill_trees.name, item_to_skill_tree.point_value FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id where skill_trees._id = 4 and type = 'Decoration'
-*/
+-(NSArray *)getAllQuests {
+    NSMutableArray *questArray = [[NSMutableArray alloc] init];
+    NSString *questsQuery = @"select quests._id, quests.name, quests.hub, quests.type, quests.stars, locations.name as locationName from quests inner join locations on locations._id = quests.location_id";
+    FMResultSet *s = [self DBquery:questsQuery];
+    while ([s next]) {
+        Quest *quest = [[Quest alloc] init];
+        quest.questID = [s intForColumn:@"_id"];
+        quest.name = [s stringForColumn:@"name"];
+        quest.hub = [s stringForColumn:@"hub"];
+        quest.type = [s stringForColumn:@"type"];
+        quest.stars = [s intForColumn:@"stars"];
+        quest.location = [s stringForColumn:@"locationName"];
+        [questArray addObject:quest];
+    }
+    return questArray;
+}
 
+-(void)getQuestInfoforQuest:(Quest*)quest {
+    NSString *questInfoQuery = [NSString stringWithFormat:@"select quests.hrp, quests.reward, quests.fee, quests.goal, quests.sub_goal, quests.sub_hrp, quests.sub_reward from quests inner join locations on locations._id = quests.location_id where quests._id = %i", quest.questID];
+    FMResultSet *s = [self DBquery:questInfoQuery];
+    if ([s next]) {
+        quest.hrp = [s intForColumn:@"hrp"];
+        quest.reward = [s intForColumn:@"reward"];
+        quest.fee = [s intForColumn:@"fee"];
+        quest.goal = [s stringForColumn:@"goal"];
+        quest.subQuest = [s stringForColumn:@"sub_goal"];
+        quest.subHRP = [s intForColumn:@"sub_hrp"];
+        quest.subQuestReward = [s intForColumn:@"sub_reward"];
+        quest.monsters = [self getMonstersForQuestID:quest.questID];
+        quest.rewards = [self getRewardsForQuestID:quest.questID];
+    }
+}
+
+-(NSArray *)getMonstersForQuestID:(int)questID {
+    NSMutableArray *monsterArray = [[NSMutableArray alloc] init];
+    NSString *monsterQuestQuery = [NSString stringWithFormat: @"select monsters._id, monsters.name, monsters.icon_name from monster_to_quest inner join quests on quests._id = monster_to_quest.quest_id inner join monsters on monsters._id = monster_to_quest.monster_id where quests._id = %i", questID];
+    
+    FMResultSet *s = [_mh4DB executeQuery:monsterQuestQuery];
+    while ([s next]) {
+        Monster *monster = [[Monster alloc] init];
+        monster.monsterID = [s intForColumn:@"_id"];
+        monster.monsterName = [s stringForColumn:@"name"];
+        monster.iconName = [s stringForColumn:@"icon_name"];
+        [monsterArray addObject:monster];
+    }
+    return monsterArray;
+}
+
+-(NSArray *)getRewardsForQuestID:(int)questID {
+    NSMutableArray *rewardArray = [[NSMutableArray alloc] init];
+    NSString *questRewards = [NSString stringWithFormat:@"SELECT quest_rewards.item_id, items.name, items.icon_name, quest_rewards.reward_slot, quest_rewards.percentage from quest_rewards inner join items on items._id = quest_rewards.item_id where quest_rewards.quest_id = %i", questID];
+    FMResultSet *s = [_mh4DB executeQuery:questRewards];
+    while ([s next]) {
+        Item *item = [[Item alloc] init];
+        item.itemID = [s intForColumn:@"item_id"];
+        item.name = [s stringForColumn:@"name"];
+        item.icon = [s stringForColumn:@"icon_name"];
+        item.percentage = [s intForColumn:@"percentage"];
+        NSString *rewardType = [s stringForColumn:@"reward_slot"];
+        [rewardArray addObject:@[rewardType, item]];
+    }
+    return rewardArray;
+}
 
 @end

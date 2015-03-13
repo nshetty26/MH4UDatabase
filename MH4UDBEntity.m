@@ -20,6 +20,10 @@
 
 @end
 
+@implementation Quest
+
+@end
+
 @implementation Monster
 
 @end

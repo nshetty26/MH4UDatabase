@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @class Armor;
+@class Quest;
 @class Item;
 @class Monster;
 @class SkillCollection;
@@ -39,6 +40,9 @@
 
 -(NSArray *)getAllDecorations;
 -(NSArray *)getComponentsfor:(int)armorID;
+
+-(NSArray *)getAllQuests;
+-(void)getQuestInfoforQuest:(Quest*)quest;
 
 
 @end

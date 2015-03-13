@@ -156,6 +156,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="aVI-RD-mrv" kind="showDetail" identifier="showQuests" id="j3b-r8-N8z"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ItemCell" textLabel="Qy0-wz-A9F" style="IBUITableViewCellStyleDefault" id="6hB-m4-QQp">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -262,6 +265,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="BCa-dw-UXa"/>
+        <segue reference="j3b-r8-N8z"/>
     </inferredMetricsTieBreakers>
 </document>
