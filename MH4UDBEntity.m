@@ -47,3 +47,15 @@
 @implementation Decoration
 
 @end
+
+@implementation Location
+
+@end
+
+@implementation GatheredResource
+
+@end
+
+@implementation Weapon
+
+@end

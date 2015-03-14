@@ -139,7 +139,7 @@
     }
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"monsterDetailCell"];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"monsterDetailCell"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"monsterDetailCell"];
     }
     
     if  ([tableView isEqual:_statusEffectTable]){
@@ -149,6 +149,7 @@
     } else if  ([tableView isEqual:_habitatTable]){
         MonsterHabitat *mh = _selectedMonster.monsterHabitats[indexPath.row];
         cell.textLabel.text = mh.locationName;
+        cell.detailTextLabel.text = mh.fullPath;
         return cell;
     } else if  ([tableView isEqual:_rankDropTable]){
         if ([_monsterDetailTabBar.selectedItem isEqual:_lowRank]) {

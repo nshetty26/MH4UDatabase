@@ -160,6 +160,7 @@
         MonsterDetailViewController *mDVC = [[MonsterDetailViewController alloc] init];
         mDVC.selectedMonster = _selectedMonster;
         mDVC.heightDifference = _heightDifference;
+        mDVC.dbEngine = _dbEngine;
         [self.navigationController pushViewController:mDVC animated:YES];
         
     }

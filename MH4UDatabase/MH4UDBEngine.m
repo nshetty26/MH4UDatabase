@@ -35,7 +35,7 @@
 }
 
 
-#pragma mark Monster Queries
+#pragma mark - Monster Queries
 -(NSArray *)populateAllMonsterArray {
     NSMutableArray *allMonsterArray = [[NSMutableArray alloc] init];
     
@@ -183,7 +183,7 @@
     monster.questInfos = questArray;
 }
 
-#pragma mark Armor Queries
+#pragma mark - Armor Queries
 -(NSArray *)populateArmorArray {
     NSMutableArray *armorArray = [[NSMutableArray alloc] init];
     
@@ -271,7 +271,7 @@
     return componentsArray;
 }
 
-#pragma - mark Item Queries
+#pragma mark - Item Queries
 -(NSArray *)populateItemArray {
     NSMutableArray *itemsArray = [[NSMutableArray alloc] init];
     NSString *itemQuery = [NSString stringWithFormat:@"SELECT * From items WHERE items.type NOT IN ('Armor','Weapon')"];
@@ -681,7 +681,7 @@
 
 -(NSArray *)getRewardsForQuestID:(int)questID {
     NSMutableArray *rewardArray = [[NSMutableArray alloc] init];
-    NSString *questRewards = [NSString stringWithFormat:@"SELECT quest_rewards.item_id, items.name, items.icon_name, items.rarity, items.type, items.carry_capacity, items.buy, items.sell, items.description, quest_rewards.reward_slot, quest_rewards.percentage from quest_rewards inner join items on items._id = quest_rewards.item_id where quest_rewards.quest_id = %i", questID];
+    NSString *questRewards = [NSString stringWithFormat:@"SELECT quest_rewards.item_id, items.name, items.icon_name, items.rarity, items.type, items.carry_capacity, items.buy, items.sell, items.description, quest_rewards.reward_slot, quest_rewards.percentage from quest_rewards inner join items on items._id = quest_rewards.item_id where quest_rewards.quest_id = %i order by percentage desc", questID];
     FMResultSet *s = [_mh4DB executeQuery:questRewards];
     while ([s next]) {
         Item *item = [[Item alloc] init];
@@ -709,10 +709,10 @@
         NSArray *itemArray2 = (NSArray *)i2;
         Item *item1 = (Item *)itemArray1[1];
         Item *item2 = (Item *)itemArray2[1];
-        if (item1.percentage > item2.percentage) {
-            return -1;
-        } else if (item1.percentage < item2.percentage) {
+        if (item1.percentage < item2.percentage) {
             return 1;
+        } else if (item1.percentage > item2.percentage) {
+            return -1;
         } else {
             return 0;
         }
@@ -720,6 +720,110 @@
 
     
     return rewardArray;
+}
+
+-(NSArray *)getAllLocations {
+    NSMutableArray *locationArray = [[NSMutableArray alloc] init];
+    NSString *locationQuery = @"SELECT _id, name, map as mapIcon from locations";
+    FMResultSet *s = [self DBquery:locationQuery];
+    while ([s next]) {
+        Location *location = [[Location alloc] init];
+        location.locationID = [s intForColumn:@"_id"];
+        location.locationName = [s stringForColumn:@"name"];
+        location.locationIcon = [s stringForColumn:@"mapIcon"];
+        [locationArray addObject:location];
+    }
+    return locationArray;
+}
+
+-(void)monstersForLocationID:(Location *)location {
+    NSString *monsterLocationQuery = [NSString stringWithFormat:@"SELECT monster_habitat.location_id,monsters._id as monsterID, monsters.name as monName, monsters.icon_name , monster_habitat.start_area, monster_habitat.move_area, monster_habitat.rest_area From monster_habitat INNER JOIN locations on monster_habitat.location_id = locations._id inner join monsters on monsters._id = monster_habitat.monster_id where monster_habitat.location_id = %i", location.locationID];
+    NSMutableArray *monsterArray = [[NSMutableArray alloc] init];
+    FMResultSet *s = [self DBquery:monsterLocationQuery];
+    while ([s next]) {
+        Monster *monster = [[Monster alloc] init];
+        MonsterHabitat *mh = [[MonsterHabitat alloc] init];
+        monster.monsterID = [s intForColumn:@"monsterID"];
+        monster.monsterName = [s stringForColumn:@"monName"];
+        monster.iconName = [s stringForColumn:@"icon_name"];
+
+        mh.locationID = [s intForColumn:@"location_id"];
+        mh.initial = [s intForColumn:@"start_area"];
+        NSString *moveArea = [s stringForColumn:@"move_area"];
+        mh.movePath = [moveArea stringByReplacingOccurrencesOfString:@"\\" withString:@", "];
+        mh.restArea = [s intForColumn:@"rest_area"];
+        mh.fullPath = [NSString stringWithFormat:@"%i -> %@-> %i", mh.initial, mh.movePath, mh.restArea];
+        [monsterArray addObject:@[monster, mh]];
+    }
+    location.monsterArray = monsterArray;
+}
+
+-(void)itemsForLocationID:(Location *)location {
+    NSArray *ranks = @[@"LR", @"HR", @"G"];
+    
+    for (NSString *rank in ranks) {
+        NSMutableArray *itemDrops = [[NSMutableArray alloc] init];
+
+        NSString *itemLocationQuery = [NSString stringWithFormat:@"SELECT gathering.item_id as itemID, items.name as itemName, items.type, items.rarity, items.carry_capacity, items.buy, items.sell, items.icon_name, locations.name as lName, area, site, rank, quantity, percentage from gathering INNER JOIN locations ON gathering.location_id = locations._id inner join items on gathering.item_id = items._id where gathering.location_id = %i AND gathering.rank = '%@' order by percentage desc", location.locationID, rank];
+        FMResultSet *s = [_mh4DB executeQuery:itemLocationQuery];
+        while ([s next]) {
+            GatheredResource *gatheredResource = [[GatheredResource alloc] init];
+            gatheredResource.locationName = [s stringForColumn:@"lName"];
+            gatheredResource.rank = [s stringForColumn:@"rank"];
+            gatheredResource.area = [s stringForColumn:@"area"];
+            gatheredResource.site = [s stringForColumn:@"site"];
+            gatheredResource.quantity = [s intForColumn:@"quantity"];
+            gatheredResource.percentage = [s intForColumn:@"percentage"];
+            gatheredResource.itemID = [s intForColumn:@"itemID"];
+            gatheredResource.name = [s stringForColumn:@"itemName"];
+            gatheredResource.icon = [s stringForColumn:@"icon_name"];
+            [itemDrops addObject:gatheredResource];
+        }
+    
+        if ([rank isEqual:@"LR"]) {
+            location.lowRankItemsArray = itemDrops;
+        } else if ([rank isEqualToString:@"HR"]) {
+            location.highRankItemsArray = itemDrops;
+        } else if ([rank isEqualToString:@"G"]) {
+            location.gRankItemsArray = itemDrops;
+        }
+    }
+}
+
+-(NSArray *)getWeaponTypes {
+    NSString *weaponTypeQuery = @"SELECT DISTINCT(wtype) as Weapon FROM weapons";
+    NSMutableArray *weaponTypes = [[NSMutableArray alloc] init];
+    
+    FMResultSet *s = [self DBquery:weaponTypeQuery];
+    while ([s next]) {
+        NSString *weaponType = [s stringForColumn:@"Weapon"];
+        [weaponTypes addObject:weaponType];
+    }
+    
+    return weaponTypes;
+}
+
+-(NSArray *)getWeaponsForWeaponType:(NSString *)weaponType {
+    NSMutableArray *weaponArray = [[NSMutableArray alloc] init];
+    NSString *weaponQuery =  [NSString stringWithFormat:@"select weapons._id, items.name, items.rarity, weapons.wtype, weapons.attack, weapons.awaken, weapons.awaken_attack, weapons.num_slots, weapons.affinity, weapons.defense, weapons.sharpness_file, weapons.tree_depth from weapons inner join items on items._id = weapons._id where weapons.wtype = '%@'", weaponType];
+    FMResultSet *s = [self DBquery:weaponQuery];
+    while ([s next]) {
+        Weapon *weapon = [[Weapon alloc] init];
+        weapon.name = [s stringForColumn:@"name"];
+        weapon.itemID = [s intForColumn:@"_id"];
+        weapon.rarity = [s intForColumn:@"rarity"];
+        weapon.weaponType = [s stringForColumn:@"wtype"];
+        weapon.attack = [s intForColumn:@"attack"];
+        weapon.awaken_type = [s stringForColumn:@"awaken"];
+        weapon.awakenDamage = [s intForColumn:@"awaken_attack"];
+        weapon.num_slots = [s intForColumn:@"num_slots"];
+        weapon.affinity = [s intForColumn:@"affinity"];
+        weapon.defense = [s intForColumn:@"defense"];
+        weapon.sharpnessFile = [s stringForColumn:@"sharpness_file"];
+        weapon.tree_depth = [s intForColumn:@"tree_depth"];
+        [weaponArray addObject:weapon];
+    }
+    return weaponArray;
 }
 
 @end

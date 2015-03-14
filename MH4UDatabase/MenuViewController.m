@@ -8,6 +8,7 @@
 
 #import "MenuViewController.h"
 #import "QuestsViewController.h"
+#import "LocationsViewController.h"
 #import "DecorationsViewController.h"
 #import "SkillTreeViewController.h"
 #import "ItemsViewController.h"
@@ -15,7 +16,7 @@
 #import "MonstersViewController.h"
 #import "ArmorsViewController.h"
 #import "DetailViewController.h"
-#import "WeaponViewController.h"
+#import "WeaponTypeTableViewController.h"
 #import "CombiningViewController.h"
 #import "MH4UDBEngine.h"
 
@@ -107,10 +108,11 @@
         //[controller setDetailItem:@"Item"];
 
     } else if ([[segue identifier] isEqualToString:@"showWeapon"]) {
-        
-        WeaponViewController *wc = [[WeaponViewController alloc] init];
+        WeaponTypeTableViewController *wc = [[WeaponTypeTableViewController alloc] init];
+        wc.allWeaponTypes = [_dbEngine getWeaponTypes];
+        wc.heightDifference = heightDifference;
+        wc.dbEngine = _dbEngine;
         [nC setViewControllers:@[wc]];
-        NSLog(@"Pause");
 
     } else if ([[segue identifier] isEqualToString:@"showCombined"]) {
         CombiningViewController *cVC = [[CombiningViewController alloc] init];
@@ -137,6 +139,12 @@
         qVC.allQuestsArray = [_dbEngine getAllQuests];
         qVC.dbEngine = _dbEngine;
         [nC setViewControllers:@[qVC]];
+    } else if ([[segue identifier] isEqualToString:@"showLocation"]) {
+        LocationsViewController *lVC = [[LocationsViewController alloc] init];
+        lVC.heightDifference = heightDifference;
+        lVC.allLocations = _dbEngine.getAllLocations;
+        lVC.dbEngine = _dbEngine;
+        [nC setViewControllers:@[lVC]];
     }
    
 }

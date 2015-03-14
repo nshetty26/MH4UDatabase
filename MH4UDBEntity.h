@@ -146,3 +146,56 @@
 @property (nonatomic) NSArray *componentArray;
 
 @end
+
+@interface Location : NSObject
+@property (nonatomic) int locationID;
+@property (nonatomic) NSString *locationName;
+@property (nonatomic) NSString *locationIcon;
+@property (nonatomic) NSArray *monsterArray;
+@property (nonatomic) NSArray *lowRankItemsArray;
+@property (nonatomic) NSArray *highRankItemsArray;
+@property (nonatomic) NSArray *gRankItemsArray;
+
+@end
+
+@interface GatheredResource : Item
+@property (nonatomic) NSString *locationName;
+@property (nonatomic) NSString *rank;
+@property (nonatomic) NSString *area;
+@property (nonatomic) NSString *site;
+@property (nonatomic) int quantity;
+@property (nonatomic) int percentage;
+@end
+
+@interface Weapon : Item
+@property (nonatomic) NSString *weaponType;
+@property (nonatomic) int creationCost;
+@property (nonatomic) int upgradeCost;
+@property (nonatomic) int attack;
+@property (nonatomic) int maxAttack;
+@property (nonatomic) NSString *elementalDamageType_1;
+@property (nonatomic) int elementalDamage_1;
+@property (nonatomic) NSString *elementalDamageType_2;
+@property (nonatomic) int elementalDamage_2;
+@property (nonatomic) NSString *awaken_type;
+@property (nonatomic) int awakenDamage;
+@property (nonatomic) int defense;
+@property (nonatomic) NSString *sharpness;
+@property (nonatomic) int affinity;
+@property (nonatomic) NSString *hornNotes;
+@property (nonatomic) NSString *shellingType;
+@property (nonatomic) NSString *phial;
+@property (nonatomic) NSString *charges;
+@property (nonatomic) NSString *coatings;
+@property (nonatomic) NSString *recoil;
+@property (nonatomic) NSString *reloadSpeed;
+@property (nonatomic) NSString *rapidFire;
+@property (nonatomic) NSString *deviation;
+@property (nonatomic) NSString *ammo;
+@property (nonatomic) NSString *sharpnessFile;
+@property (nonatomic) int num_slots;
+@property (nonatomic) int tree_depth;
+@property (nonatomic) int final;
+
+
+@end

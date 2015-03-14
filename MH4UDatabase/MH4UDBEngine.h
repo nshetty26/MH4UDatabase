@@ -12,6 +12,7 @@
 @class Item;
 @class Monster;
 @class SkillCollection;
+@class Location;
 
 @interface MH4UDBEngine : NSObject
 
@@ -44,6 +45,12 @@
 -(NSArray *)getAllQuests;
 -(void)getQuestInfoforQuest:(Quest*)quest;
 
+-(NSArray *)getAllLocations;
+-(void)monstersForLocationID:(Location *)location;
+-(void)itemsForLocationID:(Location *)location;
+
+-(NSArray *)getWeaponTypes;
+-(NSArray *)getWeaponsForWeaponType:(NSString *)weaponType;
 
 @end
 
