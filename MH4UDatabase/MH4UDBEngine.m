@@ -805,7 +805,7 @@
 
 -(NSArray *)getWeaponsForWeaponType:(NSString *)weaponType {
     NSMutableArray *weaponArray = [[NSMutableArray alloc] init];
-    NSString *weaponQuery =  [NSString stringWithFormat:@"select weapons._id, items.name, items.rarity, weapons.wtype, weapons.attack, weapons.awaken, weapons.awaken_attack, weapons.num_slots, weapons.affinity, weapons.defense, weapons.sharpness_file, weapons.tree_depth from weapons inner join items on items._id = weapons._id where weapons.wtype = '%@'", weaponType];
+    NSString *weaponQuery =  [NSString stringWithFormat:@"select weapons._id, items.name, items.rarity, weapons.wtype, weapons.attack, weapons.awaken, weapons.awaken_attack, weapons.num_slots, weapons.affinity, weapons.defense, weapons.sharpness, weapons.tree_depth from weapons inner join items on items._id = weapons._id where weapons.wtype = '%@'", weaponType];
     FMResultSet *s = [self DBquery:weaponQuery];
     while ([s next]) {
         Weapon *weapon = [[Weapon alloc] init];
@@ -819,7 +819,7 @@
         weapon.num_slots = [s intForColumn:@"num_slots"];
         weapon.affinity = [s intForColumn:@"affinity"];
         weapon.defense = [s intForColumn:@"defense"];
-        weapon.sharpnessFile = [s stringForColumn:@"sharpness_file"];
+        weapon.sharpness = [s stringForColumn:@"sharpness"];
         weapon.tree_depth = [s intForColumn:@"tree_depth"];
         [weaponArray addObject:weapon];
     }

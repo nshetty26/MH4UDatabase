@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@class MH4UDBEngine;
 
 @interface WeaponsTableViewController : UITableViewController <UISearchBarDelegate>
 @property (nonatomic) NSArray *weaponsArray;
 @property (nonatomic) NSString *imageString;
 @property (nonatomic) NSString *weaponFamily;
+@property (nonatomic) MH4UDBEngine *dbEngine;
+@property (nonatomic) int heightDifference;
 @end

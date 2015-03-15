@@ -62,8 +62,10 @@
     WeaponsTableViewController *wTVC = [[WeaponsTableViewController alloc] init];
     
     wTVC.weaponsArray = [_dbEngine getWeaponsForWeaponType:weaponName];
+    wTVC.dbEngine = _dbEngine;
     wTVC.imageString = imageString;
     wTVC.weaponFamily = weaponName;
+    wTVC.heightDifference = _heightDifference;
     [self.navigationController pushViewController:wTVC animated:YES];
 }
 

@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 @class Weapon;
+@class MH4UDBEngine;
 
-@interface WeaponDetailViewController : UIViewController
+@interface WeaponDetailViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITabBarDelegate>
 @property (nonatomic) Weapon *selectedWeapon;
+@property (nonatomic) MH4UDBEngine *dbEngine;
+@property (nonatomic) int heightDifference;
 @end
 
 @interface DetailedWeaponView : UIView
@@ -26,5 +29,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *upgradeCostLabel;
 
 -(void)populateWeapon:(Weapon *)weapon;
+@property (weak, nonatomic) IBOutlet UIView *sharpnessView1;
+@property (weak, nonatomic) IBOutlet UIView *sharpnessView2;
 
 @end

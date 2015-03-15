@@ -113,7 +113,9 @@
     Weapon *weapon = _displayedWeapons[indexPath.row];
     WeaponDetailViewController *wDVC = [[WeaponDetailViewController alloc] init];
     wDVC.selectedWeapon = weapon;
-    wDVC.selectedWeapon.icon = _imageString;
+    wDVC.selectedWeapon.icon = [NSString stringWithFormat:@"%@%i.png",_imageString, weapon.rarity];
+    wDVC.dbEngine = _dbEngine;
+    wDVC.heightDifference = _heightDifference;
     [self.navigationController pushViewController:wDVC animated:YES];
 }
 
