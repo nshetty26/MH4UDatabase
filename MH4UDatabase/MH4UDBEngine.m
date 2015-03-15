@@ -805,12 +805,13 @@
 
 -(NSArray *)getWeaponsForWeaponType:(NSString *)weaponType {
     NSMutableArray *weaponArray = [[NSMutableArray alloc] init];
-    NSString *weaponQuery =  [NSString stringWithFormat:@"select weapons._id, items.name, items.rarity, weapons.wtype, weapons.attack, weapons.awaken, weapons.awaken_attack, weapons.num_slots, weapons.affinity, weapons.defense, weapons.sharpness, weapons.tree_depth from weapons inner join items on items._id = weapons._id where weapons.wtype = '%@'", weaponType];
+    NSString *weaponQuery =  [NSString stringWithFormat:@"select weapons._id, weapons.parent_id, items.name, items.rarity, weapons.wtype, weapons.attack, weapons.awaken, weapons.awaken_attack, weapons.num_slots, weapons.affinity, weapons.defense, weapons.sharpness, weapons.tree_depth from weapons inner join items on items._id = weapons._id where weapons.wtype = '%@'", weaponType];
     FMResultSet *s = [self DBquery:weaponQuery];
     while ([s next]) {
         Weapon *weapon = [[Weapon alloc] init];
         weapon.name = [s stringForColumn:@"name"];
         weapon.itemID = [s intForColumn:@"_id"];
+        weapon.parentID = [s intForColumn:@"parent_id"];
         weapon.rarity = [s intForColumn:@"rarity"];
         weapon.weaponType = [s stringForColumn:@"wtype"];
         weapon.attack = [s intForColumn:@"attack"];

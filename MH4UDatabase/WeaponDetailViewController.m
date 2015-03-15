@@ -15,6 +15,7 @@
 @property (nonatomic) DetailedWeaponView *detailedView;
 @property (nonatomic) UITabBar *weaponDetailTab;
 @property (nonatomic) UITableView *componentTable;
+@property (nonatomic) UITableView *weaponFamilyTable;
 @property (nonatomic) NSArray *weaponComponents;
 
 @end
@@ -25,7 +26,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    
+    _selectedWeapon.icon = [NSString stringWithFormat:@"%@%i.png",_imageString, _selectedWeapon.rarity];
     CGRect vcFrame = self.view.frame;
     
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
@@ -51,6 +52,10 @@
     _componentTable.delegate = self;
     _componentTable.dataSource = self;
     
+    _weaponFamilyTable = [[UITableView alloc] initWithFrame:tablewithTabbar];
+    _weaponFamilyTable.delegate = self;
+    _weaponFamilyTable.dataSource = self;
+    
     [self.view addSubview:_weaponDetailTab];
     [self.view addSubview:_detailedView];
 }
@@ -58,6 +63,8 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([tableView isEqual:_componentTable]) {
         return _weaponComponents.count;
+    } else if ([tableView isEqual:_weaponFamilyTable]) {
+        return _weaponFamily.count;
     } else  {
         return 0;
     }
@@ -87,6 +94,9 @@
         NSArray *componentArray = _weaponComponents[indexPath.row];
         cell.textLabel.text = [componentArray objectAtIndex:1];
         cell.imageView.image = [UIImage imageNamed:componentArray[2]];
+        if (cell.imageView.image == nil) {
+            cell.imageView.image = [UIImage imageNamed:_selectedWeapon.icon];
+        }
         CGRect cellFrame = cell.frame;
         CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 30, 20);
         UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
@@ -95,6 +105,11 @@
         acessoryText.text = [NSString stringWithFormat:@"%@", componentArray[3]];
         [cell setAccessoryView: acessoryText];
         
+    } else if ([tableView isEqual:_weaponFamilyTable]) {
+        Weapon *weapon = _weaponFamily[indexPath.row];
+        cell.indentationWidth = 3;
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", weapon.name];
+        cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@%i.png",_imageString, weapon.rarity]];
     }
     
     return cell;
@@ -113,7 +128,7 @@
                 [self.view addSubview:_detailedView];
                 break;
             case 5:
-                //[self.view addSubview:_skillTable];
+                [self.view addSubview:_weaponFamilyTable];
                 break;
             case 6:
                 [self.view addSubview:_componentTable];
@@ -128,12 +143,17 @@
 }
 
 -(void)removeViewsFromDetail {
-    NSArray *allTables = @[_detailedView, _componentTable];
+    NSArray *allTables = @[_detailedView, _weaponFamilyTable, _componentTable];
     for (UIView *view in allTables) {
         if (view.superview != nil) {
             [view removeFromSuperview];
         }
     }
+}
+
+-(NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath {
+    Weapon *weapon = _weaponFamily[indexPath.row];
+    return weapon.tree_depth;
 }
 
 @end

@@ -145,6 +145,17 @@
     if  ([tableView isEqual:_statusEffectTable]){
         MonsterStatusEffect *mse = _selectedMonster.monsterStatusEffects[indexPath.row];
         cell.textLabel.text = mse.status;
+        NSString *imageString;
+        if ([mse.status isEqualToString:@"KO"]) {
+            imageString = @"Stun";
+        } else if ([mse.status isEqualToString:@"Para"]) {
+            imageString = @"Paralysis";
+        } else if ([mse.status isEqualToString:@"Blast"]) {
+            imageString = @"Blastblight";
+        } else {
+            imageString = mse.status;
+        }
+        cell.imageView.image =[UIImage imageNamed:[NSString stringWithFormat:@"%@.png", imageString]];
         return cell;
     } else if  ([tableView isEqual:_habitatTable]){
         MonsterHabitat *mh = _selectedMonster.monsterHabitats[indexPath.row];

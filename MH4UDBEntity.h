@@ -169,6 +169,7 @@
 
 @interface Weapon : Item
 @property (nonatomic) NSString *weaponType;
+@property (nonatomic) int parentID;
 @property (nonatomic) int creationCost;
 @property (nonatomic) int upgradeCost;
 @property (nonatomic) int attack;
