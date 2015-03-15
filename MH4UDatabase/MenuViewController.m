@@ -43,12 +43,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     UIBarButtonItem *menu = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleDone target:nil action:nil];
-     [self.navigationItem setBackBarButtonItem:menu];
+    [self.navigationItem setBackBarButtonItem:menu];
 
     _dbEngine = [[MH4UDBEngine alloc] init];
     if (!_menuOptions) {
         _menuOptions = [NSArray arrayWithObjects:@"Monsters", @"Weapon", @"Armor", @"Quest", @"Item", @"Combining", @"Location", @"Decorations", @"Skill Tree", nil];
     }
+    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 80)];
+    logo.backgroundColor = [UIColor grayColor];
+    logo.contentMode = UIViewContentModeScaleAspectFit;
+    logo.image = [UIImage imageNamed:@"MH4ULogo.png"];
+    self.navigationController.navigationItem.title = @"Menu";
+    self.tableView.tableHeaderView = logo;
     // Do any additional setup after loading the view, typically from a nib.
     //self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
@@ -78,6 +84,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     UINavigationController *nC = [segue destinationViewController];
+    nC.navigationBar.barTintColor = [UIColor brownColor];
     CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
     CGRect navigationBar = nC.navigationBar.frame;
     int heightDifference = statusBar.size.height + navigationBar.size.height;
@@ -163,7 +170,8 @@
     NSString *menuOption = [_menuOptions objectAtIndex:indexPath.row];
     NSString *reuseIdentifier = [NSString stringWithFormat:@"%@Cell", [menuOption stringByReplacingOccurrencesOfString:@" " withString:@""]];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
-
+    cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", menuOption]];
+    cell.imageView.tintColor = [UIColor grayColor];
     cell.textLabel.text = menuOption;
     return cell;
 }

@@ -22,6 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title = @"Combining";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Combining" style:UIBarButtonItemStyleDone target:nil action:nil];
     [self.navigationItem setBackBarButtonItem:backButton];
     CGRect vcFrame = self.view.frame;

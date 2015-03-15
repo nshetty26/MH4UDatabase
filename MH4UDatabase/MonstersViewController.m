@@ -27,6 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.navigationController.navigationItem.title = @"Monsters";
     _displayedMonsters = _allMonstersArray;
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Monsters" style:UIBarButtonItemStylePlain target:nil action:nil];
     [self.navigationItem setBackBarButtonItem:backButton];

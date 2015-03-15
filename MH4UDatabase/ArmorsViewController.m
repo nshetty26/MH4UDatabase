@@ -28,6 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationController.navigationItem.title = @"Armor";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Armors" style:UIBarButtonItemStylePlain target:nil action:nil];
     [self.navigationItem setBackBarButtonItem:backButton];
     _displayedArmor = _allArmorArray;

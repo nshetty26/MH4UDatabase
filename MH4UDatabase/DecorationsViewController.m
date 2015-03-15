@@ -23,6 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationController.navigationItem.title = @"Decorations";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Decorations" style:UIBarButtonItemStyleDone target:nil action:nil];
     [self.navigationItem setBackBarButtonItem:backButton];
     // Do any additional setup after loading the view.
