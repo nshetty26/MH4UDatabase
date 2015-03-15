@@ -678,14 +678,6 @@
 		E78AFB701AA92A12009B16C3 /* frenzy_up.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8291AA92A11009B16C3 /* frenzy_up.png */; };
 		E78AFB711AA92A12009B16C3 /* Ice.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF82A1AA92A11009B16C3 /* Ice.png */; };
 		E78AFB721AA92A12009B16C3 /* mount.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF82B1AA92A11009B16C3 /* mount.png */; };
-		E78AFB731AA92A12009B16C3 /* Note.aqua.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF82C1AA92A11009B16C3 /* Note.aqua.png */; };
-		E78AFB741AA92A12009B16C3 /* Note.blue.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF82D1AA92A11009B16C3 /* Note.blue.png */; };
-		E78AFB751AA92A12009B16C3 /* Note.green.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF82E1AA92A11009B16C3 /* Note.green.png */; };
-		E78AFB761AA92A12009B16C3 /* Note.orange.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF82F1AA92A11009B16C3 /* Note.orange.png */; };
-		E78AFB771AA92A12009B16C3 /* Note.purple.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8301AA92A11009B16C3 /* Note.purple.png */; };
-		E78AFB781AA92A12009B16C3 /* Note.red.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8311AA92A11009B16C3 /* Note.red.png */; };
-		E78AFB791AA92A12009B16C3 /* Note.white.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8321AA92A11009B16C3 /* Note.white.png */; };
-		E78AFB7A1AA92A12009B16C3 /* Note.yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8331AA92A11009B16C3 /* Note.yellow.png */; };
 		E78AFB7B1AA92A12009B16C3 /* Paralysis.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8341AA92A11009B16C3 /* Paralysis.png */; };
 		E78AFB7C1AA92A12009B16C3 /* Poison.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8351AA92A11009B16C3 /* Poison.png */; };
 		E78AFB7D1AA92A12009B16C3 /* Sleep.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8361AA92A11009B16C3 /* Sleep.png */; };
@@ -1565,14 +1557,6 @@
 		E78AF8291AA92A11009B16C3 /* frenzy_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frenzy_up.png; sourceTree = "<group>"; };
 		E78AF82A1AA92A11009B16C3 /* Ice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ice.png; sourceTree = "<group>"; };
 		E78AF82B1AA92A11009B16C3 /* mount.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mount.png; sourceTree = "<group>"; };
-		E78AF82C1AA92A11009B16C3 /* Note.aqua.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Note.aqua.png; sourceTree = "<group>"; };
-		E78AF82D1AA92A11009B16C3 /* Note.blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Note.blue.png; sourceTree = "<group>"; };
-		E78AF82E1AA92A11009B16C3 /* Note.green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Note.green.png; sourceTree = "<group>"; };
-		E78AF82F1AA92A11009B16C3 /* Note.orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Note.orange.png; sourceTree = "<group>"; };
-		E78AF8301AA92A11009B16C3 /* Note.purple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Note.purple.png; sourceTree = "<group>"; };
-		E78AF8311AA92A11009B16C3 /* Note.red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Note.red.png; sourceTree = "<group>"; };
-		E78AF8321AA92A11009B16C3 /* Note.white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Note.white.png; sourceTree = "<group>"; };
-		E78AF8331AA92A11009B16C3 /* Note.yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Note.yellow.png; sourceTree = "<group>"; };
 		E78AF8341AA92A11009B16C3 /* Paralysis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Paralysis.png; sourceTree = "<group>"; };
 		E78AF8351AA92A11009B16C3 /* Poison.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Poison.png; sourceTree = "<group>"; };
 		E78AF8361AA92A11009B16C3 /* Sleep.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sleep.png; sourceTree = "<group>"; };
@@ -2541,14 +2525,6 @@
 				E78AF8291AA92A11009B16C3 /* frenzy_up.png */,
 				E78AF82A1AA92A11009B16C3 /* Ice.png */,
 				E78AF82B1AA92A11009B16C3 /* mount.png */,
-				E78AF82C1AA92A11009B16C3 /* Note.aqua.png */,
-				E78AF82D1AA92A11009B16C3 /* Note.blue.png */,
-				E78AF82E1AA92A11009B16C3 /* Note.green.png */,
-				E78AF82F1AA92A11009B16C3 /* Note.orange.png */,
-				E78AF8301AA92A11009B16C3 /* Note.purple.png */,
-				E78AF8311AA92A11009B16C3 /* Note.red.png */,
-				E78AF8321AA92A11009B16C3 /* Note.white.png */,
-				E78AF8331AA92A11009B16C3 /* Note.yellow.png */,
 				E78AF8341AA92A11009B16C3 /* Paralysis.png */,
 				E78AF8351AA92A11009B16C3 /* Poison.png */,
 				E78AF8361AA92A11009B16C3 /* Sleep.png */,
@@ -3157,7 +3133,6 @@
 				E78AFBD41AA92A12009B16C3 /* hunting_horn1.png in Resources */,
 				E78AF9221AA92A12009B16C3 /* Ammo-Purple.png in Resources */,
 				E78AFA001AA92A12009B16C3 /* Liquid-Yellow.png in Resources */,
-				E78AFB761AA92A12009B16C3 /* Note.orange.png in Resources */,
 				E78AFA2F1AA92A12009B16C3 /* Nectar-Blue.png in Resources */,
 				E78AF9BB1AA92A12009B16C3 /* Fish-White.png in Resources */,
 				E78AFACB1AA92A12009B16C3 /* Wystone-Cyan.png in Resources */,
@@ -3247,7 +3222,6 @@
 				E78AF98C1AA92A12009B16C3 /* Charm-Stone-Green.png in Resources */,
 				E78AF97F1AA92A12009B16C3 /* Carapace-DarkGreen.png in Resources */,
 				E78AFA7B1AA92A12009B16C3 /* Seed-White.png in Resources */,
-				E78AFB7A1AA92A12009B16C3 /* Note.yellow.png in Resources */,
 				E78AF9121AA92A12009B16C3 /* waist8.png in Resources */,
 				E78AFAC21AA92A12009B16C3 /* Webbing-Grey.png in Resources */,
 				E78AFB431AA92A12009B16C3 /* MH4U-Rajang_Icon.png in Resources */,
@@ -3399,7 +3373,6 @@
 				E78AFBD21AA92A12009B16C3 /* heavy_bowgun8.png in Resources */,
 				E78AF9D81AA92A12009B16C3 /* Hide-Green.png in Resources */,
 				E78AFB4B1AA92A12009B16C3 /* MH4U-Savage_Deviljho_Icon.png in Resources */,
-				E78AFB731AA92A12009B16C3 /* Note.aqua.png in Resources */,
 				E78AF9C01AA92A12009B16C3 /* Flute-Orange.png in Resources */,
 				E78AF9EE1AA92A12009B16C3 /* Knife-Cyan.png in Resources */,
 				E78AF9B31AA92A12009B16C3 /* Fish-Cyan.png in Resources */,
@@ -3448,7 +3421,6 @@
 				E78AF9451AA92A12009B16C3 /* Bomb-Blue.png in Resources */,
 				E78AFC051AA92A12009B16C3 /* long_sword9.png in Resources */,
 				E78AFB201AA92A12009B16C3 /* MH4U-Felyne_Icon.png in Resources */,
-				E78AFB781AA92A12009B16C3 /* Note.red.png in Resources */,
 				E78AFC0C1AA92A12009B16C3 /* switch_axe6.png in Resources */,
 				E78AF92C1AA92A12009B16C3 /* Bag-Yellow.png in Resources */,
 				E78AF9471AA92A12009B16C3 /* Bomb-Green.png in Resources */,
@@ -3518,7 +3490,6 @@
 				E78AF92A1AA92A12009B16C3 /* Bag-Orange.png in Resources */,
 				E78AFA541AA92A12009B16C3 /* Sac-Red.png in Resources */,
 				E78AF92E1AA92A12009B16C3 /* Bait-Cyan.png in Resources */,
-				E78AFB751AA92A12009B16C3 /* Note.green.png in Resources */,
 				E78AF96A1AA92A12009B16C3 /* Bottle-Purple.png in Resources */,
 				E78AF9C81AA92A12009B16C3 /* Furnishing-Yellow.png in Resources */,
 				E78AFA781AA92A12009B16C3 /* Seed-Orange.png in Resources */,
@@ -3536,7 +3507,6 @@
 				E78AF9611AA92A12009B16C3 /* Book-White.png in Resources */,
 				E78AFB251AA92A12009B16C3 /* MH4U-Gogmazios_Icon.png in Resources */,
 				E78AF9A91AA92A12009B16C3 /* Fang-Grey.png in Resources */,
-				E78AFB771AA92A12009B16C3 /* Note.purple.png in Resources */,
 				E78AFAF71AA92A12009B16C3 /* maps_mh4_volcanic_hollow.png in Resources */,
 				E78AFBCF1AA92A12009B16C3 /* heavy_bowgun5.png in Resources */,
 				E78AFB551AA92A12009B16C3 /* MH4U-Stygian_Zinogre_Icon.png in Resources */,
@@ -3589,7 +3559,6 @@
 				E78AFC0D1AA92A12009B16C3 /* switch_axe7.png in Resources */,
 				E78AF9711AA92A12009B16C3 /* Bug-Gold.png in Resources */,
 				E78AF9211AA92A12009B16C3 /* Ammo-Pink.png in Resources */,
-				E78AFB791AA92A12009B16C3 /* Note.white.png in Resources */,
 				E78AFB5E1AA92A12009B16C3 /* MH4U-White_Fatalis_Icon.png in Resources */,
 				E78AFB951AA92A12009B16C3 /* bow8.png in Resources */,
 				E78AF9DA1AA92A12009B16C3 /* Hide-Orange.png in Resources */,
@@ -3695,7 +3664,6 @@
 				E78AFA9A1AA92A12009B16C3 /* Specialty-Teal.png in Resources */,
 				E78AFB691AA92A12009B16C3 /* 43-15_1.jpg in Resources */,
 				E78AFA0D1AA92A12009B16C3 /* Mantle-Yellow.png in Resources */,
-				E78AFB741AA92A12009B16C3 /* Note.blue.png in Resources */,
 				E78AFA841AA92A12009B16C3 /* Shell-Orange.png in Resources */,
 				E78AFB171AA92A12009B16C3 /* MH4U-Daimyo_Hermitaur_Icon.png in Resources */,
 				E78AFB101AA92A12009B16C3 /* MH4U-Cephalos_Icon.png in Resources */,

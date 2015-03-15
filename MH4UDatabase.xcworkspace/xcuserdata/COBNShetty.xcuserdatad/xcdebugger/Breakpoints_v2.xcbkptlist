@@ -1053,7 +1053,7 @@
                   symbolName = "-[ItemsViewController selectedItem]"
                   moduleName = "MH4UDatabase"
                   urlString = "file:///Users/COBNShetty/Development/MH4UDatabase/MH4UDatabase/ItemsViewController.m"
-                  timestampString = "448094958.14234"
+                  timestampString = "448138999.068314"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "20"
@@ -1067,7 +1067,7 @@
                   symbolName = "-[ItemsViewController setSelectedItem:]"
                   moduleName = "MH4UDatabase"
                   urlString = "file:///Users/COBNShetty/Development/MH4UDatabase/MH4UDatabase/ItemsViewController.m"
-                  timestampString = "448094958.142461"
+                  timestampString = "448138999.06855"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "20"
@@ -2276,15 +2276,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/WeaponDetailViewController.m"
-            timestampString = "448095826.708467"
+            timestampString = "448136874.33697"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
             landmarkName = "-populateWeapon:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2296,11 +2296,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/WeaponDetailViewController.m"
-            timestampString = "448095826.708467"
+            timestampString = "448138998.540687"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "178"
-            endingLineNumber = "178"
+            startingLineNumber = "350"
+            endingLineNumber = "350"
             landmarkName = "-drawSharpnessRectWithWeapon:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2312,11 +2312,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/WeaponDetailViewController.m"
-            timestampString = "448095826.708467"
+            timestampString = "448138998.540687"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
+            startingLineNumber = "355"
+            endingLineNumber = "355"
             landmarkName = "-drawSharpnessRectWithWeapon:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2328,11 +2328,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/WeaponDetailViewController.m"
-            timestampString = "448095826.708467"
+            timestampString = "448138998.540687"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "238"
-            endingLineNumber = "238"
+            startingLineNumber = "410"
+            endingLineNumber = "410"
             landmarkName = "-drawSharpnessRectWithWeapon:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2344,11 +2344,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/WeaponDetailViewController.m"
-            timestampString = "448094957.818221"
+            timestampString = "448136799.755766"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -2360,11 +2360,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/WeaponDetailViewController.m"
-            timestampString = "448095826.708467"
+            timestampString = "448138998.540687"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
+            startingLineNumber = "411"
+            endingLineNumber = "411"
             landmarkName = "-drawSharpnessRectWithWeapon:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2392,11 +2392,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/WeaponDetailViewController.m"
-            timestampString = "448095826.708467"
+            timestampString = "448136874.33697"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2466,7 +2466,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/WeaponsTableViewController.m"
@@ -2486,11 +2486,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/WeaponsTableViewController.m"
-            timestampString = "448095189.929715"
+            timestampString = "448129360.442353"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
             landmarkName = "-getParentWeapons:inArray:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2502,11 +2502,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/WeaponsTableViewController.m"
-            timestampString = "448095243.788127"
+            timestampString = "448129360.442353"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
             landmarkName = "-getUpgradedWeapons:inArray:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2518,11 +2518,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/WeaponsTableViewController.m"
-            timestampString = "448095243.788127"
+            timestampString = "448129360.442353"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "170"
+            endingLineNumber = "170"
             landmarkName = "-getUpgradedWeapons:inArray:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2534,11 +2534,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/WeaponsTableViewController.m"
-            timestampString = "448095243.788127"
+            timestampString = "448129360.442353"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
+            landmarkName = "-getUpgradedWeapons:inArray:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MH4UDatabase/WeaponsTableViewController.m"
+            timestampString = "448129360.442353"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
+            landmarkName = "-getUpgradedWeapons:inArray:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MH4UDatabase/WeaponsTableViewController.m"
+            timestampString = "448129360.442353"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
             landmarkName = "-getUpgradedWeapons:inArray:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2549,13 +2581,77 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MH4UDatabase/WeaponsTableViewController.m"
-            timestampString = "448095243.788127"
+            filePath = "MH4UDatabase/WeaponDetailViewController.m"
+            timestampString = "448136874.33697"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "174"
-            endingLineNumber = "174"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MH4UDatabase/WeaponDetailViewController.m"
+            timestampString = "448134819.668027"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MH4UDatabase/WeaponsTableViewController.m"
+            timestampString = "448129303.07866"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MH4UDatabase/WeaponsTableViewController.m"
+            timestampString = "448129377.176412"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
             landmarkName = "-getUpgradedWeapons:inArray:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MH4UDatabase/WeaponDetailViewController.m"
+            timestampString = "448136874.33697"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
+            landmarkName = "-populateWeapon:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2565,13 +2661,139 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MH4UDatabase/WeaponsTableViewController.m"
-            timestampString = "448095243.788127"
+            filePath = "MH4UDatabase/WeaponDetailViewController.m"
+            timestampString = "448136874.33697"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
-            landmarkName = "-getUpgradedWeapons:inArray:"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MH4UDatabase/WeaponDetailViewController.m"
+            timestampString = "448136874.33697"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "-tableView:numberOfRowsInSection:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MH4UDatabase/WeaponDetailViewController.m"
+            timestampString = "448136874.33697"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MH4UDatabase/WeaponDetailViewController.m"
+            timestampString = "448136679.983754"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MH4UDatabase/WeaponDetailViewController.m"
+            timestampString = "448137914.292833"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "291"
+            endingLineNumber = "291"
+            landmarkName = "-populateWeapon:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[DetailedWeaponView populateWeapon:]"
+                  moduleName = "MH4UDatabase"
+                  urlString = "file:///Users/COBNShetty/Development/MH4UDatabase/MH4UDatabase/WeaponDetailViewController.m"
+                  timestampString = "448138999.09525"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "292"
+                  endingLineNumber = "292"
+                  offsetFromSymbolStart = "3670">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[DetailedWeaponView populateWeapon:]"
+                  moduleName = "MH4UDatabase"
+                  urlString = "file:///Users/COBNShetty/Development/MH4UDatabase/MH4UDatabase/WeaponDetailViewController.m"
+                  timestampString = "448138999.095461"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "292"
+                  endingLineNumber = "292"
+                  offsetFromSymbolStart = "3675">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MH4UDatabase/WeaponDetailViewController.m"
+            timestampString = "448138998.540687"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
+            landmarkName = "-populateWeapon:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MH4UDatabase/WeaponDetailViewController.m"
+            timestampString = "448138998.540687"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
+            landmarkName = "-populateWeapon:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

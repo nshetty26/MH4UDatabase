@@ -148,15 +148,20 @@
         }
         
     }]];
-
-    Weapon *parentWeapon = [weaponArray firstObject];
-    if (parentWeapon.parentID != 0) {
-        [parentWeaponArray addObject:parentWeapon];
-        [self getParentWeapons:parentWeapon inArray:parentWeaponArray];
+    
+    if (weaponArray.count > 0) {
+        Weapon *parentWeapon = [weaponArray firstObject];
+        if (parentWeapon.parentID != 0) {
+            [parentWeaponArray addObject:parentWeapon];
+            [self getParentWeapons:parentWeapon inArray:parentWeaponArray];
+        } else {
+            [parentWeaponArray addObject:parentWeapon];
+            return;
+        }
     } else {
-        [parentWeaponArray addObject:parentWeapon];
         return;
     }
+
 }
 
 -(void)getUpgradedWeapons:(Weapon *)weapon inArray:(NSMutableArray *)upgradedWeaponArray {

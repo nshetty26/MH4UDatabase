@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 @class Armor;
 @class Quest;
+@class Weapon;
 @class Item;
 @class Monster;
 @class SkillCollection;
@@ -51,6 +52,7 @@
 
 -(NSArray *)getWeaponTypes;
 -(NSArray *)getWeaponsForWeaponType:(NSString *)weaponType;
+-(NSArray *)getHornSongsForHorn:(Weapon *)horn;
 
 @end
 

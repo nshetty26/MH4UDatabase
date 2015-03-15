@@ -805,26 +805,59 @@
 
 -(NSArray *)getWeaponsForWeaponType:(NSString *)weaponType {
     NSMutableArray *weaponArray = [[NSMutableArray alloc] init];
-    NSString *weaponQuery =  [NSString stringWithFormat:@"select weapons._id, weapons.parent_id, items.name, items.rarity, weapons.wtype, weapons.attack, weapons.awaken, weapons.awaken_attack, weapons.num_slots, weapons.affinity, weapons.defense, weapons.sharpness, weapons.tree_depth from weapons inner join items on items._id = weapons._id where weapons.wtype = '%@'", weaponType];
+    NSString *weaponQuery =  [NSString stringWithFormat:@"select weapons._id, weapons.wType, weapons.parent_id, items.name, items.rarity, weapons.wtype, weapons.attack, weapons.awaken, weapons.awaken_attack, weapons.element, weapons.element_attack, weapons.element_2, weapons.element_2_attack, weapons.num_slots, weapons.affinity, weapons.defense, weapons.sharpness, weapons.final, weapons.phial, weapons.horn_notes, weapons.reload_speed, weapons.recoil, weapons.deviation, weapons.tree_depth, weapons.creation_cost, weapons.upgrade_cost, weapons.charges, weapons.coatings from weapons inner join items on items._id = weapons._id where weapons.wtype = '%@'", weaponType];
     FMResultSet *s = [self DBquery:weaponQuery];
     while ([s next]) {
         Weapon *weapon = [[Weapon alloc] init];
         weapon.name = [s stringForColumn:@"name"];
         weapon.itemID = [s intForColumn:@"_id"];
+        weapon.creationCost = [s intForColumn:@"creation_cost"];
+        weapon.upgradeCost = [s intForColumn:@"upgrade_cost"];
+        weapon.type = [s stringForColumn:@"wType"];
         weapon.parentID = [s intForColumn:@"parent_id"];
         weapon.rarity = [s intForColumn:@"rarity"];
         weapon.weaponType = [s stringForColumn:@"wtype"];
         weapon.attack = [s intForColumn:@"attack"];
         weapon.awaken_type = [s stringForColumn:@"awaken"];
         weapon.awakenDamage = [s intForColumn:@"awaken_attack"];
+        weapon.elementalDamageType_1 = [s stringForColumn:@"element"];;
+        weapon.elementalDamage_1 = [s intForColumn:@"element_attack"];;
+        weapon.elementalDamageType_2 = [s stringForColumn:@"element_2"];;
+        weapon.elementalDamage_2 = [s intForColumn:@"element_2_attack"];
         weapon.num_slots = [s intForColumn:@"num_slots"];
         weapon.affinity = [s intForColumn:@"affinity"];
         weapon.defense = [s intForColumn:@"defense"];
         weapon.sharpness = [s stringForColumn:@"sharpness"];
+        weapon.phial = [s stringForColumn:@"phial"];
+        weapon.hornNotes = [s stringForColumn:@"horn_notes"];
         weapon.tree_depth = [s intForColumn:@"tree_depth"];
+        weapon.final = [s intForColumn:@"final"];
+        weapon.recoil = [s stringForColumn:@"recoil"];
+        weapon.reloadSpeed = [s stringForColumn:@"reload_speed"];
+        weapon.deviation = [s stringForColumn:@"deviation"];
+        weapon.charges = [s stringForColumn:@"charges"];
+        weapon.coatings = [s stringForColumn:@"coatings"];
         [weaponArray addObject:weapon];
     }
     return weaponArray;
+}
+
+-(NSArray *)getHornSongsForHorn:(Weapon *)horn {
+    NSMutableArray *hornMelodies = [[NSMutableArray alloc] init];
+    NSString *hornQuery = [NSString stringWithFormat:@"SELECT horn_melodies.song, horn_melodies.effect1, horn_melodies.effect2, horn_melodies.duration, horn_melodies.extension from horn_melodies inner join weapons on weapons.horn_notes = horn_melodies.notes where weapons._id = %i", horn.itemID];
+    
+    FMResultSet *s = [self DBquery:hornQuery];
+    
+    while ([s next]) {
+        NSString *song = [s stringForColumn:@"song"];
+        NSString *effect1 = [s stringForColumn:@"effect1"];
+        NSString *effect2 = [s stringForColumn:@"effect2"];
+        int duration = [s intForColumn:@"duration"];
+        int extension = [s intForColumn:@"extension"];
+        [hornMelodies addObject:@[song, effect1, effect2, [NSNumber numberWithInt:duration], [NSNumber numberWithInt:extension]]];
+    }
+    
+    return hornMelodies;
 }
 
 @end
