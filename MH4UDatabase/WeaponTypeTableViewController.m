@@ -18,6 +18,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = NSLocalizedString(@"Weapons", @"Weapons");
+    _allWeaponTypes = [_dbEngine getWeaponTypes];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -52,7 +54,7 @@
     NSString *weaponName = _allWeaponTypes[indexPath.row];
     cell.textLabel.text = weaponName;
     NSString *imageString = [weaponName stringByReplacingOccurrencesOfString:@" " withString:@"_"];
-    cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@1.png",imageString]];
+    cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@1.png",imageString.lowercaseString]];
     return cell;
 }
 
@@ -60,10 +62,9 @@
     NSString *weaponName = _allWeaponTypes[indexPath.row];
     NSString *imageString = [weaponName stringByReplacingOccurrencesOfString:@" " withString:@"_"];
     WeaponsTableViewController *wTVC = [[WeaponsTableViewController alloc] init];
-    
-    wTVC.weaponsArray = [_dbEngine getWeaponsForWeaponType:weaponName];
+
     wTVC.dbEngine = _dbEngine;
-    wTVC.imageString = imageString;
+    wTVC.imageString = imageString.lowercaseString;
     wTVC.weaponFamily = weaponName;
     wTVC.heightDifference = _heightDifference;
     [self.navigationController pushViewController:wTVC animated:YES];

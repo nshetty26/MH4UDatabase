@@ -13,48 +13,85 @@
 
 @interface ArmorDetailViewController ()
 @property (strong, nonatomic) DetailedArmorView *statView;
+@property (strong, nonatomic) NSArray *allViews;
 @property (strong, nonatomic) UITabBar *armorDetailTab;
 @property (strong, nonatomic) UITableView *skillTable;
 @property (strong, nonatomic) UITableView *componentTable;
 @end
 
+
 @implementation ArmorDetailViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [_dbEngine populateArmor:_selectedArmor];
-    NSString *armorName = _selectedArmor.name;
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:armorName style:UIBarButtonItemStyleDone target:nil action:nil];
-    [self.navigationItem setBackBarButtonItem:backButton];
-    CGRect vcFrame = self.view.frame;
-    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
-    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
+#pragma mark - Setup Views
+-(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
+    if (!_armorDetailTab) {
+        _armorDetailTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
+        UITabBarItem *statSheet = [[UITabBarItem alloc] initWithTitle:@"Detail" image:nil tag:4];
+        UITabBarItem *skillSheet = [[UITabBarItem alloc] initWithTitle:@"Skills" image:nil tag:5];
+        UITabBarItem *componentSheet = [[UITabBarItem alloc] initWithTitle:@"Components" image:nil tag:6];
+        
+        _armorDetailTab.delegate = self;
+        [_armorDetailTab setItems:@[statSheet, skillSheet, componentSheet]];
+        [_armorDetailTab setSelectedItem:statSheet];
+    }
+}
 
-    _armorDetailTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
-    UITabBarItem *statSheet = [[UITabBarItem alloc] initWithTitle:@"Detail" image:nil tag:4];
-    UITabBarItem *skillSheet = [[UITabBarItem alloc] initWithTitle:@"Skills" image:nil tag:5];
-    UITabBarItem *componentSheet = [[UITabBarItem alloc] initWithTitle:@"Components" image:nil tag:6];
-    
-    _armorDetailTab.delegate = self;
-    [_armorDetailTab setItems:@[statSheet, skillSheet, componentSheet]];
-    [_armorDetailTab setSelectedItem:statSheet];
-    
-    _skillTable = [[UITableView alloc] initWithFrame:tablewithTabbar];
+-(void)setUpViewsWithFrame:(CGRect)tableFrame {
+    _skillTable = [[UITableView alloc] initWithFrame:tableFrame];
     _skillTable.dataSource = self;
     _skillTable.delegate = self;
     
-    _componentTable = [[UITableView alloc] initWithFrame:tablewithTabbar];
+    _componentTable = [[UITableView alloc] initWithFrame:tableFrame];
     _componentTable.delegate = self;
     _componentTable.dataSource = self;
     
     _statView = [[[NSBundle mainBundle] loadNibNamed:@"DetailedArmorView" owner:self options:nil] lastObject];
-    _statView.frame = tablewithTabbar;
+    _statView.frame = tableFrame;
+    
+    _allViews = @[_statView, _skillTable, _componentTable];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [_dbEngine populateArmor:_selectedArmor];
+    self.title = NSLocalizedString(_selectedArmor.name, _selectedArmor.name);
+
+    CGRect vcFrame = self.view.frame;
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
+    
+    [self setUpTabBarWithFrame:tabBarFrame];
+    [self setUpViewsWithFrame:tablewithTabbar];
+
     [_statView populateArmor:_selectedArmor];
     [self.view addSubview:_statView];
-    [_armorDetailTab setSelectedItem:[_armorDetailTab.items firstObject]];
     [self.view addSubview:_armorDetailTab];
 }
 
+#pragma mark - Tab Bar Methods
+-(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    if ([tabBar isEqual:_armorDetailTab]) {
+        [self removeViewsFromDetail];
+        switch (item.tag) {
+            case 4:
+                [self.view addSubview:_statView];
+                break;
+            case 5:
+                [self.view addSubview:_skillTable];
+                break;
+            case 6:
+                [self.view addSubview:_componentTable];
+                break;
+            default:
+                break;
+        }
+        
+    }
+    [tabBar setSelectedItem:item];
+    
+}
+
+#pragma mark - Tableview Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([tableView isEqual:_componentTable]) {
         return _selectedArmor.componentArray.count;
@@ -113,41 +150,38 @@
     return cell;
 }
 
+#pragma mark - Helper Methods
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
--(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-    if ([tabBar isEqual:_armorDetailTab]) {
-        [self removeViewsFromDetail];
-        switch (item.tag) {
-            case 4:
-                [self.view addSubview:_statView];
-                break;
-            case 5:
-                [self.view addSubview:_skillTable];
-                break;
-            case 6:
-                [self.view addSubview:_componentTable];
-                break;
-            default:
-                break;
-        }
-        
-    }
-    [tabBar setSelectedItem:item];
-    
-}
-
 -(void)removeViewsFromDetail {
-    NSArray *allTables = @[_statView, _skillTable, _componentTable];
-    for (UIView *view in allTables) {
+    for (UIView *view in _allViews) {
         if (view.superview != nil) {
             [view removeFromSuperview];
         }
     }
 }
+
+-(void)viewWillLayoutSubviews {
+    CGRect vcFrame = self.view.frame;
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
+    int heightdifference = navBar.frame.size.height + statusBar.size.height;
+    
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference, vcFrame.size.width, 49);
+    _armorDetailTab.frame = tabBarFrame;
+    
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - (heightdifference + tabBarFrame.size.height));
+    
+    for (UIView *view in _allViews) {
+        view.frame = tablewithTabbar;
+    }
+}
+
+
 
 @end
 

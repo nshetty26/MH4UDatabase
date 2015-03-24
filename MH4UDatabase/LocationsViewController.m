@@ -9,26 +9,29 @@
 #import "LocationsViewController.h"
 #import "LocationDetailViewController.h"
 #import "MH4UDBEntity.h"
+#import "MH4UDBEngine.h"
 
 @interface LocationsViewController ()
-
+@property (strong, nonatomic) UITableView *locationsTable;
 @end
 
 @implementation LocationsViewController
 
+#pragma mark - Setup Views
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Locations" style:UIBarButtonItemStyleDone target:nil action:nil];
-    [self.navigationItem setBackBarButtonItem:backButton];
+    _allLocations = [_dbEngine getAllLocations];
+    self.title = NSLocalizedString(@"Locations", @"Locations");
     // Do any additional setup after loading the view.
-    UITableView *locationsTable = [[UITableView alloc] initWithFrame:self.view.frame];
-    locationsTable.dataSource = self;
-    locationsTable.delegate = self;
-    [self.view addSubview:locationsTable];
+    _locationsTable = [[UITableView alloc] initWithFrame:self.view.frame];
+    _locationsTable.dataSource = self;
+    _locationsTable.delegate = self;
+    [self.view addSubview:_locationsTable];
     
 
 }
 
+#pragma mark - Table View Methods
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
@@ -58,11 +61,15 @@
     [self.navigationController pushViewController:lDVC animated:YES];
 }
 
+#pragma mark - Helper Methods
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillLayoutSubviews {
+    _locationsTable.frame = self.view.frame;
+}
 /*
 #pragma mark - Navigation
 

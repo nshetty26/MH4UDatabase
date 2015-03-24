@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class DetailViewController;
+@class MonstersViewController;
 @class MH4UDBEngine;
 
 @interface MenuViewController : UITableViewController
 
-@property (strong, nonatomic) DetailViewController *detailViewController;
+@property (strong, nonatomic) MonstersViewController *monstersViewController;
 
 @end
 

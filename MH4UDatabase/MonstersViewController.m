@@ -24,40 +24,53 @@
 
 @implementation MonstersViewController
 
+#pragma mark - Setup Views
+-(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
+    if (!_monstersTab) {
+        _monstersTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
+        _monstersTab.delegate = self;
+        
+        UITabBarItem *allMonsters = [[UITabBarItem alloc] initWithTitle:@"All" image:nil tag:1];
+        UITabBarItem *largeMonsters = [[UITabBarItem alloc] initWithTitle:@"Large" image:nil tag:2];
+        UITabBarItem *smallMonsters = [[UITabBarItem alloc] initWithTitle:@"Small" image:nil tag:3];
+        
+        [_monstersTab setItems:@[allMonsters, largeMonsters, smallMonsters]];
+        [_monstersTab setSelectedItem:allMonsters];
+    }
+
+}
+
+-(void)setUpTableWithFrame:(CGRect)tableFrame {
+    if (!_monsterTable) {
+        _monsterTable = [[UITableView alloc] initWithFrame:tableFrame];
+        _monsterTable.dataSource = self;
+        _monsterTable.delegate = self;
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _allMonstersArray = [_dbEngine populateAllMonsterArray];
     // Do any additional setup after loading the view.
-    self.navigationController.navigationItem.title = @"Monsters";
+    self.title = NSLocalizedString(@"Monsters", @"Monsters");
     _displayedMonsters = _allMonstersArray;
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Monsters" style:UIBarButtonItemStylePlain target:nil action:nil];
-    [self.navigationItem setBackBarButtonItem:backButton];
     CGRect vcFrame = self.view.frame;
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
+    [self setUpTabBarWithFrame:tabBarFrame];
+    
     CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference + tabBarFrame.size.height, vcFrame.size.width, 44);
-    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
-    
-    _monstersTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
-    
     _monsterSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
     _monsterSearch.delegate = self;
     
-    
-    UITabBarItem *allMonsters = [[UITabBarItem alloc] initWithTitle:@"All" image:nil tag:1];
-    UITabBarItem *largeMonsters = [[UITabBarItem alloc] initWithTitle:@"Large" image:nil tag:2];
-    UITabBarItem *smallMonsters = [[UITabBarItem alloc] initWithTitle:@"Small" image:nil tag:3];
-    
-    _monstersTab.delegate = self;
-    [_monstersTab setItems:@[allMonsters, largeMonsters, smallMonsters]];
-    [_monstersTab setSelectedItem:allMonsters];
-    _monsterTable = [[UITableView alloc] initWithFrame:tableWithSearch];
-    _monsterTable.dataSource = self;
-    _monsterTable.delegate = self;
+    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height + tabBarFrame.size.height + _heightDifference, vcFrame.size.width, vcFrame.size.height - (searchBarFrame.size.height + tabBarFrame.size.height));
+    [self setUpTableWithFrame:tableWithSearch];
     
     [self.view addSubview:_monsterTable];
     [self.view addSubview:_monstersTab];
     [self.view addSubview:_monsterSearch];
 }
 
+#pragma mark - Search Bar Methods
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [_monsterSearch setShowsCancelButton:YES];
     if (searchText.length == 0) {
@@ -102,6 +115,7 @@
     [searchBar resignFirstResponder];
 }
 
+#pragma mark - Tab Bar Methods
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
     switch (item.tag) {
         case 1:
@@ -126,6 +140,7 @@
     [_monsterTable reloadData];
 }
 
+#pragma mark - Table View Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if ([tableView isEqual:_monsterTable]) {
@@ -167,11 +182,27 @@
     }
 }
 
-
+#pragma mark - Helper Methods
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewWillLayoutSubviews {
+    CGRect vcFrame = self.view.frame;
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
+    int heightdifference = navBar.frame.size.height + statusBar.size.height;
+
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference, vcFrame.size.width, 49);
+    CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference + tabBarFrame.size.height, vcFrame.size.width, 44);
+    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - (searchBarFrame.size.height + tabBarFrame.size.height));
+
+    _monstersTab.frame = tabBarFrame;
+    _monsterSearch.frame = searchBarFrame;
+    _monsterTable.frame = tableWithSearch;
+    
 }
 
 /*

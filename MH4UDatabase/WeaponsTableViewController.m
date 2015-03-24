@@ -9,6 +9,7 @@
 #import "WeaponsTableViewController.h"
 #import "WeaponDetailViewController.h"
 #import "MH4UDBEntity.h"
+#import "MH4UDBEngine.h"
 
 @interface WeaponsTableViewController ()
 @property (nonatomic) NSArray *displayedWeapons;
@@ -18,8 +19,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:_weaponFamily style:UIBarButtonItemStyleDone target:nil action:nil];
-    [self.navigationItem setBackBarButtonItem:backButton];
+    self.title = NSLocalizedString(_weaponFamily, _weaponFamily);
+    _weaponsArray = [_dbEngine getWeaponsForWeaponType:_weaponFamily];
     _displayedWeapons = _weaponsArray;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;

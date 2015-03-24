@@ -20,41 +20,54 @@
 
 @implementation QuestsViewController
 
+#pragma mark - Setup Views
+-(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
+    if (!_questTypeTab) {
+        _questTypeTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
+        UITabBarItem *caravan = [[UITabBarItem alloc] initWithTitle:@"Caravan" image:nil tag:1];
+        UITabBarItem *guild = [[UITabBarItem alloc] initWithTitle:@"Guild" image:nil tag:2];
+        
+        _questTypeTab.delegate = self;
+        [_questTypeTab setItems:@[caravan, guild]];
+        [_questTypeTab setSelectedItem:caravan];
+    }
+
+}
+
+-(void)setUpTableWithFrame:(CGRect)tableFrame {
+    if (!_questTable) {
+        _questTable = [[UITableView alloc] initWithFrame:tableFrame];
+        _questTable.dataSource = self;
+        _questTable.delegate = self;
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Quests" style:UIBarButtonItemStylePlain target:nil action:nil];
-    [self.navigationItem setBackBarButtonItem:backButton];
+    self.title = NSLocalizedString(@"Quests", @"Quests");
+    _allQuestsArray = [_dbEngine getAllQuests];
+    
     _displayedQuests = [_allQuestsArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
         Quest *quest = (Quest *)evaluatedObject;
         return [quest.hub isEqualToString:@"Caravan"];}]];;
     
     CGRect vcFrame = self.view.frame;
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
+    [self setUpTabBarWithFrame:tabBarFrame];
+    
     CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference + tabBarFrame.size.height, vcFrame.size.width, 44);
-    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
-    
-    _questTypeTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
-    UITabBarItem *caravan = [[UITabBarItem alloc] initWithTitle:@"Caravan" image:nil tag:1];
-    UITabBarItem *guild = [[UITabBarItem alloc] initWithTitle:@"Guild" image:nil tag:2];
-    
-    
-    _questTypeTab.delegate = self;
-    [_questTypeTab setItems:@[caravan, guild]];
-    [_questTypeTab setSelectedItem:caravan];
-    
     _questSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
     _questSearch.delegate = self;
     
-    _questTable = [[UITableView alloc] initWithFrame:tableWithSearch];
-    _questTable.dataSource = self;
-    _questTable.delegate = self;
-    
+    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
+    [self setUpTableWithFrame:tableWithSearch];
+
     [self.view addSubview:_questTable];
     [self.view addSubview:_questTypeTab];
     [self.view addSubview:_questSearch];
 }
 
+#pragma mark - Search Bar Methods
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [_questSearch setShowsCancelButton:YES];
     if (searchText.length == 0) {
@@ -99,6 +112,7 @@
     [searchBar resignFirstResponder];
 }
 
+#pragma mark - Tab Bar Methods
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
     if ([tabBar isEqual:_questTypeTab]) {
         switch (item.tag) {
@@ -119,6 +133,7 @@
     }
 }
 
+#pragma mark - Table View Methods
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if ([tableView isEqual:_questTable]) {
         return 10;
@@ -214,6 +229,7 @@
 
 }
 
+#pragma mark - Helper Methods
 -(Quest *)returnQuestAtIndexPath:(NSIndexPath *)indexPath {
     NSArray *questArray = [_displayedQuests filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
         Quest *quest = (Quest *)evaluatedObject;
@@ -225,6 +241,22 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewWillLayoutSubviews {
+    CGRect vcFrame = self.view.frame;
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
+    int heightdifference = navBar.frame.size.height + statusBar.size.height;
+    
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference, vcFrame.size.width, 49);
+    CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference + tabBarFrame.size.height, vcFrame.size.width, 44);
+    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - (searchBarFrame.size.height + tabBarFrame.size.height));
+    
+    _questTypeTab.frame = tabBarFrame;
+    _questSearch.frame = searchBarFrame;
+    _questTable.frame = tableWithSearch;
+    
 }
 
 /*

@@ -24,12 +24,20 @@
 
 @implementation ItemsViewController
 
+#pragma mark - Setup Views
+-(void)setUpTableViewsWithFrame:(CGRect)tableFrame {
+    if (!_itemTable) {
+        _itemTable = [[UITableView alloc] initWithFrame:tableFrame];
+        _itemTable.dataSource = self;
+        _itemTable.delegate = self;
+    }
+
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.navigationController.navigationItem.title = @"Items";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Items" style:UIBarButtonItemStylePlain target:nil action:nil];
-    [self.navigationItem setBackBarButtonItem:backButton];
+    self.title = NSLocalizedString(@"Items", @"Items");
+    _allItems = [_dbEngine populateItemArray];
     _displayedItems = _allItems;
     CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
     CGRect navigationBar = self.navigationController.navigationBar.frame;
@@ -37,22 +45,18 @@
     CGRect vcFrame = self.view.frame;
     
     CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 44);
-    
-    
-    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
-    
-    _itemTable = [[UITableView alloc] initWithFrame:tableWithSearch];
-    _itemTable.dataSource = self;
-    _itemTable.delegate = self;
-    
     _itemSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
     _itemSearch.delegate = self;
+    
+    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
+    [self setUpTableViewsWithFrame:tableWithSearch];
     
     [self.view addSubview:_itemTable];
     [self.view addSubview:_itemSearch];
 
 }
 
+#pragma mark - Search Bar Methods
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [_itemSearch setShowsCancelButton:YES];
     if (searchText.length == 0) {
@@ -90,7 +94,7 @@
     [searchBar resignFirstResponder];
 }
 
-
+#pragma mark - Table View Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([tableView isEqual:_itemTable]) {
         return _displayedItems.count;
@@ -134,10 +138,24 @@
     
 }
 
-
+#pragma mark - Helper Methods
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewWillLayoutSubviews {
+    CGRect vcFrame = self.view.frame;
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
+    int heightdifference = navBar.frame.size.height + statusBar.size.height;
+    
+    CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference, vcFrame.size.width, 44);
+    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - searchBarFrame.size.height);
+    
+    _itemSearch.frame = searchBarFrame;
+    _itemTable.frame = tableWithSearch;
+    
 }
 @end
 

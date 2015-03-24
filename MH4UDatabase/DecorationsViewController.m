@@ -21,30 +21,28 @@
 
 @implementation DecorationsViewController
 
+#pragma mark - Setup Views
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationController.navigationItem.title = @"Decorations";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Decorations" style:UIBarButtonItemStyleDone target:nil action:nil];
-    [self.navigationItem setBackBarButtonItem:backButton];
-    // Do any additional setup after loading the view.
-    [super viewDidLoad];
-    
-    // Do any additional setup after loading the view.
+    self.title = NSLocalizedString(@"Decorations", @"Decorations");
+    _allDecorations = [_dbEngine getAllDecorations];
+    _displayedDecorations = _allDecorations;
+
     CGRect vcFrame = self.view.frame;
     CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 44);
+    _decorationsSearchBar = [[UISearchBar alloc] initWithFrame:searchBarFrame];
+    _decorationsSearchBar.delegate = self;
+    
     CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
-    _displayedDecorations = _allDecorations;
     _decorationsTableView = [[UITableView alloc] initWithFrame:tableWithSearch];
     _decorationsTableView.dataSource = self;
     _decorationsTableView.delegate = self;
-    
-    
-    _decorationsSearchBar = [[UISearchBar alloc] initWithFrame:searchBarFrame];
-    _decorationsSearchBar.delegate = self;
+
     [self.view addSubview:_decorationsTableView];
     [self.view addSubview:_decorationsSearchBar];
 }
 
+#pragma mark - Search Bar Methods
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [_decorationsSearchBar setShowsCancelButton:YES];
     if (searchText.length == 0) {
@@ -82,19 +80,9 @@
     [searchBar resignFirstResponder];
 }
 
+#pragma mark - Table View Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _displayedDecorations.count;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    Decoration *decoration= _allDecorations[indexPath.row];
-    decoration.componentArray = [_dbEngine getComponentsfor:decoration.itemID];
-    DecorationsDetailViewController *dDVC = [[DecorationsDetailViewController alloc] init];
-    dDVC.heightDifference = _heightDifference;
-    dDVC.dbEngine = _dbEngine;
-    dDVC.selectedDecoration = decoration;
-    [self.navigationController pushViewController:dDVC animated:YES];
-    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -118,16 +106,41 @@
     if (decoration.skillArray.count == 1) {
         acessoryText.text = [NSString stringWithFormat:@"%@ %@", skill1[1], skill1[2]];
     } else if (decoration.skillArray.count == 2) {
-       NSArray *skill2 = decoration.skillArray[1];
+        NSArray *skill2 = decoration.skillArray[1];
         acessoryText.text = [NSString stringWithFormat:@"%@ %@ %@ %@", skill1[1], skill1[2], skill2[1], skill2[2]];
     }
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    Decoration *decoration= _allDecorations[indexPath.row];
+    decoration.componentArray = [_dbEngine getComponentsfor:decoration.itemID];
+    DecorationsDetailViewController *dDVC = [[DecorationsDetailViewController alloc] init];
+    dDVC.heightDifference = _heightDifference;
+    dDVC.dbEngine = _dbEngine;
+    dDVC.selectedDecoration = decoration;
+    [self.navigationController pushViewController:dDVC animated:YES];
+    
+}
 
+#pragma mark - Helper Methods
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewWillLayoutSubviews {
+    CGRect vcFrame = self.view.frame;
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
+    int heightdifference = navBar.frame.size.height + statusBar.size.height;
+    
+    CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference, vcFrame.size.width, 44);
+    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - searchBarFrame.size.height);
+    
+    _decorationsSearchBar.frame = searchBarFrame;
+    _decorationsTableView.frame = tableWithSearch;
+    
 }
 
 /*

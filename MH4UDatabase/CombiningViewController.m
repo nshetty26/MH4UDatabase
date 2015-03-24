@@ -20,15 +20,16 @@
 
 @implementation CombiningViewController
 
+#pragma mark - Setup Views
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"Combining";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Combining" style:UIBarButtonItemStyleDone target:nil action:nil];
-    [self.navigationItem setBackBarButtonItem:backButton];
+    self.title = NSLocalizedString(@"Combining", @"Combining");
+    _allCombined = [_dbEngine getCombiningItems];
     CGRect vcFrame = self.view.frame;
     CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 44);
     CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
     _displayedCombined = _allCombined;
+    
     _combiningTable = [[UITableView alloc] initWithFrame:tableWithSearch];
     _combiningTable.dataSource = self;
     _combiningTable.delegate = self;
@@ -41,6 +42,7 @@
     // Do any additional setup after loading the view.
 }
 
+#pragma mark - Search Bar Methods
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [_combineSearch setShowsCancelButton:YES];
     if (searchText.length == 0) {
@@ -72,11 +74,16 @@
     [searchBar resignFirstResponder];
 }
 
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+}
+
 -(void)showAllCombine {
     _displayedCombined = _allCombined;
     [_combiningTable reloadData];
 }
 
+#pragma mark Table View Methods
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (_displayedCombined == nil) {
         _displayedCombined = _allCombined;
@@ -114,6 +121,7 @@
     cell.combinedImageView.image = [UIImage imageNamed:combineCombo.combinedItem.icon];
     
     cell.item1Name.text = combineCombo.item1.name;
+    [cell.item1Name setTranslatesAutoresizingMaskIntoConstraints:false];
     [cell.item1Button setTitle:combineCombo.item1.name forState:UIControlStateNormal];
     cell.item2Name.text = combineCombo.item2.name;
     [cell.item2Button setTitle:combineCombo.item2.name forState:UIControlStateNormal];
@@ -128,6 +136,20 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewWillLayoutSubviews {
+    CGRect vcFrame = self.view.frame;
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
+    int heightdifference = navBar.frame.size.height + statusBar.size.height;
+    
+    CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference, vcFrame.size.width, 44);
+    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - searchBarFrame.size.height);
+    
+    _combineSearch.frame = searchBarFrame;
+    _combiningTable.frame = tableWithSearch;
+    
 }
 
 /*

@@ -26,33 +26,42 @@
 
 @implementation ArmorsViewController
 
+#pragma mark - Setup Views
+-(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
+    if (!_armorFilterTab) {
+        _armorFilterTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
+        UITabBarItem *allArmor = [[UITabBarItem alloc] initWithTitle:@"Both" image:nil tag:1];
+        UITabBarItem *blade = [[UITabBarItem alloc] initWithTitle:@"Blademaster" image:nil tag:2];
+        UITabBarItem *gunner = [[UITabBarItem alloc] initWithTitle:@"Gunner" image:nil tag:3];
+        
+        _armorFilterTab.delegate = self;
+        [_armorFilterTab setItems:@[allArmor, blade, gunner]];
+        [_armorFilterTab setSelectedItem:allArmor];
+    }
+}
+
+-(void)setUpViewsWithFrame:(CGRect)tableFrame {
+    _armorTable = [[UITableView alloc] initWithFrame:tableFrame];
+    _armorTable.dataSource = self;
+    _armorTable.delegate = self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationController.navigationItem.title = @"Armor";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Armors" style:UIBarButtonItemStylePlain target:nil action:nil];
-    [self.navigationItem setBackBarButtonItem:backButton];
+    self.title = NSLocalizedString(@"Armor", @"Armor");
+    _allArmorArray = [_dbEngine populateArmorArray];
+
     _displayedArmor = _allArmorArray;
     CGRect vcFrame = self.view.frame;
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
     CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference + tabBarFrame.size.height, vcFrame.size.width, 44);
     CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
-
-    _armorFilterTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
-    UITabBarItem *allArmor = [[UITabBarItem alloc] initWithTitle:@"Both" image:nil tag:1];
-    UITabBarItem *blade = [[UITabBarItem alloc] initWithTitle:@"Blademaster" image:nil tag:2];
-    UITabBarItem *gunner = [[UITabBarItem alloc] initWithTitle:@"Gunner" image:nil tag:3];
     
-    
-    _armorFilterTab.delegate = self;
-    [_armorFilterTab setItems:@[allArmor, blade, gunner]];
-    [_armorFilterTab setSelectedItem:allArmor];
+    [self setUpTabBarWithFrame:tabBarFrame];
+    [self setUpViewsWithFrame:tableWithSearch];
     
     _armorSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
     _armorSearch.delegate = self;
-    
-    _armorTable = [[UITableView alloc] initWithFrame:tableWithSearch];
-    _armorTable.dataSource = self;
-    _armorTable.delegate = self;
     
     [self.view addSubview:_armorTable];
     [self.view addSubview:_armorFilterTab];
@@ -62,6 +71,7 @@
     // Do any additional setup after loading the view.
 }
 
+#pragma mark - Search Methods
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [_armorSearch setShowsCancelButton:YES];
     if (searchText.length == 0) {
@@ -98,6 +108,7 @@
     [searchBar resignFirstResponder];
 }
 
+#pragma mark - Tab Bar Methods
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
     if ([tabBar isEqual:_armorFilterTab]) {
         switch (item.tag) {
@@ -121,6 +132,7 @@
     }
 }
 
+#pragma - Mark Tableview Methods
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if ([tableView isEqual:_armorTable]) {
         return 5;
@@ -243,6 +255,8 @@
     
 }
 
+#pragma mark - Helper Methods
+
 -(Armor *)returnArmorAtIndexPath:(NSIndexPath *)indexPath {
     Armor *armor;
     switch (indexPath.section) {
@@ -273,6 +287,22 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewWillLayoutSubviews {
+    CGRect vcFrame = self.view.frame;
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
+    int heightdifference = navBar.frame.size.height + statusBar.size.height;
+    
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference, vcFrame.size.width, 49);
+    CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference + tabBarFrame.size.height, vcFrame.size.width, 44);
+    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - (searchBarFrame.size.height + tabBarFrame.size.height));
+    
+    _armorFilterTab.frame = tabBarFrame;
+    _armorSearch.frame = searchBarFrame;
+    _armorTable.frame = tableWithSearch;
+    
 }
 
 /*

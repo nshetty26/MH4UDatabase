@@ -14,12 +14,16 @@
 
 @interface LocationDetailViewController ()
 @property (nonatomic) UITabBar *locationDetailTabBar;
+@property (nonatomic) UILabel *mapLabel;
+@property (nonatomic) UIWebView *mapView;
+@property (nonatomic) NSArray *allViews;
+@property (nonatomic) NSArray *allTableViews;
+@property (nonatomic) UILabel *cellAccessoryText;
 @property (nonatomic) UITabBarItem *map;
 @property (nonatomic) UITabBarItem *monsters;
 @property (nonatomic) UITabBarItem *lowRank;
 @property (nonatomic) UITabBarItem *highRank;
 @property (nonatomic) UITabBarItem *gRank;
-@property (nonatomic) UIView *largeMap;
 @property (nonatomic) UITableView *monsterTable;
 @property (nonatomic) UITableView *rankDropTable;
 
@@ -27,16 +31,9 @@
 
 @implementation LocationDetailViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    NSString *locationName = _selectedLocation.locationName;
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:locationName style:UIBarButtonItemStyleDone target:nil action:nil];
-    [self.navigationItem setBackBarButtonItem:backButton];
-    // Do any additional setup after loading the view.
-    CGRect vcFrame = self.view.frame;
-    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
-    [_dbEngine monstersForLocationID:_selectedLocation];
-    [_dbEngine itemsForLocationID:_selectedLocation];
+#pragma mark - Setup Views
+
+-(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
     _locationDetailTabBar = [[UITabBar alloc] initWithFrame:tabBarFrame];
     _locationDetailTabBar.delegate = self;
     _map = [[UITabBarItem alloc] initWithTitle:@"Map" image:nil tag:1];
@@ -45,37 +42,92 @@
     _highRank = [[UITabBarItem alloc] initWithTitle:@"High Rank" image:nil tag:4];
     _gRank = [[UITabBarItem alloc] initWithTitle:@"G Rank" image:nil tag:5];
     [_locationDetailTabBar setItems:@[_map, _monsters, _lowRank, _highRank, _gRank]];
-    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + tabBarFrame.size.height + _heightDifference, vcFrame.size.width, vcFrame.size.height - _heightDifference - tabBarFrame.size.height);
+}
+
+-(void)setUpViewsWithFrame:(CGRect)viewFrame {
     
-    _largeMap = [[UIView alloc] initWithFrame:tablewithTabbar];
-    [_largeMap setBackgroundColor:[UIColor whiteColor]];
+    //Set up Map Title
+    CGRect labelFrame = CGRectMake(viewFrame.origin.x, viewFrame.origin.y + 10, viewFrame.size.width, 20);
+    _mapLabel = [[UILabel alloc] initWithFrame:labelFrame];
+    [_mapLabel setTextAlignment:NSTextAlignmentCenter];
+    UIFont *font = [_mapLabel.font fontWithSize:20];;
+    _mapLabel.font = font;
+    _mapLabel.text = _selectedLocation.locationName;
     
-    _rankDropTable = [[UITableView alloc] init];
+    //Set up Map Image
+    CGRect imageFrame = CGRectMake(viewFrame.origin.x, viewFrame.origin.y + 30, viewFrame.size.width, viewFrame.size.height - 30);
+    _mapView = [[UIWebView alloc] initWithFrame:imageFrame];
+    NSString *path = [_selectedLocation.locationIcon stringByDeletingPathExtension];
+    NSURL *url = [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:path ofType:@"png"]];
+    [_mapView loadRequest:[NSURLRequest requestWithURL:url]];
+    _mapView.scalesPageToFit = YES;
+    //UIImageView *mapImage = [[UIImageView alloc] initWithFrame:imageFrame];
+    //mapImage.image = [UIImage imageNamed:_selectedLocation.locationIcon];
+
+    [self.view addSubview:_mapLabel];
+    [self.view addSubview:_mapView];
+    
+    _rankDropTable = [[UITableView alloc] initWithFrame:viewFrame];
     _rankDropTable.delegate = self;
     _rankDropTable.dataSource = self;
-    _rankDropTable.frame = tablewithTabbar;
-    
-    _monsterTable = [[UITableView alloc] initWithFrame:tablewithTabbar];
+
+    _monsterTable = [[UITableView alloc] initWithFrame:viewFrame];
     _monsterTable.dataSource = self;
     _monsterTable.delegate = self;
     
-    CGRect labelFrame = CGRectMake(_largeMap.bounds.origin.x, _largeMap.bounds.origin.y + 10, _largeMap.bounds.size.width, 20);
+    _allTableViews = @[_rankDropTable, _monsterTable];
+    _allViews = @[_mapLabel, _mapView, _rankDropTable, _monsterTable];
+}
 
-    UILabel *locationTitle = [[UILabel alloc] initWithFrame:labelFrame];
-    [locationTitle setTextAlignment:NSTextAlignmentCenter];
-    UIFont *font = [locationTitle.font fontWithSize:20];;
-    locationTitle.font = font;
-    locationTitle.text = _selectedLocation.locationName;
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.title = NSLocalizedString(_selectedLocation.locationName, _selectedLocation.locationName);
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+    [_dbEngine monstersForLocationID:_selectedLocation];
+    [_dbEngine itemsForLocationID:_selectedLocation];
+
+    CGRect vcFrame = self.view.frame;
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
+    [self setUpTabBarWithFrame:tabBarFrame];
     
-    CGRect imageFrame = CGRectMake(_largeMap.bounds.origin.x, _largeMap.bounds.origin.y + 30, _largeMap.bounds.size.width, _largeMap.bounds.size.height - 30);
-    
-    UIImageView *mapImage = [[UIImageView alloc] initWithFrame:imageFrame];
-    mapImage.image = [UIImage imageNamed:_selectedLocation.locationIcon];
-    [self.view addSubview:_largeMap];
-    [_largeMap addSubview:locationTitle];
-    [_largeMap addSubview:mapImage];
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + tabBarFrame.size.height + _heightDifference, vcFrame.size.width, vcFrame.size.height - (_heightDifference + tabBarFrame.size.height));
+    [self setUpViewsWithFrame:tablewithTabbar];
+
+    //[self.view addSubview:_largeMap];
     [self.view addSubview:_locationDetailTabBar];
     
+}
+
+#pragma mark - Tab Bar Methods
+-(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    [self removeViewsFromDetail];
+    //[self.view addSubview:_monsterDetailView];
+    switch (item.tag) {
+        case 1:
+            [self.view addSubview:_mapLabel];
+            [self.view addSubview:_mapView];
+            break;
+        case 2:
+            [self.view addSubview:_monsterTable];
+            break;
+        case 3:
+        case 4:
+        case 5:
+            if (_rankDropTable.superview == nil) {
+                [self.view addSubview:_rankDropTable];
+            }
+            [_rankDropTable reloadData];
+            break;
+        default:
+            break;
+    }
+    
+    [tabBar setSelectedItem:item];
+}
+
+#pragma mark Table View Methods
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -97,16 +149,12 @@
     }
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"monsterDetailCell"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"monsterDetailCell"];
-    }
     if  ([tableView isEqual:_monsterTable]){
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"monsterDetailCell"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"monsterDetailCell"];
+        }
         Monster *monster = [_selectedLocation.monsterArray[indexPath.row]objectAtIndex:0];
         MonsterHabitat *mh = [_selectedLocation.monsterArray[indexPath.row]objectAtIndex:1];
         cell.textLabel.text = monster.monsterName;
@@ -114,6 +162,10 @@
         cell.imageView.image = [UIImage imageNamed:monster.iconName];
         return cell;
     } else if  ([tableView isEqual:_rankDropTable]){
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"itemDetailCell"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"itemDetailCell"];
+        }
         GatheredResource *gatheredResource;
         if ([_locationDetailTabBar.selectedItem isEqual:_lowRank]) {
             gatheredResource = _selectedLocation.lowRankItemsArray[indexPath.row];
@@ -124,17 +176,7 @@
         }
         cell.textLabel.text = gatheredResource.name;
         cell.imageView.image = [UIImage imageNamed:gatheredResource.icon];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", gatheredResource.site,gatheredResource.area];
-        CGRect cellFrame = cell.frame;
-        CGRect textView = CGRectMake(cellFrame.size.width - 60, cellFrame.origin.y + 5, 50, 24);
-        UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
-        [accessoryText setNumberOfLines:2];
-        [accessoryText setLineBreakMode:NSLineBreakByWordWrapping];
-        [cell addSubview:accessoryText];
-        accessoryText.textAlignment =  NSTextAlignmentRight;
-        UIFont *font = [accessoryText.font fontWithSize:10];
-        accessoryText.font = font;
-        accessoryText.text = [NSString stringWithFormat:@"%i%@", gatheredResource.percentage, @"%"];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@ - %i%@", gatheredResource.site,gatheredResource.area, gatheredResource.percentage, @"%"];
         return cell;
     } else {
         return nil;
@@ -167,44 +209,46 @@
     }
 }
 
--(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-    [self removeViewsFromDetail];
-    //[self.view addSubview:_monsterDetailView];
-    switch (item.tag) {
-        case 1:
-            [self.view addSubview:_largeMap];
-            break;
-        case 2:
-            [self.view addSubview:_monsterTable];
-            break;
-        case 3:
-        case 4:
-        case 5:
-            if (_rankDropTable.superview == nil) {
-                [self.view addSubview:_rankDropTable];
-            }
-            [_rankDropTable reloadData];
-            break;
-        default:
-            break;
-    }
-    
-    [tabBar setSelectedItem:item];
+#pragma mark - Helper Methods
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 -(void)removeViewsFromDetail {
-    NSArray *allTables = @[_largeMap, _monsterTable, _rankDropTable];
-    for (UIView *view in allTables) {
+    for (UIView *view in _allViews) {
         if (view.superview != nil) {
             [view removeFromSuperview];
         }
     }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)viewWillLayoutSubviews {
+    CGRect vcFrame = self.view.frame;
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
+    int heightdifference = navBar.frame.size.height + statusBar.size.height;
+    
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference, vcFrame.size.width, 49);
+    _locationDetailTabBar.frame = tabBarFrame;
+    
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - (heightdifference + tabBarFrame.size.height));
+    
+    CGRect labelFrame = CGRectMake(tablewithTabbar.origin.x, tablewithTabbar.origin.y + 10, tablewithTabbar.size.width, 20);
+    _mapLabel.frame = labelFrame;
+
+    
+    //Set up Map Image
+    CGRect mapFrame = CGRectMake(tablewithTabbar.origin.x, tablewithTabbar.origin.y + 30, tablewithTabbar.size.width, tablewithTabbar.size.height - 30);
+    _mapView.frame = mapFrame;
+
+    
+    for (UIView *view in _allTableViews) {
+        view.frame = tablewithTabbar;
+    }
 }
+
+
 
 /*
 #pragma mark - Navigation

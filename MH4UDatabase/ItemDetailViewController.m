@@ -19,6 +19,7 @@
 
 @interface ItemDetailViewController ()
 @property (nonatomic) DetailedItemView *detailItemView;
+@property (nonatomic) NSArray *allViews;
 @property (nonatomic) UITabBarItem *itemDetail;
 @property (nonatomic) UITabBarItem *combining;
 @property (nonatomic) UITabBarItem *usage;
@@ -38,58 +39,114 @@
 
 @implementation ItemDetailViewController
 
+#pragma mark - Setup Views
+-(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
+    if (!_itemDetailBar) {
+        _itemDetailBar = [[UITabBar alloc] initWithFrame:tabBarFrame];
+        _itemDetailBar.delegate = self;
+        
+        [self setDetailTabBarforItem:_selectedItem];
+        [_itemDetailBar setSelectedItem:_itemDetail];
+    }
+}
+
+-(void)setUpViewsWithFrame:(CGRect)tableFrame {
+    NSMutableArray *allViews = [[NSMutableArray alloc] init];
+    
+    _detailItemView = [[[NSBundle mainBundle] loadNibNamed:@"DetailedItemView" owner:self options:nil] lastObject];
+    _detailItemView.frame = tableFrame;
+    [_detailItemView populateViewWithItem:_selectedItem];
+    [allViews addObject:_detailItemView];
+    
+    if (_combining) {
+        _combiningTable = [[UITableView alloc] initWithFrame:tableFrame];
+        _cVC = [[CombiningViewController alloc] init];
+        _cVC.allCombined = _selectedItem.combinedItemsArray;
+        _cVC.dbEngine = _dbEngine;
+        _combiningTable.dataSource = _cVC;
+        _combiningTable.delegate = _cVC;
+        [allViews addObject:_combiningTable];
+    }
+
+    if (_usage) {
+        _usageTable = [[UITableView alloc] initWithFrame:tableFrame];
+        _usageTable.dataSource = self;
+        _usageTable.delegate = self;
+        [allViews addObject:_usageTable];
+    }
+
+    if (_monster) {
+        _monsterDropTable = [[UITableView alloc] initWithFrame:tableFrame];
+        _monsterDropTable.dataSource = self;
+        _monsterDropTable.delegate = self;
+        [allViews addObject:_monsterDropTable];
+    }
+
+    if (_quest) {
+        _questRewardTable = [[UITableView alloc] initWithFrame:tableFrame];
+        _questRewardTable.dataSource = self;
+        _questRewardTable.delegate = self;
+        [allViews addObject:_questRewardTable];
+    }
+
+    if (_location) {
+        _locationTable = [[UITableView alloc] initWithFrame:tableFrame];
+        _locationTable.dataSource = self;
+        _locationTable.delegate = self;
+        [allViews addObject:_locationTable];
+    }
+    
+    _allViews = allViews;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    CGRect tabBarFrame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + _heightDifference , self.view.frame.size.width, 49);
-    CGRect vcFrame = CGRectMake(self.view.frame.origin.x, tabBarFrame.origin.y + tabBarFrame.size.height, self.view.frame.size.width, self.view.frame.size.height);
-    
+    self.title = NSLocalizedString(_selectedItem.name, _selectedItem.name);
     [self populateDetailsforItem:_selectedItem];
     
-    _combiningTable = [[UITableView alloc] initWithFrame:vcFrame];
-    _cVC = [[CombiningViewController alloc] init];
-    _cVC.allCombined = _selectedItem.combinedItemsArray;
-    _cVC.dbEngine = _dbEngine;
-    _combiningTable.dataSource = _cVC;
-    _combiningTable.delegate = _cVC;
+    CGRect tabBarFrame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + _heightDifference , self.view.frame.size.width, 49);
+    [self setUpTabBarWithFrame:tabBarFrame];
     
-    _usageTable = [[UITableView alloc] initWithFrame:vcFrame];
-    _usageTable.dataSource = self;
-    _usageTable.delegate = self;
-    
-    _monsterDropTable = [[UITableView alloc] initWithFrame:vcFrame];
-    _monsterDropTable.dataSource = self;
-    _monsterDropTable.delegate = self;
-    
-    _questRewardTable = [[UITableView alloc] initWithFrame:vcFrame];
-    _questRewardTable.dataSource = self;
-    _questRewardTable.delegate = self;
-    
-    _locationTable = [[UITableView alloc] initWithFrame:vcFrame];
-    _locationTable.dataSource = self;
-    _locationTable.delegate = self;
-    
-    _itemDetailBar = [[UITabBar alloc] initWithFrame:tabBarFrame];
-    _itemDetailBar.delegate = self;
-    
-    _itemDetail = [[UITabBarItem alloc] initWithTitle:@"Item Detail" image:nil tag:1];
-    _combining = [[UITabBarItem alloc] initWithTitle:@"Combining" image:nil tag:2];
-    _usage = [[UITabBarItem alloc] initWithTitle:@"Usage" image:nil tag:3];
-    _monster = [[UITabBarItem alloc] initWithTitle:@"Monster Drop" image:nil tag:4];
-    _quest = [[UITabBarItem alloc] initWithTitle:@"Quest Reward" image:nil tag:5];
-    _location = [[UITabBarItem alloc] initWithTitle:@"Location" image:nil tag:6];
-    
-    _detailItemView = [[[NSBundle mainBundle] loadNibNamed:@"DetailedItemView" owner:self options:nil] lastObject];
-    _detailItemView.frame = vcFrame;
-    [_detailItemView populateViewWithItem:_selectedItem];
-    [self setDetailTabBarforItem:_selectedItem];
-    [_itemDetailBar setSelectedItem:_itemDetail];
+    CGRect vcFrame = CGRectMake(self.view.frame.origin.x, tabBarFrame.origin.y + tabBarFrame.size.height, self.view.frame.size.width, self.view.frame.size.height);
+    [self setUpViewsWithFrame:vcFrame];
+
     [self.view addSubview:_detailItemView];
     [self.view addSubview:_itemDetailBar];
 
 
 }
 
+#pragma mark - Tab Bar Methods
+-(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    [self removeTableViewsFromDetail];
+    switch (item.tag) {
+        case 1:
+            [self.view addSubview:_detailItemView];
+            break;
+        case 2:
+            
+            [self.view addSubview:_combiningTable];
+            break;
+        case 3:
+            [self.view addSubview:_usageTable];
+            break;
+        case 4:
+            [self.view addSubview:_monsterDropTable];
+            break;
+        case 5:
+            [self.view addSubview:_questRewardTable];
+            break;
+        case 6:
+            [self.view addSubview:_locationTable];
+            break;
+        default:
+            break;
+    }
+    [self.view addSubview:_itemDetailBar];
+}
+
+#pragma mark - Table View Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([tableView isEqual:_combiningTable]) {
         return _selectedItem.combinedItemsArray.count;
@@ -206,6 +263,12 @@
     
 }
 
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 -(void)tableView:(UITableView *)tableView willDisplayCell:(CombiningCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if ([tableView isEqual:_combiningTable]) {
@@ -227,75 +290,62 @@
     
 }
 
-
--(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-    [self removeTableViewsFromDetail];
-    switch (item.tag) {
-        case 1:
-            [self.view addSubview:_detailItemView];
-            break;
-        case 2:
-            
-            [self.view addSubview:_combiningTable];
-            break;
-        case 3:
-            [self.view addSubview:_usageTable];
-            break;
-        case 4:
-            [self.view addSubview:_monsterDropTable];
-            break;
-        case 5:
-            [self.view addSubview:_questRewardTable];
-            break;
-        case 6:
-            [self.view addSubview:_locationTable];
-            break;
-        default:
-            break;
-    }
-    [self.view addSubview:_itemDetailBar];
-}
-
+#pragma mark - Helper Methods
 -(void)setDetailTabBarforItem:(Item *)item {
     
     NSMutableArray *tabItems = [[NSMutableArray alloc] initWithObjects:_itemDetail  , nil];
     [_itemDetailBar setSelectedItem:_itemDetail];
+    _itemDetail = [[UITabBarItem alloc] initWithTitle:@"Item Detail" image:nil tag:1];
 
     if (item.combinedItemsArray.count > 0) {
+        _combining = [[UITabBarItem alloc] initWithTitle:@"Combining" image:nil tag:2];
         [tabItems addObject:_combining];
     }
     
     if (item.usageItemsArray.count > 0) {
+        _usage = [[UITabBarItem alloc] initWithTitle:@"Usage" image:nil tag:3];
         [tabItems addObject:_usage];
     }
     
     if (item.monsterDropsArray.count > 0) {
+        _monster = [[UITabBarItem alloc] initWithTitle:@"Monster Drop" image:nil tag:4];
         [tabItems addObject:_monster];
     }
     
     if (item.questRewardsArray.count > 0) {
+        _quest = [[UITabBarItem alloc] initWithTitle:@"Quest Reward" image:nil tag:5];
         [tabItems addObject:_quest];
     }
     
     if (item.locationsArray.count > 0) {
+        _location = [[UITabBarItem alloc] initWithTitle:@"Location" image:nil tag:6];
         [tabItems addObject:_location];
     }
     
     _itemDetailBar.items = tabItems;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 -(void)removeTableViewsFromDetail {
-    NSArray *allViews = @[_detailItemView, _combiningTable, _usageTable, _monsterDropTable, _questRewardTable, _locationTable];
-
-    for (UIView *view in allViews) {
+    for (UIView *view in _allViews) {
         if (view.superview != nil) {
             [view removeFromSuperview];
         }
+    }
+}
+
+-(void)viewWillLayoutSubviews {
+    CGRect vcFrame = self.view.frame;
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
+    int heightdifference = navBar.frame.size.height + statusBar.size.height;
+    
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference, vcFrame.size.width, 49);
+    _itemDetailBar.frame = tabBarFrame;
+    
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - (heightdifference + tabBarFrame.size.height));
+    
+    for (UIView *view in _allViews) {
+        view.frame = tablewithTabbar;
     }
 }
 

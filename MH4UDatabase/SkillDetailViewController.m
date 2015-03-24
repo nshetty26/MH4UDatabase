@@ -15,6 +15,7 @@
 
 @interface SkillDetailViewController ()
 @property (nonatomic) SkillCollection *skillCollection;
+@property (nonatomic) NSArray *allViews;
 @property (nonatomic) UITableView *skillDetailTable;
 @property (nonatomic) UITableView *equipmentTable;
 @property (nonatomic) UITabBar *skillDetailTab;
@@ -28,16 +29,11 @@
 @end
 
 @implementation SkillDetailViewController
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    CGRect vcFrame = self.view.frame;
-    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
-    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
-    CGRect equipmentFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + tabBarFrame.size.height + _heightDifference, vcFrame.size.width, vcFrame.size.height - _heightDifference - tabBarFrame.size.height);
-    
+#pragma mark - Setup Views
+-(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
     _skillDetailTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
+    _skillDetailTab.delegate = self;
+    
     _detail = [[UITabBarItem alloc] initWithTitle:@"Detail" image:nil tag:1];
     _head = [[UITabBarItem alloc] initWithTitle:@"Head" image:nil tag:2];
     _body = [[UITabBarItem alloc] initWithTitle:@"Body" image:nil tag:3];
@@ -46,26 +42,40 @@
     _leg = [[UITabBarItem alloc] initWithTitle:@"Legs" image:nil tag:6];
     _decorations = [[UITabBarItem alloc] initWithTitle:@"Decorations" image:nil tag:7];
     
-    _skillCollection = [_dbEngine getSkillCollectionForSkillTreeID:_skillTreeID];
     [self setDetailTabBarItems];
+    [_skillDetailTab setSelectedItem:[_skillDetailTab.items firstObject]];
     
-    
-    _skillDetailTab.delegate = self;
-    
-    _skillDetailTable = [[UITableView alloc] initWithFrame:tablewithTabbar];
+}
+
+-(void)setUpViewsWithFrame:(CGRect)tableFrame {
+    _skillDetailTable = [[UITableView alloc] initWithFrame:tableFrame];
     _skillDetailTable.dataSource = self;
     _skillDetailTable.delegate = self;
     
-    _equipmentTable = [[UITableView alloc] initWithFrame:equipmentFrame];
+    _equipmentTable = [[UITableView alloc] initWithFrame:tableFrame];
     _equipmentTable.delegate = self;
     _equipmentTable.dataSource = self;
+    _allViews = @[_skillDetailTable, _equipmentTable];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.title = NSLocalizedString(_skilTreeName, _skilTreeName);
+    _skillCollection = [_dbEngine getSkillCollectionForSkillTreeID:_skillTreeID];
+    CGRect vcFrame = self.view.frame;
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
+    [self setUpTabBarWithFrame:tabBarFrame];
     
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + tabBarFrame.size.height + _heightDifference, vcFrame.size.width, vcFrame.size.height -( _heightDifference + tabBarFrame.size.height));
+    [self setUpViewsWithFrame:tablewithTabbar];
+    
+
     [self.view addSubview:_skillDetailTable];
-    [_skillDetailTab setSelectedItem:[_skillDetailTab.items firstObject]];
     [self.view addSubview:_skillDetailTab];
 
 }
 
+#pragma mark - Tab Bar Methods
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
     [self removeViewsFromDetail];
     //[self.view addSubview:_monsterDetailView];
@@ -89,6 +99,7 @@
     [tabBar setSelectedItem:item];
 }
 
+#pragma mark - Table View Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if ([tableView isEqual:_skillDetailTable]){
@@ -226,6 +237,7 @@
     }
 }
 
+#pragma mark - Helper Methods
 -(void)setDetailTabBarItems{
     NSMutableArray *tabItems = [[NSMutableArray alloc] initWithObjects:_detail, nil];
     if (_skillCollection.headArray.count > 0 ) {
@@ -252,13 +264,29 @@
 }
 
 -(void)removeViewsFromDetail {
-    NSArray *views = @[_skillDetailTable, _equipmentTable];
-    for (UIView *view in views) {
+    for (UIView *view in _allViews) {
         if (view.superview) {
             [view removeFromSuperview];
         }
     }
 }
+
+-(void)viewWillLayoutSubviews {
+    CGRect vcFrame = self.view.frame;
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
+    int heightdifference = navBar.frame.size.height + statusBar.size.height;
+    
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference, vcFrame.size.width, 49);
+    _skillDetailTab.frame = tabBarFrame;
+    
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - (heightdifference + tabBarFrame.size.height));
+    
+    for (UIView *view in _allViews) {
+        view.frame = tablewithTabbar;
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

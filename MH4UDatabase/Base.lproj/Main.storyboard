@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="xB5-9g-to7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="xB5-9g-to7">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -13,17 +13,17 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="XtR-3u-fFz" kind="relationship" relationship="rootViewController" id="79K-bB-a4b"/>
+                        <segue destination="XtR-3u-fFz" kind="relationship" relationship="rootViewController" id="G44-PF-O2Y"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dyZ-uN-mgm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1346" y="-1676"/>
         </scene>
-        <!--Detail View Controller-->
+        <!--Monsters View Controller-->
         <scene sceneID="5hy-HU-hNe">
             <objects>
-                <viewController id="XtR-3u-fFz" customClass="DetailViewController" sceneMemberID="viewController">
+                <viewController id="XtR-3u-fFz" customClass="MonstersViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hac-xq-w6J"/>
                         <viewControllerLayoutGuide type="bottom" id="Wm1-fz-ff3"/>
@@ -33,7 +33,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="If you are seeing this then you are on an iPad, please swipe right to bring up the menu" translatesAutoresizingMaskIntoConstraints="NO" id="pMl-16-UHp">
-                                <rect key="frame" x="230" y="237" width="240" height="135"/>
+                                <rect key="frame" x="210" y="222" width="240" height="135"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -45,7 +45,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dCa-Wr-NOQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1310" y="-581"/>
+            <point key="canvasLocation" x="758" y="-849"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dki-WL-gGO">
@@ -265,6 +265,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="xvP-hv-RQE"/>
+        <segue reference="vol-AY-Wqp"/>
     </inferredMetricsTieBreakers>
 </document>

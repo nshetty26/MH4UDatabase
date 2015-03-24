@@ -19,64 +19,112 @@
 @property (nonatomic) UITableView *hornSongTable;
 @property (nonatomic) NSArray *weaponComponents;
 @property (nonatomic) NSArray *hornMelodies;
+@property (nonatomic) NSArray *allViews;
 
 @end
 
 @implementation WeaponDetailViewController
 
+#pragma mark - Setup Views
+-(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
+    if (!_weaponDetailTab) {
+        NSMutableArray *tabItems = [[NSMutableArray alloc] init];
+        
+        UITabBarItem *statSheet = [[UITabBarItem alloc] initWithTitle:@"Detail" image:nil tag:1];
+        UITabBarItem *fTree = [[UITabBarItem alloc] initWithTitle:@"Family Tree" image:nil tag:2];
+        UITabBarItem *componentSheet = [[UITabBarItem alloc] initWithTitle:@"Components" image:nil tag:3];
+        [tabItems addObject:statSheet];
+        [tabItems addObject:fTree];
+        [tabItems addObject:componentSheet];
+        
+        if ([_selectedWeapon.weaponType isEqualToString:@"Hunting Horn"]) {
+            UITabBarItem *melodies = [[UITabBarItem alloc] initWithTitle:@"Melodies" image:nil tag:4];
+            [tabItems addObject:melodies];
+        }
+        
+        _weaponDetailTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
+        _weaponDetailTab.delegate = self;
+        [_weaponDetailTab setSelectedItem:statSheet];
+        [_weaponDetailTab setItems:tabItems];
+    }
+}
+
+-(void)setUpViewsWithFrame:(CGRect)tableFrame {
+    NSMutableArray *allViews = [[NSMutableArray alloc] init];
+    
+    _detailedView = [[[NSBundle mainBundle] loadNibNamed:@"DetailedWeaponView" owner:self options:nil] firstObject];
+    [_detailedView populateWeapon:_selectedWeapon];
+    _detailedView.frame = tableFrame;
+    [allViews addObject:_detailedView];
+    
+    _componentTable = [[UITableView alloc] initWithFrame:tableFrame];
+    _componentTable.delegate = self;
+    _componentTable.dataSource = self;
+    [allViews addObject:_componentTable];
+    
+    _weaponFamilyTable = [[UITableView alloc] initWithFrame:tableFrame];
+    _weaponFamilyTable.delegate = self;
+    _weaponFamilyTable.dataSource = self;
+    [allViews addObject:_weaponFamilyTable];
+    
+
+    if ([_selectedWeapon.weaponType isEqualToString:@"Hunting Horn"]) {
+        _hornSongTable = [[UITableView alloc] initWithFrame:tableFrame];
+        _hornMelodies = [_dbEngine getHornSongsForHorn:_selectedWeapon];
+        _hornSongTable.delegate = self;
+        _hornSongTable.dataSource = self;
+        [allViews addObject:_hornSongTable];
+    }
+
+    _allViews = allViews;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = NSLocalizedString(_selectedWeapon.name, _selectedWeapon.name);
 
     _selectedWeapon.icon = [NSString stringWithFormat:@"%@%i.png",_imageString, _selectedWeapon.rarity];
-    CGRect vcFrame = self.view.frame;
-    
-    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
-    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + tabBarFrame.size.height + _heightDifference, vcFrame.size.width, vcFrame.size.height - _heightDifference - tabBarFrame.size.height);
-
-    
-    UITabBarItem *statSheet = [[UITabBarItem alloc] initWithTitle:@"Detail" image:nil tag:1];
-    UITabBarItem *fTree = [[UITabBarItem alloc] initWithTitle:@"Family Tree" image:nil tag:2];
-    UITabBarItem *componentSheet = [[UITabBarItem alloc] initWithTitle:@"Components" image:nil tag:3];
-    NSMutableArray *tabItems = [[NSMutableArray alloc] init];
-    [tabItems addObject:statSheet];
-    [tabItems addObject:fTree];
-    [tabItems addObject:componentSheet];
-    
-    _weaponDetailTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
-    _weaponDetailTab.delegate = self;
-
-    _detailedView = [[[NSBundle mainBundle] loadNibNamed:@"DetailedWeaponView" owner:self options:nil] firstObject];
-    [_detailedView populateWeapon:_selectedWeapon];
-        _detailedView.frame = tablewithTabbar;
-    
     _weaponComponents = [_dbEngine getComponentsfor:_selectedWeapon.itemID];
     
-    [_weaponDetailTab setSelectedItem:statSheet];
+    CGRect vcFrame = self.view.frame;
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + tabBarFrame.size.height + _heightDifference, vcFrame.size.width, vcFrame.size.height - _heightDifference - tabBarFrame.size.height);
     
-    _componentTable = [[UITableView alloc] initWithFrame:tablewithTabbar];
-    _componentTable.delegate = self;
-    _componentTable.dataSource = self;
-    
-    _weaponFamilyTable = [[UITableView alloc] initWithFrame:tablewithTabbar];
-    _weaponFamilyTable.delegate = self;
-    _weaponFamilyTable.dataSource = self;
-    
-    _hornSongTable = [[UITableView alloc] initWithFrame:tablewithTabbar];
-    if ([_selectedWeapon.weaponType isEqualToString:@"Hunting Horn"]) {
-        _hornMelodies = [_dbEngine getHornSongsForHorn:_selectedWeapon];
+    [self setUpTabBarWithFrame:tabBarFrame];
+    [self setUpViewsWithFrame:tablewithTabbar];
 
-        UITabBarItem *melodies = [[UITabBarItem alloc] initWithTitle:@"Melodies" image:nil tag:4];
-        [tabItems addObject:melodies];
-        _hornSongTable.delegate = self;
-        _hornSongTable.dataSource = self;
-    }
-
-    [_weaponDetailTab setItems:tabItems];
     [self.view addSubview:_weaponDetailTab];
     [self.view addSubview:_detailedView];
 }
 
+#pragma mark - Tab Bar Methods
+-(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    if ([tabBar isEqual:_weaponDetailTab]) {
+        [self removeViewsFromDetail];
+        switch (item.tag) {
+            case 1:
+                [self.view addSubview:_detailedView];
+                break;
+            case 2:
+                [self.view addSubview:_weaponFamilyTable];
+                break;
+            case 3:
+                [self.view addSubview:_componentTable];
+                break;
+            case 4:
+                [self.view addSubview:_hornSongTable];
+                break;
+            default:
+                break;
+        }
+        
+    }
+    [tabBar setSelectedItem:item];
+    
+}
+
+#pragma mark Tableview Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([tableView isEqual:_componentTable]) {
         return _weaponComponents.count;
@@ -169,45 +217,6 @@
     return nil;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
--(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-    if ([tabBar isEqual:_weaponDetailTab]) {
-        [self removeViewsFromDetail];
-        switch (item.tag) {
-            case 1:
-                [self.view addSubview:_detailedView];
-                break;
-            case 2:
-                [self.view addSubview:_weaponFamilyTable];
-                break;
-            case 3:
-                [self.view addSubview:_componentTable];
-                break;
-            case 4:
-                [self.view addSubview:_hornSongTable];
-                break;
-            default:
-                break;
-        }
-        
-    }
-    [tabBar setSelectedItem:item];
-    
-}
-
--(void)removeViewsFromDetail {
-    NSArray *allTables = @[_detailedView, _weaponFamilyTable, _componentTable, _hornSongTable];
-    for (UIView *view in allTables) {
-        if (view.superview != nil) {
-            [view removeFromSuperview];
-        }
-    }
-}
-
 -(NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView isEqual:_weaponFamilyTable]) {
         Weapon *weapon = _weaponFamily[indexPath.row];
@@ -215,7 +224,40 @@
     } else {
         return 0;
     }
+    
+}
 
+#pragma mark - Helper Methods
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+-(void)removeViewsFromDetail {
+
+    for (UIView *view in _allViews) {
+        if (view.superview != nil) {
+            [view removeFromSuperview];
+        }
+    }
+}
+
+-(void)viewWillLayoutSubviews {
+    CGRect vcFrame = self.view.frame;
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
+    int heightdifference = navBar.frame.size.height + statusBar.size.height;
+    
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference, vcFrame.size.width, 49);
+    _weaponDetailTab.frame = tabBarFrame;
+    
+    
+    CGRect tableFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + tabBarFrame.size.height + heightdifference, vcFrame.size.width, vcFrame.size.height - heightdifference - tabBarFrame.size.height);
+    
+    for (UIView *view in _allViews) {
+        view.frame = tableFrame;
+    }
 }
 
 @end
@@ -324,10 +366,6 @@
         _auxiliaryValue5.hidden = NO;
         _auxiliaryLabel5.text = @"Charge 4";
         _auxiliaryValue5.text = chargeArray[3];
-        //_auxiliaryLabel6.hidden = NO;
-        //_auxiliaryValue6.hidden = NO;
-        //_auxiliaryLabel6.text = @"Coatings";
-        //_auxiliaryValue6.text = weapon.coatings;
     }
     
     if (![weapon.type containsString:@"Bow"]) {
@@ -338,7 +376,6 @@
         _sharpnessView2.hidden = YES;
     }
 
-    
     _rarityLabel.text = [NSString stringWithFormat:@"%i", weapon.rarity];
     _numSlotsLabel.text = [NSString stringWithFormat:@"%i", weapon.num_slots];
     _defenseLabel.text = [NSString stringWithFormat:@"%i", weapon.defense];

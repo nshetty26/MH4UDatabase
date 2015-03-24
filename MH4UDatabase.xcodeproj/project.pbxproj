@@ -1819,6 +1819,107 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E706CAFA1AC1CE99004E1835 /* Item View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E7AF5F861AAE2F6E00847512 /* ItemsViewController.h */,
+				E7AF5F871AAE2F6E00847512 /* ItemsViewController.m */,
+				E7D5E23A1AAE507E0083D2C7 /* ItemDetailViewController.h */,
+				E7D5E23B1AAE507E0083D2C7 /* ItemDetailViewController.m */,
+				E72E4EAA1AB0C6690043CC6A /* CombiningViewController.h */,
+				E72E4EAD1AB0C67E0043CC6A /* CombiningViewController.m */,
+			);
+			name = "Item View Controllers";
+			sourceTree = "<group>";
+		};
+		E706CAFC1AC1CEC4004E1835 /* Weapon View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E73ECE5C1AB3C139002F41B0 /* WeaponTypeTableViewController.h */,
+				E73ECE5D1AB3C139002F41B0 /* WeaponTypeTableViewController.m */,
+				E749BA951AB3D22F003860E8 /* WeaponsTableViewController.h */,
+				E749BA961AB3D22F003860E8 /* WeaponsTableViewController.m */,
+				E76B24811AB3EC6F0063615B /* WeaponDetailViewController.h */,
+				E76B24821AB3EC6F0063615B /* WeaponDetailViewController.m */,
+			);
+			name = "Weapon View Controllers";
+			sourceTree = "<group>";
+		};
+		E706CAFD1AC1CECE004E1835 /* Location View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E7788E241AB37625006DCDCD /* LocationsViewController.h */,
+				E7788E251AB37625006DCDCD /* LocationsViewController.m */,
+				E7788E271AB378A6006DCDCD /* LocationDetailViewController.h */,
+				E7788E281AB378A6006DCDCD /* LocationDetailViewController.m */,
+			);
+			name = "Location View Controllers";
+			sourceTree = "<group>";
+		};
+		E706CAFE1AC1CED9004E1835 /* Quest View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E7AB48BD1AB2B4F600060D7E /* QuestDetailViewController.h */,
+				E7AB48BE1AB2B4F600060D7E /* QuestDetailViewController.m */,
+				E7AB48B51AB2903200060D7E /* QuestsViewController.h */,
+				E7AB48B61AB2903200060D7E /* QuestsViewController.m */,
+			);
+			name = "Quest View Controllers";
+			sourceTree = "<group>";
+		};
+		E706CAFF1AC1CEE7004E1835 /* Decoration View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E78ED7C01AB20DC100E80635 /* DecorationsViewController.h */,
+				E78ED7C11AB20DC100E80635 /* DecorationsViewController.m */,
+				E78ED7C31AB21E0200E80635 /* DecorationsDetailViewController.h */,
+				E78ED7C41AB21E0200E80635 /* DecorationsDetailViewController.m */,
+			);
+			name = "Decoration View Controllers";
+			sourceTree = "<group>";
+		};
+		E706CB001AC1CEF3004E1835 /* Skill View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E734F0581AB0F9DA0037E684 /* SkillTreeViewController.h */,
+				E734F0591AB0F9DA0037E684 /* SkillTreeViewController.m */,
+				E75C3AF01AB1189B00C0D155 /* SkillDetailViewController.h */,
+				E75C3AF11AB1189B00C0D155 /* SkillDetailViewController.m */,
+			);
+			name = "Skill View Controller";
+			sourceTree = "<group>";
+		};
+		E706CB011AC1CF04004E1835 /* Monster View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E7A00DF61AAFBDB90037BE61 /* MonstersViewController.h */,
+				E7A00DF71AAFBDB90037BE61 /* MonstersViewController.m */,
+				E7A00DF91AAFC0830037BE61 /* MonsterDetailViewController.h */,
+				E7A00DFA1AAFC0830037BE61 /* MonsterDetailViewController.m */,
+			);
+			name = "Monster View Controllers";
+			sourceTree = "<group>";
+		};
+		E706CB021AC1CF11004E1835 /* Armor View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E78C04911AAF4BE5005ECCF6 /* ArmorsViewController.h */,
+				E78C04921AAF4BE5005ECCF6 /* ArmorsViewController.m */,
+				E7C600871AAFA9D200EC6E84 /* ArmorDetailViewController.h */,
+				E7C600881AAFA9D200EC6E84 /* ArmorDetailViewController.m */,
+			);
+			name = "Armor View Controller";
+			sourceTree = "<group>";
+		};
+		E706CB031AC1CF2B004E1835 /* Menu View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E7EB7DF51AA6AC96007C05E0 /* MenuViewController.h */,
+				E7EB7DF61AA6AC96007C05E0 /* MenuViewController.m */,
+			);
+			name = "Menu View Controller";
+			sourceTree = "<group>";
+		};
 		E7460C921AB613AD006C7CD3 /* Menu Icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -2897,46 +2998,17 @@
 		E7EB7DED1AA6AC96007C05E0 /* MH4UDatabase */ = {
 			isa = PBXGroup;
 			children = (
-				E76B24811AB3EC6F0063615B /* WeaponDetailViewController.h */,
-				E76B24821AB3EC6F0063615B /* WeaponDetailViewController.m */,
-				E749BA951AB3D22F003860E8 /* WeaponsTableViewController.h */,
-				E749BA961AB3D22F003860E8 /* WeaponsTableViewController.m */,
-				E73ECE5C1AB3C139002F41B0 /* WeaponTypeTableViewController.h */,
-				E73ECE5D1AB3C139002F41B0 /* WeaponTypeTableViewController.m */,
-				E7788E271AB378A6006DCDCD /* LocationDetailViewController.h */,
-				E7788E281AB378A6006DCDCD /* LocationDetailViewController.m */,
-				E7788E241AB37625006DCDCD /* LocationsViewController.h */,
-				E7788E251AB37625006DCDCD /* LocationsViewController.m */,
-				E7AB48BD1AB2B4F600060D7E /* QuestDetailViewController.h */,
-				E7AB48BE1AB2B4F600060D7E /* QuestDetailViewController.m */,
-				E7AB48B51AB2903200060D7E /* QuestsViewController.h */,
-				E7AB48B61AB2903200060D7E /* QuestsViewController.m */,
-				E78ED7C31AB21E0200E80635 /* DecorationsDetailViewController.h */,
-				E78ED7C41AB21E0200E80635 /* DecorationsDetailViewController.m */,
-				E78ED7C01AB20DC100E80635 /* DecorationsViewController.h */,
-				E78ED7C11AB20DC100E80635 /* DecorationsViewController.m */,
-				E75C3AF01AB1189B00C0D155 /* SkillDetailViewController.h */,
-				E75C3AF11AB1189B00C0D155 /* SkillDetailViewController.m */,
-				E734F0581AB0F9DA0037E684 /* SkillTreeViewController.h */,
-				E734F0591AB0F9DA0037E684 /* SkillTreeViewController.m */,
-				E72E4EAA1AB0C6690043CC6A /* CombiningViewController.h */,
-				E72E4EAD1AB0C67E0043CC6A /* CombiningViewController.m */,
-				E7A00DF91AAFC0830037BE61 /* MonsterDetailViewController.h */,
-				E7A00DFA1AAFC0830037BE61 /* MonsterDetailViewController.m */,
-				E7A00DF61AAFBDB90037BE61 /* MonstersViewController.h */,
-				E7A00DF71AAFBDB90037BE61 /* MonstersViewController.m */,
-				E7C600871AAFA9D200EC6E84 /* ArmorDetailViewController.h */,
-				E7C600881AAFA9D200EC6E84 /* ArmorDetailViewController.m */,
-				E78C04911AAF4BE5005ECCF6 /* ArmorsViewController.h */,
-				E78C04921AAF4BE5005ECCF6 /* ArmorsViewController.m */,
-				E7AF5F861AAE2F6E00847512 /* ItemsViewController.h */,
-				E7AF5F871AAE2F6E00847512 /* ItemsViewController.m */,
-				E7D5E23A1AAE507E0083D2C7 /* ItemDetailViewController.h */,
-				E7D5E23B1AAE507E0083D2C7 /* ItemDetailViewController.m */,
+				E706CB011AC1CF04004E1835 /* Monster View Controllers */,
+				E706CAFC1AC1CEC4004E1835 /* Weapon View Controllers */,
+				E706CB021AC1CF11004E1835 /* Armor View Controller */,
+				E706CAFE1AC1CED9004E1835 /* Quest View Controllers */,
+				E706CAFA1AC1CE99004E1835 /* Item View Controllers */,
+				E706CAFD1AC1CECE004E1835 /* Location View Controllers */,
+				E706CAFF1AC1CEE7004E1835 /* Decoration View Controllers */,
+				E706CB001AC1CEF3004E1835 /* Skill View Controller */,
+				E706CB031AC1CF2B004E1835 /* Menu View Controller */,
 				E7D4B5231AAB693D00C22D41 /* DetailViewController.h */,
 				E7D4B5241AAB693D00C22D41 /* DetailViewController.m */,
-				E7EB7DF51AA6AC96007C05E0 /* MenuViewController.h */,
-				E7EB7DF61AA6AC96007C05E0 /* MenuViewController.m */,
 				E7EB7DFB1AA6AC96007C05E0 /* Main.storyboard */,
 				E7EB7DFE1AA6AC96007C05E0 /* Images.xcassets */,
 				E7EB7E001AA6AC96007C05E0 /* LaunchScreen.xib */,
@@ -4056,10 +4128,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos8.1;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -4093,9 +4165,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = iphoneos8.1;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -4113,6 +4185,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -4128,6 +4201,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

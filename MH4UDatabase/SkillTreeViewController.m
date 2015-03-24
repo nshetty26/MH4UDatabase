@@ -8,6 +8,7 @@
 
 #import "SkillTreeViewController.h"
 #import "SkillDetailViewController.h"
+#import "MH4UDBEngine.h"
 
 @interface SkillTreeViewController ()
 @property (nonatomic) UITableView *skillTreeTableView;
@@ -17,28 +18,32 @@
 
 @implementation SkillTreeViewController
 
+#pragma mark - Setup Views
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Skill Tree" style:UIBarButtonItemStyleDone target:nil action:nil];
-    [self.navigationItem setBackBarButtonItem:backButton];
+    self.title = NSLocalizedString(@"Skill Trees", @"Skill Trees");
+    _allSkillTrees = [_dbEngine getSkillTrees];
+    _displayedSkillTree = _allSkillTrees;
     
     // Do any additional setup after loading the view.
     CGRect vcFrame = self.view.frame;
     CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 44);
+    _skillTreeSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
+    _skillTreeSearch.delegate = self;
+    
     CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
-    _displayedSkillTree = _allSkillTrees;
     _skillTreeTableView = [[UITableView alloc] initWithFrame:tableWithSearch];
     _skillTreeTableView.dataSource = self;
     _skillTreeTableView.delegate = self;
     
     
-    _skillTreeSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
-    _skillTreeSearch.delegate = self;
+
     [self.view addSubview:_skillTreeTableView];
     [self.view addSubview:_skillTreeSearch];
 
 }
 
+#pragma mark - Search Bar Methods
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [_skillTreeSearch setShowsCancelButton:YES];
     if (searchText.length == 0) {
@@ -77,6 +82,7 @@
     [searchBar resignFirstResponder];
 }
 
+#pragma mark - Table View Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _displayedSkillTree.count;
 }
@@ -101,19 +107,25 @@
     return cell;
 }
 
+#pragma mark - Helper Methods
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)viewWillLayoutSubviews {
+    CGRect vcFrame = self.view.frame;
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
+    int heightdifference = navBar.frame.size.height + statusBar.size.height;
+    
+    CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference, vcFrame.size.width, 44);
+    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - searchBarFrame.size.height);
+    
+    _skillTreeSearch.frame = searchBarFrame;
+    _skillTreeTableView.frame = tableWithSearch;
+    
 }
-*/
+
 
 @end
