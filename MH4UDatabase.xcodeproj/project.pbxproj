@@ -25,6 +25,7 @@
 		E7460CB21AB61966006C7CD3 /* MH4ULogoBlack.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460CB11AB61966006C7CD3 /* MH4ULogoBlack.png */; };
 		E7460CB41AB61AFF006C7CD3 /* MH4ULogo.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460CB31AB61AFF006C7CD3 /* MH4ULogo.png */; };
 		E749BA971AB3D22F003860E8 /* WeaponsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E749BA961AB3D22F003860E8 /* WeaponsTableViewController.m */; };
+		E75857E61AC3693D00A920BA /* MH4UDBEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E75857E51AC3693D00A920BA /* MH4UDBEngine.swift */; };
 		E75C3AF21AB1189B00C0D155 /* SkillDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E75C3AF11AB1189B00C0D155 /* SkillDetailViewController.m */; };
 		E76B24801AB3E4790063615B /* DetailedWeaponView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E76B247F1AB3E4790063615B /* DetailedWeaponView.xib */; };
 		E76B24831AB3EC6F0063615B /* WeaponDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E76B24821AB3EC6F0063615B /* WeaponDetailViewController.m */; };
@@ -910,6 +911,8 @@
 		E7460CB31AB61AFF006C7CD3 /* MH4ULogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MH4ULogo.png; sourceTree = "<group>"; };
 		E749BA951AB3D22F003860E8 /* WeaponsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeaponsTableViewController.h; sourceTree = "<group>"; };
 		E749BA961AB3D22F003860E8 /* WeaponsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeaponsTableViewController.m; sourceTree = "<group>"; };
+		E75857E41AC3693D00A920BA /* MH4UDatabase-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MH4UDatabase-Bridging-Header.h"; sourceTree = "<group>"; };
+		E75857E51AC3693D00A920BA /* MH4UDBEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MH4UDBEngine.swift; sourceTree = "<group>"; };
 		E75C3AF01AB1189B00C0D155 /* SkillDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillDetailViewController.h; sourceTree = "<group>"; };
 		E75C3AF11AB1189B00C0D155 /* SkillDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillDetailViewController.m; sourceTree = "<group>"; };
 		E76B247F1AB3E4790063615B /* DetailedWeaponView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailedWeaponView.xib; sourceTree = "<group>"; };
@@ -2965,10 +2968,12 @@
 		E7AF5F8C1AAE314800847512 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E75857E51AC3693D00A920BA /* MH4UDBEngine.swift */,
 				E7C600831AAFA48D00EC6E84 /* MH4UDBEntity.h */,
 				E7C600811AAFA48100EC6E84 /* MH4UDBEntity.m */,
 				E77A7BE51AA91D5A0087247F /* MH4UDBEngine.h */,
 				E77A7BE31AA91D490087247F /* MH4UDBEngine.m */,
+				E75857E41AC3693D00A920BA /* MH4UDatabase-Bridging-Header.h */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -4047,6 +4052,7 @@
 				E7788E291AB378A6006DCDCD /* LocationDetailViewController.m in Sources */,
 				E7AB48BF1AB2B4F600060D7E /* QuestDetailViewController.m in Sources */,
 				E72E4EAE1AB0C67E0043CC6A /* CombiningViewController.m in Sources */,
+				E75857E61AC3693D00A920BA /* MH4UDBEngine.swift in Sources */,
 				E76B24831AB3EC6F0063615B /* WeaponDetailViewController.m in Sources */,
 				E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */,
 				E734F05A1AB0F9DA0037E684 /* SkillTreeViewController.m in Sources */,
@@ -4178,6 +4184,7 @@
 			baseConfigurationReference = 0DA25932ADF33E4E62A2F9CB /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MH4UDatabase/Info.plist;
@@ -4185,6 +4192,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "MH4UDatabase-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -4194,6 +4203,7 @@
 			baseConfigurationReference = CBEDC553F9524B0EE6960A11 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MH4UDatabase/Info.plist;
@@ -4201,6 +4211,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "MH4UDatabase-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
