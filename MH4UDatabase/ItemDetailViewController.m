@@ -17,6 +17,11 @@
 #import "MH4UDBEntity.h"
 #import "MenuViewController.h"
 #import "ItemsViewController.h"
+#import "LocationDetailViewController.h"
+#import "ArmorDetailViewController.h"
+#import "MonsterDetailViewController.h"
+#import "QuestDetailViewController.h"
+#import "WeaponDetailViewController.h"
 
 @interface ItemDetailViewController ()
 @property (nonatomic) DetailedItemView *detailItemView;
@@ -195,7 +200,15 @@
         UIFont *font = [acessoryText.font fontWithSize:11];
         acessoryText.font = font;
         cell.accessoryView = acessoryText;
-        cell.imageView.image = [UIImage imageNamed:usageArray[3]];
+        NSString *imageString;
+        if ([usageArray[4] isEqualToString:@"Decoration"]) {
+            imageString = usageArray[3];
+        } else if ([usageArray[4] isEqualToString:@"Armor"]) {
+            imageString = usageArray[5];
+        } else if ([usageArray[4] isEqualToString:@"Weapon"]) {
+            imageString = usageArray[6];
+        }
+        cell.imageView.image = [UIImage imageNamed:imageString];
         return cell;
     }
     
@@ -246,6 +259,7 @@
         NSString *detailLabel = [NSString stringWithFormat:@"%@ %@", locationArray[1], locationArray[2]];
         cell.textLabel.text = label;
         cell.detailTextLabel.text = detailLabel;
+        cell.imageView.image = [UIImage imageNamed:locationArray[7]];
         CGRect cellFrame = cell.frame;
         CGRect textView = CGRectMake(cellFrame.size.width - 80, cellFrame.size.height - 10, 70, 20);
         UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
@@ -264,11 +278,82 @@
     
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([tableView isEqual:_combiningTable]) {
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    }
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"itemIdentifier"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"itemIdentifier"];
+    }
+    
+    if ([tableView isEqual:_usageTable]){
+        NSArray *usageArray = _selectedItem.usageItemsArray[indexPath.row];
+        if ([usageArray[4] isEqualToString:@"Decoration"]) {
+
+        } else if ([usageArray[4] isEqualToString:@"Armor"]) {
+            Armor *armor = [_dbEngine getArmor:[usageArray[7] intValue]];
+            ArmorDetailViewController *aDVC = [[ArmorDetailViewController alloc] init];
+            aDVC.heightDifference = _heightDifference;
+            aDVC.selectedArmor = armor;
+            aDVC.dbEngine = _dbEngine;
+            [self.navigationController pushViewController:aDVC animated:YES];
+            
+        } else if ([usageArray[4] isEqualToString:@"Weapon"]) {
+            Weapon *weapon = [_dbEngine getWeaponForWeaponID:[usageArray[7] intValue]];
+            WeaponDetailViewController *wDVC = [[WeaponDetailViewController alloc] init];
+            wDVC.selectedWeapon = weapon;
+            wDVC.imageString = usageArray[6];
+            wDVC.dbEngine = _dbEngine;
+            wDVC.heightDifference = _heightDifference;
+            [self.navigationController pushViewController:wDVC animated:YES];
+        }
+    }
+    
+    else if ([tableView isEqual:_monsterDropTable]){
+        NSArray *monsterDropArray = _selectedItem.monsterDropsArray[indexPath.row];
+        Monster *monster = [[Monster alloc] init];
+        NSNumber *monsterID = monsterDropArray[6];
+        monster.monsterID = [monsterID intValue];
+        monster.monsterName = monsterDropArray[0];
+        monster.iconName = monsterDropArray[5];
+        MonsterDetailViewController *mDVC = [[MonsterDetailViewController alloc] init];
+        mDVC.selectedMonster = monster;
+        mDVC.heightDifference = _heightDifference;
+        mDVC.dbEngine = _dbEngine;
+        [self.navigationController pushViewController:mDVC animated:YES];
+    }
+    
+    else if ([tableView isEqual:_questRewardTable]){
+        NSArray *questRewardArray = _selectedItem.questRewardsArray[indexPath.row];
+        Quest *quest = [[Quest alloc] init];
+        quest.questID = [questRewardArray[6] intValue];
+        quest.name = questRewardArray[0];
+        quest.hub = questRewardArray[1];
+        quest.stars = [questRewardArray[2] intValue];
+        
+        QuestDetailViewController *qDVC = [[QuestDetailViewController alloc] init];
+        qDVC.dbEngine = _dbEngine;
+        qDVC.heightDifference = _heightDifference;
+        qDVC.selectedQuest = quest;
+        [self.navigationController pushViewController:qDVC animated:YES];
+    }
+    
+    else if ([tableView isEqual:_locationTable]){
+        NSArray *locationArray = _selectedItem.locationsArray[indexPath.row];
+        Location *location = [[Location alloc] init];
+        location.locationID = [locationArray[6] intValue];
+        location.locationName = locationArray[0];
+        location.locationIcon = locationArray[7];
+        LocationDetailViewController *lDVC = [[LocationDetailViewController alloc] init];
+        lDVC.heightDifference = _heightDifference;
+        lDVC.selectedLocation = location;
+        lDVC.dbEngine = _dbEngine;
+        [self.navigationController pushViewController:lDVC animated:YES];
+    }
 }
+
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(CombiningCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -293,6 +378,12 @@
 
 
 #pragma mark - Helper Methods
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 -(void)setDetailTabBarforItem:(Item *)item {
     _itemDetail = [[UITabBarItem alloc] initWithTitle:@"Item Detail" image:nil tag:1];
     [_itemDetailBar setSelectedItem:_itemDetail];

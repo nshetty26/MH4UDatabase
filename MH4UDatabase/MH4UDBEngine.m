@@ -217,6 +217,25 @@
     
 }
 
+-(Armor *)getArmor:(int)armorID {
+    NSString *armorQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name,items.rarity, armor.hunter_type, armor.slot from armor INNER JOIN items on armor._id = items._id where armor._id = %i", armorID];
+    FMResultSet *s = [self DBquery:armorQuery];
+    
+    if (s) {
+        while ([s next]) {
+            Armor *armor = [[Armor alloc] init];
+            armor.armorID = [s intForColumn:@"_id"];
+            armor.name = [s stringForColumn:@"name"];
+            armor.hunterType = [s stringForColumn:@"hunter_type"];
+            armor.slot = [s stringForColumn:@"slot"];
+            armor.rarity = [s intForColumn:@"rarity"];
+            return armor;
+        }
+    }
+    
+    return nil;
+}
+
 -(Armor *)populateArmor:(Armor *)armor {
     
     NSString *armorQuery = [NSString stringWithFormat:@"SELECT armor.slot, armor.defense, armor.max_defense, items.rarity, items.buy, armor.fire_res, armor.thunder_res, armor.dragon_res, armor.water_res, armor.ice_res, armor.gender, armor.num_slots from armor INNER JOIN items on armor._id = items._id WHERE armor._id = %i", armor.armorID];
@@ -400,25 +419,32 @@
 -(void)getUsageItemsForItem:(Item*)item
 {
     NSMutableArray *usageItemsArray = [[NSMutableArray alloc] init];
-    NSString *usageQuery = [NSString stringWithFormat:@"select components.created_item_id, items.name, components.type, components.quantity, items.icon_name from components inner join items on items._id = components.created_item_id where components.component_item_id = %i", item.itemID];;
+    NSString *usageQuery = [NSString stringWithFormat:@"select components.created_item_id, items.name, components.type, components.quantity, items.icon_name, items.type as iType, items.rarity, armor.slot,  weapons.wtype from components inner join items on items._id = components.created_item_id LEFT OUTER join armor on items._id = armor._id LEFT OUTER JOIN weapons on items._id = weapons._id where components.component_item_id = %i", item.itemID];;
     FMResultSet *s = [self DBquery:usageQuery];
     while ([s next]) {
         NSString *itemName = [s stringForColumn:@"name"];
         NSString *type =[s stringForColumn:@"type"];
         int quantity = [s intForColumn:@"quantity"];
         NSString *icon = [s stringForColumn:@"icon_name"];
+        NSString *itemType = [s stringForColumn:@"iType"];
+        NSString *armorSlot = [s stringForColumn:@"slot"];
+        int rarity = [s intForColumn:@"rarity"];
+        NSString *weaponType = [[s stringForColumn:@"wtype"] stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+        NSString *armorImageString = [NSString stringWithFormat:@"%@%i.png",armorSlot, rarity];
+        NSString *weaponImageString = [NSString stringWithFormat:@"%@%i.png",weaponType, rarity];
+        int itemID = [s intForColumn:@"created_item_id"];
     
-        [usageItemsArray addObject:@[itemName, type, [NSNumber numberWithInt:quantity], icon]];
+        [usageItemsArray addObject:@[itemName, type, [NSNumber numberWithInt:quantity], icon, itemType, armorImageString, weaponImageString, [NSNumber numberWithInt:itemID]]];
         
     }
-    
+
     item.usageItemsArray = usageItemsArray;
 }
 
 -(void)getMonsterDropsForItem:(Item*)item
 {
     NSMutableArray *monsterDropArray = [[NSMutableArray alloc] init];
-    NSString *monsterQuery = [NSString stringWithFormat:@"SELECT items.name, condition, monsters.name as mName, rank, stack_size, percentage, monsters.icon_name from hunting_rewards inner join monsters on monsters._id = hunting_rewards.monster_id inner join items on items._id = hunting_rewards.item_id where hunting_rewards.item_id = %i", item.itemID];;
+    NSString *monsterQuery = [NSString stringWithFormat:@"SELECT items.name, condition, monsters.name as mName, monsters._id as mID, rank, stack_size, percentage, monsters.icon_name from hunting_rewards inner join monsters on monsters._id = hunting_rewards.monster_id inner join items on items._id = hunting_rewards.item_id where hunting_rewards.item_id = %i", item.itemID];;
     FMResultSet *s = [self DBquery:monsterQuery];
     while ([s next]) {
         NSString *monsterName = [s stringForColumn:@"mName"];
@@ -427,8 +453,9 @@
         int stackSize = [s intForColumn:@"stack_size"];
         int percentage = [s intForColumn:@"percentage"];
         NSString *icon = [s stringForColumn:@"icon_name"];
+        int monsterID = [s intForColumn:@"mID"];
         
-        [monsterDropArray addObject:@[monsterName, rank, condition, [NSNumber numberWithInt:stackSize],[NSNumber numberWithInt:percentage], icon]];
+        [monsterDropArray addObject:@[monsterName, rank, condition, [NSNumber numberWithInt:stackSize],[NSNumber numberWithInt:percentage], icon, [NSNumber numberWithInt:monsterID]]];
         
     }
     
@@ -438,7 +465,7 @@
 -(void)getQuestRewardsForItem:(Item*)item
 {
     NSMutableArray *questRewardArray = [[NSMutableArray alloc] init];
-    NSString *questRewardQuery = [NSString stringWithFormat:@"select quests.name as qName, quests.hub, quests.stars, items.name, reward_slot, percentage, stack_size from quest_rewards inner join quests on quest_rewards.quest_id = quests._id inner join items on quest_rewards.item_id = items._id where items._id = %i ORDER BY  percentage Desc", item.itemID];
+    NSString *questRewardQuery = [NSString stringWithFormat:@"select quests.name as qName, quests.hub, quests._id, quests.stars, items.name, reward_slot, percentage, stack_size from quest_rewards inner join quests on quest_rewards.quest_id = quests._id inner join items on quest_rewards.item_id = items._id where items._id = %i ORDER BY  percentage Desc", item.itemID];
     FMResultSet *s = [self DBquery:questRewardQuery];
     while ([s next]) {
         NSString *questName = [s stringForColumn:@"qName"];
@@ -447,9 +474,10 @@
         NSString *rewardSlot = [s stringForColumn:@"reward_slot"];
         int stackSize = [s intForColumn:@"stack_size"];
         int percentage = [s intForColumn:@"percentage"];
+        int questID = [s intForColumn:@"_id"];
         
         
-        [questRewardArray addObject:@[questName, hub, [NSNumber numberWithInt:stars],rewardSlot, [NSNumber numberWithInt:stackSize], [NSNumber numberWithInt:percentage]]];
+        [questRewardArray addObject:@[questName, hub, [NSNumber numberWithInt:stars],rewardSlot, [NSNumber numberWithInt:stackSize], [NSNumber numberWithInt:percentage], [NSNumber numberWithInt:questID]]];
         
     }
     
@@ -459,7 +487,7 @@
 -(void)getLocationsForItem:(Item*)item
 {
     NSMutableArray *locationsArray = [[NSMutableArray alloc] init];
-    NSString *locationsQuery = [NSString stringWithFormat:@"SELECT item_id, locations.name as lName, area, site, rank, quantity, percentage from gathering INNER JOIN locations ON gathering.location_id = locations._id where gathering.item_id = %i order by percentage desc", item.itemID];
+    NSString *locationsQuery = [NSString stringWithFormat:@"SELECT item_id, locations.name as lName, locations._id as lID, locations.map, area, site, rank, quantity, percentage from gathering INNER JOIN locations ON gathering.location_id = locations._id where gathering.item_id = %i order by percentage desc", item.itemID];
     FMResultSet *s = [self DBquery:locationsQuery];
     while ([s next]) {
         NSString *locationName = [s stringForColumn:@"lName"];
@@ -468,8 +496,10 @@
         NSString *site = [s stringForColumn:@"site"];
         int quantity = [s intForColumn:@"quantity"];
         int percentage = [s intForColumn:@"percentage"];
+        int locationID = [s intForColumn:@"lID"];
+        NSString *locationIcon = [s stringForColumn:@"map"];
         
-        [locationsArray addObject:@[locationName, rank, area, site, [NSNumber numberWithInt:quantity], [NSNumber numberWithInt:percentage]]];
+        [locationsArray addObject:@[locationName, rank, area, site, [NSNumber numberWithInt:quantity], [NSNumber numberWithInt:percentage],[NSNumber numberWithInt:locationID], locationIcon]];
         
     }
     
@@ -853,6 +883,44 @@
         [weaponArray addObject:weapon];
     }
     return weaponArray;
+}
+
+-(Weapon *)getWeaponForWeaponID:(int)weaponID {
+    NSString *weaponQuery =  [NSString stringWithFormat:@"select weapons._id, weapons.wType, weapons.parent_id, items.name, items.rarity, weapons.wtype, weapons.attack, weapons.awaken, weapons.awaken_attack, weapons.element, weapons.element_attack, weapons.element_2, weapons.element_2_attack, weapons.num_slots, weapons.affinity, weapons.defense, weapons.sharpness, weapons.final, weapons.phial, weapons.horn_notes, weapons.reload_speed, weapons.recoil, weapons.deviation, weapons.tree_depth, weapons.creation_cost, weapons.upgrade_cost, weapons.charges, weapons.coatings from weapons inner join items on items._id = weapons._id where weapons._id = %i", weaponID];
+    FMResultSet *s = [self DBquery:weaponQuery];
+    while ([s next]) {
+        Weapon *weapon = [[Weapon alloc] init];
+        weapon.name = [s stringForColumn:@"name"];
+        weapon.itemID = [s intForColumn:@"_id"];
+        weapon.creationCost = [s intForColumn:@"creation_cost"];
+        weapon.upgradeCost = [s intForColumn:@"upgrade_cost"];
+        weapon.type = [s stringForColumn:@"wType"];
+        weapon.parentID = [s intForColumn:@"parent_id"];
+        weapon.rarity = [s intForColumn:@"rarity"];
+        weapon.weaponType = [s stringForColumn:@"wtype"];
+        weapon.attack = [s intForColumn:@"attack"];
+        weapon.awaken_type = [s stringForColumn:@"awaken"];
+        weapon.awakenDamage = [s intForColumn:@"awaken_attack"];
+        weapon.elementalDamageType_1 = [s stringForColumn:@"element"];;
+        weapon.elementalDamage_1 = [s intForColumn:@"element_attack"];;
+        weapon.elementalDamageType_2 = [s stringForColumn:@"element_2"];;
+        weapon.elementalDamage_2 = [s intForColumn:@"element_2_attack"];
+        weapon.num_slots = [s intForColumn:@"num_slots"];
+        weapon.affinity = [s intForColumn:@"affinity"];
+        weapon.defense = [s intForColumn:@"defense"];
+        weapon.sharpness = [s stringForColumn:@"sharpness"];
+        weapon.phial = [s stringForColumn:@"phial"];
+        weapon.hornNotes = [s stringForColumn:@"horn_notes"];
+        weapon.tree_depth = [s intForColumn:@"tree_depth"];
+        weapon.final = [s intForColumn:@"final"];
+        weapon.recoil = [s stringForColumn:@"recoil"];
+        weapon.reloadSpeed = [s stringForColumn:@"reload_speed"];
+        weapon.deviation = [s stringForColumn:@"deviation"];
+        weapon.charges = [s stringForColumn:@"charges"];
+        weapon.coatings = [s stringForColumn:@"coatings"];
+        return weapon;
+    }
+    return nil;
 }
 
 -(NSArray *)getHornSongsForHorn:(Weapon *)horn {

@@ -213,7 +213,7 @@
     
     if (![quest.subQuest isEqualToString:@"None"]) {
         _subQuestDescription.text = quest.subQuest;
-        _subQuestHRP.text = [NSString stringWithFormat:@"%i", quest.subHRP];
+        _subQuestHRPValue.text = [NSString stringWithFormat:@"%i", quest.subHRP];
         _subQuestRewardValue.text = [NSString stringWithFormat:@"%iz", quest.subQuestReward];;
     } else {
         _subQuestLabel.hidden = YES;

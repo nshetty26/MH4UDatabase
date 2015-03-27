@@ -21,6 +21,7 @@
 -(void)getDetailsForMonster:(Monster *)monster;
 
 -(NSArray *)populateArmorArray;
+-(Armor *)getArmor:(int)armorID;
 -(Armor *)populateArmor:(Armor *)armor;
 
 -(NSArray *)populateItemArray;
@@ -52,6 +53,7 @@
 
 -(NSArray *)getWeaponTypes;
 -(NSArray *)getWeaponsForWeaponType:(NSString *)weaponType;
+-(Weapon *)getWeaponForWeaponID:(int)weaponID;
 -(NSArray *)getHornSongsForHorn:(Weapon *)horn;
 
 @end
