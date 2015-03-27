@@ -11,6 +11,7 @@
 #import "ItemDetailViewController.h"
 #import "MH4UDBEntity.h"
 #import "MH4UDBEngine.h"
+#import "MenuViewController.h"
 
 @interface DecorationsViewController ()
 @property (nonatomic) UITableView *decorationsTableView;
@@ -87,29 +88,42 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"skillTree"];
-    Decoration *decoration = _displayedDecorations[indexPath.row];
-    cell.textLabel.text = decoration.name;
-    cell.imageView.image = [UIImage imageNamed:decoration.icon];
+    ItemTableCell *itemCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
     
-    CGRect cellFrame = cell.frame;
-    CGRect textView = CGRectMake(cellFrame.size.width - 60, cellFrame.origin.y + 5, 50, 24);
-    UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
-    [acessoryText setNumberOfLines:2];
-    [acessoryText setLineBreakMode:NSLineBreakByWordWrapping];
-    [cell addSubview:acessoryText];
-    acessoryText.textAlignment =  NSTextAlignmentRight;
-    UIFont *font = [acessoryText.font fontWithSize:8];
-    acessoryText.font = font;
-    
-    NSArray *skill1 = decoration.skillArray[0];
-    if (decoration.skillArray.count == 1) {
-        acessoryText.text = [NSString stringWithFormat:@"%@ %@", skill1[1], skill1[2]];
-    } else if (decoration.skillArray.count == 2) {
-        NSArray *skill2 = decoration.skillArray[1];
-        acessoryText.text = [NSString stringWithFormat:@"%@ %@ %@ %@", skill1[1], skill1[2], skill2[1], skill2[2]];
+    if (!itemCell) {
+        [tableView registerNib:[UINib nibWithNibName:@"ItemTableCell"  bundle:nil] forCellReuseIdentifier:@"itemCell"];
+        itemCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
     }
-    return cell;
+    return itemCell;
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(ItemTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([tableView isEqual:_decorationsTableView]) {
+        Decoration *decoration = _displayedDecorations[indexPath.row];
+        cell.itemImageView.image = [UIImage imageNamed:decoration.icon];
+        cell.itemLabel.text = decoration.name;
+        
+        if (decoration.skillArray.count == 1) {
+            cell.itemAccessoryLabel1.hidden = YES;
+            cell.itemAccessoryLabel3.hidden = YES;
+            cell.itemAccessoryLabel2.hidden = NO;
+            NSArray *skill1 = decoration.skillArray[0];
+            cell.itemAccessoryLabel2.text = [NSString stringWithFormat:@"%@ %@", skill1[1], skill1[2]];
+        } else if (decoration.skillArray.count == 2) {
+            cell.itemAccessoryLabel1.hidden = NO;
+            cell.itemAccessoryLabel3.hidden = NO;
+            cell.itemAccessoryLabel2.hidden = YES;
+            NSArray *skill1 = decoration.skillArray[0];
+            NSArray *skill2 = decoration.skillArray[1];
+            cell.itemAccessoryLabel1.text = [NSString stringWithFormat:@"%@ %@", skill1[1], skill1[2]];
+            cell.itemAccessoryLabel3.text = [NSString stringWithFormat:@"%@ %@", skill2[1], skill2[2]];
+        }
+        
+        
+        cell.itemSubLabel.hidden = YES;
+    }
+    
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

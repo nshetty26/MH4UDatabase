@@ -9,6 +9,7 @@
 #import "DecorationsDetailViewController.h"
 #import "MH4UDBEntity.h"
 #import "ItemDetailViewController.h"
+#import "SkillDetailViewController.h"
 #import "MH4UDBEngine.h"
 
 @interface DecorationsDetailViewController ()
@@ -151,6 +152,15 @@
         iDVC.dbEngine = _dbEngine;
         iDVC.heightDifference = _heightDifference;
         [self.navigationController pushViewController:iDVC animated:YES];
+    } else if ([tableView isEqual:_skillTable]) {
+        NSArray *skillArray = _selectedDecoration.skillArray[indexPath.row];
+        SkillDetailViewController *sdVC = [[SkillDetailViewController alloc] init];
+        sdVC.heightDifference = _heightDifference;
+        sdVC.dbEngine = _dbEngine;
+        sdVC.skilTreeName = skillArray[1];
+        NSNumber *skillTreeID = skillArray[0];
+        sdVC.skillTreeID = [skillTreeID intValue];
+        [self.navigationController pushViewController:sdVC animated:YES];
     }
 }
 

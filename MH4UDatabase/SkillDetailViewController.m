@@ -66,7 +66,7 @@
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
     [self setUpTabBarWithFrame:tabBarFrame];
     
-    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + tabBarFrame.size.height + _heightDifference, vcFrame.size.width, vcFrame.size.height -( _heightDifference + tabBarFrame.size.height));
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height -( _heightDifference + tabBarFrame.size.height));
     [self setUpViewsWithFrame:tablewithTabbar];
     
 
@@ -134,6 +134,7 @@
         NSArray *skillArray = _skillCollection.skillArray[indexPath.row];
         cell.textLabel.text = skillArray[1];
         cell.detailTextLabel.text = skillArray[2];
+        cell.detailTextLabel.numberOfLines = 2;
         UIFont *font = [cell.detailTextLabel.font fontWithSize:8];
         cell.detailTextLabel.font = font;
         CGRect cellFrame = cell.frame;
@@ -271,6 +272,7 @@
     }
 }
 
+
 -(void)viewWillLayoutSubviews {
     CGRect vcFrame = self.view.frame;
     UINavigationBar *navBar = self.navigationController.navigationBar;
@@ -280,9 +282,15 @@
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference, vcFrame.size.width, 49);
     _skillDetailTab.frame = tabBarFrame;
     
-    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - (heightdifference + tabBarFrame.size.height));
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - (heightdifference + tabBarFrame.size.height));
     
     for (UIView *view in _allViews) {
+        if ([view isKindOfClass:[UITableView class]]) {
+            UITableView *tv = (UITableView *)view;
+            [tv setContentOffset:CGPointMake(0.0f, 0.0f) animated:YES];
+            [tv setContentInset:UIEdgeInsetsZero];
+        }
+
         view.frame = tablewithTabbar;
     }
 }

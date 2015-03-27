@@ -176,7 +176,17 @@
         }
         cell.textLabel.text = gatheredResource.name;
         cell.imageView.image = [UIImage imageNamed:gatheredResource.icon];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@ - %i%@", gatheredResource.site,gatheredResource.area, gatheredResource.percentage, @"%"];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", gatheredResource.site,gatheredResource.area];
+        CGRect cellFrame = cell.frame;
+        CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 30, 20);
+        UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
+        [cell addSubview:accessoryText];
+        accessoryText.textAlignment =  NSTextAlignmentRight;
+        accessoryText.text = [NSString stringWithFormat:@"%i%@",gatheredResource.percentage, @"%"];
+
+        UIFont *font = [accessoryText.font fontWithSize:12];
+        accessoryText.font = font;
+        cell.accessoryView = accessoryText;
         return cell;
     } else {
         return nil;

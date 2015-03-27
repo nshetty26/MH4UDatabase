@@ -10,6 +10,7 @@
 #import "ItemDetailViewController.h"
 #import "MH4UDBEngine.h"
 #import "MH4UDBEntity.h"
+#import "SkillDetailViewController.h"
 
 @interface ArmorDetailViewController ()
 @property (strong, nonatomic) DetailedArmorView *statView;
@@ -104,15 +105,26 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    NSString *itemName = cell.textLabel.text;
+   
     if ([tableView isEqual:_componentTable]) {
+        NSString *itemName = cell.textLabel.text;
         ItemDetailViewController *iDVC = [[ItemDetailViewController alloc] init];
         
         iDVC.selectedItem = [_dbEngine getItemForName:itemName];
         iDVC.dbEngine = _dbEngine;
         iDVC.heightDifference = _heightDifference;
         [self.navigationController pushViewController:iDVC animated:YES];
-    }
+    } else if ([tableView isEqual:_skillTable]) {
+        NSArray *skillArray = _selectedArmor.skillsArray[indexPath.row];
+        SkillDetailViewController *sdVC = [[SkillDetailViewController alloc] init];
+        sdVC.heightDifference = _heightDifference;
+        sdVC.dbEngine = _dbEngine;
+        sdVC.skilTreeName = [skillArray objectAtIndex:1];
+        NSNumber *skillTreeID = [skillArray objectAtIndex:0];
+        sdVC.skillTreeID = [skillTreeID intValue];
+        [self.navigationController pushViewController:sdVC animated:YES];
+            
+        }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

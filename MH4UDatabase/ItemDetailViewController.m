@@ -12,6 +12,7 @@
 
 #import "ItemDetailViewController.h"
 #import "CombiningViewController.h"
+#import "MenuViewController.h"
 #import "MH4UDBEngine.h"
 #import "MH4UDBEntity.h"
 #import "MenuViewController.h"
@@ -290,12 +291,14 @@
     
 }
 
+
 #pragma mark - Helper Methods
 -(void)setDetailTabBarforItem:(Item *)item {
-    
-    NSMutableArray *tabItems = [[NSMutableArray alloc] initWithObjects:_itemDetail  , nil];
-    [_itemDetailBar setSelectedItem:_itemDetail];
     _itemDetail = [[UITabBarItem alloc] initWithTitle:@"Item Detail" image:nil tag:1];
+    [_itemDetailBar setSelectedItem:_itemDetail];
+    NSMutableArray *tabItems = [[NSMutableArray alloc] initWithObjects:_itemDetail  , nil];
+    
+
 
     if (item.combinedItemsArray.count > 0) {
         _combining = [[UITabBarItem alloc] initWithTitle:@"Combining" image:nil tag:2];

@@ -186,3 +186,7 @@
     
 }
 @end
+
+@implementation ItemTableCell
+
+@end

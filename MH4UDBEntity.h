@@ -66,6 +66,8 @@
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSString *goal;
 @property (nonatomic) NSString *hub;
+@property (nonatomic) NSString *fullHub;
+@property (nonatomic) NSString *unstable;
 @property (nonatomic) NSString *type;
 @property (nonatomic) int stars;
 @property (nonatomic) NSString *location;
@@ -127,6 +129,7 @@
 @property (nonatomic) NSString *movePath;
 @property (nonatomic) int restArea;
 @property (nonatomic) NSString *fullPath;
+@property (nonatomic) NSString *icon;
 
 @end
 

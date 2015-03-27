@@ -133,7 +133,7 @@
         UIFont *font = [accessoryText.font fontWithSize:10];
         accessoryText.font = font;
         accessoryText.text = [NSString stringWithFormat:@"%i%@", item.percentage, @"%"];
-        
+        cell.accessoryView = accessoryText;
         return cell;
     }
     

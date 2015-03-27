@@ -22,6 +22,9 @@
 #import "MH4UDBEntity.h"
 #import "MonsterDetailViewController.h"
 #import "MH4UDBEngine.h"
+#import "ItemDetailViewController.h"
+#import "QuestDetailViewController.h"
+#import "LocationDetailViewController.h"
 
 @interface MonsterDetailViewController ()
 @property (nonatomic) UITableView *monsterDetailTable;
@@ -224,6 +227,7 @@
         return cell;
     } else if  ([tableView isEqual:_habitatTable]){
         MonsterHabitat *mh = _selectedMonster.monsterHabitats[indexPath.row];
+        cell.imageView.image = [UIImage imageNamed:mh.icon];
         cell.textLabel.text = mh.locationName;
         cell.detailTextLabel.text = mh.fullPath;
         return cell;
@@ -238,12 +242,35 @@
         Item *huntingDrop = _monsterDrops[indexPath.row];
         cell.textLabel.text = huntingDrop.name;
         cell.imageView.image = [UIImage imageNamed:huntingDrop.icon];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %i%@", huntingDrop.condition, huntingDrop.percentage, @"%"];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", huntingDrop.condition];
+        CGRect cellFrame = cell.frame;
+        CGRect textView = CGRectMake(cellFrame.size.width - 60, cellFrame.origin.y + 5, 50, 24);
+        UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
+        [accessoryText setNumberOfLines:2];
+        [accessoryText setLineBreakMode:NSLineBreakByWordWrapping];
+        [cell addSubview:accessoryText];
+        accessoryText.textAlignment =  NSTextAlignmentRight;
+        UIFont *font = [accessoryText.font fontWithSize:10];
+        accessoryText.font = font;
+        accessoryText.text = [NSString stringWithFormat:@"%i%@", huntingDrop.percentage, @"%"];
+        cell.accessoryView = accessoryText;
         return cell;
     } else if ([tableView isEqual:_questTable]){
-        NSArray *questInfo = _selectedMonster.questInfos[indexPath.row];
-        cell.textLabel.text = questInfo[1];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",questInfo[2]];
+        Quest *quest = _selectedMonster.questInfos[indexPath.row];
+        cell.textLabel.text = quest.name;
+        cell.detailTextLabel.text = quest.fullHub;
+        CGRect cellFrame = cell.frame;
+        CGRect textView = CGRectMake(cellFrame.size.width - 60, cellFrame.origin.y + 5, 50, 24);
+        UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
+        [accessoryText setNumberOfLines:2];
+        [accessoryText setLineBreakMode:NSLineBreakByWordWrapping];
+        [cell addSubview:accessoryText];
+        
+        accessoryText.textAlignment =  NSTextAlignmentRight;
+        UIFont *font = [accessoryText.font fontWithSize:10];
+        accessoryText.font = font;
+        accessoryText.text = [NSString stringWithFormat:@"%@", ([quest.unstable isEqualToString:@"Unstable"]) ? @"Unstable" : @""];
+        
         return cell;
     } else {
         return nil;
@@ -266,6 +293,42 @@
         cell.thunderLabel.text = [NSString stringWithFormat:@"%i", md.thunderDamage];
         cell.dragonLabel.text = [NSString stringWithFormat:@"%i", md.dragonDamage];
         
+    }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([tableView isEqual:_rankDropTable]) {
+        if ([_monsterDetailTabBar.selectedItem isEqual:_lowRank]) {
+            _monsterDrops = _selectedMonster.lowRankDrops;
+        } else if ([_monsterDetailTabBar.selectedItem isEqual:_highRank]) {
+            _monsterDrops = _selectedMonster.highRankDrops;
+        } else if ([_monsterDetailTabBar.selectedItem isEqual:_gRank]) {
+            _monsterDrops = _selectedMonster.gRankDrops;
+        }
+        Item *huntingDrop = _monsterDrops[indexPath.row];
+        ItemDetailViewController *itemDetailVC = [[ItemDetailViewController alloc] init];
+        itemDetailVC.selectedItem = huntingDrop;
+        itemDetailVC.dbEngine = _dbEngine;
+        itemDetailVC.heightDifference = _heightDifference;
+        [self.navigationController pushViewController:itemDetailVC animated:YES];
+    } else if ([tableView isEqual:_questTable]) {
+        Quest *quest = _selectedMonster.questInfos[indexPath.row];
+        QuestDetailViewController *qDVC = [[QuestDetailViewController alloc] init];
+        qDVC.dbEngine = _dbEngine;
+        qDVC.heightDifference = _heightDifference;
+        qDVC.selectedQuest = quest;
+        [self.navigationController pushViewController:qDVC animated:YES];
+    } else if ([tableView isEqual:_habitatTable]) {
+        LocationDetailViewController *lDVC = [[LocationDetailViewController alloc] init];
+        MonsterHabitat *mh = _selectedMonster.monsterHabitats[indexPath.row];
+        Location *location = [[Location alloc] init];
+        location.locationID = mh.locationID;
+        location.locationName = mh.locationName;
+        location.locationIcon = mh.icon;
+        lDVC.heightDifference = _heightDifference;
+        lDVC.selectedLocation = location;
+        lDVC.dbEngine = _dbEngine;
+        [self.navigationController pushViewController:lDVC animated:YES];
     }
 }
 

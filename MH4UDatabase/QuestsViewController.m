@@ -206,13 +206,13 @@
         cell.textLabel.text = quest.name;
         CGRect cellFrame = cell.frame;
         CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 30, 20);
-        UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
-        [cell addSubview:acessoryText];
-        acessoryText.textAlignment =  NSTextAlignmentRight;
-        acessoryText.text = [quest.type isEqualToString:@"Key"] ? @"Key" : @"";
-        UIFont *font = [acessoryText.font fontWithSize:12];
-        acessoryText.font = font;
-        cell.accessoryView = acessoryText;
+        UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
+        [cell addSubview:accessoryText];
+        accessoryText.textAlignment =  NSTextAlignmentRight;
+        accessoryText.text = [quest.type isEqualToString:@"Key"] ? @"Key" : @"";
+        UIFont *font = [accessoryText.font fontWithSize:12];
+        accessoryText.font = font;
+        cell.accessoryView = accessoryText;
         return cell;
     } else {
         return nil;
