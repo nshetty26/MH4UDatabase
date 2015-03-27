@@ -50,7 +50,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _allMonstersArray = [_dbEngine populateAllMonsterArray];
+    _allMonstersArray = [_dbEngine retrieveMonsters:nil];
     // Do any additional setup after loading the view.
     self.title = NSLocalizedString(@"Monsters", @"Monsters");
     _displayedMonsters = _allMonstersArray;

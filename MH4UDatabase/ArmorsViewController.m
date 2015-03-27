@@ -49,7 +49,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Armor", @"Armor");
-    _allArmorArray = [_dbEngine populateArmorArray];
+    _allArmorArray = [_dbEngine retrieveArmor:nil];
 
     _displayedArmor = _allArmorArray;
     CGRect vcFrame = self.view.frame;

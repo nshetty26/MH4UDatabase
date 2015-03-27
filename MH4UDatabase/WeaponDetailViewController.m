@@ -83,8 +83,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = NSLocalizedString(_selectedWeapon.name, _selectedWeapon.name);
+    if (!_selectedWeapon.icon) {
+        _selectedWeapon.icon = [NSString stringWithFormat:@"%@%i.png",_imageString, _selectedWeapon.rarity];
+    }
 
-    _selectedWeapon.icon = [NSString stringWithFormat:@"%@%i.png",_imageString, _selectedWeapon.rarity];
     _weaponComponents = [_dbEngine getComponentsfor:_selectedWeapon.itemID];
     
     CGRect vcFrame = self.view.frame;

@@ -36,10 +36,16 @@
 
 
 #pragma mark - Monster Queries
--(NSArray *)populateAllMonsterArray {
+-(NSArray *)retrieveMonsters:(NSNumber *)monsterID {
     NSMutableArray *allMonsterArray = [[NSMutableArray alloc] init];
     
-    NSString *monsterQuery = [NSString stringWithFormat:@"SELECT * FROM Monsters"];
+    NSString *monsterQuery;
+    
+    if (!monsterID) {
+        monsterQuery = [NSString stringWithFormat:@"SELECT * FROM Monsters"];
+    } else {
+        monsterQuery = [NSString stringWithFormat:@"SELECT * FROM Monsters where monsters._id = %@", monsterID];
+    }
     
     FMResultSet *s = [self DBquery:monsterQuery];
     while ([s next]) {
@@ -59,14 +65,6 @@
     }];
     
     return allMonsterArray;
-}
-
--(void)getDetailsForMonster:(Monster *)monster {
-    [self getDamageForMonster:monster];
-    [self getStatusEffectsForMonster:monster];
-    [self getHabitatsForMonster:monster];
-    [self getHuntingDropsForMonster:monster];
-    [self getQuestsForMonster:monster];
 }
 
 -(void)getDamageForMonster:(Monster *)monster {
@@ -192,11 +190,25 @@
     monster.questInfos = questArray;
 }
 
+-(void)getDetailsForMonster:(Monster *)monster {
+    [self getDamageForMonster:monster];
+    [self getStatusEffectsForMonster:monster];
+    [self getHabitatsForMonster:monster];
+    [self getHuntingDropsForMonster:monster];
+    [self getQuestsForMonster:monster];
+}
+
 #pragma mark - Armor Queries
--(NSArray *)populateArmorArray {
+-(NSArray *)retrieveArmor:(NSNumber *)armorID {
     NSMutableArray *armorArray = [[NSMutableArray alloc] init];
     
-    NSString *armorQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name,items.rarity, armor.hunter_type, armor.slot from armor INNER JOIN items on armor._id = items._id"];
+    NSString *armorQuery;
+    if (!armorID) {
+        armorQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name,items.rarity, armor.hunter_type, armor.slot from armor INNER JOIN items on armor._id = items._id"];
+    } else {
+        armorQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name,items.rarity, armor.hunter_type, armor.slot from armor INNER JOIN items on armor._id = items._id where armor._id = %@", armorID];
+    }
+
     FMResultSet *s = [self DBquery:armorQuery];
     
     if (s) {
@@ -208,32 +220,12 @@
             armor.slot = [s stringForColumn:@"slot"];
             armor.rarity = [s intForColumn:@"rarity"];
             [armorArray addObject:armor];
-            //NSLog(@"Armor %@ populated", armor.name);
         }
     }
     
     return armorArray;
     
     
-}
-
--(Armor *)getArmor:(int)armorID {
-    NSString *armorQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name,items.rarity, armor.hunter_type, armor.slot from armor INNER JOIN items on armor._id = items._id where armor._id = %i", armorID];
-    FMResultSet *s = [self DBquery:armorQuery];
-    
-    if (s) {
-        while ([s next]) {
-            Armor *armor = [[Armor alloc] init];
-            armor.armorID = [s intForColumn:@"_id"];
-            armor.name = [s stringForColumn:@"name"];
-            armor.hunterType = [s stringForColumn:@"hunter_type"];
-            armor.slot = [s stringForColumn:@"slot"];
-            armor.rarity = [s intForColumn:@"rarity"];
-            return armor;
-        }
-    }
-    
-    return nil;
 }
 
 -(Armor *)populateArmor:(Armor *)armor {
@@ -429,12 +421,16 @@
         NSString *itemType = [s stringForColumn:@"iType"];
         NSString *armorSlot = [s stringForColumn:@"slot"];
         int rarity = [s intForColumn:@"rarity"];
-        NSString *weaponType = [[s stringForColumn:@"wtype"] stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+        NSString *weaponType = [s stringForColumn:@"wtype"];
+        if (!weaponType) {
+            weaponType = @"";
+        }
+        NSString *weaponImage = [weaponType stringByReplacingOccurrencesOfString:@" " withString:@"_"];
         NSString *armorImageString = [NSString stringWithFormat:@"%@%i.png",armorSlot, rarity];
-        NSString *weaponImageString = [NSString stringWithFormat:@"%@%i.png",weaponType, rarity];
+        NSString *weaponImageString = [NSString stringWithFormat:@"%@%i.png",weaponImage, rarity];
         int itemID = [s intForColumn:@"created_item_id"];
     
-        [usageItemsArray addObject:@[itemName, type, [NSNumber numberWithInt:quantity], icon, itemType, armorImageString, weaponImageString, [NSNumber numberWithInt:itemID]]];
+        [usageItemsArray addObject:@[itemName, type, [NSNumber numberWithInt:quantity], icon, itemType, armorImageString, weaponImageString, [NSNumber numberWithInt:itemID], weaponType]];
         
     }
 
@@ -609,6 +605,8 @@
 
 }
 
+#pragma mark - Decoration Queries
+
 -(void)getDecorationsForSkillCollection:(SkillCollection *)skillCollection andSkillTreeID:(int)skillTreeID{
     NSString *jewelQuery = [NSString stringWithFormat:@" SELECT items._id as itemID, items.name as itemName, items.icon_name, items.type, skill_trees._id, skill_trees.name, item_to_skill_tree.point_value FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id where skill_trees._id = %i and type = 'Decoration'", skillTreeID];
     NSMutableArray *decorationArray = [[NSMutableArray alloc] init];
@@ -628,8 +626,14 @@
     
 }
 
--(NSArray *)getAllDecorations {
-    NSString *decorationQuery = @"select items._id as itemID, items.rarity, items.buy, items.description, items.carry_capacity, items.sell, items.name, item_to_skill_tree._id,  items.icon_name from items inner join decorations on items._id = decorations._id inner join item_to_skill_tree on item_to_skill_tree.item_id = items._id";
+-(NSArray *)getAllDecorations:(NSNumber *)decorationID {
+    NSString *decorationQuery;
+    if (!decorationID) {
+        decorationQuery = @"select items._id as itemID, items.rarity, items.buy, items.description, items.carry_capacity, items.sell, items.name, item_to_skill_tree._id,  items.icon_name from items inner join decorations on items._id = decorations._id inner join item_to_skill_tree on item_to_skill_tree.item_id = items._id";
+    } else {
+        decorationQuery = [NSString stringWithFormat:@"select items._id as itemID, items.rarity, items.buy, items.description, items.carry_capacity, items.sell, items.name, item_to_skill_tree._id,  items.icon_name from items inner join decorations on items._id = decorations._id inner join item_to_skill_tree on item_to_skill_tree.item_id = items._id where items._id = %@", decorationID];
+    }
+   
     NSMutableArray *decorationArray = [[NSMutableArray alloc] init];
     
     FMResultSet *s = [self DBquery:decorationQuery];
@@ -832,6 +836,8 @@
         }
     }
 }
+
+#pragma mark - Weapon Queries
 
 -(NSArray *)getWeaponTypes {
     NSString *weaponTypeQuery = @"SELECT DISTINCT(wtype) as Weapon FROM weapons";

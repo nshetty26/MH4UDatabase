@@ -22,6 +22,7 @@
 #import "MonsterDetailViewController.h"
 #import "QuestDetailViewController.h"
 #import "WeaponDetailViewController.h"
+#import "DecorationsDetailViewController.h"
 
 @interface ItemDetailViewController ()
 @property (nonatomic) DetailedItemView *detailItemView;
@@ -291,9 +292,17 @@
     if ([tableView isEqual:_usageTable]){
         NSArray *usageArray = _selectedItem.usageItemsArray[indexPath.row];
         if ([usageArray[4] isEqualToString:@"Decoration"]) {
+            Decoration *decoration = [[_dbEngine getAllDecorations:usageArray[7]] firstObject];
+            decoration.componentArray = [_dbEngine getComponentsfor:decoration.itemID];
+            DecorationsDetailViewController *dDVC = [[DecorationsDetailViewController alloc] init];
+            dDVC.heightDifference = _heightDifference;
+            dDVC.dbEngine = _dbEngine;
+            dDVC.selectedDecoration = decoration;
+            [self.navigationController pushViewController:dDVC animated:YES];
+            
 
         } else if ([usageArray[4] isEqualToString:@"Armor"]) {
-            Armor *armor = [_dbEngine getArmor:[usageArray[7] intValue]];
+            Armor *armor = [[_dbEngine retrieveArmor:usageArray[7]] firstObject];
             ArmorDetailViewController *aDVC = [[ArmorDetailViewController alloc] init];
             aDVC.heightDifference = _heightDifference;
             aDVC.selectedArmor = armor;
@@ -302,9 +311,32 @@
             
         } else if ([usageArray[4] isEqualToString:@"Weapon"]) {
             Weapon *weapon = [_dbEngine getWeaponForWeaponID:[usageArray[7] intValue]];
+            NSArray *weaponFamily = [_dbEngine getWeaponsForWeaponType:usageArray[8]];
+            weapon.weaponType = usageArray[8];
+            NSMutableArray *parentWeapons = [[NSMutableArray alloc] init];
+            NSMutableArray *upgradeWeapons = [[NSMutableArray alloc] init];
+            [self getParentWeapons:weapon inArray:parentWeapons withArray:weaponFamily];
+            [self getUpgradedWeapons:weapon inArray:upgradeWeapons withArray:weaponFamily];
+            
+            [parentWeapons addObjectsFromArray:upgradeWeapons];
+            [parentWeapons addObject:weapon];
+            [parentWeapons sortUsingComparator:^NSComparisonResult(id w1, id w2){
+                Weapon *weapon1 = (Weapon *)w1;
+                Weapon *weapon2 = (Weapon *)w2;
+                if (weapon1.itemID > weapon2.itemID) {
+                    return 1;
+                } else if (weapon1.itemID < weapon2.itemID) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }];
+
             WeaponDetailViewController *wDVC = [[WeaponDetailViewController alloc] init];
             wDVC.selectedWeapon = weapon;
-            wDVC.imageString = usageArray[6];
+            wDVC.weaponFamily = parentWeapons;
+            wDVC.imageString = [weapon.weaponType stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+            weapon.icon = usageArray[6];
             wDVC.dbEngine = _dbEngine;
             wDVC.heightDifference = _heightDifference;
             [self.navigationController pushViewController:wDVC animated:YES];
@@ -313,11 +345,7 @@
     
     else if ([tableView isEqual:_monsterDropTable]){
         NSArray *monsterDropArray = _selectedItem.monsterDropsArray[indexPath.row];
-        Monster *monster = [[Monster alloc] init];
-        NSNumber *monsterID = monsterDropArray[6];
-        monster.monsterID = [monsterID intValue];
-        monster.monsterName = monsterDropArray[0];
-        monster.iconName = monsterDropArray[5];
+        Monster *monster = [[_dbEngine retrieveMonsters:monsterDropArray[6]] firstObject];
         MonsterDetailViewController *mDVC = [[MonsterDetailViewController alloc] init];
         mDVC.selectedMonster = monster;
         mDVC.heightDifference = _heightDifference;
@@ -450,6 +478,60 @@
     [_dbEngine getQuestRewardsForItem:item];
     [_dbEngine getLocationsForItem:item];
 }
+
+-(void)getParentWeapons:(Weapon *)weapon inArray:(NSMutableArray *)parentWeaponArray withArray:(NSArray *)weaponsArray {
+    NSArray *weaponArray = [weaponsArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
+        Weapon *arrayWeapon = (Weapon *)evaluatedObjected;
+        if (arrayWeapon.itemID == weapon.parentID) {
+            return YES;
+        } else {
+            return NO;
+        }
+        
+    }]];
+    
+    if (weaponArray.count > 0) {
+        Weapon *parentWeapon = [weaponArray firstObject];
+        if (parentWeapon.parentID != 0) {
+            [parentWeaponArray addObject:parentWeapon];
+            [self getParentWeapons:parentWeapon inArray:parentWeaponArray withArray:weaponsArray];
+        } else {
+            [parentWeaponArray addObject:parentWeapon];
+            return;
+        }
+    } else {
+        return;
+    }
+    
+}
+
+-(void)getUpgradedWeapons:(Weapon *)weapon inArray:(NSMutableArray *)upgradedWeaponArray withArray:(NSArray *) weaponsArray {
+    NSArray *weaponArray = [weaponsArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
+        Weapon *arrayWeapon = (Weapon *)evaluatedObjected;
+        if (arrayWeapon.parentID == weapon.itemID) {
+            return YES;
+        } else {
+            return NO;
+        }
+        
+    }]];
+    
+    
+    if (weaponArray.count == 1) {
+        Weapon *upgradedWeapon = [weaponArray firstObject];
+        [upgradedWeaponArray addObject:upgradedWeapon];
+        [self getUpgradedWeapons:upgradedWeapon inArray:upgradedWeaponArray withArray:weaponsArray];
+    } else if (weaponArray.count > 1) {
+        for (Weapon *upgrade in weaponArray) {
+            [upgradedWeaponArray addObject:upgrade];
+            [self getUpgradedWeapons:upgrade inArray:upgradedWeaponArray withArray:weaponsArray];
+        }
+    }
+    else {
+        return;
+    }
+}
+
 
 /*
 #pragma mark - Navigation

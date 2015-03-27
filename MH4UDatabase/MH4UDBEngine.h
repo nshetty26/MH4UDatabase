@@ -17,11 +17,11 @@
 
 @interface MH4UDBEngine : NSObject
 
--(NSArray *)populateAllMonsterArray;
+-(NSArray *)retrieveMonsters:(NSNumber *)monsterID;
 -(void)getDetailsForMonster:(Monster *)monster;
 
--(NSArray *)populateArmorArray;
--(Armor *)getArmor:(int)armorID;
+-(NSArray *)retrieveArmor:(NSNumber *)armorID;
+
 -(Armor *)populateArmor:(Armor *)armor;
 
 -(NSArray *)populateItemArray;
@@ -41,7 +41,7 @@
 -(NSArray *)getSkillTrees;
 -(SkillCollection *)getSkillCollectionForSkillTreeID:(int)skillTreeID;
 
--(NSArray *)getAllDecorations;
+-(NSArray *)getAllDecorations:(NSNumber *)decorationID;
 -(NSArray *)getComponentsfor:(int)armorID;
 
 -(NSArray *)getAllQuests;

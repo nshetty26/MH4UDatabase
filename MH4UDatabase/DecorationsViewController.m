@@ -26,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Decorations", @"Decorations");
-    _allDecorations = [_dbEngine getAllDecorations];
+    _allDecorations = [_dbEngine getAllDecorations:nil];
     _displayedDecorations = _allDecorations;
 
     CGRect vcFrame = self.view.frame;
