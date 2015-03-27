@@ -134,8 +134,8 @@
         NSArray *skillArray = _skillCollection.skillArray[indexPath.row];
         cell.textLabel.text = skillArray[1];
         cell.detailTextLabel.text = skillArray[2];
-        cell.detailTextLabel.numberOfLines = 2;
-        UIFont *font = [cell.detailTextLabel.font fontWithSize:8];
+        cell.detailTextLabel.numberOfLines = 3;
+        UIFont *font = [cell.detailTextLabel.font fontWithSize:10];
         cell.detailTextLabel.font = font;
         CGRect cellFrame = cell.frame;
         CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 30, 20);

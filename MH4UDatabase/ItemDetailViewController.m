@@ -205,9 +205,9 @@
         if ([usageArray[4] isEqualToString:@"Decoration"]) {
             imageString = usageArray[3];
         } else if ([usageArray[4] isEqualToString:@"Armor"]) {
-            imageString = usageArray[5];
+            imageString = [usageArray[5] lowercaseString];
         } else if ([usageArray[4] isEqualToString:@"Weapon"]) {
-            imageString = usageArray[6];
+            imageString = [usageArray[6] lowercaseString] ;
         }
         cell.imageView.image = [UIImage imageNamed:imageString];
         return cell;
@@ -335,8 +335,8 @@
             WeaponDetailViewController *wDVC = [[WeaponDetailViewController alloc] init];
             wDVC.selectedWeapon = weapon;
             wDVC.weaponFamily = parentWeapons;
-            wDVC.imageString = [weapon.weaponType stringByReplacingOccurrencesOfString:@" " withString:@"_"];
-            weapon.icon = usageArray[6];
+            wDVC.imageString = [[weapon.weaponType stringByReplacingOccurrencesOfString:@" " withString:@"_"] lowercaseString];
+            weapon.icon = [usageArray[6] lowercaseString];
             wDVC.dbEngine = _dbEngine;
             wDVC.heightDifference = _heightDifference;
             [self.navigationController pushViewController:wDVC animated:YES];
