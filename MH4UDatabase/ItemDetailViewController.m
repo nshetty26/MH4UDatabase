@@ -23,6 +23,7 @@
 #import "QuestDetailViewController.h"
 #import "WeaponDetailViewController.h"
 #import "DecorationsDetailViewController.h"
+#import "CombiningTableView.h"
 
 @interface ItemDetailViewController ()
 @property (nonatomic) DetailedItemView *detailItemView;
@@ -33,7 +34,7 @@
 @property (nonatomic) UITabBarItem *monster;
 @property (nonatomic) UITabBarItem *quest;
 @property (nonatomic) UITabBarItem *location;
-@property (nonatomic) UITableView *combiningTable;
+@property (nonatomic) CombiningTableView *combiningTable;
 @property (nonatomic) UITableView *usageTable;
 @property (nonatomic) UITableView *monsterDropTable;
 @property (nonatomic) UITableView *questRewardTable;
@@ -41,7 +42,6 @@
 @property (nonatomic) UITableView *skillsTable;
 @property (nonatomic) UITableView *componentTable;
 @property (nonatomic) UITabBar *itemDetailBar;
-@property (nonatomic, strong) CombiningViewController *cVC;
 @end
 
 @implementation ItemDetailViewController
@@ -66,12 +66,8 @@
     [allViews addObject:_detailItemView];
     
     if (_combining) {
-        _combiningTable = [[UITableView alloc] initWithFrame:tableFrame];
-        _cVC = [[CombiningViewController alloc] init];
-        _cVC.allCombined = _selectedItem.combinedItemsArray;
-        _cVC.dbEngine = _dbEngine;
-        _combiningTable.dataSource = _cVC;
-        _combiningTable.delegate = _cVC;
+        _combiningTable = [[CombiningTableView alloc] initWithFrame:tableFrame andNavigationController:self.navigationController andDBEngine:_dbEngine];
+        _combiningTable.allCombined = _selectedItem.combinedItemsArray;
         [allViews addObject:_combiningTable];
     }
 
@@ -155,9 +151,7 @@
 
 #pragma mark - Table View Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([tableView isEqual:_combiningTable]) {
-        return _selectedItem.combinedItemsArray.count;
-    } else if ([tableView isEqual:_usageTable]) {
+    if ([tableView isEqual:_usageTable]) {
         return _selectedItem.usageItemsArray.count;
     } else if ([tableView isEqual:_monsterDropTable]) {
         return _selectedItem.monsterDropsArray.count;
@@ -172,16 +166,6 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([tableView isEqual:_combiningTable]) {
-        CombiningCell *combiningCell = [tableView dequeueReusableCellWithIdentifier:@"combiningCell"];
-        
-        if (!combiningCell) {
-            [tableView registerNib:[UINib nibWithNibName:@"UICombiningTableCell"  bundle:nil] forCellReuseIdentifier:@"combiningCell"];
-            combiningCell = [tableView dequeueReusableCellWithIdentifier:@"combiningCell"];
-        }
-        return combiningCell;
-    }
-    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"itemIdentifier"];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"itemIdentifier"];
@@ -280,10 +264,6 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([tableView isEqual:_combiningTable]) {
-
-    }
-    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"itemIdentifier"];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"itemIdentifier"];
@@ -383,28 +363,6 @@
 }
 
 
--(void)tableView:(UITableView *)tableView willDisplayCell:(CombiningCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if ([tableView isEqual:_combiningTable]) {
-        NSArray *combiningArray = _selectedItem.combinedItemsArray[indexPath.row];
-        NSArray *combinedItemInfo = [_dbEngine infoForCombinedTableCellforItemID:combiningArray[0]];
-        NSArray *item1Info = [_dbEngine infoForCombinedTableCellforItemID:combiningArray[1]];
-        NSArray *item2Info = [_dbEngine infoForCombinedTableCellforItemID:combiningArray[2]];
-        
-        cell.combinedItemName.text = combinedItemInfo[0];
-        cell.combinedImageView.image = [UIImage imageNamed:combinedItemInfo[1]];
-        
-        cell.item1Name.text = item1Info[0];
-        cell.item2Name.text = item2Info[0];
-        cell.maxCombined.text = [NSString stringWithFormat:@"Max: %@", combiningArray[4]];
-        cell.percentageCombined.text = [NSString stringWithFormat:@"%@%@", combiningArray[5], @"%"];
-        cell.item1ImageView.image = [UIImage imageNamed:item1Info[1]];
-        cell.item2ImageView.image = [UIImage imageNamed:item2Info[1]];
-    }
-    
-}
-
-
 #pragma mark - Helper Methods
 
 - (void)didReceiveMemoryWarning {
@@ -464,9 +422,13 @@
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference, vcFrame.size.width, 49);
     _itemDetailBar.frame = tabBarFrame;
     
-    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - (heightdifference + tabBarFrame.size.height));
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - (heightdifference + tabBarFrame.size.height));
     
     for (UIView *view in _allViews) {
+        if ([view isKindOfClass:[UITableView class]]) {
+            UITableView *tableView = (UITableView *)view;
+            [tableView setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+        }
         view.frame = tablewithTabbar;
     }
 }

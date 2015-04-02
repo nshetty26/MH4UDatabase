@@ -1,50 +1,48 @@
 //
-//  CombiningViewController.m
+//  CombiningTableView.m
 //  MH4UDatabase
 //
-//  Created by Neil Shetty on 3/11/15.
+//  Created by Neil Shetty on 4/1/15.
 //  Copyright (c) 2015 GuthuDesigns. All rights reserved.
 //
 
-#import "CombiningViewController.h"
-#import "MH4UDBEntity.h"
-#import "MenuViewController.h"
+#import "CombiningTableView.h"
+#import "ItemDetailViewController.h"
 #import "MH4UDBEngine.h"
+#import "MH4UDBEntity.h"
 
-@interface CombiningViewController ()
-@property UITableView *combiningTable;
-@property UISearchBar *combineSearch;
-@property NSArray *displayedCombined;
-
+@interface CombiningTableView ()
+@property (nonatomic, strong) UINavigationController *navigationController;
+@property (nonatomic, strong) MH4UDBEngine *dbEngine;
+@property (nonatomic, strong) NSArray *displayedCombined;
 @end
 
-@implementation CombiningViewController
+@implementation CombiningTableView
 
-#pragma mark - Setup Views
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.title = NSLocalizedString(@"Combining", @"Combining");
-    _allCombined = [_dbEngine getCombiningItems];
-    CGRect vcFrame = self.view.frame;
-    CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 44);
-    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
-    _displayedCombined = _allCombined;
-    
-    _combiningTable = [[UITableView alloc] initWithFrame:tableWithSearch];
-    _combiningTable.dataSource = self;
-    _combiningTable.delegate = self;
-
-
-    _combineSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
-    _combineSearch.delegate = self;
-    [self.view addSubview:_combiningTable];
-    [self.view addSubview:_combineSearch];
-    // Do any additional setup after loading the view.
+-(id)initWithFrame:(CGRect)frame andNavigationController:(UINavigationController *)navigationController andDBEngine:(MH4UDBEngine *)dbEngine {
+    if (self = [super init]) {
+        self.frame = frame;
+        
+        if (navigationController && dbEngine) {
+            _navigationController = navigationController;
+            _dbEngine = dbEngine;
+            UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, 38)];
+            searchBar.delegate = self;
+            self.tableHeaderView = searchBar;
+            self.delegate = self;
+            self.dataSource = self;
+            return self;
+        } else {
+            return nil;
+        }
+    } else {
+        return nil;
+    }
 }
 
 #pragma mark - Search Bar Methods
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    [_combineSearch setShowsCancelButton:YES];
+    [searchBar setShowsCancelButton:YES];
     if (searchText.length == 0) {
         [self showAllCombine];
         [searchBar resignFirstResponder];
@@ -63,7 +61,7 @@
         }]];
         
         _displayedCombined = searchedCombine;
-        [_combiningTable reloadData];
+        [self reloadData];
     }
 }
 
@@ -80,7 +78,7 @@
 
 -(void)showAllCombine {
     _displayedCombined = _allCombined;
-    [_combiningTable reloadData];
+    [self  reloadData];
 }
 
 #pragma mark Table View Methods
@@ -92,7 +90,6 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     return _displayedCombined.count;
 }
 
@@ -106,16 +103,12 @@
     return combiningCell;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 50;
-}
-
 -(void)tableView:(UITableView *)tableView willDisplayCell:(CombiningCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     Combining *combineCombo = _displayedCombined[indexPath.row];
     cell.dbEngine = _dbEngine;
-    cell.nC = self.navigationController;
-    cell.heightDifference = _heightDifference;
+    cell.nC = _navigationController;
+    cell.heightDifference = [self returnHeightDifference];
     cell.combinedItemName.text = combineCombo.combinedItem.name;
     [cell.combineItemButton setTitle:combineCombo.combinedItem.name forState:UIControlStateNormal];
     cell.combinedImageView.image = [UIImage imageNamed:combineCombo.combinedItem.icon];
@@ -129,37 +122,33 @@
     cell.percentageCombined.text = [NSString stringWithFormat:@"%i%@", combineCombo.percentage, @"%"];
     cell.item1ImageView.image = [UIImage imageNamed:combineCombo.item1.icon];
     cell.item2ImageView.image = [UIImage imageNamed:combineCombo.item2.icon];
-
+    
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 50;
 }
 
--(void)viewWillLayoutSubviews {
-    CGRect vcFrame = self.view.frame;
-    UINavigationBar *navBar = self.navigationController.navigationBar;
+-(CGFloat)returnHeightDifference {
+    UINavigationBar *navBar = _navigationController.navigationBar;
     CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
-    int heightdifference = navBar.frame.size.height + statusBar.size.height;
-    
-    CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + heightdifference, vcFrame.size.width, 44);
-    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - searchBarFrame.size.height);
-    
-    _combineSearch.frame = searchBarFrame;
-    _combiningTable.frame = tableWithSearch;
-    
+    return navBar.frame.size.height + statusBar.size.height;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
+
+@implementation CombiningCell
+
+
+- (IBAction)launchDetailItem:(id)sender {
+    ItemDetailViewController *iDVC = [[ItemDetailViewController alloc] init];
+    UIButton *button = (UIButton *)sender;
+    Item *selectedItem = [_dbEngine getItemForName:button.titleLabel.text];
+    iDVC.selectedItem = selectedItem;
+    iDVC.dbEngine = _dbEngine;
+    iDVC.heightDifference = _heightDifference;
+    [_nC pushViewController:iDVC animated:YES];
+    
+}
+@end
+

@@ -9,6 +9,7 @@
 #import "LocationDetailViewController.h"
 #import "MonsterDetailViewController.h"
 #import "ItemDetailViewController.h"
+#import "ItemTableView.h"
 #import "MH4UDBEngine.h"
 #import "MH4UDBEntity.h"
 
@@ -25,7 +26,7 @@
 @property (nonatomic) UITabBarItem *highRank;
 @property (nonatomic) UITabBarItem *gRank;
 @property (nonatomic) UITableView *monsterTable;
-@property (nonatomic) UITableView *rankDropTable;
+@property (nonatomic) ItemTableView *rankDropTable;
 
 @end
 
@@ -67,9 +68,8 @@
     [self.view addSubview:_mapLabel];
     [self.view addSubview:_mapView];
     
-    _rankDropTable = [[UITableView alloc] initWithFrame:viewFrame];
-    _rankDropTable.delegate = self;
-    _rankDropTable.dataSource = self;
+    _rankDropTable = [[ItemTableView alloc] initWithFrame:viewFrame andNavigationController:self.navigationController andDBEngine:_dbEngine];
+    _rankDropTable.accessoryType = @"Percentage";
 
     _monsterTable = [[UITableView alloc] initWithFrame:viewFrame];
     _monsterTable.dataSource = self;
@@ -111,8 +111,21 @@
             [self.view addSubview:_monsterTable];
             break;
         case 3:
+            _rankDropTable.allItems = _selectedLocation.lowRankItemsArray;
+            if (_rankDropTable.superview == nil) {
+                [self.view addSubview:_rankDropTable];
+            }
+            [_rankDropTable reloadData];
+            break;
         case 4:
+            _rankDropTable.allItems = _selectedLocation.highRankItemsArray;
+            if (_rankDropTable.superview == nil) {
+                [self.view addSubview:_rankDropTable];
+            }
+            [_rankDropTable reloadData];
+            break;
         case 5:
+            _rankDropTable.allItems = _selectedLocation.gRankItemsArray;
             if (_rankDropTable.superview == nil) {
                 [self.view addSubview:_rankDropTable];
             }
@@ -134,16 +147,6 @@
 {
     if  ([tableView isEqual:_monsterTable]){
         return _selectedLocation.monsterArray.count;
-    } else if  ([tableView isEqual:_rankDropTable]){
-        if ([_locationDetailTabBar.selectedItem isEqual:_lowRank]) {
-            return _selectedLocation.lowRankItemsArray.count;
-        } else if ([_locationDetailTabBar.selectedItem isEqual:_highRank]) {
-            return _selectedLocation.highRankItemsArray.count;
-        } else if ([_locationDetailTabBar.selectedItem isEqual:_gRank]) {
-            return _selectedLocation.gRankItemsArray.count;
-        } else {
-            return 0;
-        }
     } else {
         return 0;
     }
@@ -155,38 +158,12 @@
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"monsterDetailCell"];
         }
+        
         Monster *monster = [_selectedLocation.monsterArray[indexPath.row]objectAtIndex:0];
         MonsterHabitat *mh = [_selectedLocation.monsterArray[indexPath.row]objectAtIndex:1];
         cell.textLabel.text = monster.monsterName;
         cell.detailTextLabel.text = mh.fullPath;
         cell.imageView.image = [UIImage imageNamed:monster.iconName];
-        return cell;
-    } else if  ([tableView isEqual:_rankDropTable]){
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"itemDetailCell"];
-        if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"itemDetailCell"];
-        }
-        GatheredResource *gatheredResource;
-        if ([_locationDetailTabBar.selectedItem isEqual:_lowRank]) {
-            gatheredResource = _selectedLocation.lowRankItemsArray[indexPath.row];
-        } else if ([_locationDetailTabBar.selectedItem isEqual:_highRank]) {
-            gatheredResource = _selectedLocation.highRankItemsArray[indexPath.row];
-        } else if ([_locationDetailTabBar.selectedItem isEqual:_gRank]) {
-            gatheredResource = _selectedLocation.gRankItemsArray[indexPath.row];
-        }
-        cell.textLabel.text = gatheredResource.name;
-        cell.imageView.image = [UIImage imageNamed:gatheredResource.icon];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", gatheredResource.site,gatheredResource.area];
-        CGRect cellFrame = cell.frame;
-        CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 30, 20);
-        UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
-        [cell addSubview:accessoryText];
-        accessoryText.textAlignment =  NSTextAlignmentRight;
-        accessoryText.text = [NSString stringWithFormat:@"%i%@",gatheredResource.percentage, @"%"];
-
-        UIFont *font = [accessoryText.font fontWithSize:12];
-        accessoryText.font = font;
-        cell.accessoryView = accessoryText;
         return cell;
     } else {
         return nil;
@@ -201,21 +178,6 @@
         mDVC.selectedMonster = [_selectedLocation.monsterArray[indexPath.row] objectAtIndex:0];
         mDVC.heightDifference = _heightDifference;
         [self.navigationController pushViewController:mDVC animated:YES];
-    } else if ([tableView isEqual:_rankDropTable]) {
-        ItemDetailViewController *iDVC = [[ItemDetailViewController alloc] init];
-        iDVC.dbEngine = _dbEngine;
-        iDVC.heightDifference = _heightDifference;
-        GatheredResource *gatheredResource;
-        if ([_locationDetailTabBar.selectedItem isEqual:_lowRank]) {
-            gatheredResource = _selectedLocation.lowRankItemsArray[indexPath.row];
-        } else if ([_locationDetailTabBar.selectedItem isEqual:_highRank]) {
-            gatheredResource = _selectedLocation.highRankItemsArray[indexPath.row];
-        } else if ([_locationDetailTabBar.selectedItem isEqual:_gRank]) {
-            gatheredResource = _selectedLocation.gRankItemsArray[indexPath.row];
-        }
-        iDVC.selectedItem = [_dbEngine getItemForName:gatheredResource.name];
-        [self.navigationController pushViewController:iDVC animated:YES];
-
     }
 }
 

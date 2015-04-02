@@ -7,6 +7,7 @@
 //
 
 #import "QuestDetailViewController.h"
+#import "ItemTableView.h"
 #import "MonsterDetailViewController.h"
 #import "ItemDetailViewController.h"
 #import "MH4UDBEngine.h"
@@ -15,7 +16,7 @@
 @interface QuestDetailViewController ()
 @property (nonatomic) UITableView *monsterTable;
 @property (nonatomic) NSArray *allViews;
-@property (nonatomic) UITableView *rewardTable;
+@property (nonatomic) ItemTableView *rewardTable;
 @property (nonatomic) UITabBar *questDetailTab;
 @property (nonatomic) DetailedQuestView *detailedView;
 @end
@@ -41,9 +42,9 @@
     _monsterTable.dataSource = self;
     _monsterTable.delegate = self;
     
-    _rewardTable = [[UITableView alloc] initWithFrame:tableFrame];
-    _rewardTable.delegate = self;
-    _rewardTable.dataSource = self;
+    _rewardTable = [[ItemTableView alloc] initWithFrame:tableFrame andNavigationController:self.navigationController andDBEngine:_dbEngine];
+    _rewardTable.allItems = _selectedQuest.rewards;
+    _rewardTable.accessoryType = @"Percentage";
     
     _detailedView = [[[NSBundle mainBundle] loadNibNamed:@"DetailedQuestView" owner:self options:nil] lastObject];
     _detailedView.frame = tableFrame;
@@ -98,8 +99,6 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([tableView isEqual:_monsterTable]) {
         return _selectedQuest.monsters.count;
-    } else if ([tableView isEqual:_rewardTable]) {
-        return _selectedQuest.rewards.count;
     } else  {
         return 0;
     }
@@ -117,26 +116,7 @@
         cell.textLabel.text = monster.monsterName;
         cell.imageView.image = [UIImage imageNamed:monster.iconName];
         return cell;
-    } else if ([tableView isEqual:_rewardTable]) {
-        NSArray *itemArray = _selectedQuest.rewards[indexPath.row];
-        Item *item = itemArray[1];
-        cell.textLabel.text = item.name;
-        cell.imageView.image = [UIImage imageNamed:item.icon];
-        cell.detailTextLabel.text = itemArray[0];
-        CGRect cellFrame = cell.frame;
-        CGRect textView = CGRectMake(cellFrame.size.width - 60, cellFrame.origin.y + 5, 50, 24);
-        UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
-        [accessoryText setNumberOfLines:2];
-        [accessoryText setLineBreakMode:NSLineBreakByWordWrapping];
-        [cell addSubview:accessoryText];
-        accessoryText.textAlignment =  NSTextAlignmentRight;
-        UIFont *font = [accessoryText.font fontWithSize:10];
-        accessoryText.font = font;
-        accessoryText.text = [NSString stringWithFormat:@"%i%@", item.percentage, @"%"];
-        cell.accessoryView = accessoryText;
-        return cell;
     }
-    
     return cell;
 }
 
@@ -149,13 +129,6 @@
         mDVC.dbEngine = _dbEngine;
         [self.navigationController pushViewController:mDVC animated:YES];
         
-    } else if ([tableView isEqual:_rewardTable]) {
-        Item *item = [_selectedQuest.rewards[indexPath.row] objectAtIndex:1];
-        ItemDetailViewController *iDVC = [[ItemDetailViewController alloc] init];
-        iDVC.selectedItem = item;
-        iDVC.heightDifference = _heightDifference;
-        iDVC.dbEngine = _dbEngine;
-        [self.navigationController pushViewController:iDVC animated:YES];
     }
 }
 

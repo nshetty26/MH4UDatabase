@@ -11,13 +11,14 @@
 #import "MH4UDBEngine.h"
 #import "MH4UDBEntity.h"
 #import "SkillDetailViewController.h"
+#import "ItemTableView.h"
 
 @interface ArmorDetailViewController ()
 @property (strong, nonatomic) DetailedArmorView *statView;
 @property (strong, nonatomic) NSArray *allViews;
 @property (strong, nonatomic) UITabBar *armorDetailTab;
 @property (strong, nonatomic) UITableView *skillTable;
-@property (strong, nonatomic) UITableView *componentTable;
+@property (strong, nonatomic)  ItemTableView *componentTable;
 @end
 
 
@@ -42,9 +43,10 @@
     _skillTable.dataSource = self;
     _skillTable.delegate = self;
     
-    _componentTable = [[UITableView alloc] initWithFrame:tableFrame];
-    _componentTable.delegate = self;
-    _componentTable.dataSource = self;
+    _componentTable = [[ItemTableView alloc] initWithFrame:tableFrame andNavigationController:self.navigationController andDBEngine:_dbEngine];
+    _componentTable.allItems = _selectedArmor.componentArray;
+    _componentTable.accessoryType = @"Quantity";
+    
     
     _statView = [[[NSBundle mainBundle] loadNibNamed:@"DetailedArmorView" owner:self options:nil] lastObject];
     _statView.frame = tableFrame;
@@ -94,9 +96,7 @@
 
 #pragma mark - Tableview Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([tableView isEqual:_componentTable]) {
-        return _selectedArmor.componentArray.count;
-    } else if ([tableView isEqual:_skillTable]) {
+    if ([tableView isEqual:_skillTable]) {
         return _selectedArmor.skillsArray.count;
     } else  {
         return 0;
@@ -104,17 +104,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-   
-    if ([tableView isEqual:_componentTable]) {
-        NSString *itemName = cell.textLabel.text;
-        ItemDetailViewController *iDVC = [[ItemDetailViewController alloc] init];
-        
-        iDVC.selectedItem = [_dbEngine getItemForName:itemName];
-        iDVC.dbEngine = _dbEngine;
-        iDVC.heightDifference = _heightDifference;
-        [self.navigationController pushViewController:iDVC animated:YES];
-    } else if ([tableView isEqual:_skillTable]) {
+    if ([tableView isEqual:_skillTable]) {
         NSArray *skillArray = _selectedArmor.skillsArray[indexPath.row];
         SkillDetailViewController *sdVC = [[SkillDetailViewController alloc] init];
         sdVC.heightDifference = _heightDifference;
@@ -138,25 +128,16 @@
         NSArray *skillArray = _selectedArmor.skillsArray[indexPath.row];
         NSString *detailLabel = [NSString stringWithFormat:@"%@", [skillArray objectAtIndex:1]];
         cell.textLabel.text = detailLabel;
+        
         CGRect cellFrame = cell.frame;
         CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 50, 20);
         UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
-        [cell addSubview:acessoryText];
         acessoryText.textAlignment =  NSTextAlignmentRight;
-        acessoryText.text = [NSString stringWithFormat:@"%@",[skillArray objectAtIndex:2]];
-        [cell setAccessoryView: acessoryText];
-    } else if ([tableView isEqual:_componentTable]) {
-        NSArray *componentArray = _selectedArmor.componentArray[indexPath.row];
-        cell.textLabel.text = [componentArray objectAtIndex:1];
-        cell.imageView.image = [UIImage imageNamed:componentArray[2]];
-        CGRect cellFrame = cell.frame;
-        CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 30, 20);
-        UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
-        [cell addSubview:acessoryText];
-        acessoryText.textAlignment =  NSTextAlignmentRight;
-        acessoryText.text = [NSString stringWithFormat:@"%@", componentArray[3]];
-        [cell setAccessoryView: acessoryText];
         
+        
+        acessoryText.text = [NSString stringWithFormat:@"%@",[skillArray objectAtIndex:2]];
+        [cell addSubview:acessoryText];
+        [cell setAccessoryView: acessoryText];
     }
     
     return cell;
