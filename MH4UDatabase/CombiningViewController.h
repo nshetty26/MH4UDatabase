@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class MH4UDBEngine;
 
-@interface CombiningViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
+@interface CombiningViewController : UIViewController //<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 
 @property (nonatomic) NSArray *allCombined;
 @property (nonatomic) int heightDifference;

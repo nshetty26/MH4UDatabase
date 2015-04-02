@@ -172,20 +172,6 @@
 
 @end
 
-@implementation CombiningCell
-
-
-- (IBAction)launchDetailItem:(id)sender {
-    ItemDetailViewController *iDVC = [[ItemDetailViewController alloc] init];
-    UIButton *button = (UIButton *)sender;
-    Item *selectedItem = [_dbEngine getItemForName:button.titleLabel.text];
-    iDVC.selectedItem = selectedItem;
-    iDVC.dbEngine = _dbEngine;
-    iDVC.heightDifference = _heightDifference;
-    [_nC pushViewController:iDVC animated:YES];
-    
-}
-@end
 
 @implementation ItemTableCell
 

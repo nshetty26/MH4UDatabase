@@ -12,6 +12,7 @@
 		E72E4EB01AB0D3390043CC6A /* UICombiningTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E72E4EAF1AB0D3390043CC6A /* UICombiningTableCell.xib */; };
 		E734F05A1AB0F9DA0037E684 /* SkillTreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E734F0591AB0F9DA0037E684 /* SkillTreeViewController.m */; };
 		E73ECE5E1AB3C139002F41B0 /* WeaponTypeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E73ECE5D1AB3C139002F41B0 /* WeaponTypeTableViewController.m */; };
+		E742B2D01ACCF162007B08AF /* CombiningTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E742B2CF1ACCF162007B08AF /* CombiningTableView.m */; };
 		E7460C9C1AB613CA006C7CD3 /* Armor.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460C931AB613CA006C7CD3 /* Armor.png */; };
 		E7460C9E1AB613CA006C7CD3 /* Decorations.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460C951AB613CA006C7CD3 /* Decorations.png */; };
 		E7460C9F1AB613CA006C7CD3 /* Item.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460C961AB613CA006C7CD3 /* Item.png */; };
@@ -898,6 +899,8 @@
 		E734F0591AB0F9DA0037E684 /* SkillTreeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillTreeViewController.m; sourceTree = "<group>"; };
 		E73ECE5C1AB3C139002F41B0 /* WeaponTypeTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeaponTypeTableViewController.h; sourceTree = "<group>"; };
 		E73ECE5D1AB3C139002F41B0 /* WeaponTypeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeaponTypeTableViewController.m; sourceTree = "<group>"; };
+		E742B2CE1ACCF162007B08AF /* CombiningTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombiningTableView.h; sourceTree = "<group>"; };
+		E742B2CF1ACCF162007B08AF /* CombiningTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombiningTableView.m; sourceTree = "<group>"; };
 		E7460C931AB613CA006C7CD3 /* Armor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Armor.png; sourceTree = "<group>"; };
 		E7460C951AB613CA006C7CD3 /* Decorations.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Decorations.png; sourceTree = "<group>"; };
 		E7460C961AB613CA006C7CD3 /* Item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Item.png; sourceTree = "<group>"; };
@@ -1923,6 +1926,17 @@
 				E7EB7DF61AA6AC96007C05E0 /* MenuViewController.m */,
 			);
 			name = "Menu View Controller";
+			sourceTree = "<group>";
+		};
+		E742B2D11ACCF168007B08AF /* TableViews */ = {
+			isa = PBXGroup;
+			children = (
+				E742B2CE1ACCF162007B08AF /* CombiningTableView.h */,
+				E742B2CF1ACCF162007B08AF /* CombiningTableView.m */,
+				E749EAB91AC4EB4900E10DFF /* ItemTableView.h */,
+				E749EABA1AC4EB4900E10DFF /* ItemTableView.m */,
+			);
+			name = TableViews;
 			sourceTree = "<group>";
 		};
 		E7460C921AB613AD006C7CD3 /* Menu Icons */ = {
@@ -3004,8 +3018,7 @@
 		E7EB7DED1AA6AC96007C05E0 /* MH4UDatabase */ = {
 			isa = PBXGroup;
 			children = (
-				E749EAB91AC4EB4900E10DFF /* ItemTableView.h */,
-				E749EABA1AC4EB4900E10DFF /* ItemTableView.m */,
+				E742B2D11ACCF168007B08AF /* TableViews */,
 				E706CB011AC1CF04004E1835 /* Monster View Controllers */,
 				E706CAFC1AC1CEC4004E1835 /* Weapon View Controllers */,
 				E706CB021AC1CF11004E1835 /* Armor View Controller */,
@@ -4047,6 +4060,7 @@
 				E749BA971AB3D22F003860E8 /* WeaponsTableViewController.m in Sources */,
 				E7D4B5251AAB693D00C22D41 /* DetailViewController.m in Sources */,
 				E78ED7C51AB21E0200E80635 /* DecorationsDetailViewController.m in Sources */,
+				E742B2D01ACCF162007B08AF /* CombiningTableView.m in Sources */,
 				E75C3AF21AB1189B00C0D155 /* SkillDetailViewController.m in Sources */,
 				E78ED7C21AB20DC100E80635 /* DecorationsViewController.m in Sources */,
 				E7A00DFB1AAFC0830037BE61 /* MonsterDetailViewController.m in Sources */,
