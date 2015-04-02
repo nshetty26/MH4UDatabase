@@ -8,13 +8,14 @@
 
 #import "WeaponDetailViewController.h"
 #import "ItemDetailViewController.h"
+#import "ItemTableView.h"
 #import "MH4UDBEntity.h"
 #import "MH4UDBEngine.h"
 
 @interface WeaponDetailViewController ()
 @property (nonatomic) DetailedWeaponView *detailedView;
 @property (nonatomic) UITabBar *weaponDetailTab;
-@property (nonatomic) UITableView *componentTable;
+@property (nonatomic) ItemTableView *componentTable;
 @property (nonatomic) UITableView *weaponFamilyTable;
 @property (nonatomic) UITableView *hornSongTable;
 @property (nonatomic) NSArray *weaponComponents;
@@ -57,9 +58,9 @@
     _detailedView.frame = tableFrame;
     [allViews addObject:_detailedView];
     
-    _componentTable = [[UITableView alloc] initWithFrame:tableFrame];
-    _componentTable.delegate = self;
-    _componentTable.dataSource = self;
+    _componentTable = [[ItemTableView alloc] initWithFrame:tableFrame andNavigationController:self.navigationController andDBEngine:_dbEngine];
+    _componentTable.allItems = _weaponComponents;
+    _componentTable.accessoryType = @"Quantity";
     [allViews addObject:_componentTable];
     
     _weaponFamilyTable = [[UITableView alloc] initWithFrame:tableFrame];
@@ -128,9 +129,7 @@
 
 #pragma mark Tableview Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([tableView isEqual:_componentTable]) {
-        return _weaponComponents.count;
-    } else if ([tableView isEqual:_weaponFamilyTable]) {
+    if ([tableView isEqual:_weaponFamilyTable]) {
         return _weaponFamily.count;
     } else if ([tableView isEqual:_hornSongTable]){
         return _hornMelodies.count;
@@ -139,42 +138,9 @@
     }
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    NSString *itemName = cell.textLabel.text;
-    if ([tableView isEqual:_componentTable]) {
-        ItemDetailViewController *iDVC = [[ItemDetailViewController alloc] init];
-        
-        iDVC.selectedItem = [_dbEngine getItemForName:itemName];
-        iDVC.dbEngine = _dbEngine;
-        iDVC.heightDifference = _heightDifference;
-        [self.navigationController pushViewController:iDVC animated:YES];
-    }
-}
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if ([tableView isEqual:_componentTable]) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"componentCell"];
-        if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"componentCell"];
-        }
-        NSArray *componentArray = _weaponComponents[indexPath.row];
-        cell.textLabel.text = [componentArray objectAtIndex:1];
-        cell.imageView.image = [UIImage imageNamed:componentArray[2]];
-        if (cell.imageView.image == nil) {
-            cell.imageView.image = [UIImage imageNamed:_selectedWeapon.icon];
-        }
-        CGRect cellFrame = cell.frame;
-        CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 30, 20);
-        UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
-        [cell addSubview:acessoryText];
-        acessoryText.textAlignment =  NSTextAlignmentRight;
-        acessoryText.text = [NSString stringWithFormat:@"%@", componentArray[3]];
-        [cell setAccessoryView: acessoryText];
-        return cell;
-        
-    } else if ([tableView isEqual:_weaponFamilyTable]) {
+    if ([tableView isEqual:_weaponFamilyTable]) {
         Weapon *weapon = _weaponFamily[indexPath.row];
         UITableViewCell *cell;
         if (weapon.itemID == _selectedWeapon.itemID) {

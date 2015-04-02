@@ -25,12 +25,13 @@
 #import "ItemDetailViewController.h"
 #import "QuestDetailViewController.h"
 #import "LocationDetailViewController.h"
+#import "ItemTableView.h"
 
 @interface MonsterDetailViewController ()
 @property (nonatomic) UITableView *monsterDetailTable;
 @property (nonatomic) UITableView *statusEffectTable;
 @property (nonatomic) UITableView *habitatTable;
-@property (nonatomic) UITableView *rankDropTable;
+@property (nonatomic) ItemTableView *rankDropTable;
 @property (nonatomic) UITableView *questTable;
 @property (nonatomic) UITabBar *monsterDetailTabBar;
 @property (nonatomic) UITabBarItem *detail;
@@ -68,20 +69,20 @@
 }
 
 -(void)setUpTablesWithFrame:(CGRect)tableFrame {
-        _monsterDetailTable = [[UITableView alloc] initWithFrame:tableFrame];
-        _statusEffectTable = [[UITableView alloc] initWithFrame:tableFrame];
-        _habitatTable = [[UITableView alloc] initWithFrame:tableFrame];
-        _rankDropTable = [[UITableView alloc] initWithFrame:tableFrame];
-        _questTable = [[UITableView alloc] initWithFrame:tableFrame];
+    _monsterDetailTable = [[UITableView alloc] initWithFrame:tableFrame];
+    _statusEffectTable = [[UITableView alloc] initWithFrame:tableFrame];
+    _habitatTable = [[UITableView alloc] initWithFrame:tableFrame];
+    _rankDropTable = [[ItemTableView alloc] initWithFrame:tableFrame andNavigationController:self.navigationController andDBEngine:_dbEngine];
+    _rankDropTable.accessoryType = @"Percentage";
+    _questTable = [[UITableView alloc] initWithFrame:tableFrame];
     
     _allViews = @[_monsterDetailTable, _statusEffectTable, _habitatTable, _rankDropTable, _questTable];
     
     for (UITableView *table in _allViews) {
         UITableView *tableView = (UITableView *)table;
-        if (tableView) {
+        if (![tableView isEqual:_rankDropTable]) {
             tableView.delegate = self;
             tableView.dataSource = self;
-            
         }
     }
 }
@@ -125,11 +126,24 @@
             [_monsterDetailView addSubview:_habitatTable];
             break;
         case 4:
+            if (_rankDropTable.superview == nil) {
+                [_monsterDetailView addSubview:_rankDropTable];
+            }
+            _rankDropTable.allItems = _selectedMonster.lowRankDrops;
+            [_rankDropTable reloadData];
+            break;
         case 5:
+            if (_rankDropTable.superview == nil) {
+                [_monsterDetailView addSubview:_rankDropTable];
+            }
+            _rankDropTable.allItems = _selectedMonster.highRankDrops;
+            [_rankDropTable reloadData];
+            break;
         case 6:
             if (_rankDropTable.superview == nil) {
                 [_monsterDetailView addSubview:_rankDropTable];
             }
+            _rankDropTable.allItems = _selectedMonster.gRankDrops;
             [_rankDropTable reloadData];
             break;
         case 7:
@@ -175,17 +189,7 @@
         return _selectedMonster.monsterStatusEffects.count;
     } else if  ([tableView isEqual:_habitatTable]){
         return _selectedMonster.monsterHabitats.count;
-    } else if  ([tableView isEqual:_rankDropTable]){
-        if ([_monsterDetailTabBar.selectedItem isEqual:_lowRank]) {
-            return _selectedMonster.lowRankDrops.count;
-        } else if ([_monsterDetailTabBar.selectedItem isEqual:_highRank]) {
-            return _selectedMonster.highRankDrops.count;
-        } else if ([_monsterDetailTabBar.selectedItem isEqual:_gRank]) {
-            return _selectedMonster.gRankDrops.count;
-        } else {
-            return 0;
-        }
-    } else if ([tableView isEqual:_questTable]){
+    }  else if ([tableView isEqual:_questTable]){
         return _selectedMonster.questInfos.count;
     } else {
         return 0;
@@ -231,31 +235,7 @@
         cell.textLabel.text = mh.locationName;
         cell.detailTextLabel.text = mh.fullPath;
         return cell;
-    } else if  ([tableView isEqual:_rankDropTable]){
-        if ([_monsterDetailTabBar.selectedItem isEqual:_lowRank]) {
-            _monsterDrops = _selectedMonster.lowRankDrops;
-        } else if ([_monsterDetailTabBar.selectedItem isEqual:_highRank]) {
-            _monsterDrops = _selectedMonster.highRankDrops;
-        } else if ([_monsterDetailTabBar.selectedItem isEqual:_gRank]) {
-            _monsterDrops = _selectedMonster.gRankDrops;
-        }
-        Item *huntingDrop = _monsterDrops[indexPath.row];
-        cell.textLabel.text = huntingDrop.name;
-        cell.imageView.image = [UIImage imageNamed:huntingDrop.icon];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", huntingDrop.condition];
-        CGRect cellFrame = cell.frame;
-        CGRect textView = CGRectMake(cellFrame.size.width - 60, cellFrame.origin.y + 5, 50, 24);
-        UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
-        [accessoryText setNumberOfLines:2];
-        [accessoryText setLineBreakMode:NSLineBreakByWordWrapping];
-        [cell addSubview:accessoryText];
-        accessoryText.textAlignment =  NSTextAlignmentRight;
-        UIFont *font = [accessoryText.font fontWithSize:10];
-        accessoryText.font = font;
-        accessoryText.text = [NSString stringWithFormat:@"%i%@", huntingDrop.percentage, @"%"];
-        cell.accessoryView = accessoryText;
-        return cell;
-    } else if ([tableView isEqual:_questTable]){
+    }  else if ([tableView isEqual:_questTable]){
         Quest *quest = _selectedMonster.questInfos[indexPath.row];
         cell.textLabel.text = quest.name;
         cell.detailTextLabel.text = quest.fullHub;
@@ -297,21 +277,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([tableView isEqual:_rankDropTable]) {
-        if ([_monsterDetailTabBar.selectedItem isEqual:_lowRank]) {
-            _monsterDrops = _selectedMonster.lowRankDrops;
-        } else if ([_monsterDetailTabBar.selectedItem isEqual:_highRank]) {
-            _monsterDrops = _selectedMonster.highRankDrops;
-        } else if ([_monsterDetailTabBar.selectedItem isEqual:_gRank]) {
-            _monsterDrops = _selectedMonster.gRankDrops;
-        }
-        Item *huntingDrop = _monsterDrops[indexPath.row];
-        ItemDetailViewController *itemDetailVC = [[ItemDetailViewController alloc] init];
-        itemDetailVC.selectedItem = huntingDrop;
-        itemDetailVC.dbEngine = _dbEngine;
-        itemDetailVC.heightDifference = _heightDifference;
-        [self.navigationController pushViewController:itemDetailVC animated:YES];
-    } else if ([tableView isEqual:_questTable]) {
+    if ([tableView isEqual:_questTable]) {
         Quest *quest = _selectedMonster.questInfos[indexPath.row];
         QuestDetailViewController *qDVC = [[QuestDetailViewController alloc] init];
         qDVC.dbEngine = _dbEngine;

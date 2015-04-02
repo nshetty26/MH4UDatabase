@@ -282,7 +282,13 @@
             NSString *name = [s stringForColumn:@"name"];
             NSString *iconName = [s stringForColumn:@"icon_name"];
             int quantity = [s intForColumn:@"quantity"];
-            [componentsArray addObject:@[[NSNumber numberWithInt:componentID], name, iconName, [NSNumber numberWithInt:quantity]]];
+            Item *item = [[Item alloc] init];
+            item.name = name;
+            item.icon = iconName;
+            item.itemID = componentID;
+            item.capacity = quantity;
+            //[componentsArray addObject:@[[NSNumber numberWithInt:componentID], name, iconName, [NSNumber numberWithInt:quantity]]];
+            [componentsArray addObject:item];
         }
     } else {
         return nil;
@@ -736,6 +742,7 @@
         item.type = [s stringForColumn:@"type"];
         item.rarity = [s intForColumn:@"rarity"];
         item.capacity = [s intForColumn:@"carry_capacity"];
+        
         item.price = [s intForColumn:@"buy"];
         item.salePrice = [s intForColumn:@"sell"];
         item.itemDescription = [s stringForColumn:@"description"];
@@ -747,14 +754,13 @@
         } else {
             rewardType = @"Sub Quest";
         }
-        [rewardArray addObject:@[rewardType, item]];
+        item.condition = rewardType;
+        [rewardArray addObject:item];
     }
     
     [rewardArray sortUsingComparator:^NSComparisonResult(id i1, id i2){
-        NSArray *itemArray1 = (NSArray *)i1;
-        NSArray *itemArray2 = (NSArray *)i2;
-        Item *item1 = (Item *)itemArray1[1];
-        Item *item2 = (Item *)itemArray2[1];
+        Item *item1 = (Item *)i1;
+        Item *item2 = (Item *)i2;
         if (item1.percentage < item2.percentage) {
             return 1;
         } else if (item1.percentage > item2.percentage) {
@@ -814,12 +820,12 @@
         NSString *itemLocationQuery = [NSString stringWithFormat:@"SELECT gathering.item_id as itemID, items.name as itemName, items.type, items.rarity, items.carry_capacity, items.buy, items.sell, items.icon_name, locations.name as lName, area, site, rank, quantity, percentage from gathering INNER JOIN locations ON gathering.location_id = locations._id inner join items on gathering.item_id = items._id where gathering.location_id = %i AND gathering.rank = '%@' order by percentage desc", location.locationID, rank];
         FMResultSet *s = [_mh4DB executeQuery:itemLocationQuery];
         while ([s next]) {
-            GatheredResource *gatheredResource = [[GatheredResource alloc] init];
+            Item *gatheredResource = [[Item alloc] init];
             gatheredResource.locationName = [s stringForColumn:@"lName"];
             gatheredResource.rank = [s stringForColumn:@"rank"];
             gatheredResource.area = [s stringForColumn:@"area"];
             gatheredResource.site = [s stringForColumn:@"site"];
-            gatheredResource.quantity = [s intForColumn:@"quantity"];
+            gatheredResource.capacity = [s intForColumn:@"quantity"];
             gatheredResource.percentage = [s intForColumn:@"percentage"];
             gatheredResource.itemID = [s intForColumn:@"itemID"];
             gatheredResource.name = [s stringForColumn:@"itemName"];

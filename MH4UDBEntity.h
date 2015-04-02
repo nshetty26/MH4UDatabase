@@ -42,6 +42,10 @@
 @property (nonatomic) int stackSize;
 @property (nonatomic) int skillValue;
 @property (nonatomic) int percentage;
+@property (nonatomic) NSString *locationName;
+@property (nonatomic) NSString *rank;
+@property (nonatomic) NSString *area;
+@property (nonatomic) NSString *site;
 @property (nonatomic) NSString *itemDescription;
 @property (nonatomic) NSString *icon;
 @property (nonatomic) NSArray *combinedItemsArray;
@@ -159,15 +163,6 @@
 @property (nonatomic) NSArray *highRankItemsArray;
 @property (nonatomic) NSArray *gRankItemsArray;
 
-@end
-
-@interface GatheredResource : Item
-@property (nonatomic) NSString *locationName;
-@property (nonatomic) NSString *rank;
-@property (nonatomic) NSString *area;
-@property (nonatomic) NSString *site;
-@property (nonatomic) int quantity;
-@property (nonatomic) int percentage;
 @end
 
 @interface Weapon : Item

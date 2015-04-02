@@ -52,9 +52,6 @@
 
 @end
 
-@implementation GatheredResource
-
-@end
 
 @implementation Weapon
 

@@ -7,6 +7,7 @@
 //
 
 #import "DecorationsDetailViewController.h"
+#import "ItemTableView.h"
 #import "MH4UDBEntity.h"
 #import "ItemDetailViewController.h"
 #import "SkillDetailViewController.h"
@@ -14,7 +15,7 @@
 
 @interface DecorationsDetailViewController ()
 @property (nonatomic) UITableView *skillTable;
-@property (nonatomic) UITableView *componentTable;
+@property (nonatomic) ItemTableView *componentTable;
 @property (nonatomic) UITabBar *decorationDetailTab;
 @property (nonatomic) DetailedItemView *detailItemView;
 @property (nonatomic) NSArray *allViews;
@@ -46,9 +47,9 @@
     _skillTable.dataSource = self;
     _skillTable.delegate = self;
     
-    _componentTable = [[UITableView alloc] initWithFrame:tableFrame];
-    _componentTable.delegate = self;
-    _componentTable.dataSource = self;
+    _componentTable = [[ItemTableView alloc] initWithFrame:tableFrame andNavigationController:self.navigationController andDBEngine:_dbEngine];
+    _componentTable.allItems = _selectedDecoration.componentArray;
+    _componentTable.accessoryType = @"Quantity";
     
     _allViews = @[_detailItemView, _skillTable, _componentTable];
 }
@@ -95,9 +96,7 @@
 
 #pragma mark - Table View Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([tableView isEqual:_componentTable]) {
-        return _selectedDecoration.componentArray.count;
-    } else if ([tableView isEqual:_skillTable]) {
+    if ([tableView isEqual:_skillTable]) {
         return _selectedDecoration.skillArray.count;
     } else  {
         return 0;
@@ -124,18 +123,6 @@
         acessoryText.textAlignment =  NSTextAlignmentRight;
         acessoryText.text = [NSString stringWithFormat:@"%@", skillArray[2]];
         [cell setAccessoryView: acessoryText];
-    } else if ([tableView isEqual:_componentTable]) {
-        NSArray *componentArray = _selectedDecoration.componentArray[indexPath.row];
-        cell.textLabel.text = [componentArray objectAtIndex:1];
-        cell.imageView.image = [UIImage imageNamed:componentArray[2]];
-        CGRect cellFrame = cell.frame;
-        CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 40, 20);
-        UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
-        [cell addSubview:acessoryText];
-        acessoryText.textAlignment =  NSTextAlignmentRight;
-        acessoryText.text = [NSString stringWithFormat:@"%@", componentArray[3]];
-        [cell setAccessoryView: acessoryText];
-
     }
     
     return cell;
@@ -145,14 +132,7 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *itemName = cell.textLabel.text;
     
-    if ([tableView isEqual:_componentTable]) {
-        ItemDetailViewController *iDVC = [[ItemDetailViewController alloc] init];
-        
-        iDVC.selectedItem = [_dbEngine getItemForName:itemName];
-        iDVC.dbEngine = _dbEngine;
-        iDVC.heightDifference = _heightDifference;
-        [self.navigationController pushViewController:iDVC animated:YES];
-    } else if ([tableView isEqual:_skillTable]) {
+    if ([tableView isEqual:_skillTable]) {
         NSArray *skillArray = _selectedDecoration.skillArray[indexPath.row];
         SkillDetailViewController *sdVC = [[SkillDetailViewController alloc] init];
         sdVC.heightDifference = _heightDifference;

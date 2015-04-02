@@ -25,7 +25,7 @@
 		E7460CB41AB61AFF006C7CD3 /* MH4ULogo.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460CB31AB61AFF006C7CD3 /* MH4ULogo.png */; };
 		E749BA971AB3D22F003860E8 /* WeaponsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E749BA961AB3D22F003860E8 /* WeaponsTableViewController.m */; };
 		E749EAB81AC4E49F00E10DFF /* ItemTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E749EAB71AC4E49F00E10DFF /* ItemTableCell.xib */; };
-		E749EABB1AC4EB4900E10DFF /* MH4UTableViews.m in Sources */ = {isa = PBXBuildFile; fileRef = E749EABA1AC4EB4900E10DFF /* MH4UTableViews.m */; };
+		E749EABB1AC4EB4900E10DFF /* ItemTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E749EABA1AC4EB4900E10DFF /* ItemTableView.m */; };
 		E749EABD1AC5118800E10DFF /* mh4u.db in Resources */ = {isa = PBXBuildFile; fileRef = E749EABC1AC50F5000E10DFF /* mh4u.db */; };
 		E75C3AF21AB1189B00C0D155 /* SkillDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E75C3AF11AB1189B00C0D155 /* SkillDetailViewController.m */; };
 		E76B24801AB3E4790063615B /* DetailedWeaponView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E76B247F1AB3E4790063615B /* DetailedWeaponView.xib */; };
@@ -912,8 +912,8 @@
 		E749BA951AB3D22F003860E8 /* WeaponsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeaponsTableViewController.h; sourceTree = "<group>"; };
 		E749BA961AB3D22F003860E8 /* WeaponsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeaponsTableViewController.m; sourceTree = "<group>"; };
 		E749EAB71AC4E49F00E10DFF /* ItemTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemTableCell.xib; sourceTree = "<group>"; };
-		E749EAB91AC4EB4900E10DFF /* MH4UTableViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MH4UTableViews.h; sourceTree = "<group>"; };
-		E749EABA1AC4EB4900E10DFF /* MH4UTableViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MH4UTableViews.m; sourceTree = "<group>"; };
+		E749EAB91AC4EB4900E10DFF /* ItemTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemTableView.h; sourceTree = "<group>"; };
+		E749EABA1AC4EB4900E10DFF /* ItemTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemTableView.m; sourceTree = "<group>"; };
 		E749EABC1AC50F5000E10DFF /* mh4u.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = mh4u.db; sourceTree = "<group>"; };
 		E75C3AF01AB1189B00C0D155 /* SkillDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillDetailViewController.h; sourceTree = "<group>"; };
 		E75C3AF11AB1189B00C0D155 /* SkillDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillDetailViewController.m; sourceTree = "<group>"; };
@@ -1864,10 +1864,10 @@
 		E706CAFE1AC1CED9004E1835 /* Quest View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E7AB48BD1AB2B4F600060D7E /* QuestDetailViewController.h */,
-				E7AB48BE1AB2B4F600060D7E /* QuestDetailViewController.m */,
 				E7AB48B51AB2903200060D7E /* QuestsViewController.h */,
 				E7AB48B61AB2903200060D7E /* QuestsViewController.m */,
+				E7AB48BD1AB2B4F600060D7E /* QuestDetailViewController.h */,
+				E7AB48BE1AB2B4F600060D7E /* QuestDetailViewController.m */,
 			);
 			name = "Quest View Controllers";
 			sourceTree = "<group>";
@@ -3004,8 +3004,8 @@
 		E7EB7DED1AA6AC96007C05E0 /* MH4UDatabase */ = {
 			isa = PBXGroup;
 			children = (
-				E749EAB91AC4EB4900E10DFF /* MH4UTableViews.h */,
-				E749EABA1AC4EB4900E10DFF /* MH4UTableViews.m */,
+				E749EAB91AC4EB4900E10DFF /* ItemTableView.h */,
+				E749EABA1AC4EB4900E10DFF /* ItemTableView.m */,
 				E706CB011AC1CF04004E1835 /* Monster View Controllers */,
 				E706CAFC1AC1CEC4004E1835 /* Weapon View Controllers */,
 				E706CB021AC1CF11004E1835 /* Armor View Controller */,
@@ -4051,7 +4051,7 @@
 				E78ED7C21AB20DC100E80635 /* DecorationsViewController.m in Sources */,
 				E7A00DFB1AAFC0830037BE61 /* MonsterDetailViewController.m in Sources */,
 				E77A7BE41AA91D490087247F /* MH4UDBEngine.m in Sources */,
-				E749EABB1AC4EB4900E10DFF /* MH4UTableViews.m in Sources */,
+				E749EABB1AC4EB4900E10DFF /* ItemTableView.m in Sources */,
 				E7EB7DF71AA6AC96007C05E0 /* MenuViewController.m in Sources */,
 				E78C04931AAF4BE5005ECCF6 /* ArmorsViewController.m in Sources */,
 				E7788E291AB378A6006DCDCD /* LocationDetailViewController.m in Sources */,
