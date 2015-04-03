@@ -11,7 +11,6 @@
 @class MH4UDBEngine;
 
 @interface ItemTableView : UITableView <UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, strong) UITableView *itemTableView;
 @property (nonatomic, strong) NSArray *allItems;
 @property (nonatomic, strong) NSString *accessoryType;
 

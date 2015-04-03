@@ -214,7 +214,7 @@
     if (s) {
         while ([s next]) {
             Armor *armor = [[Armor alloc] init];
-            armor.armorID = [s intForColumn:@"_id"];
+            armor.itemID = [s intForColumn:@"_id"];
             armor.name = [s stringForColumn:@"name"];
             armor.hunterType = [s stringForColumn:@"hunter_type"];
             armor.slot = [s stringForColumn:@"slot"];
@@ -230,7 +230,7 @@
 
 -(Armor *)populateArmor:(Armor *)armor {
     
-    NSString *armorQuery = [NSString stringWithFormat:@"SELECT armor.slot, armor.defense, armor.max_defense, items.rarity, items.buy, armor.fire_res, armor.thunder_res, armor.dragon_res, armor.water_res, armor.ice_res, armor.gender, armor.num_slots from armor INNER JOIN items on armor._id = items._id WHERE armor._id = %i", armor.armorID];
+    NSString *armorQuery = [NSString stringWithFormat:@"SELECT armor.slot, armor.defense, armor.max_defense, items.rarity, items.buy, armor.fire_res, armor.thunder_res, armor.dragon_res, armor.water_res, armor.ice_res, armor.gender, armor.num_slots from armor INNER JOIN items on armor._id = items._id WHERE armor._id = %i", armor.itemID];
     FMResultSet *s = [self DBquery:armorQuery];
     if ([s next]) {
         //armor.rarity = [s intForColumn:@"rarity"];
@@ -244,8 +244,8 @@
         armor.iceResistance = [s intForColumn:@"ice_res"];
         armor.gender = [s stringForColumn:@"gender"];
         armor.numSlots = [s intForColumn:@"num_slots"];
-        armor.skillsArray = [self getArmorSkillsfor:armor.armorID];
-        armor.componentArray = [self getComponentsfor:armor.armorID];
+        armor.skillsArray = [self getArmorSkillsfor:armor.itemID];
+        armor.componentArray = [self getComponentsfor:armor.itemID];
     }
 
     return armor;
@@ -287,7 +287,6 @@
             item.icon = iconName;
             item.itemID = componentID;
             item.capacity = quantity;
-            //[componentsArray addObject:@[[NSNumber numberWithInt:componentID], name, iconName, [NSNumber numberWithInt:quantity]]];
             [componentsArray addObject:item];
         }
     } else {
@@ -419,24 +418,32 @@
     NSMutableArray *usageItemsArray = [[NSMutableArray alloc] init];
     NSString *usageQuery = [NSString stringWithFormat:@"select components.created_item_id, items.name, components.type, components.quantity, items.icon_name, items.type as iType, items.rarity, armor.slot,  weapons.wtype from components inner join items on items._id = components.created_item_id LEFT OUTER join armor on items._id = armor._id LEFT OUTER JOIN weapons on items._id = weapons._id where components.component_item_id = %i", item.itemID];;
     FMResultSet *s = [self DBquery:usageQuery];
-    while ([s next]) {
-        NSString *itemName = [s stringForColumn:@"name"];
-        NSString *type =[s stringForColumn:@"type"];
-        int quantity = [s intForColumn:@"quantity"];
-        NSString *icon = [s stringForColumn:@"icon_name"];
-        NSString *itemType = [s stringForColumn:@"iType"];
-        NSString *armorSlot = [s stringForColumn:@"slot"];
-        int rarity = [s intForColumn:@"rarity"];
-        NSString *weaponType = [s stringForColumn:@"wtype"];
-        if (!weaponType) {
-            weaponType = @"";
-        }
-        NSString *weaponImage = [weaponType stringByReplacingOccurrencesOfString:@" " withString:@"_"];
-        NSString *armorImageString = [NSString stringWithFormat:@"%@%i.png",armorSlot, rarity];
-        NSString *weaponImageString = [NSString stringWithFormat:@"%@%i.png",weaponImage, rarity];
-        int itemID = [s intForColumn:@"created_item_id"];
     
-        [usageItemsArray addObject:@[itemName, type, [NSNumber numberWithInt:quantity], icon, itemType, armorImageString, weaponImageString, [NSNumber numberWithInt:itemID], weaponType]];
+    while ([s next]) {
+        NSString *itemType = [s stringForColumn:@"iType"];
+        Item *item = [[Item alloc] init];
+        item.itemID = [s intForColumn:@"created_item_id"];
+        item.name = [s stringForColumn:@"name"];
+        item.capacity = [s intForColumn:@"quantity"];
+        item.rarity = [s intForColumn:@"rarity"];
+        item.type = [s stringForColumn:@"iType"];
+        item.componentType = [s stringForColumn:@"type"];
+        if ([itemType isEqualToString:@"Decoration"]) {
+            Decoration *decoration = (Decoration *)item;
+            decoration.itemID = [s intForColumn:@"created_item_id"];
+            decoration.icon = [s stringForColumn:@"icon_name"];
+            [usageItemsArray addObject:decoration];
+        } else if ([itemType isEqualToString:@"Weapon"]) {
+            Weapon *weapon = (Weapon *)item;
+            NSString *weaponImage = [[s stringForColumn:@"wtype"]  stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+            weapon.icon = [NSString stringWithFormat:@"%@%i.png",weaponImage, weapon.rarity];
+            [usageItemsArray addObject:weapon];
+
+        } else if ([itemType isEqualToString:@"Armor"]) {
+            Armor *armor = (Armor *)item;
+            armor.icon = [NSString stringWithFormat:@"%@%i.png",[s stringForColumn:@"slot"], armor.rarity];
+            [usageItemsArray addObject:armor];
+        }
         
     }
 
@@ -588,10 +595,12 @@
         
         while ([s next]) {
             Armor *armor = [[Armor alloc] init];
-            armor.armorID = [s intForColumn:@"itemID"];
+            armor.itemID = [s intForColumn:@"itemID"];
             armor.name = [s stringForColumn:@"itemName"];
             armor.slot = [s stringForColumn:@"slot"];
             armor.rarity = [s intForColumn:@"rarity"];
+            armor.icon = [NSString stringWithFormat:@"%@%i.png",[s stringForColumn:@"slot"], armor.rarity];
+            armor.type = @"Armor";
             armor.skillsArray = @[[NSNumber numberWithInt:[s intForColumn:@"point_value"]]];
             [equipmentArray addObject:armor];
         }
@@ -621,6 +630,7 @@
     while ([s next]) {
         Decoration *decoration = [[Decoration alloc] init];
         decoration.itemID = [s intForColumn:@"itemID"];
+        decoration.type = @"Decoration";
         decoration.name = [s stringForColumn:@"itemName"];
         decoration.icon = [s stringForColumn:@"icon_name"];
         decoration.skillValue = [s intForColumn:@"point_value"];
@@ -892,6 +902,8 @@
         weapon.deviation = [s stringForColumn:@"deviation"];
         weapon.charges = [s stringForColumn:@"charges"];
         weapon.coatings = [s stringForColumn:@"coatings"];
+        NSString *weaponImage = [[s stringForColumn:@"wtype"]  stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+        weapon.icon = [NSString stringWithFormat:@"%@%i.png",weaponImage, weapon.rarity].lowercaseString;
         [weaponArray addObject:weapon];
     }
     return weaponArray;
@@ -930,6 +942,8 @@
         weapon.deviation = [s stringForColumn:@"deviation"];
         weapon.charges = [s stringForColumn:@"charges"];
         weapon.coatings = [s stringForColumn:@"coatings"];
+        NSString *weaponImage = [[s stringForColumn:@"wtype"]  stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+        weapon.icon = [NSString stringWithFormat:@"%@%i.png",weaponImage, weapon.rarity].lowercaseString;
         return weapon;
     }
     return nil;

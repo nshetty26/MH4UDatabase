@@ -14,8 +14,6 @@
 @property (nonatomic) Weapon *selectedWeapon;
 @property (nonatomic) MH4UDBEngine *dbEngine;
 @property (nonatomic) int heightDifference;
-@property (nonatomic) NSArray *weaponFamily;
-@property (nonatomic) NSString *imageString;
 @end
 
 @interface DetailedWeaponView : UIView

@@ -112,128 +112,14 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Weapon *weapon = _displayedWeapons[indexPath.row];
-    NSMutableArray *parentWeapons = [[NSMutableArray alloc] init];
-    NSMutableArray *upgradeWeapons = [[NSMutableArray alloc] init];
-    [self getParentWeapons:weapon inArray:parentWeapons];
-    [self getUpgradedWeapons:weapon inArray:upgradeWeapons];
-    [parentWeapons addObjectsFromArray:upgradeWeapons];
-    [parentWeapons addObject:weapon];
-    [parentWeapons sortUsingComparator:^NSComparisonResult(id w1, id w2){
-        Weapon *weapon1 = (Weapon *)w1;
-        Weapon *weapon2 = (Weapon *)w2;
-        if (weapon1.itemID > weapon2.itemID) {
-            return 1;
-        } else if (weapon1.itemID < weapon2.itemID) {
-            return -1;
-        } else {
-            return 0;
-        }
-    }];
-
     WeaponDetailViewController *wDVC = [[WeaponDetailViewController alloc] init];
     wDVC.selectedWeapon = weapon;
-    wDVC.weaponFamily = parentWeapons;
-    wDVC.imageString = _imageString;
     wDVC.dbEngine = _dbEngine;
     wDVC.heightDifference = _heightDifference;
     [self.navigationController pushViewController:wDVC animated:YES];
 }
 
--(void)getParentWeapons:(Weapon *)weapon inArray:(NSMutableArray *)parentWeaponArray {
-    NSArray *weaponArray = [_weaponsArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
-        Weapon *arrayWeapon = (Weapon *)evaluatedObjected;
-        if (arrayWeapon.itemID == weapon.parentID) {
-            return YES;
-        } else {
-            return NO;
-        }
-        
-    }]];
-    
-    if (weaponArray.count > 0) {
-        Weapon *parentWeapon = [weaponArray firstObject];
-        if (parentWeapon.parentID != 0) {
-            [parentWeaponArray addObject:parentWeapon];
-            [self getParentWeapons:parentWeapon inArray:parentWeaponArray];
-        } else {
-            [parentWeaponArray addObject:parentWeapon];
-            return;
-        }
-    } else {
-        return;
-    }
 
-}
 
--(void)getUpgradedWeapons:(Weapon *)weapon inArray:(NSMutableArray *)upgradedWeaponArray {
-    NSArray *weaponArray = [_weaponsArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
-        Weapon *arrayWeapon = (Weapon *)evaluatedObjected;
-        if (arrayWeapon.parentID == weapon.itemID) {
-            return YES;
-        } else {
-            return NO;
-        }
-        
-    }]];
-    
-    
-    if (weaponArray.count == 1) {
-        Weapon *upgradedWeapon = [weaponArray firstObject];
-        [upgradedWeaponArray addObject:upgradedWeapon];
-        [self getUpgradedWeapons:upgradedWeapon inArray:upgradedWeaponArray];
-    } else if (weaponArray.count > 1) {
-        for (Weapon *upgrade in weaponArray) {
-            [upgradedWeaponArray addObject:upgrade];
-            [self getUpgradedWeapons:upgrade inArray:upgradedWeaponArray];
-        }
-    }
-    else {
-        return;
-    }
-}
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

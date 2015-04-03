@@ -10,6 +10,7 @@
 #import "ItemDetailViewController.h"
 #import "ArmorDetailViewController.h"
 #import "DecorationsDetailViewController.h"
+#import "ItemTableView.h"
 #import "MH4UDBEngine.h"
 #import "MH4UDBEntity.h"
 
@@ -17,7 +18,7 @@
 @property (nonatomic) SkillCollection *skillCollection;
 @property (nonatomic) NSArray *allViews;
 @property (nonatomic) UITableView *skillDetailTable;
-@property (nonatomic) UITableView *equipmentTable;
+@property (nonatomic) ItemTableView *equipmentTable;
 @property (nonatomic) UITabBar *skillDetailTab;
 @property (nonatomic) UITabBarItem *detail;
 @property (nonatomic) UITabBarItem *body;
@@ -51,10 +52,8 @@
     _skillDetailTable = [[UITableView alloc] initWithFrame:tableFrame];
     _skillDetailTable.dataSource = self;
     _skillDetailTable.delegate = self;
-    
-    _equipmentTable = [[UITableView alloc] initWithFrame:tableFrame];
-    _equipmentTable.delegate = self;
-    _equipmentTable.dataSource = self;
+    _equipmentTable = [[ItemTableView alloc] initWithFrame:tableFrame andNavigationController:self.navigationController andDBEngine:_dbEngine];
+    _equipmentTable.accessoryType = @"Quantity";
     _allViews = @[_skillDetailTable, _equipmentTable];
 }
 
@@ -84,14 +83,48 @@
             [self.view addSubview:_skillDetailTable];
             break;
         case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-            [self.view addSubview:_equipmentTable];
+            if (!_equipmentTable.superview) {
+                [self.view addSubview:_equipmentTable];
+            }
+            _equipmentTable.allItems = _skillCollection.headArray;
             [_equipmentTable reloadData];
             break;
+        case 3:
+            if (!_equipmentTable.superview) {
+                [self.view addSubview:_equipmentTable];
+            }
+            _equipmentTable.allItems = _skillCollection.bodyArray;
+            [_equipmentTable reloadData];
+            break;
+        case 4:
+            if (!_equipmentTable.superview) {
+                [self.view addSubview:_equipmentTable];
+            }
+            _equipmentTable.allItems = _skillCollection.armArray;
+            [_equipmentTable reloadData];
+            break;
+        case 5:
+            if (!_equipmentTable.superview) {
+                [self.view addSubview:_equipmentTable];
+            }
+            _equipmentTable.allItems = _skillCollection.waistArray;
+            [_equipmentTable reloadData];
+            break;
+        case 6:
+            if (!_equipmentTable.superview) {
+                [self.view addSubview:_equipmentTable];
+            }
+            _equipmentTable.allItems = _skillCollection.legArray;
+            [_equipmentTable reloadData];
+            break;
+        case 7:
+            if (!_equipmentTable.superview) {
+                [self.view addSubview:_equipmentTable];
+            }
+            _equipmentTable.allItems = _skillCollection.decorationArray;
+            [_equipmentTable reloadData];
+            break;
+
         default:
             break;
     }
@@ -104,22 +137,6 @@
 {
     if ([tableView isEqual:_skillDetailTable]){
         return _skillCollection.skillArray.count;
-    } else if  ([tableView isEqual:_equipmentTable]){
-        if (_skillDetailTab.selectedItem.tag == 2) {
-            return _skillCollection.headArray.count;
-        } else if (_skillDetailTab.selectedItem.tag == 3) {
-            return _skillCollection.bodyArray.count;
-        } else if (_skillDetailTab.selectedItem.tag == 4) {
-            return _skillCollection.armArray.count;
-        } else if (_skillDetailTab.selectedItem.tag == 5) {
-            return _skillCollection.waistArray.count;
-        } else if (_skillDetailTab.selectedItem.tag == 6) {
-            return _skillCollection.legArray.count;
-        } else if (_skillDetailTab.selectedItem.tag == 7) {
-            return _skillCollection.decorationArray.count;
-        } else {
-            return 0;
-        }
     } else {
         return 0;
     }
@@ -132,111 +149,28 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"skillDetail"];
         }
         NSArray *skillArray = _skillCollection.skillArray[indexPath.row];
-        cell.textLabel.text = skillArray[1];
-        cell.detailTextLabel.text = skillArray[2];
-        cell.detailTextLabel.numberOfLines = 3;
+        
         UIFont *font = [cell.detailTextLabel.font fontWithSize:10];
+        cell.detailTextLabel.numberOfLines = 3;
         cell.detailTextLabel.font = font;
+        
         CGRect cellFrame = cell.frame;
         CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 30, 20);
-        UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
-        [cell addSubview:acessoryText];
-        acessoryText.textAlignment =  NSTextAlignmentRight;
-        acessoryText.text = [NSString stringWithFormat:@"%@", skillArray[0]];
-        [cell setAccessoryView: acessoryText];
-        return cell;
-    } else if  ([tableView isEqual:_equipmentTable]){
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"equipmentCell"];
-        if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"equipmentCell"];
-        }
-        Armor *armor;
-        Item *decoration;
-        if (_skillDetailTab.selectedItem.tag == 2) {
-            armor = _skillCollection.headArray[indexPath.row];
-        }  else if (_skillDetailTab.selectedItem.tag == 3) {
-            armor = _skillCollection.bodyArray[indexPath.row];
-        } else if (_skillDetailTab.selectedItem.tag == 4) {
-            armor = _skillCollection.armArray[indexPath.row];
-        } else if (_skillDetailTab.selectedItem.tag == 5) {
-            armor = _skillCollection.waistArray[indexPath.row];
-        } else if (_skillDetailTab.selectedItem.tag == 6) {
-            armor = _skillCollection.legArray[indexPath.row];
-        } else if (_skillDetailTab.selectedItem.tag == 7) {
-            decoration = _skillCollection.decorationArray[indexPath.row];
-        }
+        UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
+        accessoryText.textAlignment =  NSTextAlignmentRight;
+        [cell addSubview:accessoryText];
+        [cell setAccessoryView: accessoryText];
         
-        if (armor) {
-            cell.textLabel.text = armor.name;
-            cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@%i.png", armor.slot, armor.rarity]];
-            cell.detailTextLabel.text = @"";
-            CGRect cellFrame = cell.frame;
-            CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 30, 20);
-            UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
-            [cell addSubview:acessoryText];
-            acessoryText.textAlignment =  NSTextAlignmentRight;
-            acessoryText.text = [NSString stringWithFormat:@"%@", armor.skillsArray[0]];
-            cell.accessoryView = acessoryText;
-            return cell;
-        } else if (decoration) {
-            cell.textLabel.text = decoration.name;
-            cell.detailTextLabel.text = @"";
-            cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", decoration.icon]];
-            CGRect cellFrame = cell.frame;
-            CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 30, 20);
-            UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
-            [cell addSubview:acessoryText];
-            acessoryText.textAlignment =  NSTextAlignmentRight;
-            acessoryText.text = [NSString stringWithFormat:@"%i", decoration.skillValue];
-            cell.accessoryView = acessoryText;
-            return cell;
-        }
+        
+        cell.textLabel.text = skillArray[1];
+        cell.detailTextLabel.text = skillArray[2];
+        accessoryText.text = [NSString stringWithFormat:@"%@", skillArray[0]];
+        
+        return cell;
     }
-    
     return nil;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:_skilTreeName style:UIBarButtonItemStyleDone target:nil action:nil];
-    [self.navigationItem setBackBarButtonItem:backButton];
-    Armor *armor;
-    Decoration *decoration;
-    switch (_skillDetailTab.selectedItem.tag) {
-        case 2:
-            armor = _skillCollection.headArray[indexPath.row];
-            break;
-        case 3:
-            armor = _skillCollection.bodyArray[indexPath.row];
-            break;
-        case 4:
-            armor = _skillCollection.armArray[indexPath.row];
-            break;
-        case 5:
-            armor = _skillCollection.waistArray[indexPath.row];
-            break;
-        case 6:
-            armor = _skillCollection.legArray[indexPath.row];
-            break;
-        case 7:
-            decoration = _skillCollection.decorationArray[indexPath.row];
-            break;
-        default:
-            break;
-    }
-    if (armor) {
-        ArmorDetailViewController *aDVC = [[ArmorDetailViewController alloc] init];
-        aDVC.selectedArmor = armor;
-        aDVC.heightDifference = _heightDifference;
-        aDVC.dbEngine = _dbEngine;
-        [self.navigationController pushViewController:aDVC animated:YES];
-    } else if (decoration) {
-        DecorationsDetailViewController *dDVC = [[DecorationsDetailViewController alloc] init];
-        dDVC.selectedDecoration = decoration;
-        dDVC.dbEngine = _dbEngine;
-        dDVC.heightDifference = _heightDifference;
-        [self.navigationController pushViewController:dDVC animated:YES];
-    }
-}
 
 #pragma mark - Helper Methods
 -(void)setDetailTabBarItems{

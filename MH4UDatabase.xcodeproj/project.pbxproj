@@ -854,6 +854,7 @@
 		E78C04931AAF4BE5005ECCF6 /* ArmorsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E78C04921AAF4BE5005ECCF6 /* ArmorsViewController.m */; };
 		E78ED7C21AB20DC100E80635 /* DecorationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E78ED7C11AB20DC100E80635 /* DecorationsViewController.m */; };
 		E78ED7C51AB21E0200E80635 /* DecorationsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E78ED7C41AB21E0200E80635 /* DecorationsDetailViewController.m */; };
+		E78F599D1ACE343600E1F542 /* WeaponUpgradeTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E78F599C1ACE343600E1F542 /* WeaponUpgradeTable.m */; };
 		E78F92791AAD07AE003A297F /* DetailedMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78F92781AAD07AE003A297F /* DetailedMonsterView.xib */; };
 		E78F927D1AAD1719003A297F /* MonsterDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78F927C1AAD1719003A297F /* MonsterDetailCell.xib */; };
 		E7A00DF81AAFBDB90037BE61 /* MonstersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A00DF71AAFBDB90037BE61 /* MonstersViewController.m */; };
@@ -1752,6 +1753,8 @@
 		E78ED7C11AB20DC100E80635 /* DecorationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecorationsViewController.m; sourceTree = "<group>"; };
 		E78ED7C31AB21E0200E80635 /* DecorationsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecorationsDetailViewController.h; sourceTree = "<group>"; };
 		E78ED7C41AB21E0200E80635 /* DecorationsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecorationsDetailViewController.m; sourceTree = "<group>"; };
+		E78F599B1ACE343600E1F542 /* WeaponUpgradeTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeaponUpgradeTable.h; sourceTree = "<group>"; };
+		E78F599C1ACE343600E1F542 /* WeaponUpgradeTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeaponUpgradeTable.m; sourceTree = "<group>"; };
 		E78F92781AAD07AE003A297F /* DetailedMonsterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DetailedMonsterView.xib; path = MH4UDatabase/DetailedMonsterView.xib; sourceTree = "<group>"; };
 		E78F927C1AAD1719003A297F /* MonsterDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MonsterDetailCell.xib; path = MH4UDatabase/MonsterDetailCell.xib; sourceTree = "<group>"; };
 		E7A00DF61AAFBDB90037BE61 /* MonstersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonstersViewController.h; sourceTree = "<group>"; };
@@ -1935,6 +1938,8 @@
 				E742B2CF1ACCF162007B08AF /* CombiningTableView.m */,
 				E749EAB91AC4EB4900E10DFF /* ItemTableView.h */,
 				E749EABA1AC4EB4900E10DFF /* ItemTableView.m */,
+				E78F599B1ACE343600E1F542 /* WeaponUpgradeTable.h */,
+				E78F599C1ACE343600E1F542 /* WeaponUpgradeTable.m */,
 			);
 			name = TableViews;
 			sourceTree = "<group>";
@@ -4062,6 +4067,7 @@
 				E78ED7C51AB21E0200E80635 /* DecorationsDetailViewController.m in Sources */,
 				E742B2D01ACCF162007B08AF /* CombiningTableView.m in Sources */,
 				E75C3AF21AB1189B00C0D155 /* SkillDetailViewController.m in Sources */,
+				E78F599D1ACE343600E1F542 /* WeaponUpgradeTable.m in Sources */,
 				E78ED7C21AB20DC100E80635 /* DecorationsViewController.m in Sources */,
 				E7A00DFB1AAFC0830037BE61 /* MonsterDetailViewController.m in Sources */,
 				E77A7BE41AA91D490087247F /* MH4UDBEngine.m in Sources */,

@@ -11,6 +11,7 @@
 #import "ItemTableView.h"
 #import "MH4UDBEntity.h"
 #import "MH4UDBEngine.h"
+#import "WeaponUpgradeTable.h"
 
 @interface WeaponDetailViewController ()
 @property (nonatomic) DetailedWeaponView *detailedView;
@@ -63,9 +64,7 @@
     _componentTable.accessoryType = @"Quantity";
     [allViews addObject:_componentTable];
     
-    _weaponFamilyTable = [[UITableView alloc] initWithFrame:tableFrame];
-    _weaponFamilyTable.delegate = self;
-    _weaponFamilyTable.dataSource = self;
+    _weaponFamilyTable = [[WeaponUpgradeTable alloc] initWithFrame:tableFrame andNavigationController:self.navigationController andDBEngine:_dbEngine andWeapon:_selectedWeapon];
     [allViews addObject:_weaponFamilyTable];
     
 
@@ -84,10 +83,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = NSLocalizedString(_selectedWeapon.name, _selectedWeapon.name);
-    if (!_selectedWeapon.icon) {
-        _selectedWeapon.icon = [NSString stringWithFormat:@"%@%i.png",_imageString, _selectedWeapon.rarity];
-    }
-
     _weaponComponents = [_dbEngine getComponentsfor:_selectedWeapon.itemID];
     
     CGRect vcFrame = self.view.frame;
@@ -129,9 +124,7 @@
 
 #pragma mark Tableview Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([tableView isEqual:_weaponFamilyTable]) {
-        return _weaponFamily.count;
-    } else if ([tableView isEqual:_hornSongTable]){
+    if ([tableView isEqual:_hornSongTable]){
         return _hornMelodies.count;
     }else  {
         return 0;
@@ -140,37 +133,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if ([tableView isEqual:_weaponFamilyTable]) {
-        Weapon *weapon = _weaponFamily[indexPath.row];
-        UITableViewCell *cell;
-        if (weapon.itemID == _selectedWeapon.itemID) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"selectedWeaponCell"];
-            if (!cell) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"selectedWeaponCell"];
-            }
-        }
-        else {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"weaponCell"];
-            if (!cell) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"weaponCell"];
-            }
-        }
-
-
-        cell.indentationWidth = 3;
-        cell.textLabel.text = [NSString stringWithFormat:@"%@", weapon.name];
-        if ( weapon.itemID == _selectedWeapon.itemID) {
-            [cell.textLabel setFont:[UIFont boldSystemFontOfSize:cell.textLabel.font.pointSize]];
-        }
-        
-        if (weapon.final == 1) {
-            cell.detailTextLabel.text = @"Final";
-        } else if (weapon.parentID == _selectedWeapon.itemID) {
-            cell.detailTextLabel.text = @"Next Upgrade";
-        }
-        cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@%i.png",_imageString, weapon.rarity]];
-        return cell;
-    } else if ([tableView isEqual:_hornSongTable]) {
+    if ([tableView isEqual:_hornSongTable]) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"hornCell"];
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"hornCell"];
@@ -185,15 +148,6 @@
     return nil;
 }
 
--(NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([tableView isEqual:_weaponFamilyTable]) {
-        Weapon *weapon = _weaponFamily[indexPath.row];
-        return weapon.tree_depth;
-    } else {
-        return 0;
-    }
-    
-}
 
 #pragma mark - Helper Methods
 - (void)didReceiveMemoryWarning {
