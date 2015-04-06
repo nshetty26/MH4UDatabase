@@ -129,9 +129,6 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    NSString *itemName = cell.textLabel.text;
-    
     if ([tableView isEqual:_skillTable]) {
         NSArray *skillArray = _selectedDecoration.skillArray[indexPath.row];
         SkillDetailViewController *sdVC = [[SkillDetailViewController alloc] init];

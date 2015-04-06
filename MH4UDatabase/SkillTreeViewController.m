@@ -88,7 +88,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *skillTree = _allSkillTrees[indexPath.row];
+    NSArray *skillTree = _displayedSkillTree[indexPath.row];
     SkillDetailViewController *sdVC = [[SkillDetailViewController alloc] init];
     sdVC.heightDifference = _heightDifference;
     sdVC.dbEngine = _dbEngine;

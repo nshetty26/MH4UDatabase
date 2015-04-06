@@ -1021,12 +1021,12 @@
                   symbolName = "-[ItemsViewController selectedItem]"
                   moduleName = "MH4UDatabase"
                   urlString = "file:///Users/COBNShetty/Development/MH4UDatabase/MH4UDatabase/ItemsViewController.m"
-                  timestampString = "449723247.241688"
+                  timestampString = "450038741.949319"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "20"
                   endingLineNumber = "20"
-                  offsetFromSymbolStart = "24">
+                  offsetFromSymbolStart = "12">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1035,12 +1035,12 @@
                   symbolName = "-[ItemsViewController setSelectedItem:]"
                   moduleName = "MH4UDatabase"
                   urlString = "file:///Users/COBNShetty/Development/MH4UDatabase/MH4UDatabase/ItemsViewController.m"
-                  timestampString = "449723247.241822"
+                  timestampString = "450038741.949565"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "20"
                   endingLineNumber = "20"
-                  offsetFromSymbolStart = "31">
+                  offsetFromSymbolStart = "20">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2638,6 +2638,22 @@
             startingLineNumber = "882"
             endingLineNumber = "882"
             landmarkName = "-getWeaponsForWeaponType:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MH4UDatabase/SkillTreeViewController.m"
+            timestampString = "450038643.060854"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
