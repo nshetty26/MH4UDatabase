@@ -63,12 +63,13 @@
     _heightDifference = statusBar.size.height + navigationBar.size.height;
     
     UINavigationController *nC = (UINavigationController *)[self.splitViewController.viewControllers lastObject];
-    UniversalSearchTableViewController *uSTC = [[UniversalSearchTableViewController alloc] init];
-    uSTC.dbEngine = _dbEngine;
-//    MonstersViewController *mVC = [[MonstersViewController alloc] init];
-//    mVC.dbEngine = _dbEngine;
-//    mVC.heightDifference = _heightDifference;
-    [nC setViewControllers:@[uSTC]];
+//    UniversalSearchTableViewController *uSTC = [[UniversalSearchTableViewController alloc] init];
+//    [nC setViewControllers:@[uSTC]];
+//    uSTC.dbEngine = _dbEngine;
+    MonstersViewController *mVC = [[MonstersViewController alloc] init];
+    mVC.dbEngine = _dbEngine;
+    mVC.heightDifference = _heightDifference;
+    [nC setViewControllers:@[mVC]];
     
 }
 

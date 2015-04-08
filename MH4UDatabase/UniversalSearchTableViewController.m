@@ -7,6 +7,12 @@
 //
 
 #import "UniversalSearchTableViewController.h"
+#import "ArmorDetailViewController.h"
+#import "WeaponDetailViewController.h"
+#import "DecorationsDetailViewController.h"
+#import "ItemDetailViewController.h"
+#import "QuestDetailViewController.h"
+#import "LocationDetailViewController.h"
 #import "MH4UDBEngine.h"
 
 @interface UniversalSearchTableViewController ()
@@ -18,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"Universal Search Controller";
+    self.title = @"Universal Search";
     CGRect searchBar = CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, 38);
     UISearchBar *mhSearch = [[UISearchBar alloc] initWithFrame:searchBar];
     mhSearch.delegate = self;
@@ -94,6 +100,56 @@
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    NSArray *mhObject = _everythingArray[indexPath.row];
+//    if ([mhObject[1] isEqualToString:@"Monster"]) {
+//        NSString *string;
+//    } else if ([mhObject[1] isEqualToString:@"Weapon"]){
+//        NSNumber *weaponID = mhObject[0];
+//        Weapon *weapon = [_dbEngine getWeaponForWeaponID:[weaponID intValue]];
+//        WeaponDetailViewController *wDVC = [[WeaponDetailViewController alloc] init];
+//        wDVC.selectedWeapon = weapon;
+//        wDVC.dbEngine = _dbEngine;
+//        wDVC.heightDifference = [self returnHeightDifference];
+//        [self.navigationController pushViewController:wDVC animated:YES];
+//        
+//    } else if ([mhObject[1] isEqualToString:@"Armor"]){
+//        Armor *armor = [[_dbEngine retrieveArmor: mhObject[0]] firstObject];
+//        ArmorDetailViewController *aDVC = [[ArmorDetailViewController alloc] init];
+//        aDVC.heightDifference = [self returnHeightDifference];
+//        aDVC.selectedArmor = armor;
+//        aDVC.dbEngine = _dbEngine;
+//        [self.navigationController pushViewController:aDVC animated:YES];
+//        
+//    } else if ([mhObject[1] isEqualToString:@"Quest"]){
+//        
+//    } else if ([mhObject[1] isEqualToString:@"Location"]){
+//        
+//    } else if ([mhObject[1] isEqualToString:@"Decoration"]){
+//        Decoration *decoration = [[_dbEngine getAllDecorations:[NSNumber numberWithInt:item.itemID]] firstObject];
+//        decoration.componentArray = [_dbEngine getComponentsfor:decoration.itemID];
+//        DecorationsDetailViewController *dDVC = [[DecorationsDetailViewController alloc] init];
+//        dDVC.heightDifference = [self returnHeightDifference];
+//        dDVC.dbEngine = _dbEngine;
+//        dDVC.selectedDecoration = decoration;
+//        [self.navigationController pushViewController:dDVC animated:YES];
+//        
+//    } else {
+//        ItemDetailViewController *itemDetailVC = [[ItemDetailViewController alloc] init];
+//        itemDetailVC.selectedItem = item;
+//        itemDetailVC.dbEngine = _dbEngine;
+//        itemDetailVC.heightDifference = [self returnHeightDifference];
+//        [self.navigationController pushViewController:itemDetailVC animated:YES];
+//        
+//    }
+}
+
+-(CGFloat)returnHeightDifference {
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
+    return navBar.frame.size.height + statusBar.size.height;
+}
+
 
 /*
 // Override to support conditional editing of the table view.
@@ -138,5 +194,7 @@
     // Pass the selected object to the new view controller.
 }
 */
+    
+
 
 @end

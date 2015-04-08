@@ -144,19 +144,19 @@
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if ([tableView isEqual:_armorTable]) {
         switch (section) {
-            case 1:
+            case 0:
                 return @"Head";
                 break;
-            case 2:
+            case 1:
                 return @"Body";
                 break;
-            case 3:
+            case 2:
                 return @"Arms";
                 break;
-            case 4:
+            case 3:
                 return @"Waist";
                 break;
-            case 5:
+            case 4:
                 return @"Legs";
                 break;
             default:
@@ -172,19 +172,19 @@
     if ([tableView isEqual:_armorTable]) {
         NSString *type;
         switch (section) {
-            case 1:
+            case 0:
                 type = @"Head";
                 break;
-            case 2:
+            case 1:
                 type = @"Body";
                 break;
-            case 3:
+            case 2:
                 type = @"Arms";
                 break;
-            case 4:
+            case 3:
                 type = @"Waist";
                 break;
-            case 5:
+            case 4:
                 type = @"Legs";
                 break;
             default:
@@ -197,19 +197,19 @@
             return [armor.slot isEqualToString:type];}]];
         
         switch (section) {
-            case 1:
+            case 0:
                 _headArray = typeArray;
                 break;
-            case 2:
+            case 1:
                 _bodyArray = typeArray;
                 break;
-            case 3:
+            case 2:
                 _armArray = typeArray;
                 break;
-            case 4:
+            case 3:
                 _waitArray = typeArray;
                 break;
-            case 5:
+            case 4:
                 _legArray = typeArray;
                 break;
             default:
@@ -260,19 +260,19 @@
 -(Armor *)returnArmorAtIndexPath:(NSIndexPath *)indexPath {
     Armor *armor;
     switch (indexPath.section) {
-        case 1:
+        case 0:
             armor = [_headArray objectAtIndex:indexPath.row];
             break;
-        case 2:
+        case 1:
             armor = [_bodyArray objectAtIndex:indexPath.row];
             break;
-        case 3:
+        case 2:
             armor = [_armArray objectAtIndex:indexPath.row];
             break;
-        case 4:
+        case 3:
             armor = [_waitArray objectAtIndex:indexPath.row];
             break;
-        case 5:
+        case 4:
             armor = [_legArray objectAtIndex:indexPath.row];
             break;
         default:
