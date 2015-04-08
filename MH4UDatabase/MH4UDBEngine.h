@@ -56,5 +56,7 @@
 -(Weapon *)getWeaponForWeaponID:(int)weaponID;
 -(NSArray *)getHornSongsForHorn:(Weapon *)horn;
 
+-(NSArray *) populateResultsWithSearch:(NSString *)searchString;
+
 @end
 

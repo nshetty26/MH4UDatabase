@@ -868,6 +868,7 @@
 		E7AF5F8A1AAE303600847512 /* DetailedItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7AF5F891AAE303600847512 /* DetailedItemView.xib */; };
 		E7C600821AAFA48100EC6E84 /* MH4UDBEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C600811AAFA48100EC6E84 /* MH4UDBEntity.m */; };
 		E7C600891AAFA9D200EC6E84 /* ArmorDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C600881AAFA9D200EC6E84 /* ArmorDetailViewController.m */; };
+		E7CC13801AD4D09B00F10AB5 /* UniversalSearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CC137F1AD4D09B00F10AB5 /* UniversalSearchTableViewController.m */; };
 		E7D4B5251AAB693D00C22D41 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D4B5241AAB693D00C22D41 /* DetailViewController.m */; };
 		E7D5E23C1AAE507E0083D2C7 /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D5E23B1AAE507E0083D2C7 /* ItemDetailViewController.m */; };
 		E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF01AA6AC96007C05E0 /* main.m */; };
@@ -1775,6 +1776,8 @@
 		E7C600831AAFA48D00EC6E84 /* MH4UDBEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MH4UDBEntity.h; sourceTree = "<group>"; };
 		E7C600871AAFA9D200EC6E84 /* ArmorDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArmorDetailViewController.h; sourceTree = "<group>"; };
 		E7C600881AAFA9D200EC6E84 /* ArmorDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmorDetailViewController.m; sourceTree = "<group>"; };
+		E7CC137E1AD4D09B00F10AB5 /* UniversalSearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniversalSearchTableViewController.h; sourceTree = "<group>"; };
+		E7CC137F1AD4D09B00F10AB5 /* UniversalSearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UniversalSearchTableViewController.m; sourceTree = "<group>"; };
 		E7D4B5231AAB693D00C22D41 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		E7D4B5241AAB693D00C22D41 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		E7D5E23A1AAE507E0083D2C7 /* ItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemDetailViewController.h; sourceTree = "<group>"; };
@@ -2998,6 +3001,15 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		E7CC137D1AD4C20000F10AB5 /* Universal Search */ = {
+			isa = PBXGroup;
+			children = (
+				E7CC137E1AD4D09B00F10AB5 /* UniversalSearchTableViewController.h */,
+				E7CC137F1AD4D09B00F10AB5 /* UniversalSearchTableViewController.m */,
+			);
+			name = "Universal Search";
+			sourceTree = "<group>";
+		};
 		E7EB7DE21AA6AC96007C05E0 = {
 			isa = PBXGroup;
 			children = (
@@ -3023,6 +3035,7 @@
 		E7EB7DED1AA6AC96007C05E0 /* MH4UDatabase */ = {
 			isa = PBXGroup;
 			children = (
+				E7CC137D1AD4C20000F10AB5 /* Universal Search */,
 				E742B2D11ACCF168007B08AF /* TableViews */,
 				E706CB011AC1CF04004E1835 /* Monster View Controllers */,
 				E706CAFC1AC1CEC4004E1835 /* Weapon View Controllers */,
@@ -4064,6 +4077,7 @@
 				E7C600891AAFA9D200EC6E84 /* ArmorDetailViewController.m in Sources */,
 				E749BA971AB3D22F003860E8 /* WeaponsTableViewController.m in Sources */,
 				E7D4B5251AAB693D00C22D41 /* DetailViewController.m in Sources */,
+				E7CC13801AD4D09B00F10AB5 /* UniversalSearchTableViewController.m in Sources */,
 				E78ED7C51AB21E0200E80635 /* DecorationsDetailViewController.m in Sources */,
 				E742B2D01ACCF162007B08AF /* CombiningTableView.m in Sources */,
 				E75C3AF21AB1189B00C0D155 /* SkillDetailViewController.m in Sources */,
