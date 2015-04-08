@@ -127,7 +127,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    Decoration *decoration= _allDecorations[indexPath.row];
+    Decoration *decoration= _displayedDecorations[indexPath.row];
     decoration.componentArray = [_dbEngine getComponentsfor:decoration.itemID];
     DecorationsDetailViewController *dDVC = [[DecorationsDetailViewController alloc] init];
     dDVC.heightDifference = _heightDifference;

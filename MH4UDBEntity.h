@@ -9,26 +9,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface Armor : NSObject
-@property (nonatomic) int armorID;
-@property (nonatomic) NSString *name;
-@property (nonatomic) NSString *slot;
-@property (nonatomic) int rarity;
-@property (nonatomic) int price;
-@property (nonatomic) int defense;
-@property (nonatomic) int maxDefense;
-@property (nonatomic) int fireResistance;
-@property (nonatomic) int thunderResistance;
-@property (nonatomic) int dragonResistance;
-@property (nonatomic) int waterResistance;
-@property (nonatomic) int iceResistance;
-@property (nonatomic) NSString *gender;
-@property (nonatomic) NSString *hunterType;
-@property (nonatomic) int numSlots;
-@property (nonatomic) NSArray *skillsArray;
-@property (nonatomic) NSArray *componentArray;
-
-@end
 
 @interface Item : NSObject
 @property (nonatomic) int itemID;
@@ -43,6 +23,7 @@
 @property (nonatomic) int skillValue;
 @property (nonatomic) int percentage;
 @property (nonatomic) NSString *locationName;
+@property (nonatomic) NSString *componentType;
 @property (nonatomic) NSString *rank;
 @property (nonatomic) NSString *area;
 @property (nonatomic) NSString *site;
@@ -53,6 +34,27 @@
 @property (nonatomic) NSArray *monsterDropsArray;
 @property (nonatomic) NSArray *questRewardsArray;
 @property (nonatomic) NSArray *locationsArray;
+@end
+
+@interface Armor : Item
+//@property (nonatomic) int armorID;
+//@property (nonatomic) NSString *name;
+@property (nonatomic) NSString *slot;
+//@property (nonatomic) int rarity;
+//@property (nonatomic) int price;
+@property (nonatomic) int defense;
+@property (nonatomic) int maxDefense;
+@property (nonatomic) int fireResistance;
+@property (nonatomic) int thunderResistance;
+@property (nonatomic) int dragonResistance;
+@property (nonatomic) int waterResistance;
+@property (nonatomic) int iceResistance;
+@property (nonatomic) NSString *gender;
+@property (nonatomic) NSString *hunterType;
+@property (nonatomic) int numSlots;
+@property (nonatomic) NSArray *skillsArray;
+@property (nonatomic) NSArray *componentArray;
+
 @end
 
 @interface Combining : NSObject

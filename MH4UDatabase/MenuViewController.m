@@ -18,6 +18,7 @@
 #import "DetailViewController.h"
 #import "WeaponTypeTableViewController.h"
 #import "CombiningViewController.h"
+#import "UniversalSearchTableViewController.h"
 #import "MH4UDBEngine.h"
 
 @interface MenuViewController ()
@@ -62,6 +63,9 @@
     _heightDifference = statusBar.size.height + navigationBar.size.height;
     
     UINavigationController *nC = (UINavigationController *)[self.splitViewController.viewControllers lastObject];
+//    UniversalSearchTableViewController *uSTC = [[UniversalSearchTableViewController alloc] init];
+//    [nC setViewControllers:@[uSTC]];
+//    uSTC.dbEngine = _dbEngine;
     MonstersViewController *mVC = [[MonstersViewController alloc] init];
     mVC.dbEngine = _dbEngine;
     mVC.heightDifference = _heightDifference;

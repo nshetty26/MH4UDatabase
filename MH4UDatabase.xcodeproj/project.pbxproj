@@ -854,6 +854,7 @@
 		E78C04931AAF4BE5005ECCF6 /* ArmorsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E78C04921AAF4BE5005ECCF6 /* ArmorsViewController.m */; };
 		E78ED7C21AB20DC100E80635 /* DecorationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E78ED7C11AB20DC100E80635 /* DecorationsViewController.m */; };
 		E78ED7C51AB21E0200E80635 /* DecorationsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E78ED7C41AB21E0200E80635 /* DecorationsDetailViewController.m */; };
+		E78F599D1ACE343600E1F542 /* WeaponUpgradeTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E78F599C1ACE343600E1F542 /* WeaponUpgradeTable.m */; };
 		E78F92791AAD07AE003A297F /* DetailedMonsterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78F92781AAD07AE003A297F /* DetailedMonsterView.xib */; };
 		E78F927D1AAD1719003A297F /* MonsterDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E78F927C1AAD1719003A297F /* MonsterDetailCell.xib */; };
 		E7A00DF81AAFBDB90037BE61 /* MonstersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A00DF71AAFBDB90037BE61 /* MonstersViewController.m */; };
@@ -867,6 +868,7 @@
 		E7AF5F8A1AAE303600847512 /* DetailedItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7AF5F891AAE303600847512 /* DetailedItemView.xib */; };
 		E7C600821AAFA48100EC6E84 /* MH4UDBEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C600811AAFA48100EC6E84 /* MH4UDBEntity.m */; };
 		E7C600891AAFA9D200EC6E84 /* ArmorDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C600881AAFA9D200EC6E84 /* ArmorDetailViewController.m */; };
+		E7CC13801AD4D09B00F10AB5 /* UniversalSearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CC137F1AD4D09B00F10AB5 /* UniversalSearchTableViewController.m */; };
 		E7D4B5251AAB693D00C22D41 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D4B5241AAB693D00C22D41 /* DetailViewController.m */; };
 		E7D5E23C1AAE507E0083D2C7 /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D5E23B1AAE507E0083D2C7 /* ItemDetailViewController.m */; };
 		E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF01AA6AC96007C05E0 /* main.m */; };
@@ -1752,6 +1754,8 @@
 		E78ED7C11AB20DC100E80635 /* DecorationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecorationsViewController.m; sourceTree = "<group>"; };
 		E78ED7C31AB21E0200E80635 /* DecorationsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecorationsDetailViewController.h; sourceTree = "<group>"; };
 		E78ED7C41AB21E0200E80635 /* DecorationsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecorationsDetailViewController.m; sourceTree = "<group>"; };
+		E78F599B1ACE343600E1F542 /* WeaponUpgradeTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeaponUpgradeTable.h; sourceTree = "<group>"; };
+		E78F599C1ACE343600E1F542 /* WeaponUpgradeTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeaponUpgradeTable.m; sourceTree = "<group>"; };
 		E78F92781AAD07AE003A297F /* DetailedMonsterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DetailedMonsterView.xib; path = MH4UDatabase/DetailedMonsterView.xib; sourceTree = "<group>"; };
 		E78F927C1AAD1719003A297F /* MonsterDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MonsterDetailCell.xib; path = MH4UDatabase/MonsterDetailCell.xib; sourceTree = "<group>"; };
 		E7A00DF61AAFBDB90037BE61 /* MonstersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonstersViewController.h; sourceTree = "<group>"; };
@@ -1772,6 +1776,8 @@
 		E7C600831AAFA48D00EC6E84 /* MH4UDBEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MH4UDBEntity.h; sourceTree = "<group>"; };
 		E7C600871AAFA9D200EC6E84 /* ArmorDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArmorDetailViewController.h; sourceTree = "<group>"; };
 		E7C600881AAFA9D200EC6E84 /* ArmorDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmorDetailViewController.m; sourceTree = "<group>"; };
+		E7CC137E1AD4D09B00F10AB5 /* UniversalSearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniversalSearchTableViewController.h; sourceTree = "<group>"; };
+		E7CC137F1AD4D09B00F10AB5 /* UniversalSearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UniversalSearchTableViewController.m; sourceTree = "<group>"; };
 		E7D4B5231AAB693D00C22D41 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		E7D4B5241AAB693D00C22D41 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		E7D5E23A1AAE507E0083D2C7 /* ItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemDetailViewController.h; sourceTree = "<group>"; };
@@ -1935,6 +1941,8 @@
 				E742B2CF1ACCF162007B08AF /* CombiningTableView.m */,
 				E749EAB91AC4EB4900E10DFF /* ItemTableView.h */,
 				E749EABA1AC4EB4900E10DFF /* ItemTableView.m */,
+				E78F599B1ACE343600E1F542 /* WeaponUpgradeTable.h */,
+				E78F599C1ACE343600E1F542 /* WeaponUpgradeTable.m */,
 			);
 			name = TableViews;
 			sourceTree = "<group>";
@@ -1942,9 +1950,9 @@
 		E7460C921AB613AD006C7CD3 /* Menu Icons */ = {
 			isa = PBXGroup;
 			children = (
+				E7460CB11AB61966006C7CD3 /* MH4ULogoBlack.png */,
 				E7460CAF1AB617E5006C7CD3 /* Location.png */,
 				E7460CB31AB61AFF006C7CD3 /* MH4ULogo.png */,
-				E7460CB11AB61966006C7CD3 /* MH4ULogoBlack.png */,
 				E7460CA91AB61544006C7CD3 /* Monsters.png */,
 				E7460CA51AB614A7006C7CD3 /* Combining.png */,
 				E7460C931AB613CA006C7CD3 /* Armor.png */,
@@ -2993,6 +3001,15 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		E7CC137D1AD4C20000F10AB5 /* Universal Search */ = {
+			isa = PBXGroup;
+			children = (
+				E7CC137E1AD4D09B00F10AB5 /* UniversalSearchTableViewController.h */,
+				E7CC137F1AD4D09B00F10AB5 /* UniversalSearchTableViewController.m */,
+			);
+			name = "Universal Search";
+			sourceTree = "<group>";
+		};
 		E7EB7DE21AA6AC96007C05E0 = {
 			isa = PBXGroup;
 			children = (
@@ -3018,6 +3035,7 @@
 		E7EB7DED1AA6AC96007C05E0 /* MH4UDatabase */ = {
 			isa = PBXGroup;
 			children = (
+				E7CC137D1AD4C20000F10AB5 /* Universal Search */,
 				E742B2D11ACCF168007B08AF /* TableViews */,
 				E706CB011AC1CF04004E1835 /* Monster View Controllers */,
 				E706CAFC1AC1CEC4004E1835 /* Weapon View Controllers */,
@@ -4059,9 +4077,11 @@
 				E7C600891AAFA9D200EC6E84 /* ArmorDetailViewController.m in Sources */,
 				E749BA971AB3D22F003860E8 /* WeaponsTableViewController.m in Sources */,
 				E7D4B5251AAB693D00C22D41 /* DetailViewController.m in Sources */,
+				E7CC13801AD4D09B00F10AB5 /* UniversalSearchTableViewController.m in Sources */,
 				E78ED7C51AB21E0200E80635 /* DecorationsDetailViewController.m in Sources */,
 				E742B2D01ACCF162007B08AF /* CombiningTableView.m in Sources */,
 				E75C3AF21AB1189B00C0D155 /* SkillDetailViewController.m in Sources */,
+				E78F599D1ACE343600E1F542 /* WeaponUpgradeTable.m in Sources */,
 				E78ED7C21AB20DC100E80635 /* DecorationsViewController.m in Sources */,
 				E7A00DFB1AAFC0830037BE61 /* MonsterDetailViewController.m in Sources */,
 				E77A7BE41AA91D490087247F /* MH4UDBEngine.m in Sources */,
@@ -4202,11 +4222,12 @@
 			baseConfigurationReference = 0DA25932ADF33E4E62A2F9CB /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MH4UDatabase/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -4221,11 +4242,12 @@
 			baseConfigurationReference = CBEDC553F9524B0EE6960A11 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MH4UDatabase/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

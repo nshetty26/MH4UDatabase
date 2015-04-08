@@ -4,11 +4,25 @@ PODS:
   - FMDB/common (2.5)
   - FMDB/standard (2.5):
     - FMDB/common
+  - MMDrawerController (0.6.0):
+    - MMDrawerController/Core (= 0.6.0)
+    - MMDrawerController/MMDrawerBarButtonItem (= 0.6.0)
+    - MMDrawerController/MMDrawerVisualStates (= 0.6.0)
+    - MMDrawerController/Subclass (= 0.6.0)
+  - MMDrawerController/Core (0.6.0)
+  - MMDrawerController/MMDrawerBarButtonItem (0.6.0):
+    - MMDrawerController/Core
+  - MMDrawerController/MMDrawerVisualStates (0.6.0):
+    - MMDrawerController/Core
+  - MMDrawerController/Subclass (0.6.0):
+    - MMDrawerController/Core
 
 DEPENDENCIES:
   - FMDB (~> 2.5)
+  - MMDrawerController
 
 SPEC CHECKSUMS:
-  FMDB: 0efa188cf0dd1ce82c27a478cd5f5fa245308677
+  FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
+  MMDrawerController: e3a54a5570388463ad3b36975251575b50c4e1a0
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.36.3
