@@ -36,9 +36,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     self.title = NSLocalizedString(@"Items", @"Items");
     _allItems = [_dbEngine populateItemArray];
     _displayedItems = _allItems;
+    
     CGRect statusBar = [[UIApplication sharedApplication] statusBarFrame];
     CGRect navigationBar = self.navigationController.navigationBar.frame;
     _heightDifference = statusBar.size.height + navigationBar.size.height;

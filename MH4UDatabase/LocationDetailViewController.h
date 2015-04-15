@@ -7,10 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIViewController+UIViewController_MenuButton.h"
+
+@class BaseViewController;
 @class Location;
 @class MH4UDBEngine;
 
 @interface LocationDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarDelegate>
+
+@property (strong, nonatomic) BaseViewController *baseViewController;
 @property (nonatomic) Location *selectedLocation;
 @property (nonatomic) MH4UDBEngine *dbEngine;
 @property (nonatomic) int heightDifference;

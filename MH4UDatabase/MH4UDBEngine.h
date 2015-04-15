@@ -44,10 +44,10 @@
 -(NSArray *)getAllDecorations:(NSNumber *)decorationID;
 -(NSArray *)getComponentsfor:(int)armorID;
 
--(NSArray *)getAllQuests;
+-(NSArray *)getAllQuests:(NSNumber *)questID;
 -(void)getQuestInfoforQuest:(Quest*)quest;
 
--(NSArray *)getAllLocations;
+-(NSArray *)getAllLocations:(NSNumber *)locationID;
 -(void)monstersForLocationID:(Location *)location;
 -(void)itemsForLocationID:(Location *)location;
 

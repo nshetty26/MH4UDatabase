@@ -50,6 +50,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     _allMonstersArray = [_dbEngine retrieveMonsters:nil];
     // Do any additional setup after loading the view.
     self.title = NSLocalizedString(@"Monsters", @"Monsters");

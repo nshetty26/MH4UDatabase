@@ -89,6 +89,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     // Do any additional setup after loading the view.
     self.title = NSLocalizedString(_selectedMonster.monsterName, _selectedMonster.monsterName);
     [self populateDetailForMonster:_selectedMonster];

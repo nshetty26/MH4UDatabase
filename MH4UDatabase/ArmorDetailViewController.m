@@ -56,6 +56,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     [_dbEngine populateArmor:_selectedArmor];
     self.title = NSLocalizedString(_selectedArmor.name, _selectedArmor.name);
 

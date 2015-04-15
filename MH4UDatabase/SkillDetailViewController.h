@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIViewController+UIViewController_MenuButton.h"
+
+@class BaseViewController;
 @class SkillCollection;
 @class MH4UDBEngine;
 
 @interface SkillDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarDelegate>
 
+@property (strong, nonatomic) BaseViewController *baseViewController;
 @property (nonatomic) int heightDifference;
 @property (nonatomic) MH4UDBEngine *dbEngine;
 @property (nonatomic) int skillTreeID;

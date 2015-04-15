@@ -48,9 +48,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     self.title = NSLocalizedString(@"Armor", @"Armor");
+    
     _allArmorArray = [_dbEngine retrieveArmor:nil];
-
     _displayedArmor = _allArmorArray;
     CGRect vcFrame = self.view.frame;
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);

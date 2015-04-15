@@ -20,8 +20,10 @@
 #pragma mark - Setup Views
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _allLocations = [_dbEngine getAllLocations];
+    [self setUpMenuButton];
+    _allLocations = [_dbEngine getAllLocations:nil];
     self.title = NSLocalizedString(@"Locations", @"Locations");
+    
     // Do any additional setup after loading the view.
     _locationsTable = [[UITableView alloc] initWithFrame:self.view.frame];
     _locationsTable.dataSource = self;

@@ -18,6 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     self.title = NSLocalizedString(@"Weapons", @"Weapons");
     _allWeaponTypes = [_dbEngine getWeaponTypes];
     // Uncomment the following line to preserve selection between presentations.

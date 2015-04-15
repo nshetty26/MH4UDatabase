@@ -81,6 +81,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     // Do any additional setup after loading the view.
     self.title = NSLocalizedString(_selectedWeapon.name, _selectedWeapon.name);
     _weaponComponents = [_dbEngine getComponentsfor:_selectedWeapon.itemID];

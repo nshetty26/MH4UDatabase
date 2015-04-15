@@ -105,6 +105,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     // Do any additional setup after loading the view.
     self.title = NSLocalizedString(_selectedItem.name, _selectedItem.name);
     [self populateDetailsforItem:_selectedItem];

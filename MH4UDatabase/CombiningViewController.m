@@ -22,6 +22,7 @@
 #pragma mark - Setup Views
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     self.title = NSLocalizedString(@"Combining", @"Combining");
     _allCombined = [_dbEngine getCombiningItems];
     CGRect vcFrame = self.view.frame;
