@@ -44,9 +44,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     self.title = NSLocalizedString(@"Quests", @"Quests");
-    _allQuestsArray = [_dbEngine getAllQuests];
     
+    _allQuestsArray = [_dbEngine getAllQuests:nil];
     _displayedQuests = [_allQuestsArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
         Quest *quest = (Quest *)evaluatedObject;
         return [quest.hub isEqualToString:@"Caravan"];}]];;

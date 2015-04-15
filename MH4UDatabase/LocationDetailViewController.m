@@ -81,6 +81,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     self.title = NSLocalizedString(_selectedLocation.locationName, _selectedLocation.locationName);
     [self.view setBackgroundColor:[UIColor whiteColor]];
     [_dbEngine monstersForLocationID:_selectedLocation];

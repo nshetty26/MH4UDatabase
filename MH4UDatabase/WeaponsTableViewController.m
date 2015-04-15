@@ -19,6 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     self.title = NSLocalizedString(_weaponFamily, _weaponFamily);
     _weaponsArray = [_dbEngine getWeaponsForWeaponType:_weaponFamily];
     _displayedWeapons = _weaponsArray;

@@ -7,11 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIViewController+UIViewController_MenuButton.h"
+
+@class BaseViewController;
 @class MH4UDBEngine;
 @class CombiningCell;
 @class DetailViewController;
 
 @interface ItemsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UITabBarDelegate>
+
+@property (strong, nonatomic) BaseViewController *baseViewController;
 @property (strong, nonatomic) NSArray *allItems;
 @property (strong, nonatomic) DetailViewController *dVC;
 @property (strong, nonatomic) MH4UDBEngine *dbEngine;

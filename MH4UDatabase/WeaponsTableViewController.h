@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIViewController+UIViewController_MenuButton.h"
 @class MH4UDBEngine;
+@class BaseViewController;
 
 @interface WeaponsTableViewController : UITableViewController <UISearchBarDelegate>
+
 @property (nonatomic) NSArray *weaponsArray;
+@property (strong, nonatomic) BaseViewController *baseViewController;
 @property (nonatomic) NSString *imageString;
 @property (nonatomic) NSString *weaponFamily;
 @property (nonatomic) MH4UDBEngine *dbEngine;

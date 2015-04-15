@@ -56,6 +56,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     self.title = NSLocalizedString(_selectedDecoration.name, _selectedDecoration.name);
     [self populateDecorationComponent];
     // Do any additional setup after loading the view.

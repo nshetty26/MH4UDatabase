@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIViewController+UIViewController_MenuButton.h"
+
 @class Quest;
+@class BaseViewController;
 @class MH4UDBEngine;
 
 @interface QuestDetailViewController : UIViewController <UITabBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
+@property (strong, nonatomic) BaseViewController *baseViewController;
 @property (nonatomic) Quest *selectedQuest;
 @property (nonatomic) MH4UDBEngine *dbEngine;
 @property (nonatomic) int heightDifference;

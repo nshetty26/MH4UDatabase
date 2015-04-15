@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIViewController+UIViewController_MenuButton.h"
 @class MH4UDBEngine;
+@class BaseViewController;
 
 @interface WeaponTypeTableViewController : UITableViewController
+
+@property (nonatomic) BaseViewController *baseViewController;
 @property (nonatomic) NSArray *allWeaponTypes;
 @property (nonatomic) int heightDifference;
 @property (nonatomic) MH4UDBEngine *dbEngine;

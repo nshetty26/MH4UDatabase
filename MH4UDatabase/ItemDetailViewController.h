@@ -7,12 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIViewController+UIViewController_MenuButton.h"
 
 @class Item;
+@class BaseViewController;
 @class MH4UDBEngine;
 
 @interface ItemDetailViewController : UIViewController <UITabBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
+@property (strong, nonatomic) BaseViewController *baseViewController;
 @property (nonatomic) int heightDifference;
 @property (nonatomic) Item *selectedItem;
 @property (nonatomic) MH4UDBEngine *dbEngine;

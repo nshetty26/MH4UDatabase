@@ -21,7 +21,9 @@
 #pragma mark - Setup Views
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     self.title = NSLocalizedString(@"Skill Trees", @"Skill Trees");
+    
     _allSkillTrees = [_dbEngine getSkillTrees];
     _displayedSkillTree = _allSkillTrees;
     
@@ -47,7 +49,7 @@
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [_skillTreeSearch setShowsCancelButton:YES];
     if (searchText.length == 0) {
-        [self showAllItems];
+        [self showAllSkills];
     }
     else {
         NSArray *searchedItems = [_allSkillTrees filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
@@ -66,14 +68,14 @@
     }
 }
 
--(void)showAllItems {
+-(void)showAllSkills {
     _displayedSkillTree = _allSkillTrees;
     [_skillTreeTableView reloadData];
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [searchBar setShowsCancelButton:NO];
-    [self showAllItems];
+    [self showAllSkills];
     searchBar.text = @"";
     [searchBar resignFirstResponder];
 }

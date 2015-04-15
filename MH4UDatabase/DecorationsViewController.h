@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIViewController+UIViewController_MenuButton.h"
+
+@class BaseViewController;
 @class  MH4UDBEngine;
 
 @interface DecorationsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+
+@property (strong, nonatomic) BaseViewController *baseViewController;
 @property (nonatomic) NSArray *allDecorations;
 @property (nonatomic) int heightDifference;
 @property (nonatomic) MH4UDBEngine *dbEngine;

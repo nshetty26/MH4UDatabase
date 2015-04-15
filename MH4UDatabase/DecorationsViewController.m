@@ -25,7 +25,9 @@
 #pragma mark - Setup Views
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     self.title = NSLocalizedString(@"Decorations", @"Decorations");
+    
     _allDecorations = [_dbEngine getAllDecorations:nil];
     _displayedDecorations = _allDecorations;
 

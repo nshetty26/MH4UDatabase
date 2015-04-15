@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIViewController+UIViewController_MenuButton.h"
+
 @class Armor;
 @class MH4UDBEngine;
+@class BaseViewController;
 
 @interface ArmorDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarDelegate>
 
+@property (strong, nonatomic) BaseViewController *baseViewController;
 @property (nonatomic) Armor *selectedArmor;
 @property (nonatomic) MH4UDBEngine *dbEngine;
 @property (nonatomic) int heightDifference;

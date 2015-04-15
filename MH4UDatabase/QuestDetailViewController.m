@@ -54,6 +54,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     [_dbEngine getQuestInfoforQuest:_selectedQuest];
     // Do any additional setup after loading the view from its nib.
     self.title = NSLocalizedString(_selectedQuest.name, _selectedQuest.name);

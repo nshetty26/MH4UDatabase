@@ -59,6 +59,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpMenuButton];
     self.title = NSLocalizedString(_skilTreeName, _skilTreeName);
     _skillCollection = [_dbEngine getSkillCollectionForSkillTreeID:_skillTreeID];
     CGRect vcFrame = self.view.frame;

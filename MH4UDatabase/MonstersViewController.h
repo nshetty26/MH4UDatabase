@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIViewController+UIViewController_MenuButton.h"
+
 @class MH4UDBEngine;
+@class BaseViewController;
 
 @interface MonstersViewController : UIViewController <UITabBarDelegate, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 
 @property (strong, nonatomic) MH4UDBEngine *dbEngine;
+@property (strong, nonatomic) BaseViewController *baseViewController;
 @property (strong, nonatomic) NSArray *allMonstersArray;
 @property (nonatomic) int heightDifference;
 

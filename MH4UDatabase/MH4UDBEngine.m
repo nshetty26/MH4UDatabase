@@ -691,10 +691,15 @@
 
 #pragma mark - Quest Queries
 
--(NSArray *)getAllQuests {
+-(NSArray *)getAllQuests:(NSNumber *)questID {
     NSMutableArray *questArray = [[NSMutableArray alloc] init];
-    NSString *questsQuery = @"select quests._id, quests.name, quests.hub, quests.type, quests.stars, locations.name as locationName from quests inner join locations on locations._id = quests.location_id";
-    FMResultSet *s = [self DBquery:questsQuery];
+    NSString *questQuery;
+    if (!questID) {
+        questQuery = @"select quests._id, quests.name, quests.hub, quests.type, quests.stars, locations.name as locationName from quests inner join locations on locations._id = quests.location_id";
+    } else {
+        questQuery = [NSString stringWithFormat:@"select quests._id, quests.name, quests.hub, quests.type, quests.stars, locations.name as locationName from quests inner join locations on locations._id = quests.location_id where _id = %i", [questID intValue]];
+    }
+    FMResultSet *s = [self DBquery:questQuery];
     while ([s next]) {
         Quest *quest = [[Quest alloc] init];
         quest.questID = [s intForColumn:@"_id"];
@@ -791,9 +796,14 @@
 }
 
 #pragma mark - Location Queries
--(NSArray *)getAllLocations {
+-(NSArray *)getAllLocations:(NSNumber *)locationID {
     NSMutableArray *locationArray = [[NSMutableArray alloc] init];
-    NSString *locationQuery = @"SELECT _id, name, map as mapIcon from locations";
+    NSString *locationQuery;
+    if (!locationID) {
+        locationQuery = @"SELECT _id, name, map as mapIcon from locations";
+    } else {
+        locationQuery = [NSString stringWithFormat:@"SELECT _id, name, map as mapIcon from locations where _id = %i", [locationID intValue]] ;
+    }
     FMResultSet *s = [self DBquery:locationQuery];
     while ([s next]) {
         Location *location = [[Location alloc] init];
@@ -1002,6 +1012,11 @@
                       [NSString stringWithFormat:@"SELECT _id, name, map as mapIcon FROM locations"
                        " WHERE name LIKE '%%%@%%'", searchString]];
     
+    FMResultSet *skillSets = [self DBquery:
+                              [NSString stringWithFormat:@"SELECT * FROM skill_trees"
+                               " WHERE name LIKE '%%%@%%'", searchString]];
+
+    
     while ([monsters next]) {
         NSNumber *monsterID = [NSNumber numberWithInt:[monsters intForColumn:@"_id"]];
         NSString *type = @"Monster";
@@ -1049,6 +1064,13 @@
         NSString *name = [locations stringForColumn:@"name"];
         NSString *icon = [locations stringForColumn:@"mapIcon"];
         [everythingArray addObject:@[locationID, type, name, icon]];
+    }
+    
+    while ([skillSets next]) {
+        NSNumber *skillID = [NSNumber numberWithInt:[skillSets intForColumn:@"_id"]];
+        NSString *type = @"Skill Tree";
+        NSString *name = [skillSets stringForColumn:@"name"];
+        [everythingArray addObject:@[skillID, type, name, type]];
     }
     
     return everythingArray;

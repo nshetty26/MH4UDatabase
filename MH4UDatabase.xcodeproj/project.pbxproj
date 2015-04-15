@@ -15,13 +15,13 @@
 		E742B2D01ACCF162007B08AF /* CombiningTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E742B2CF1ACCF162007B08AF /* CombiningTableView.m */; };
 		E7460C9C1AB613CA006C7CD3 /* Armor.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460C931AB613CA006C7CD3 /* Armor.png */; };
 		E7460C9E1AB613CA006C7CD3 /* Decorations.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460C951AB613CA006C7CD3 /* Decorations.png */; };
-		E7460C9F1AB613CA006C7CD3 /* Item.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460C961AB613CA006C7CD3 /* Item.png */; };
+		E7460C9F1AB613CA006C7CD3 /* Items.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460C961AB613CA006C7CD3 /* Items.png */; };
 		E7460CA31AB613CA006C7CD3 /* Skill Tree.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460C9A1AB613CA006C7CD3 /* Skill Tree.png */; };
-		E7460CA41AB613CA006C7CD3 /* Weapon.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460C9B1AB613CA006C7CD3 /* Weapon.png */; };
+		E7460CA41AB613CA006C7CD3 /* Weapons.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460C9B1AB613CA006C7CD3 /* Weapons.png */; };
 		E7460CA61AB614A7006C7CD3 /* Combining.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460CA51AB614A7006C7CD3 /* Combining.png */; };
 		E7460CAA1AB61544006C7CD3 /* Monsters.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460CA91AB61544006C7CD3 /* Monsters.png */; };
-		E7460CAE1AB617D0006C7CD3 /* Quest.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460CAD1AB617D0006C7CD3 /* Quest.png */; };
-		E7460CB01AB617E5006C7CD3 /* Location.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460CAF1AB617E5006C7CD3 /* Location.png */; };
+		E7460CAE1AB617D0006C7CD3 /* Quests.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460CAD1AB617D0006C7CD3 /* Quests.png */; };
+		E7460CB01AB617E5006C7CD3 /* Locations.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460CAF1AB617E5006C7CD3 /* Locations.png */; };
 		E7460CB21AB61966006C7CD3 /* MH4ULogoBlack.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460CB11AB61966006C7CD3 /* MH4ULogoBlack.png */; };
 		E7460CB41AB61AFF006C7CD3 /* MH4ULogo.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460CB31AB61AFF006C7CD3 /* MH4ULogo.png */; };
 		E749BA971AB3D22F003860E8 /* WeaponsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E749BA961AB3D22F003860E8 /* WeaponsTableViewController.m */; };
@@ -864,6 +864,8 @@
 		E7AB48B71AB2903200060D7E /* QuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AB48B61AB2903200060D7E /* QuestsViewController.m */; };
 		E7AB48BF1AB2B4F600060D7E /* QuestDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AB48BE1AB2B4F600060D7E /* QuestDetailViewController.m */; };
 		E7AB48C11AB2B68000060D7E /* DetailedQuestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7AB48C01AB2B68000060D7E /* DetailedQuestView.xib */; };
+		E7AD31F71ADEF77E00E8FBA4 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AD31F61ADEF77E00E8FBA4 /* BaseViewController.m */; };
+		E7AD31FA1ADF052300E8FBA4 /* UIViewController+UIViewController_MenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AD31F91ADF052300E8FBA4 /* UIViewController+UIViewController_MenuButton.m */; };
 		E7AF5F881AAE2F6E00847512 /* ItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AF5F871AAE2F6E00847512 /* ItemsViewController.m */; };
 		E7AF5F8A1AAE303600847512 /* DetailedItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7AF5F891AAE303600847512 /* DetailedItemView.xib */; };
 		E7C600821AAFA48100EC6E84 /* MH4UDBEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C600811AAFA48100EC6E84 /* MH4UDBEntity.m */; };
@@ -905,13 +907,13 @@
 		E742B2CF1ACCF162007B08AF /* CombiningTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombiningTableView.m; sourceTree = "<group>"; };
 		E7460C931AB613CA006C7CD3 /* Armor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Armor.png; sourceTree = "<group>"; };
 		E7460C951AB613CA006C7CD3 /* Decorations.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Decorations.png; sourceTree = "<group>"; };
-		E7460C961AB613CA006C7CD3 /* Item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Item.png; sourceTree = "<group>"; };
+		E7460C961AB613CA006C7CD3 /* Items.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Items.png; sourceTree = "<group>"; };
 		E7460C9A1AB613CA006C7CD3 /* Skill Tree.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Skill Tree.png"; sourceTree = "<group>"; };
-		E7460C9B1AB613CA006C7CD3 /* Weapon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Weapon.png; sourceTree = "<group>"; };
+		E7460C9B1AB613CA006C7CD3 /* Weapons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Weapons.png; sourceTree = "<group>"; };
 		E7460CA51AB614A7006C7CD3 /* Combining.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Combining.png; sourceTree = "<group>"; };
 		E7460CA91AB61544006C7CD3 /* Monsters.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Monsters.png; sourceTree = "<group>"; };
-		E7460CAD1AB617D0006C7CD3 /* Quest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Quest.png; sourceTree = "<group>"; };
-		E7460CAF1AB617E5006C7CD3 /* Location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Location.png; sourceTree = "<group>"; };
+		E7460CAD1AB617D0006C7CD3 /* Quests.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Quests.png; sourceTree = "<group>"; };
+		E7460CAF1AB617E5006C7CD3 /* Locations.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Locations.png; sourceTree = "<group>"; };
 		E7460CB11AB61966006C7CD3 /* MH4ULogoBlack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MH4ULogoBlack.png; sourceTree = "<group>"; };
 		E7460CB31AB61AFF006C7CD3 /* MH4ULogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MH4ULogo.png; sourceTree = "<group>"; };
 		E749BA951AB3D22F003860E8 /* WeaponsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeaponsTableViewController.h; sourceTree = "<group>"; };
@@ -1769,6 +1771,10 @@
 		E7AB48BD1AB2B4F600060D7E /* QuestDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestDetailViewController.h; sourceTree = "<group>"; };
 		E7AB48BE1AB2B4F600060D7E /* QuestDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestDetailViewController.m; sourceTree = "<group>"; };
 		E7AB48C01AB2B68000060D7E /* DetailedQuestView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailedQuestView.xib; sourceTree = "<group>"; };
+		E7AD31F51ADEF77E00E8FBA4 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		E7AD31F61ADEF77E00E8FBA4 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		E7AD31F81ADF052300E8FBA4 /* UIViewController+UIViewController_MenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+UIViewController_MenuButton.h"; sourceTree = "<group>"; };
+		E7AD31F91ADF052300E8FBA4 /* UIViewController+UIViewController_MenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+UIViewController_MenuButton.m"; sourceTree = "<group>"; };
 		E7AF5F861AAE2F6E00847512 /* ItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemsViewController.h; sourceTree = "<group>"; };
 		E7AF5F871AAE2F6E00847512 /* ItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemsViewController.m; sourceTree = "<group>"; };
 		E7AF5F891AAE303600847512 /* DetailedItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DetailedItemView.xib; path = MH4UDatabase/DetailedItemView.xib; sourceTree = "<group>"; };
@@ -1930,6 +1936,10 @@
 			children = (
 				E7EB7DF51AA6AC96007C05E0 /* MenuViewController.h */,
 				E7EB7DF61AA6AC96007C05E0 /* MenuViewController.m */,
+				E7AD31F81ADF052300E8FBA4 /* UIViewController+UIViewController_MenuButton.h */,
+				E7AD31F91ADF052300E8FBA4 /* UIViewController+UIViewController_MenuButton.m */,
+				E7AD31F51ADEF77E00E8FBA4 /* BaseViewController.h */,
+				E7AD31F61ADEF77E00E8FBA4 /* BaseViewController.m */,
 			);
 			name = "Menu View Controller";
 			sourceTree = "<group>";
@@ -1950,16 +1960,17 @@
 		E7460C921AB613AD006C7CD3 /* Menu Icons */ = {
 			isa = PBXGroup;
 			children = (
+				E7460CAD1AB617D0006C7CD3 /* Quests.png */,
 				E7460CB11AB61966006C7CD3 /* MH4ULogoBlack.png */,
-				E7460CAF1AB617E5006C7CD3 /* Location.png */,
+				E7460CAF1AB617E5006C7CD3 /* Locations.png */,
 				E7460CB31AB61AFF006C7CD3 /* MH4ULogo.png */,
 				E7460CA91AB61544006C7CD3 /* Monsters.png */,
 				E7460CA51AB614A7006C7CD3 /* Combining.png */,
 				E7460C931AB613CA006C7CD3 /* Armor.png */,
 				E7460C951AB613CA006C7CD3 /* Decorations.png */,
-				E7460C961AB613CA006C7CD3 /* Item.png */,
+				E7460C961AB613CA006C7CD3 /* Items.png */,
 				E7460C9A1AB613CA006C7CD3 /* Skill Tree.png */,
-				E7460C9B1AB613CA006C7CD3 /* Weapon.png */,
+				E7460C9B1AB613CA006C7CD3 /* Weapons.png */,
 			);
 			name = "Menu Icons";
 			sourceTree = "<group>";
@@ -3060,7 +3071,6 @@
 			isa = PBXGroup;
 			children = (
 				E749EABC1AC50F5000E10DFF /* mh4u.db */,
-				E7460CAD1AB617D0006C7CD3 /* Quest.png */,
 				E7460C921AB613AD006C7CD3 /* Menu Icons */,
 				E7A397B81AB54072003A9C82 /* old mh4u.db */,
 				E7EB7DF21AA6AC96007C05E0 /* AppDelegate.h */,
@@ -3209,7 +3219,7 @@
 				E78AFB331AA92A12009B16C3 /* MH4U-Khezu_Icon.png in Resources */,
 				E78AFA681AA92A12009B16C3 /* Scraps-Cyan.png in Resources */,
 				E78AFA0F1AA92A12009B16C3 /* MealTicket-Yellow.png in Resources */,
-				E7460CB01AB617E5006C7CD3 /* Location.png in Resources */,
+				E7460CB01AB617E5006C7CD3 /* Locations.png in Resources */,
 				E78AF9CD1AA92A12009B16C3 /* Herb-Pink.png in Resources */,
 				E78AF9B21AA92A12009B16C3 /* Fish-Blue.png in Resources */,
 				E78AF9EB1AA92A12009B16C3 /* Jewel-Unknown.png in Resources */,
@@ -3278,7 +3288,7 @@
 				E78AFB051AA92A12009B16C3 /* MH4U-Ash_Kecha_Wacha_Icon.png in Resources */,
 				E78AF90C1AA92A12009B16C3 /* waist2.png in Resources */,
 				E78AFA911AA92A12009B16C3 /* Specialty-Blue.png in Resources */,
-				E7460C9F1AB613CA006C7CD3 /* Item.png in Resources */,
+				E7460C9F1AB613CA006C7CD3 /* Items.png in Resources */,
 				E78AFBBF1AA92A12009B16C3 /* gunlance9.png in Resources */,
 				E78AF9131AA92A12009B16C3 /* waist9.png in Resources */,
 				E78AFAE51AA92A12009B16C3 /* maps_mh4_heavens_mount.png in Resources */,
@@ -3506,7 +3516,7 @@
 				E78AF9351AA92A12009B16C3 /* Bait-Yellow.png in Resources */,
 				E78AFA101AA92A12009B16C3 /* Meat-Blue.png in Resources */,
 				E78AFBA71AA92A12009B16C3 /* dual_blades6.png in Resources */,
-				E7460CAE1AB617D0006C7CD3 /* Quest.png in Resources */,
+				E7460CAE1AB617D0006C7CD3 /* Quests.png in Resources */,
 				E78AFA9E1AA92A12009B16C3 /* Sphere-Blue.png in Resources */,
 				E78AFB011AA92A12009B16C3 /* MH4U-Apex_Tidal_Najarala_Icon.png in Resources */,
 				E78AF98D1AA92A12009B16C3 /* Charm-Stone-Grey.png in Resources */,
@@ -3713,7 +3723,7 @@
 				E78AFB8E1AA92A12009B16C3 /* bow10.png in Resources */,
 				E78AF96D1AA92A12009B16C3 /* Bottle-White.png in Resources */,
 				E78AFACA1AA92A12009B16C3 /* Whetstone.png in Resources */,
-				E7460CA41AB613CA006C7CD3 /* Weapon.png in Resources */,
+				E7460CA41AB613CA006C7CD3 /* Weapons.png in Resources */,
 				E78AFA631AA92A12009B16C3 /* Scale-White.png in Resources */,
 				E78AFBF81AA92A12009B16C3 /* light_bowgun6.png in Resources */,
 				E78AFB271AA92A12009B16C3 /* MH4U-Gore_Magala_Icon.png in Resources */,
@@ -4073,6 +4083,7 @@
 				E7EB7DF41AA6AC96007C05E0 /* AppDelegate.m in Sources */,
 				E73ECE5E1AB3C139002F41B0 /* WeaponTypeTableViewController.m in Sources */,
 				E7D5E23C1AAE507E0083D2C7 /* ItemDetailViewController.m in Sources */,
+				E7AD31F71ADEF77E00E8FBA4 /* BaseViewController.m in Sources */,
 				E7A00DF81AAFBDB90037BE61 /* MonstersViewController.m in Sources */,
 				E7C600891AAFA9D200EC6E84 /* ArmorDetailViewController.m in Sources */,
 				E749BA971AB3D22F003860E8 /* WeaponsTableViewController.m in Sources */,
@@ -4087,6 +4098,7 @@
 				E77A7BE41AA91D490087247F /* MH4UDBEngine.m in Sources */,
 				E749EABB1AC4EB4900E10DFF /* ItemTableView.m in Sources */,
 				E7EB7DF71AA6AC96007C05E0 /* MenuViewController.m in Sources */,
+				E7AD31FA1ADF052300E8FBA4 /* UIViewController+UIViewController_MenuButton.m in Sources */,
 				E78C04931AAF4BE5005ECCF6 /* ArmorsViewController.m in Sources */,
 				E7788E291AB378A6006DCDCD /* LocationDetailViewController.m in Sources */,
 				E7AB48BF1AB2B4F600060D7E /* QuestDetailViewController.m in Sources */,
