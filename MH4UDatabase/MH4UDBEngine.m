@@ -1136,4 +1136,16 @@
     }
 }
 
+-(BOOL)insertNewArmorSetWithName:(NSString *)name {
+    NSString *dbPath = [[NSBundle mainBundle] pathForResource:@"ArmorBuilder" ofType:@".db"];
+    FMDatabase *armorDatabase = [[FMDatabase alloc] initWithPath:dbPath];
+    
+    if (![armorDatabase open]) {
+        return nil;
+    } else {
+        NSString *query = [NSString stringWithFormat:@"insert into ArmorSet (name) Values ('%@')", name];
+        return [armorDatabase executeUpdate:query];
+    }
+}
+
 @end

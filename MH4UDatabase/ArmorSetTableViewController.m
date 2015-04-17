@@ -26,7 +26,8 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(promptUserForNewArmorSet)];
+    self.navigationItem.rightBarButtonItems = @[addButton, self.editButtonItem];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,6 +47,12 @@
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
     return _allSets.count;
+}
+
+-(void)promptUserForNewArmorSet {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add New Set" message:@"Please enter the name of the new set" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"OK", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
 }
 
 
@@ -71,15 +78,15 @@
 }
 
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
+
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -89,7 +96,20 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleDelete;
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        NSString *armorSetName = [[alertView textFieldAtIndex:0] text];
+        [_dbEngine insertNewArmorSetWithName:armorSetName];
+        _allSets = [_dbEngine getAllArmorSets];
+        [self.tableView reloadData];
+    }
+    
+}
 
 /*
 // Override to support rearranging the table view.

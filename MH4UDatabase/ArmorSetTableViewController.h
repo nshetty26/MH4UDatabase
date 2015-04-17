@@ -11,7 +11,7 @@
 
 @class MH4UDBEngine;
 
-@interface ArmorSetTableViewController : UITableViewController
+@interface ArmorSetTableViewController : UITableViewController <UIAlertViewDelegate>
 
 @property (strong, nonatomic) MH4UDBEngine *dbEngine;
 

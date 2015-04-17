@@ -65,6 +65,7 @@
 
 -(NSArray *)getAllArmorSets;
 -(ArmorSet *)getArmorSetForSetID:(NSNumber *)setID;
+-(BOOL)insertNewArmorSetWithName:(NSString *)name;
 
 @end
 
