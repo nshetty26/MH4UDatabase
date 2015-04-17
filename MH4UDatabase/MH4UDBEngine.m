@@ -35,6 +35,7 @@
 }
 
 
+
 #pragma mark - Monster Queries
 -(NSArray *)retrieveMonsters:(NSNumber *)monsterID {
     NSMutableArray *allMonsterArray = [[NSMutableArray alloc] init];
@@ -219,6 +220,7 @@
             armor.hunterType = [s stringForColumn:@"hunter_type"];
             armor.slot = [s stringForColumn:@"slot"];
             armor.rarity = [s intForColumn:@"rarity"];
+            armor.icon = [NSString stringWithFormat:@"%@%i.png", armor.slot, armor.rarity].lowercaseString;
             [armorArray addObject:armor];
         }
     }
@@ -436,12 +438,12 @@
         } else if ([itemType isEqualToString:@"Weapon"]) {
             Weapon *weapon = (Weapon *)item;
             NSString *weaponImage = [[s stringForColumn:@"wtype"]  stringByReplacingOccurrencesOfString:@" " withString:@"_"];
-            weapon.icon = [NSString stringWithFormat:@"%@%i.png",weaponImage, weapon.rarity];
+            weapon.icon = [NSString stringWithFormat:@"%@%i.png",weaponImage, weapon.rarity].lowercaseString;
             [usageItemsArray addObject:weapon];
 
         } else if ([itemType isEqualToString:@"Armor"]) {
             Armor *armor = (Armor *)item;
-            armor.icon = [NSString stringWithFormat:@"%@%i.png",[s stringForColumn:@"slot"], armor.rarity];
+            armor.icon = [NSString stringWithFormat:@"%@%i.png",[s stringForColumn:@"slot"], armor.rarity].lowercaseString;
             [usageItemsArray addObject:armor];
         }
         
@@ -695,9 +697,9 @@
     NSMutableArray *questArray = [[NSMutableArray alloc] init];
     NSString *questQuery;
     if (!questID) {
-        questQuery = @"select quests._id, quests.name, quests.hub, quests.type, quests.stars, locations.name as locationName from quests inner join locations on locations._id = quests.location_id";
+        questQuery = @"select quests._id, quests.name, quests.hub, quests.type, quests.stars, locations.name as locationName from quests inner join locations on locations._id = quests.location_id where quests.name NOT LIKE ''";
     } else {
-        questQuery = [NSString stringWithFormat:@"select quests._id, quests.name, quests.hub, quests.type, quests.stars, locations.name as locationName from quests inner join locations on locations._id = quests.location_id where _id = %i", [questID intValue]];
+        questQuery = [NSString stringWithFormat:@"select quests._id, quests.name, quests.hub, quests.type, quests.stars, locations.name as locationName from quests inner join locations on locations._id = quests.location_id where quests.name NOT LIKE '' and quests._id = %i", [questID intValue]];
     }
     FMResultSet *s = [self DBquery:questQuery];
     while ([s next]) {
@@ -1074,6 +1076,64 @@
     }
     
     return everythingArray;
+}
+
+-(NSArray *)getAllArmorSets {
+    NSMutableArray *allSets = [[NSMutableArray alloc] init];
+    NSString *dbPath = [[NSBundle mainBundle] pathForResource:@"ArmorBuilder" ofType:@".db"];
+    FMDatabase *armorDatabase = [[FMDatabase alloc] initWithPath:dbPath];
+    
+    if (![armorDatabase open]) {
+        return nil;
+    } else {
+        NSString *query = @"SELECT * from ArmorSet";
+        FMResultSet *s = [armorDatabase executeQuery:query];
+        while ([s next]) {
+            NSNumber *setID = [NSNumber numberWithInt:[s intForColumn:@"_id"]];
+            NSString *setName = [s stringForColumn:@"name"];
+            [allSets addObject:@[setID, setName]];
+            
+        }
+        return allSets;
+    }
+}
+
+-(ArmorSet *)getArmorSetForSetID:(NSNumber *)setID {
+    ArmorSet *armorSet = [[ArmorSet alloc] init];
+    NSString *dbPath = [[NSBundle mainBundle] pathForResource:@"ArmorBuilder" ofType:@".db"];
+    FMDatabase *armorDatabase = [[FMDatabase alloc] initWithPath:dbPath];
+    
+    if (![armorDatabase open]) {
+        return nil;
+    } else {
+        NSString *query = [NSString stringWithFormat:@"SELECT * from ArmorSet where _id = %i", [setID intValue]];
+        FMResultSet *s = [armorDatabase executeQuery:query];
+        while ([s next]) {
+            if (![s columnIsNull:@"weapon_id"]) {
+                armorSet.weapon = [self getWeaponForWeaponID:[s intForColumn:@"weapon_id"]];
+            }
+            if (![s columnIsNull:@"head_id"]) {
+                armorSet.helm = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"head_id"]]] firstObject];
+            }
+            if (![s columnIsNull:@"body_id"]) {
+                armorSet.chest = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"body_id"]]] firstObject];
+            }
+            if (![s columnIsNull:@"arms_id"]) {
+                armorSet.arms = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"arms_id"]]] firstObject];
+            }
+            if (![s columnIsNull:@"waist_id"]) {
+                armorSet.waist = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"waist_id"]]] firstObject];
+            }
+            if (![s columnIsNull:@"legs_id"]) {
+                armorSet.legs = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"legs_id"]]] firstObject];
+            }
+            if (![s columnIsNull:@"talisman_id"]) {
+                armorSet.talisman = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"talisman_id"]]] firstObject];
+            }
+            
+        }
+        return armorSet;
+    }
 }
 
 @end

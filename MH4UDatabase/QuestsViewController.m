@@ -26,9 +26,10 @@
         _questTypeTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
         UITabBarItem *caravan = [[UITabBarItem alloc] initWithTitle:@"Caravan" image:nil tag:1];
         UITabBarItem *guild = [[UITabBarItem alloc] initWithTitle:@"Guild" image:nil tag:2];
+        UITabBarItem *event = [[UITabBarItem alloc] initWithTitle:@"Event" image:nil tag:3];
         
         _questTypeTab.delegate = self;
-        [_questTypeTab setItems:@[caravan, guild]];
+        [_questTypeTab setItems:@[caravan, guild, event]];
         [_questTypeTab setSelectedItem:caravan];
     }
 
@@ -77,7 +78,7 @@
     }
     NSArray *searchedQuest = [_displayedQuests filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
         Quest *quest = (Quest*)evaluatedObjected;
-        if ([quest.name.lowercaseString containsString:searchText.lowercaseString]) {
+        if (!([quest.name.lowercaseString rangeOfString:searchText.lowercaseString].location == NSNotFound)) {
             return YES;
         } else {
             return NO;
@@ -94,10 +95,14 @@
         _displayedQuests = [_allQuestsArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
             Quest *quest = (Quest *)evaluatedObject;
             return [quest.hub isEqualToString:@"Caravan"];}]];
-    } else {
+    } else if ([_questTypeTab selectedItem].tag == 2 ) {
         _displayedQuests = [_allQuestsArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
             Quest *quest = (Quest *)evaluatedObject;
             return [quest.hub isEqualToString:@"Guild"];}]];
+    } else if ([_questTypeTab selectedItem].tag == 3 ) {
+        _displayedQuests = [_allQuestsArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
+            Quest *quest = (Quest *)evaluatedObject;
+            return [quest.hub isEqualToString:@"Event"];}]];
     }
     [_questTable reloadData];
 }
@@ -127,6 +132,11 @@
                     Quest *quest = (Quest *)evaluatedObject;
                     return [quest.hub isEqualToString:@"Guild"];}]];
                 break;
+            case 3:
+                _displayedQuests = [_allQuestsArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
+                    Quest *quest = (Quest *)evaluatedObject;
+                    return [quest.hub isEqualToString:@"Event"];}]];
+                break;
             default:
                 break;
         }
@@ -147,34 +157,34 @@
     if ([tableView isEqual:_questTable]) {
         switch (section) {
             case 1:
-                return @"*";
+                return @"1 *";
                 break;
             case 2:
-                return @"**";
+                return @"2 **";
                 break;
             case 3:
-                return @"***";
+                return @"3 ***";
                 break;
             case 4:
-                return @"****";
+                return @"4 ****";
                 break;
             case 5:
-                return @"*****";
+                return @"5 *****";
                 break;
             case 6:
-                return @"******";
+                return @"6 ******";
                 break;
             case 7:
-                return @"*******";
+                return @"7 *******";
                 break;
             case 8:
-                return @"********";
+                return @"8 ********";
                 break;
             case 9:
-                return @"*********";
+                return @"9 *********";
                 break;
             case 10:
-                return @"**********";
+                return @"10 **********";
                 break;
             default:
                 break;

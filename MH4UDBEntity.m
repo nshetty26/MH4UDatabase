@@ -56,3 +56,8 @@
 @implementation Weapon
 
 @end
+
+@implementation ArmorSet
+
+@end
+

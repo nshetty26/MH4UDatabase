@@ -7,6 +7,7 @@
 //
 
 #import "ArmorsViewController.h"
+#import "ArmorSetDetailViewController.h";
 #import "ArmorDetailViewController.h"
 #import "MH4UDBEngine.h"
 #import "MH4UDBEntity.h"
@@ -81,7 +82,7 @@
     }
     NSArray *searchedArmor = [_allArmorArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
         Armor *armor = (Armor*)evaluatedObjected;
-        if ([armor.name.lowercaseString containsString:searchText.lowercaseString]) {
+        if (!([armor.name.lowercaseString rangeOfString:searchText.lowercaseString].location == NSNotFound)) {
             return YES;
         } else {
             return NO;
@@ -234,6 +235,7 @@
         Armor *armor = [self returnArmorAtIndexPath:indexPath];
         cell.textLabel.text = armor.name;
         cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@%i.png",[armor.slot lowercaseString], armor.rarity]];
+        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         return cell;
     } else {
         return nil;
@@ -253,6 +255,49 @@
         [self.navigationController pushViewController:aDVC animated:YES];
         
     }
+    
+}
+
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    Armor *armor = [self returnArmorAtIndexPath:indexPath];
+    ArmorSet *armorSet = [[ArmorSet alloc] init];
+    if ([armor.slot isEqualToString:@"Head"]) {
+        armorSet.helm = armor;
+        armorSet.chest = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 1]] firstObject];
+        armorSet.arms = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 2]] firstObject];
+        armorSet.waist = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 3]] firstObject];
+        armorSet.legs = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 4]] firstObject];
+    } else if ([armor.slot isEqualToString:@"Body"]) {
+        armorSet.helm = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -1]] firstObject];
+        armorSet.chest = armor;
+        armorSet.arms = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 1]] firstObject];
+        armorSet.waist = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 2]] firstObject];
+        armorSet.legs = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 3]] firstObject];
+    } else if ([armor.slot isEqualToString:@"Arms"]) {
+        armorSet.helm = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -2]] firstObject];
+        armorSet.chest = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -1]] firstObject];
+        armorSet.arms = armor;
+        armorSet.waist = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 1]] firstObject];
+        armorSet.legs = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 2]] firstObject];
+    } else if ([armor.slot isEqualToString:@"Waist"]) {
+        armorSet.helm = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -3]] firstObject];
+        armorSet.chest = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -2]] firstObject];
+        armorSet.arms = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -1]] firstObject];
+        armorSet.waist = armor;
+        armorSet.legs = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 1]] firstObject];
+    } else if ([armor.slot isEqualToString:@"legs"]) {
+        armorSet.helm = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -4]] firstObject];
+        armorSet.chest = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -3]] firstObject];
+        armorSet.arms = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -2]] firstObject];
+        armorSet.waist = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -1]] firstObject];
+        armorSet.legs = armor;
+    }
+    
+    ArmorSetDetailViewController *aSVC = [[ArmorSetDetailViewController alloc] init];
+    aSVC.dbEngine = _dbEngine;
+    aSVC.armorSet = armorSet;
+    [self.navigationController pushViewController:aSVC animated:YES];
+    
     
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "ArmorSetDetailViewController.h"
 #import "UniversalSearchTableViewController.h"
 #import "MenuViewController.h"
 #import "MonstersViewController.h"
@@ -28,10 +29,14 @@
 //    mVC.dbEngine = [[MH4UDBEngine alloc] init];
 //    self.centerViewController = [[UINavigationController alloc] initWithRootViewController:mVC];
     
-    UniversalSearchTableViewController *uSTC = [[UniversalSearchTableViewController alloc] init];
-    uSTC.dbEngine = [[MH4UDBEngine alloc] init];
+//    UniversalSearchTableViewController *uSTC = [[UniversalSearchTableViewController alloc] init];
+//    uSTC.dbEngine = [[MH4UDBEngine alloc] init];
+//    
+//    self.centerViewController = [[UINavigationController alloc] initWithRootViewController:uSTC];
     
-    self.centerViewController = [[UINavigationController alloc] initWithRootViewController:uSTC];
+    ArmorSetDetailViewController *aSVC = [[ArmorSetDetailViewController alloc] init];
+    self.centerViewController = [[UINavigationController alloc] initWithRootViewController:aSVC];
+    
     
     _menuVC = [[MenuViewController alloc] init];
 

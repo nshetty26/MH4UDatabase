@@ -200,3 +200,16 @@
 
 
 @end
+
+@interface ArmorSet : NSObject
+
+@property (nonatomic) Weapon *weapon;
+@property (nonatomic) Armor *helm;
+@property (nonatomic) Armor *chest;
+@property (nonatomic) Armor *arms;
+@property (nonatomic) Armor *waist;
+@property (nonatomic) Armor *legs;
+@property (nonatomic) Armor *talisman;
+
+@end
+

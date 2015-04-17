@@ -254,7 +254,7 @@
             }
         }
 
-    } else if ([weapon.type containsString:@"Bowgun"]) {
+    } else if (!([weapon.type rangeOfString:@"Bowgun"].location == NSNotFound)) {
         _auxiliaryLabel1.hidden = NO;
         _auxiliaryValue1.hidden = NO;
         _auxiliaryLabel1.text = @"Reload:";
@@ -291,7 +291,7 @@
         _auxiliaryValue5.text = chargeArray[3];
     }
     
-    if (![weapon.type containsString:@"Bow"]) {
+    if (([weapon.type rangeOfString:@"Bow"].location == NSNotFound)) {
         [self drawSharpnessRectWithWeapon:weapon];
     } else {
         _sharpnessBackground.hidden = YES;
@@ -311,21 +311,21 @@
     int sharpnessCount = 0;
     for (NSString *sharpnessString in sharpnessStringArray) {
         sharpnessCount++;
-        int frameWidth = 0;
+        float frameWidth = 0.0;
         UIView *sharpnessView = (sharpnessCount == 1) ? _sharpnessView1 : _sharpnessView2;
         
         [sharpnessView setBackgroundColor:[UIColor clearColor]];
         NSArray *sharpness = [sharpnessString componentsSeparatedByString:@"."];
         
-        int mRed1 = (int)[sharpness[0] integerValue];
-        int mOrange1 = (int)[sharpness[1] integerValue];
-        int mYellow1 = (int)[sharpness[2] integerValue];
-        int mGreen1 = (int)[sharpness[3] integerValue];
-        int mBlue1 = (int)[sharpness[4] integerValue];
-        int mWhite1 = (int)[sharpness[5] integerValue];
-        int mPurple1 = (int)[sharpness[6] integerValue];
+        float mRed1 = (float)[sharpness[0] floatValue];
+        float mOrange1 = (float)[sharpness[1] floatValue];
+        float mYellow1 = (float)[sharpness[2] floatValue];
+        float mGreen1 = (float)[sharpness[3] floatValue];
+        float mBlue1 = (float)[sharpness[4] floatValue];
+        float mWhite1 = (float)[sharpness[5] floatValue];
+        float mPurple1 = (float)[sharpness[6] floatValue];
         
-        int widthMultiplier = sharpnessView.bounds.size.width / (mRed1 + mOrange1 + mYellow1 + mGreen1 + mBlue1 + mWhite1 + mPurple1);
+        float widthMultiplier = sharpnessView.bounds.size.width / (mRed1 + mOrange1 + mYellow1 + mGreen1 + mBlue1 + mWhite1 + mPurple1);
         
         CGRect sharpnessRect = sharpnessView.bounds;
         

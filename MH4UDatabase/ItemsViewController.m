@@ -67,7 +67,7 @@
     else {
     NSArray *searchedItems = [_allItems filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
         Item *item = (Item*)evaluatedObjected;
-        if ([item.name.lowercaseString containsString:searchText.lowercaseString]) {
+        if (!([item.name.lowercaseString rangeOfString:searchText.lowercaseString].location == NSNotFound)) {
             return YES;
         } else {
             return NO;

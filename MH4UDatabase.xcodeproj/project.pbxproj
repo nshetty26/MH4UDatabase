@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		499F66047D4F8AC8382E0904 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D81653FF5EF53FDB102D0403 /* libPods.a */; };
+		E703EF7C1AE1828D00B2C9E6 /* ArmorSetDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E703EF7A1AE1828D00B2C9E6 /* ArmorSetDetailViewController.m */; };
+		E703EF7D1AE1828D00B2C9E6 /* ArmorSetDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E703EF7B1AE1828D00B2C9E6 /* ArmorSetDetailViewController.xib */; };
+		E703EF7F1AE184BE00B2C9E6 /* ArmorStatSheetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E703EF7E1AE184BE00B2C9E6 /* ArmorStatSheetView.xib */; };
+		E703EF831AE1B41000B2C9E6 /* ArmorSetTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E703EF821AE1B41000B2C9E6 /* ArmorSetTableViewController.m */; };
+		E703EF861AE1B67700B2C9E6 /* ArmorBuilder.db in Resources */ = {isa = PBXBuildFile; fileRef = E703EF851AE1B67700B2C9E6 /* ArmorBuilder.db */; };
 		E72E4EAE1AB0C67E0043CC6A /* CombiningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E72E4EAD1AB0C67E0043CC6A /* CombiningViewController.m */; };
 		E72E4EB01AB0D3390043CC6A /* UICombiningTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E72E4EAF1AB0D3390043CC6A /* UICombiningTableCell.xib */; };
 		E734F05A1AB0F9DA0037E684 /* SkillTreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E734F0591AB0F9DA0037E684 /* SkillTreeViewController.m */; };
@@ -896,6 +901,13 @@
 		0DA25932ADF33E4E62A2F9CB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		CBEDC553F9524B0EE6960A11 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D81653FF5EF53FDB102D0403 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E703EF791AE1828D00B2C9E6 /* ArmorSetDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArmorSetDetailViewController.h; sourceTree = "<group>"; };
+		E703EF7A1AE1828D00B2C9E6 /* ArmorSetDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmorSetDetailViewController.m; sourceTree = "<group>"; };
+		E703EF7B1AE1828D00B2C9E6 /* ArmorSetDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmorSetDetailViewController.xib; path = MH4UDatabase/ArmorSetDetailViewController.xib; sourceTree = "<group>"; };
+		E703EF7E1AE184BE00B2C9E6 /* ArmorStatSheetView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmorStatSheetView.xib; path = MH4UDatabase/ArmorStatSheetView.xib; sourceTree = "<group>"; };
+		E703EF811AE1B41000B2C9E6 /* ArmorSetTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArmorSetTableViewController.h; sourceTree = "<group>"; };
+		E703EF821AE1B41000B2C9E6 /* ArmorSetTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmorSetTableViewController.m; sourceTree = "<group>"; };
+		E703EF851AE1B67700B2C9E6 /* ArmorBuilder.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = ArmorBuilder.db; sourceTree = "<group>"; };
 		E72E4EAA1AB0C6690043CC6A /* CombiningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombiningViewController.h; sourceTree = "<group>"; };
 		E72E4EAD1AB0C67E0043CC6A /* CombiningViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombiningViewController.m; sourceTree = "<group>"; };
 		E72E4EAF1AB0D3390043CC6A /* UICombiningTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UICombiningTableCell.xib; path = MH4UDatabase/UICombiningTableCell.xib; sourceTree = "<group>"; };
@@ -1766,6 +1778,7 @@
 		E7A00DFA1AAFC0830037BE61 /* MonsterDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonsterDetailViewController.m; sourceTree = "<group>"; };
 		E7A0213D1AA7EF2E00941343 /* DetailedArmorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DetailedArmorView.xib; path = MH4UDatabase/DetailedArmorView.xib; sourceTree = "<group>"; };
 		E7A397B81AB54072003A9C82 /* old mh4u.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = "old mh4u.db"; sourceTree = "<group>"; };
+		E7A8DA721AE151EF001465A1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E7AB48B51AB2903200060D7E /* QuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestsViewController.h; sourceTree = "<group>"; };
 		E7AB48B61AB2903200060D7E /* QuestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestsViewController.m; sourceTree = "<group>"; };
 		E7AB48BD1AB2B4F600060D7E /* QuestDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestDetailViewController.h; sourceTree = "<group>"; };
@@ -1825,6 +1838,7 @@
 		3EF6A24D361691F39C3EEE8F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E7A8DA721AE151EF001465A1 /* UIKit.framework */,
 				D81653FF5EF53FDB102D0403 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -1927,6 +1941,10 @@
 				E78C04921AAF4BE5005ECCF6 /* ArmorsViewController.m */,
 				E7C600871AAFA9D200EC6E84 /* ArmorDetailViewController.h */,
 				E7C600881AAFA9D200EC6E84 /* ArmorDetailViewController.m */,
+				E703EF791AE1828D00B2C9E6 /* ArmorSetDetailViewController.h */,
+				E703EF7A1AE1828D00B2C9E6 /* ArmorSetDetailViewController.m */,
+				E703EF811AE1B41000B2C9E6 /* ArmorSetTableViewController.h */,
+				E703EF821AE1B41000B2C9E6 /* ArmorSetTableViewController.m */,
 			);
 			name = "Armor View Controller";
 			sourceTree = "<group>";
@@ -2988,6 +3006,8 @@
 		E7AF5F8B1AAE312300847512 /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
+				E703EF7B1AE1828D00B2C9E6 /* ArmorSetDetailViewController.xib */,
+				E703EF7E1AE184BE00B2C9E6 /* ArmorStatSheetView.xib */,
 				E72E4EAF1AB0D3390043CC6A /* UICombiningTableCell.xib */,
 				E78F92781AAD07AE003A297F /* DetailedMonsterView.xib */,
 				E7AF5F891AAE303600847512 /* DetailedItemView.xib */,
@@ -3070,6 +3090,7 @@
 		E7EB7DEE1AA6AC96007C05E0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E703EF851AE1B67700B2C9E6 /* ArmorBuilder.db */,
 				E749EABC1AC50F5000E10DFF /* mh4u.db */,
 				E7460C921AB613AD006C7CD3 /* Menu Icons */,
 				E7A397B81AB54072003A9C82 /* old mh4u.db */,
@@ -3150,7 +3171,7 @@
 		E7EB7DE31AA6AC96007C05E0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = GuthuDesigns;
 				TargetAttributes = {
 					E7EB7DEA1AA6AC96007C05E0 = {
@@ -3226,6 +3247,7 @@
 				E78AFADE1AA92A12009B16C3 /* maps_mh4_everwood_mini.png in Resources */,
 				E78AFA891AA92A12009B16C3 /* Shell-White.png in Resources */,
 				E78AF8E81AA92A12009B16C3 /* arms6.png in Resources */,
+				E703EF7D1AE1828D00B2C9E6 /* ArmorSetDetailViewController.xib in Resources */,
 				E78AF9441AA92A12009B16C3 /* Binoculars.png in Resources */,
 				E78AFAA81AA92A12009B16C3 /* Sprout.png in Resources */,
 				E78AFB1F1AA92A12009B16C3 /* MH4U-Fatalis_Icon.png in Resources */,
@@ -3529,6 +3551,7 @@
 				E78AF9E01AA92A12009B16C3 /* Hide-YellowGreen.png in Resources */,
 				E78AF92B1AA92A12009B16C3 /* Bag-White.png in Resources */,
 				E78AFA291AA92A12009B16C3 /* Mushroom-Orange.png in Resources */,
+				E703EF861AE1B67700B2C9E6 /* ArmorBuilder.db in Resources */,
 				E78AFB471AA92A12009B16C3 /* MH4U-Remobra_Icon.png in Resources */,
 				E78AFB5F1AA92A12009B16C3 /* MH4U-White_Monoblos_Icon.png in Resources */,
 				E78AFB711AA92A12009B16C3 /* Ice.png in Resources */,
@@ -4010,6 +4033,7 @@
 				E78AFA3D1AA92A12009B16C3 /* Ore-Purple.png in Resources */,
 				E78AF9E91AA92A12009B16C3 /* Jewel-Purple.png in Resources */,
 				E78AFA281AA92A12009B16C3 /* Mushroom-Grey.png in Resources */,
+				E703EF7F1AE184BE00B2C9E6 /* ArmorStatSheetView.xib in Resources */,
 				E78AFA311AA92A12009B16C3 /* Nectar-Orange.png in Resources */,
 				E78AFA131AA92A12009B16C3 /* Meat-Orange.png in Resources */,
 				E78AFAE81AA92A12009B16C3 /* maps_mh4_ingle_isle_mini.png in Resources */,
@@ -4090,6 +4114,7 @@
 				E7D4B5251AAB693D00C22D41 /* DetailViewController.m in Sources */,
 				E7CC13801AD4D09B00F10AB5 /* UniversalSearchTableViewController.m in Sources */,
 				E78ED7C51AB21E0200E80635 /* DecorationsDetailViewController.m in Sources */,
+				E703EF831AE1B41000B2C9E6 /* ArmorSetTableViewController.m in Sources */,
 				E742B2D01ACCF162007B08AF /* CombiningTableView.m in Sources */,
 				E75C3AF21AB1189B00C0D155 /* SkillDetailViewController.m in Sources */,
 				E78F599D1ACE343600E1F542 /* WeaponUpgradeTable.m in Sources */,
@@ -4104,6 +4129,7 @@
 				E7AB48BF1AB2B4F600060D7E /* QuestDetailViewController.m in Sources */,
 				E72E4EAE1AB0C67E0043CC6A /* CombiningViewController.m in Sources */,
 				E76B24831AB3EC6F0063615B /* WeaponDetailViewController.m in Sources */,
+				E703EF7C1AE1828D00B2C9E6 /* ArmorSetDetailViewController.m in Sources */,
 				E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */,
 				E734F05A1AB0F9DA0037E684 /* SkillTreeViewController.m in Sources */,
 				E7AB48B71AB2903200060D7E /* QuestsViewController.m in Sources */,
@@ -4184,7 +4210,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -4221,7 +4247,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4239,10 +4265,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MH4UDatabase/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "MH4UDatabase-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4259,10 +4286,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MH4UDatabase/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "MH4UDatabase-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

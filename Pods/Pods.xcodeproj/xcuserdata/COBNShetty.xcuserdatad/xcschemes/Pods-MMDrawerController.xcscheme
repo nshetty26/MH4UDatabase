@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0510"
+   LastUpgradeVersion = "0630"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "26A643FA0A46804D286A57EC"
+               BlueprintIdentifier = "315B9DE80361A539AA071CE5"
                BuildableName = "libPods-MMDrawerController.a"
                BlueprintName = "Pods-MMDrawerController"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -39,6 +39,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "315B9DE80361A539AA071CE5"
+            BuildableName = "libPods-MMDrawerController.a"
+            BlueprintName = "Pods-MMDrawerController"
+            ReferencedContainer = "container:Pods.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

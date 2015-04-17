@@ -42,7 +42,7 @@
     }
     NSArray *searchedWeapons = [_displayedWeapons filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
         Weapon *weapon = (Weapon *)evaluatedObjected;
-        if ([weapon.name.lowercaseString containsString:searchText.lowercaseString]) {
+        if (!([weapon.name.lowercaseString rangeOfString:searchText.lowercaseString].location == NSNotFound)) {
             return YES;
         } else {
             return NO;

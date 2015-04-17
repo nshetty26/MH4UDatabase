@@ -7,6 +7,7 @@
 //
 
 #import "MenuViewController.h"
+#import "ArmorSetTableViewController.h"
 #import "QuestsViewController.h"
 #import "LocationsViewController.h"
 #import "DecorationsViewController.h"
@@ -50,7 +51,7 @@
 
     _dbEngine = [[MH4UDBEngine alloc] init];
     if (!_menuOptions) {
-        _menuOptions = [NSArray arrayWithObjects:@"Monsters", @"Weapons", @"Armor", @"Quests", @"Items", @"Combining", @"Locations", @"Decorations", @"Skill Tree", nil];
+        _menuOptions = [NSArray arrayWithObjects:@"Monsters", @"Weapons", @"Armor", @"Quests", @"Items", @"Combining", @"Locations", @"Decorations", @"Skill Tree", @"Set Builder", nil];
     }
     UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 80)];
     logo.backgroundColor = [UIColor grayColor];
@@ -86,6 +87,8 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
     }
+    UIFont *font = [cell.textLabel.font fontWithSize:15];
+    cell.textLabel.font = font;
     cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", menuOption]];
     cell.imageView.tintColor = [UIColor grayColor];
     cell.textLabel.text = menuOption;
@@ -152,6 +155,10 @@
         stVC.heightDifference = heightDifference;
         stVC.dbEngine = _dbEngine;
         [nC setViewControllers:@[stVC]];
+    } else if ([menuOption isEqualToString:@"Set Builder"]) {
+        ArmorSetTableViewController *aSTVC = [[ArmorSetTableViewController alloc] init];
+        aSTVC.dbEngine = _dbEngine;
+        [nC setViewControllers:@[aSTVC]];
     }
     
 }
