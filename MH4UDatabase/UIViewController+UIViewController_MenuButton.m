@@ -16,6 +16,8 @@
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.navigationItem.leftItemsSupplementBackButton = YES;
     [self.navigationItem  setLeftBarButtonItems:@[leftButton] animated:YES];
+    
+    self.navigationItem.rightBarButtonItem = [[MMDrawerBarButtonItem alloc] initWithTarget:nil action:@selector(openArmorBuilder)];
 }
 
 -(CGFloat)returnHeightDifference {

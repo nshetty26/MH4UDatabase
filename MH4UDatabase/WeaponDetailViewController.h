@@ -11,7 +11,7 @@
 @class Weapon;
 @class MH4UDBEngine;
 
-@interface WeaponDetailViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITabBarDelegate>
+@interface WeaponDetailViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITabBarDelegate, UIAlertViewDelegate, UIActionSheetDelegate>
 @property (nonatomic) Weapon *selectedWeapon;
 @property (nonatomic) MH4UDBEngine *dbEngine;
 @property (nonatomic) int heightDifference;

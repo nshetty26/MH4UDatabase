@@ -80,7 +80,7 @@
     else {
         NSArray *searchedMonsters = [_displayedMonsters filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
             Monster *monster = (Monster*)evaluatedObjected;
-            if ([monster.monsterName.lowercaseString containsString:searchText.lowercaseString]) {
+            if (!([monster.monsterName.lowercaseString rangeOfString:searchText.lowercaseString].location == NSNotFound)) {
                 return YES;
             } else {
                 return NO;

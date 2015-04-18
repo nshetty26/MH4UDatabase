@@ -49,11 +49,11 @@
     } else {
         NSArray *searchedCombine = [_allCombined filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
             Combining *combineCombo = (Combining *)evaluatedObjected;
-            if ([combineCombo.combinedItem.name.lowercaseString containsString:searchText.lowercaseString]) {
+            if (!([combineCombo.combinedItem.name.lowercaseString rangeOfString:searchText.lowercaseString].location == NSNotFound)) {
                 return YES;
-            } else if ([combineCombo.item1.name.lowercaseString containsString:searchText.lowercaseString]){
+            } else if (!([combineCombo.item1.name.lowercaseString rangeOfString:searchText.lowercaseString].location == NSNotFound)){
                 return YES;
-            } else if (([combineCombo.item2.name.lowercaseString containsString:searchText.lowercaseString])) {
+            } else if (!([combineCombo.item2.name.lowercaseString rangeOfString:searchText.lowercaseString].location == NSNotFound)) {
                 return YES;
             } else {
                 return NO;

@@ -79,14 +79,17 @@
         if (item.capacity > 0) {
             accessoryText.text = [NSString stringWithFormat:@"%i", item.capacity];
             font = [accessoryText.font fontWithSize:15];
+            accessoryText.font = font;
         } else if ([item isKindOfClass:[Armor class]]) {
             Armor *armor = (Armor *)item;
             accessoryText.text = [NSString stringWithFormat:@"%@", armor.skillsArray[0]];
             font = [accessoryText.font fontWithSize:15];
+            accessoryText.font = font;
         } else if ([item isKindOfClass:[Decoration class]]) {
             Decoration *decoration = (Decoration *)item;
             accessoryText.text = [NSString stringWithFormat:@"%i", decoration.skillValue];
             font = [accessoryText.font fontWithSize:15];
+            accessoryText.font = font;
         }
     }
     accessoryText.font = font;
@@ -124,7 +127,7 @@
         [self.navigationController pushViewController:wDVC animated:YES];
     } else {
         ItemDetailViewController *itemDetailVC = [[ItemDetailViewController alloc] init];
-        itemDetailVC.selectedItem = item;
+        itemDetailVC.selectedItem = [_dbEngine getItemForName:item.name];
         itemDetailVC.dbEngine = _dbEngine;
         itemDetailVC.heightDifference = [self returnHeightDifference];
         [_navigationController pushViewController:itemDetailVC animated:YES];

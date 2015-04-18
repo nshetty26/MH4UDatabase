@@ -18,7 +18,8 @@
 @property (strong, nonatomic) NSArray *allViews;
 @property (strong, nonatomic) UITabBar *armorDetailTab;
 @property (strong, nonatomic) UITableView *skillTable;
-@property (strong, nonatomic)  ItemTableView *componentTable;
+@property (strong, nonatomic) ItemTableView *componentTable;
+@property (strong, nonatomic) UIAlertView *doubleCheckAlert;
 @end
 
 
@@ -57,6 +58,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setUpMenuButton];
+    self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem , [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addArmorToArmorBuilder)]];
     [_dbEngine populateArmor:_selectedArmor];
     self.title = NSLocalizedString(_selectedArmor.name, _selectedArmor.name);
 
@@ -175,6 +177,56 @@
     }
 }
 
+-(void)addArmorToArmorBuilder{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_selectedArmor.name message:[NSString stringWithFormat:@"Would you like to add %@ to a custom armor set?", _selectedArmor.name] delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    [alert show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSArray *allSets = [_dbEngine getAllArmorSets];
+    NSArray *selectedSet = allSets[buttonIndex];
+    
+    if ([alertView isEqual:_doubleCheckAlert]) {
+        if (buttonIndex == 1) {
+            BOOL successful = [_dbEngine addArmor:_selectedArmor toArmorSetWithID:selectedSet[0]];
+            [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        }
+    } else {
+        if (buttonIndex == 1) {
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Which Armor Set Would You Like to Add to?" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
+            
+            for (NSArray *set in allSets) {
+                [actionSheet addButtonWithTitle:set[1]];
+            }
+            
+            actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:@"Cancel"];
+            [actionSheet showInView:self.view];
+        }
+    }
+
+    
+    
+    
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSInteger cancelIndex = [actionSheet cancelButtonIndex];
+    if (buttonIndex != cancelIndex) {
+        NSArray *allSets = [_dbEngine getAllArmorSets];
+        NSArray *selectedSet = allSets[buttonIndex];
+        
+        BOOL exists = [_dbEngine checkArmor:_selectedArmor atArmorSetWithID:selectedSet[0]];
+        
+        if (!exists) {
+            BOOL successful = [_dbEngine addArmor:_selectedArmor toArmorSetWithID:selectedSet[0]];
+            [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        } else {
+            _doubleCheckAlert = [[UIAlertView alloc] initWithTitle:@"Are You Sure?" message:[NSString stringWithFormat:@"This Set Already Has a Piece in the %@ Slot", _selectedArmor.slot] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"YES", nil];
+            [_doubleCheckAlert show];
+        }
+        
+    }
+}
 
 
 @end

@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 GuthuDesigns. All rights reserved.
 //
 
+/*
+ select i1.name as 'In Item', i2.name as 'Out Item', quests.name as 'Unlock Quest' from wyporium inner join items as i1 on wyporium.item_in_id = i1._id inner join items as i2 on wyporium.item_out_id = i2._id inner join quests on wyporium.unlock_quest_id = quests._id
+ */
+
 #import <UIKit/UIKit.h>
 @class Armor;
 @class Quest;
@@ -14,6 +18,7 @@
 @class Monster;
 @class SkillCollection;
 @class Location;
+@class ArmorSet;
 
 @interface MH4UDBEngine : NSObject
 
@@ -57,6 +62,17 @@
 -(NSArray *)getHornSongsForHorn:(Weapon *)horn;
 
 -(NSArray *) populateResultsWithSearch:(NSString *)searchString;
+
+-(NSArray *)getAllArmorSets;
+-(ArmorSet *)getArmorSetForSetID:(NSNumber *)setID;
+-(BOOL)insertNewArmorSetWithName:(NSString *)name;
+-(BOOL)deleteArmorSetWithID:(NSNumber *)setID;
+
+-(BOOL)addArmor:(Armor *)armor toArmorSetWithID:(NSNumber *)setID;
+-(BOOL)checkArmor:(Armor *)armor atArmorSetWithID:(NSNumber *)setID;
+
+-(BOOL)addWeapon:(Weapon *)weapon toArmorSetWithID:(NSNumber *)setID;
+-(BOOL)checkWeapon:(Weapon *)weapon atArmorSetWithID:(NSNumber *)setID;
 
 @end
 

@@ -35,6 +35,7 @@
 }
 
 
+
 #pragma mark - Monster Queries
 -(NSArray *)retrieveMonsters:(NSNumber *)monsterID {
     NSMutableArray *allMonsterArray = [[NSMutableArray alloc] init];
@@ -219,6 +220,7 @@
             armor.hunterType = [s stringForColumn:@"hunter_type"];
             armor.slot = [s stringForColumn:@"slot"];
             armor.rarity = [s intForColumn:@"rarity"];
+            armor.icon = [NSString stringWithFormat:@"%@%i.png", armor.slot, armor.rarity].lowercaseString;
             [armorArray addObject:armor];
         }
     }
@@ -436,12 +438,12 @@
         } else if ([itemType isEqualToString:@"Weapon"]) {
             Weapon *weapon = (Weapon *)item;
             NSString *weaponImage = [[s stringForColumn:@"wtype"]  stringByReplacingOccurrencesOfString:@" " withString:@"_"];
-            weapon.icon = [NSString stringWithFormat:@"%@%i.png",weaponImage, weapon.rarity];
+            weapon.icon = [NSString stringWithFormat:@"%@%i.png",weaponImage, weapon.rarity].lowercaseString;
             [usageItemsArray addObject:weapon];
 
         } else if ([itemType isEqualToString:@"Armor"]) {
             Armor *armor = (Armor *)item;
-            armor.icon = [NSString stringWithFormat:@"%@%i.png",[s stringForColumn:@"slot"], armor.rarity];
+            armor.icon = [NSString stringWithFormat:@"%@%i.png",[s stringForColumn:@"slot"], armor.rarity].lowercaseString;
             [usageItemsArray addObject:armor];
         }
         
@@ -695,9 +697,9 @@
     NSMutableArray *questArray = [[NSMutableArray alloc] init];
     NSString *questQuery;
     if (!questID) {
-        questQuery = @"select quests._id, quests.name, quests.hub, quests.type, quests.stars, locations.name as locationName from quests inner join locations on locations._id = quests.location_id";
+        questQuery = @"select quests._id, quests.name, quests.hub, quests.type, quests.stars, locations.name as locationName from quests inner join locations on locations._id = quests.location_id where quests.name NOT LIKE ''";
     } else {
-        questQuery = [NSString stringWithFormat:@"select quests._id, quests.name, quests.hub, quests.type, quests.stars, locations.name as locationName from quests inner join locations on locations._id = quests.location_id where _id = %i", [questID intValue]];
+        questQuery = [NSString stringWithFormat:@"select quests._id, quests.name, quests.hub, quests.type, quests.stars, locations.name as locationName from quests inner join locations on locations._id = quests.location_id where quests.name NOT LIKE '' and quests._id = %i", [questID intValue]];
     }
     FMResultSet *s = [self DBquery:questQuery];
     while ([s next]) {
@@ -1075,5 +1077,210 @@
     
     return everythingArray;
 }
+
+-(NSArray *)getAllArmorSets {
+    NSMutableArray *allSets = [[NSMutableArray alloc] init];
+    FMDatabase *armorDatabase = [self openDatabase];
+    
+    if (![armorDatabase open]) {
+        return nil;
+    } else {
+        NSString *query = @"SELECT * from ArmorSet";
+        FMResultSet *s = [armorDatabase executeQuery:query];
+        while ([s next]) {
+            NSNumber *setID = [NSNumber numberWithInt:[s intForColumn:@"_id"]];
+            NSString *setName = [s stringForColumn:@"name"];
+            [allSets addObject:@[setID, setName]];
+            
+        }
+        return allSets;
+    }
+}
+
+-(ArmorSet *)getArmorSetForSetID:(NSNumber *)setID {
+    ArmorSet *armorSet = [[ArmorSet alloc] init];
+    FMDatabase *armorDatabase = [self openDatabase];
+    
+    if (![armorDatabase open]) {
+        return nil;
+    } else {
+        NSString *query = [NSString stringWithFormat:@"SELECT * from ArmorSet where _id = %i", [setID intValue]];
+        FMResultSet *s = [armorDatabase executeQuery:query];
+        while ([s next]) {
+            if (![s columnIsNull:@"weapon_id"]) {
+                armorSet.weapon = [self getWeaponForWeaponID:[s intForColumn:@"weapon_id"]];
+            }
+            if (![s columnIsNull:@"head_id"]) {
+                armorSet.helm = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"head_id"]]] firstObject];
+            }
+            if (![s columnIsNull:@"body_id"]) {
+                armorSet.chest = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"body_id"]]] firstObject];
+            }
+            if (![s columnIsNull:@"arms_id"]) {
+                armorSet.arms = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"arms_id"]]] firstObject];
+            }
+            if (![s columnIsNull:@"waist_id"]) {
+                armorSet.waist = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"waist_id"]]] firstObject];
+            }
+            if (![s columnIsNull:@"legs_id"]) {
+                armorSet.legs = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"legs_id"]]] firstObject];
+            }
+            if (![s columnIsNull:@"talisman_id"]) {
+                armorSet.talisman = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"talisman_id"]]] firstObject];
+            }
+            
+        }
+        return armorSet;
+    }
+}
+
+-(BOOL)insertNewArmorSetWithName:(NSString *)name {
+    FMDatabase *armorDatabase = [self openDatabase];
+    
+    if (![armorDatabase open]) {
+        return nil;
+    } else {
+        NSString *query = [NSString stringWithFormat:@"insert into ArmorSet (name) Values ('%@')", name];
+        return [armorDatabase executeUpdate:query];
+    }
+}
+
+-(BOOL)deleteArmorSetWithID:(NSNumber *)setID {
+    FMDatabase *armorDatabase = [self openDatabase];
+    
+    if (![armorDatabase open]) {
+        return nil;
+    } else {
+        NSString *query = [NSString stringWithFormat:@"delete from ArmorSet where _id = %i", [setID intValue]];
+        return [armorDatabase executeUpdate:query];
+    }
+}
+
+-(BOOL)checkArmor:(Armor *)armor atArmorSetWithID:(NSNumber *)setID {
+    FMDatabase *armorDatabase = [self openDatabase];
+    
+    NSString *armorType;
+    
+    if ([armor.slot isEqualToString:@"Head"]) {
+        armorType = @"head_id";
+    } else if ([armor.slot isEqualToString:@"Body"]) {
+        armorType = @"body_id";
+    } else if ([armor.slot isEqualToString:@"Arms"]) {
+        armorType = @"arms_id";
+    } else if ([armor.slot isEqualToString:@"Waist"]) {
+        armorType = @"waist_id";
+    } else if ([armor.slot isEqualToString:@"Legs"]) {
+        armorType = @"legs_id";
+    } else {
+        armorType = @"";
+    }
+    
+    if (![armorDatabase open]) {
+        return nil;
+    } else {
+        NSString *query = [NSString stringWithFormat:@"select %@ from ArmorSet where _id = %i", armorType, [setID intValue]];
+        FMResultSet *s = [armorDatabase executeQuery:query];
+        
+        while ([s next]) {
+            if ([s columnIsNull:armorType]) {
+                [armorDatabase close];
+                return FALSE;
+                
+            } else {
+                [armorDatabase close];
+                return TRUE;
+            }
+        }
+    }
+    
+    [armorDatabase close];
+    return FALSE;
+}
+
+
+
+-(BOOL)addArmor:(Armor *)armor toArmorSetWithID:(NSNumber *)setID {
+    FMDatabase *armorDatabase = [self openDatabase];
+    
+    NSString *armorType;
+    
+    if ([armor.slot isEqualToString:@"Head"]) {
+        armorType = @"head_id";
+    } else if ([armor.slot isEqualToString:@"Body"]) {
+        armorType = @"body_id";
+    } else if ([armor.slot isEqualToString:@"Arms"]) {
+        armorType = @"arms_id";
+    } else if ([armor.slot isEqualToString:@"Waist"]) {
+        armorType = @"waist_id";
+    } else if ([armor.slot isEqualToString:@"Legs"]) {
+        armorType = @"legs_id";
+    } else {
+        armorType = @"";
+    }
+    
+    if (![armorDatabase open]) {
+        return nil;
+    } else {
+        NSString *query = [NSString stringWithFormat:@"UPDATE ArmorSet SET %@ = '%i' where _id = %i", armorType, armor.itemID, [setID intValue]];
+        return [armorDatabase executeUpdate:query];
+    }
+
+}
+
+-(BOOL)checkWeapon:(Weapon *)weapon atArmorSetWithID:(NSNumber *)setID {
+    FMDatabase *armorDatabase = [self openDatabase];
+    
+    if (![armorDatabase open]) {
+        return nil;
+    } else {
+        NSString *query = [NSString stringWithFormat:@"select %@ from ArmorSet where _id = %i", @"weapon_id", [setID intValue]];
+        FMResultSet *s = [armorDatabase executeQuery:query];
+        
+        while ([s next]) {
+            if ([s columnIsNull:@"weapon_id"]) {
+                [armorDatabase close];
+                return FALSE;
+                
+            } else {
+                [armorDatabase close];
+                return TRUE;
+            }
+        }
+    }
+    
+    [armorDatabase close];
+    return FALSE;
+}
+
+
+
+-(BOOL)addWeapon:(Weapon *)weapon toArmorSetWithID:(NSNumber *)setID {
+    FMDatabase *armorDatabase = [self openDatabase];
+    
+    if (![armorDatabase open]) {
+        return nil;
+    } else {
+        NSString *query = [NSString stringWithFormat:@"UPDATE ArmorSet SET %@ = '%i' where _id = %i", @"weapon_id", weapon.itemID, [setID intValue]];
+        return [armorDatabase executeUpdate:query];
+    }
+    
+}
+
+- (FMDatabase *)openDatabase
+{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *documents_dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *db_path = [documents_dir stringByAppendingPathComponent:[NSString stringWithFormat:@"ArmorBuilder.db"]];
+    NSString *template_path = [[NSBundle mainBundle] pathForResource:@"ArmorBuilder" ofType:@"db"];
+    
+    if (![fm fileExistsAtPath:db_path])
+        [fm copyItemAtPath:template_path toPath:db_path error:nil];
+    FMDatabase *db = [FMDatabase databaseWithPath:db_path];
+    if (![db open])
+        NSLog(@"Failed to open database!");
+    return db;
+}
+
+
 
 @end

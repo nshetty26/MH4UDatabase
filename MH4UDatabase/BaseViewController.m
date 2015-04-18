@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "ArmorSetTableViewController.h"
 #import "UniversalSearchTableViewController.h"
 #import "MenuViewController.h"
 #import "MonstersViewController.h"
@@ -33,10 +34,16 @@
     
     self.centerViewController = [[UINavigationController alloc] initWithRootViewController:uSTC];
     
+    ArmorSetTableViewController *aSTVC = [[ArmorSetTableViewController alloc] init];
+    self.rightDrawerViewController = [[UINavigationController alloc] initWithRootViewController:aSTVC];
+    aSTVC.dbEngine = uSTC.dbEngine;
+    
+    
     _menuVC = [[MenuViewController alloc] init];
 
     self.leftDrawerViewController = [[UINavigationController alloc] initWithRootViewController:_menuVC];
     [self setMaximumLeftDrawerWidth:180];
+    [self setMaximumLeftDrawerWidth:240];
     
     self.closeDrawerGestureModeMask = MMCloseDrawerGestureModeTapCenterView;
     //MMDrawerBarButtonItem *leftButton = [[MMDrawerBarButtonItem alloc] initWithTarget:nil action:@selector(openMenu)];
@@ -48,6 +55,10 @@
 -(void)openMenu {
     _menuVC.baseViewController = self;
     [self toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+}
+
+-(void)openArmorBuilder {
+    [self toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {

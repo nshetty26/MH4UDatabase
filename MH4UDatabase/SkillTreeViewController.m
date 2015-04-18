@@ -55,7 +55,7 @@
         NSArray *searchedItems = [_allSkillTrees filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
             NSArray *skillTree = (NSArray *)evaluatedObjected;
             NSString *skillTreeName = skillTree[1];
-            if ([skillTreeName.lowercaseString containsString:searchText.lowercaseString]) {
+            if (!([skillTreeName.lowercaseString rangeOfString:searchText.lowercaseString].location == NSNotFound)) {
                 return YES;
             } else {
                 return NO;
