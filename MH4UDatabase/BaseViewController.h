@@ -11,5 +11,6 @@
 @interface BaseViewController : MMDrawerController
 
 -(void)openMenu;
+-(void)openArmorBuilder;
 
 @end

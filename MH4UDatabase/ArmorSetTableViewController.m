@@ -18,8 +18,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setUpMenuButton];
     _allSets = [_dbEngine getAllArmorSets];
+    self.title = @"Armor Set Table";
     
     
     // Uncomment the following line to preserve selection between presentations.
@@ -38,13 +38,11 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
     return _allSets.count;
 }
@@ -74,6 +72,7 @@
     ArmorSetDetailViewController *aSDVC = [[ArmorSetDetailViewController alloc] init];
     aSDVC.dbEngine = _dbEngine;
     aSDVC.armorSet = [_dbEngine getArmorSetForSetID:set[0]];
+    aSDVC.setName = set[1];
     [self.navigationController pushViewController:aSDVC animated:YES];
 }
 
@@ -89,9 +88,14 @@
 
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray *set = _allSets[indexPath.row];
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        [_dbEngine deleteArmorSetWithID:set[0]];
+        _allSets = [_dbEngine getAllArmorSets];
+        //[self.tableView reloadData];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
@@ -104,7 +108,7 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
         NSString *armorSetName = [[alertView textFieldAtIndex:0] text];
-        [_dbEngine insertNewArmorSetWithName:armorSetName];
+        BOOL successful = [_dbEngine insertNewArmorSetWithName:armorSetName];
         _allSets = [_dbEngine getAllArmorSets];
         [self.tableView reloadData];
     }

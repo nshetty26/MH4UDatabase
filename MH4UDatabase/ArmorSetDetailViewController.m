@@ -43,7 +43,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setUpMenuButton];
+    self.title = _setName;
     _skillDictionary = [[NSMutableDictionary alloc] init];
     CGRect vcFrame = self.view.frame;
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + [self returnHeightDifference], vcFrame.size.width, 49);
@@ -83,7 +83,7 @@
         _armorSet.waist = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:1917]] firstObject];
         _armorSet.legs = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:1918]] firstObject];
     }
-
+    
     [_dbEngine populateArmor:_armorSet.helm];
     
     [_dbEngine populateArmor:_armorSet.chest];
@@ -237,21 +237,12 @@
 @implementation ArmorStatSheetView
 
 -(void)populateStatsWithArmorSet:(ArmorSet *)armorSet {
-    [self sumAllStats:armorSet];
+    [self sumAllStats:[armorSet returnNonNullArmor]];
     _attackValue.text = [NSString stringWithFormat:@"%i", armorSet.weapon.attack];
     
-    NSString *elementString;
-    if (armorSet.weapon.awakenDamage > 0) {
-        elementString = [NSString stringWithFormat:@"%@: %i", armorSet.weapon.awaken_type, armorSet.weapon.awakenDamage];
-    } else if (armorSet.weapon.elementalDamage_2 > 0) {
-        elementString = [NSString stringWithFormat:@"%@\\%@: %i\\%i", armorSet.weapon.elementalDamageType_1, armorSet.weapon.elementalDamageType_2, armorSet.weapon.elementalDamage_1,  armorSet.weapon.elementalDamage_2];
-    } else if (armorSet.weapon.elementalDamage_1 > 0) {
-        elementString = [NSString stringWithFormat:@"%@: %i", armorSet.weapon.elementalDamageType_1, armorSet.weapon.elementalDamage_1];
-    } else {
-        elementString = @"None";
-    }
     
-    _elementValue.text = elementString;
+    
+    _elementValue.text = [armorSet.weapon getElementalDescription];
     
     _minDefenseValue.text = [NSString stringWithFormat:@"%i - %i", _minDefense, _maxDefense];
     _fireResValue.text = [NSString stringWithFormat:@"%i", _fireRes];
@@ -261,8 +252,8 @@
     _dragonResValue.text = [NSString stringWithFormat:@"%i", _dragonRes];
 }
 
--(void)sumAllStats:(ArmorSet *)armorSet {
-    for (Armor *armor in @[armorSet.helm, armorSet.chest, armorSet.arms, armorSet.waist, armorSet.legs]) {
+-(void)sumAllStats:(NSArray *)armorArray {
+    for (Armor *armor in armorArray) {
         _minDefense += armor.defense;
         _maxDefense += armor.maxDefense;
         _fireRes += armor.fireResistance;

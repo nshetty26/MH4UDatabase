@@ -16,6 +16,7 @@
 @interface ArmorSetDetailViewController : UIViewController <UITabBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) MH4UDBEngine *dbEngine;
 @property (strong, nonatomic) ArmorSet *armorSet;
+@property (strong, nonatomic) NSString *setName;
 -(void)combineSkillsArray:(NSArray *)skillArray;
 @end
 

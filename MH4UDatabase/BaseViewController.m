@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-#import "ArmorSetDetailViewController.h"
+#import "ArmorSetTableViewController.h"
 #import "UniversalSearchTableViewController.h"
 #import "MenuViewController.h"
 #import "MonstersViewController.h"
@@ -29,19 +29,21 @@
 //    mVC.dbEngine = [[MH4UDBEngine alloc] init];
 //    self.centerViewController = [[UINavigationController alloc] initWithRootViewController:mVC];
     
-//    UniversalSearchTableViewController *uSTC = [[UniversalSearchTableViewController alloc] init];
-//    uSTC.dbEngine = [[MH4UDBEngine alloc] init];
-//    
-//    self.centerViewController = [[UINavigationController alloc] initWithRootViewController:uSTC];
+    UniversalSearchTableViewController *uSTC = [[UniversalSearchTableViewController alloc] init];
+    uSTC.dbEngine = [[MH4UDBEngine alloc] init];
     
-    ArmorSetDetailViewController *aSVC = [[ArmorSetDetailViewController alloc] init];
-    self.centerViewController = [[UINavigationController alloc] initWithRootViewController:aSVC];
+    self.centerViewController = [[UINavigationController alloc] initWithRootViewController:uSTC];
+    
+    ArmorSetTableViewController *aSTVC = [[ArmorSetTableViewController alloc] init];
+    self.rightDrawerViewController = [[UINavigationController alloc] initWithRootViewController:aSTVC];
+    aSTVC.dbEngine = uSTC.dbEngine;
     
     
     _menuVC = [[MenuViewController alloc] init];
 
     self.leftDrawerViewController = [[UINavigationController alloc] initWithRootViewController:_menuVC];
     [self setMaximumLeftDrawerWidth:180];
+    [self setMaximumLeftDrawerWidth:240];
     
     self.closeDrawerGestureModeMask = MMCloseDrawerGestureModeTapCenterView;
     //MMDrawerBarButtonItem *leftButton = [[MMDrawerBarButtonItem alloc] initWithTarget:nil action:@selector(openMenu)];
@@ -53,6 +55,10 @@
 -(void)openMenu {
     _menuVC.baseViewController = self;
     [self toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+}
+
+-(void)openArmorBuilder {
+    [self toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {

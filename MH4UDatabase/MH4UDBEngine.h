@@ -66,6 +66,13 @@
 -(NSArray *)getAllArmorSets;
 -(ArmorSet *)getArmorSetForSetID:(NSNumber *)setID;
 -(BOOL)insertNewArmorSetWithName:(NSString *)name;
+-(BOOL)deleteArmorSetWithID:(NSNumber *)setID;
+
+-(BOOL)addArmor:(Armor *)armor toArmorSetWithID:(NSNumber *)setID;
+-(BOOL)checkArmor:(Armor *)armor atArmorSetWithID:(NSNumber *)setID;
+
+-(BOOL)addWeapon:(Weapon *)weapon toArmorSetWithID:(NSNumber *)setID;
+-(BOOL)checkWeapon:(Weapon *)weapon atArmorSetWithID:(NSNumber *)setID;
 
 @end
 

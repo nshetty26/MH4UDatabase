@@ -198,6 +198,8 @@
 @property (nonatomic) int tree_depth;
 @property (nonatomic) int final;
 
+-(NSString *)getElementalDescription;
+
 
 @end
 
@@ -210,6 +212,8 @@
 @property (nonatomic) Armor *waist;
 @property (nonatomic) Armor *legs;
 @property (nonatomic) Armor *talisman;
+
+-(NSArray *)returnNonNullArmor;
 
 @end
 

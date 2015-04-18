@@ -22,6 +22,7 @@
 @property (nonatomic) NSArray *weaponComponents;
 @property (nonatomic) NSArray *hornMelodies;
 @property (nonatomic) NSArray *allViews;
+@property (nonatomic) UIAlertView *doubleCheckAlert;
 
 @end
 
@@ -82,6 +83,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setUpMenuButton];
+        self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem , [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addWeaponToArmorBuilder)]];
     // Do any additional setup after loading the view.
     self.title = NSLocalizedString(_selectedWeapon.name, _selectedWeapon.name);
     _weaponComponents = [_dbEngine getComponentsfor:_selectedWeapon.itemID];
@@ -183,6 +185,57 @@
     }
 }
 
+-(void)addWeaponToArmorBuilder{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_selectedWeapon.name message:[NSString stringWithFormat:@"Would you like to add %@ to a custom armor set?", _selectedWeapon.name] delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    [alert show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSArray *allSets = [_dbEngine getAllArmorSets];
+    NSArray *selectedSet = allSets[buttonIndex];
+    
+    if ([alertView isEqual:_doubleCheckAlert]) {
+        if (buttonIndex == 1) {
+            BOOL successful = [_dbEngine addWeapon:_selectedWeapon toArmorSetWithID:selectedSet[0]];
+            [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        }
+    } else {
+        if (buttonIndex == 1) {
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Which Armor Set Would You Like to Add to?" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
+            
+            for (NSArray *set in allSets) {
+                [actionSheet addButtonWithTitle:set[1]];
+            }
+            
+            actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:@"Cancel"];
+            [actionSheet showInView:self.view];
+        }
+    }
+    
+    
+    
+    
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSInteger cancelIndex = [actionSheet cancelButtonIndex];
+    if (buttonIndex != cancelIndex) {
+        NSArray *allSets = [_dbEngine getAllArmorSets];
+        NSArray *selectedSet = allSets[buttonIndex];
+        
+        BOOL exists = [_dbEngine checkWeapon:_selectedWeapon atArmorSetWithID:selectedSet[0]];
+        
+        if (!exists) {
+            BOOL successful = [_dbEngine addWeapon:_selectedWeapon toArmorSetWithID:selectedSet[0]];
+            [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        } else {
+            _doubleCheckAlert = [[UIAlertView alloc] initWithTitle:@"Are You Sure?" message:[NSString stringWithFormat:@"This Set Already Has a Weapon"] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"YES", nil];
+            [_doubleCheckAlert show];
+        }
+        
+    }
+}
+
 @end
 
 @implementation DetailedWeaponView
@@ -191,17 +244,9 @@
     _icon.image = [UIImage imageNamed:weapon.icon];
     _nameLabel.text = weapon.name;
     _attackLabel.text = [NSString stringWithFormat:@"%i", weapon.attack];
-    NSString *elementString;
-    if (weapon.awakenDamage > 0) {
-        elementString = [NSString stringWithFormat:@"%@: %i", weapon.awaken_type, weapon.awakenDamage];
-    } else if (weapon.elementalDamage_2 > 0) {
-        elementString = [NSString stringWithFormat:@"%@\\%@: %i\\%i", weapon.elementalDamageType_1, weapon.elementalDamageType_2, weapon.elementalDamage_1,  weapon.elementalDamage_2];
-    } else if (weapon.elementalDamage_1 > 0) {
-        elementString = [NSString stringWithFormat:@"%@: %i", weapon.elementalDamageType_1, weapon.elementalDamage_1];
-    } else {
-        elementString = @"None";
-    }
-    _elementLabel.text = elementString;
+
+    _elementLabel.text = [weapon getElementalDescription];
+    
     if ([weapon.weaponType isEqualToString:@"Switch Axe"] || [weapon.weaponType isEqualToString:@"Charge Blade"]) {
         _auxiliaryLabel1.hidden = NO;
         _auxiliaryValue1.hidden = NO;

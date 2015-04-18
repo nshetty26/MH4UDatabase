@@ -13,7 +13,7 @@
 @class MH4UDBEngine;
 @class BaseViewController;
 
-@interface ArmorDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarDelegate>
+@interface ArmorDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarDelegate, UIAlertViewDelegate, UIActionSheetDelegate>
 
 @property (strong, nonatomic) BaseViewController *baseViewController;
 @property (nonatomic) Armor *selectedArmor;
