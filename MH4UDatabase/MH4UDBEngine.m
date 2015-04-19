@@ -1138,7 +1138,7 @@
     FMDatabase *armorDatabase = [self openDatabase];
     
     if (![armorDatabase open]) {
-        return nil;
+        return FALSE;
     } else {
         NSString *query = [NSString stringWithFormat:@"insert into ArmorSet (name) Values ('%@')", name];
         return [armorDatabase executeUpdate:query];
@@ -1149,7 +1149,7 @@
     FMDatabase *armorDatabase = [self openDatabase];
     
     if (![armorDatabase open]) {
-        return nil;
+        return FALSE;
     } else {
         NSString *query = [NSString stringWithFormat:@"delete from ArmorSet where _id = %i", [setID intValue]];
         return [armorDatabase executeUpdate:query];
@@ -1176,7 +1176,7 @@
     }
     
     if (![armorDatabase open]) {
-        return nil;
+        return FALSE;
     } else {
         NSString *query = [NSString stringWithFormat:@"select %@ from ArmorSet where _id = %i", armorType, [setID intValue]];
         FMResultSet *s = [armorDatabase executeQuery:query];
@@ -1219,7 +1219,7 @@
     }
     
     if (![armorDatabase open]) {
-        return nil;
+        return FALSE;
     } else {
         NSString *query = [NSString stringWithFormat:@"UPDATE ArmorSet SET %@ = '%i' where _id = %i", armorType, armor.itemID, [setID intValue]];
         return [armorDatabase executeUpdate:query];
@@ -1231,7 +1231,7 @@
     FMDatabase *armorDatabase = [self openDatabase];
     
     if (![armorDatabase open]) {
-        return nil;
+        return FALSE;
     } else {
         NSString *query = [NSString stringWithFormat:@"select %@ from ArmorSet where _id = %i", @"weapon_id", [setID intValue]];
         FMResultSet *s = [armorDatabase executeQuery:query];
@@ -1258,7 +1258,7 @@
     FMDatabase *armorDatabase = [self openDatabase];
     
     if (![armorDatabase open]) {
-        return nil;
+        return FALSE;
     } else {
         NSString *query = [NSString stringWithFormat:@"UPDATE ArmorSet SET %@ = '%i' where _id = %i", @"weapon_id", weapon.itemID, [setID intValue]];
         return [armorDatabase executeUpdate:query];
@@ -1275,6 +1275,17 @@
     
     if (![fm fileExistsAtPath:db_path])
         [fm copyItemAtPath:template_path toPath:db_path error:nil];
+    else {
+        NSDictionary *bundleDBAttributes = [fm attributesOfItemAtPath:template_path error:nil];
+        NSDictionary *documentDBAttributes = [fm attributesOfItemAtPath:db_path error:nil];
+        NSDate *bundleModifiedDate = [bundleDBAttributes objectForKey:NSFileModificationDate];
+        NSDate *dbModifiedDate = [documentDBAttributes objectForKey:NSFileModificationDate];
+        
+        if ([bundleModifiedDate compare:dbModifiedDate] == NSOrderedDescending) {
+            [fm removeItemAtPath:db_path error:nil];
+            [fm copyItemAtPath:template_path toPath:db_path error:nil];
+        }
+    }
     FMDatabase *db = [FMDatabase databaseWithPath:db_path];
     if (![db open])
         NSLog(@"Failed to open database!");

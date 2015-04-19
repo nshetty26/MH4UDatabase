@@ -37,6 +37,13 @@
 @property (strong, nonatomic) ArmorStatSheetView *armorStatSheet;
 @property (strong, nonatomic) NSMutableDictionary *skillDictionary;
 @property (strong, nonatomic) UITabBar *armorSetTab;
+@property (strong, nonatomic) NSArray *weaponDecorations;
+@property (strong, nonatomic) NSArray *headDecorations;
+@property (strong, nonatomic) NSArray *bodyDecorations;
+@property (strong, nonatomic) NSArray *armsDecorations;
+@property (strong, nonatomic) NSArray *waistDecorations;
+@property (strong, nonatomic) NSArray *legsDecorations;
+
 @end
 
 @implementation ArmorSetDetailViewController
@@ -45,6 +52,14 @@
     [super viewDidLoad];
     self.title = _setName;
     _skillDictionary = [[NSMutableDictionary alloc] init];
+    
+    _weaponDecorations = @[_weaponSlot1, _weaponSlot2, _weaponSlot3];
+    _headDecorations = @[_helmSlot1, _helmSlot2, _helmSlot3];
+    _bodyDecorations = @[_bodySlot1, _bodySlot2, _bodySlot3];
+    _armsDecorations = @[_armsSlot1, _armsSlot2, _armsSlot3];
+    _waistDecorations = @[_waistSlot1, _waistSlot2, _waistSlot3];
+    _legsDecorations = @[_legsSlot1, _legsSlot2, _legsSlot3];
+    
     CGRect vcFrame = self.view.frame;
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + [self returnHeightDifference], vcFrame.size.width, 49);
     _armorStatSheet = [[[NSBundle mainBundle] loadNibNamed:@"ArmorStatSheetView" owner:self options:nil] lastObject];
@@ -93,7 +108,38 @@
     [_dbEngine populateArmor:_armorSet.waist];
     
     [_dbEngine populateArmor:_armorSet.legs];
+    
+    [self drawDecorationForArmorSet];
 
+}
+
+-(void)drawDecorationForArmorSet {
+    
+    for (int i = 0; i < _armorSet.weapon.num_slots; i++) {
+        UIImageView *decorationView = _weaponDecorations[i];
+        decorationView.image = [UIImage imageNamed:@"circle.png"];
+    }
+    
+    for (Armor *armor in [_armorSet returnNonNullArmor]) {
+        for (int i = 0; i < armor.numSlots; i++) {
+            if ([armor.slot isEqualToString:@"Head"]) {
+                UIImageView *headSlot = _headDecorations[i];
+                headSlot.image = [UIImage imageNamed:@"circle.png"];
+            } else if ([armor.slot isEqualToString:@"Body"]) {
+                UIImageView *bodySlot = _bodyDecorations[i];
+                bodySlot.image = [UIImage imageNamed:@"circle.png"];
+            } else if ([armor.slot isEqualToString:@"Arms"]) {
+                UIImageView *armsSlot = _armsDecorations[i];
+                armsSlot.image = [UIImage imageNamed:@"circle.png"];
+            } else if ([armor.slot isEqualToString:@"Waist"]) {
+                UIImageView *waistSlot = _waistDecorations[i];
+                waistSlot.image = [UIImage imageNamed:@"circle.png"];
+            } else if ([armor.slot isEqualToString:@"Legs"]) {
+                UIImageView *legSlot = _legsDecorations[i];
+                legSlot.image = [UIImage imageNamed:@"circle.png"];
+            }
+        }
+    }
 }
 
 -(void)combineSkillsArray:(NSArray *)skillArray {
@@ -130,6 +176,8 @@
     _legLabel.text = _armorSet.legs.name;
     
     [_armorStatSheet populateStatsWithArmorSet:_armorSet];
+    _armorStatSheet.numSlots += _armorSet.weapon.num_slots;
+    _armorSet.totalSlots = _armorStatSheet.numSlots;
 }
 
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
@@ -230,6 +278,7 @@
 @property (nonatomic) int thunderRes;
 @property (nonatomic) int iceRes;
 @property (nonatomic) int dragonRes;
+
 @property (nonatomic, strong) NSMutableDictionary *skillDictionary;
 
 @end
@@ -239,8 +288,6 @@
 -(void)populateStatsWithArmorSet:(ArmorSet *)armorSet {
     [self sumAllStats:[armorSet returnNonNullArmor]];
     _attackValue.text = [NSString stringWithFormat:@"%i", armorSet.weapon.attack];
-    
-    
     
     _elementValue.text = [armorSet.weapon getElementalDescription];
     
@@ -261,6 +308,7 @@
         _thunderRes += armor.thunderResistance;
         _iceRes += armor.iceResistance;
         _dragonRes += armor.dragonResistance;
+        _numSlots += armor.numSlots;
         [_aSVC combineSkillsArray:armor.skillsArray];
     }
     

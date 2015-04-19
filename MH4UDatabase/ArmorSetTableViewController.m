@@ -109,6 +109,7 @@
     if (buttonIndex == 1) {
         NSString *armorSetName = [[alertView textFieldAtIndex:0] text];
         BOOL successful = [_dbEngine insertNewArmorSetWithName:armorSetName];
+        [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your New Set Addition Was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         _allSets = [_dbEngine getAllArmorSets];
         [self.tableView reloadData];
     }

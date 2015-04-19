@@ -7,7 +7,7 @@
 //
 
 #import "ArmorsViewController.h"
-#import "ArmorSetDetailViewController.h";
+#import "ArmorSetDetailViewController.h"
 #import "ArmorDetailViewController.h"
 #import "MH4UDBEngine.h"
 #import "MH4UDBEntity.h"
@@ -296,6 +296,7 @@
     ArmorSetDetailViewController *aSVC = [[ArmorSetDetailViewController alloc] init];
     aSVC.dbEngine = _dbEngine;
     aSVC.armorSet = armorSet;
+    aSVC.setName = [[armor.name componentsSeparatedByString:@" "] firstObject];
     [self.navigationController pushViewController:aSVC animated:YES];
     
     

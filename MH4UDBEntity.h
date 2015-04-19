@@ -212,6 +212,8 @@
 @property (nonatomic) Armor *waist;
 @property (nonatomic) Armor *legs;
 @property (nonatomic) Armor *talisman;
+@property (nonatomic) int totalSlots;
+@property (nonatomic) int slotsUsed;
 
 -(NSArray *)returnNonNullArmor;
 
