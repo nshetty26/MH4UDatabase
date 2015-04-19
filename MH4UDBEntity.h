@@ -55,6 +55,7 @@
 @property (nonatomic) int slotsUsed;
 @property (nonatomic) NSArray *skillsArray;
 @property (nonatomic) NSArray *componentArray;
+@property (nonatomic) NSArray *decorationsArray;
 
 @end
 
@@ -199,6 +200,7 @@
 @property (nonatomic) int slotsUsed;
 @property (nonatomic) int tree_depth;
 @property (nonatomic) int final;
+@property (nonatomic) NSArray *decorationsArray;
 
 -(NSString *)getElementalDescription;
 
@@ -215,11 +217,10 @@
 @property (nonatomic) Armor *waist;
 @property (nonatomic) Armor *legs;
 @property (nonatomic) Armor *talisman;
-@property (nonatomic) int totalSlots;
-@property (nonatomic) int slotsUsed;
 
 -(NSArray *)returnNonNullArmor;
 -(Item *)returnItemForSlot:(NSString *)slot;
+-(NSArray *)returnItemsWithDecorations;
 
 @end
 

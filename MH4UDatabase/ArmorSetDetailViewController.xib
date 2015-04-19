@@ -28,8 +28,6 @@
                 <outlet property="legsSlot2" destination="bHR-5w-yjb" id="wpm-vb-4VI"/>
                 <outlet property="legsSlot3" destination="Jpm-vW-JlE" id="1O2-wJ-DEn"/>
                 <outlet property="socketedTable" destination="Cf7-F1-Coz" id="qBj-8W-k0h"/>
-                <outlet property="talismanImage" destination="dzr-4T-TLy" id="pml-9Z-UFV"/>
-                <outlet property="talismanLabel" destination="zm0-qv-X86" id="9im-Ww-oCm"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="waistImage" destination="vqO-ep-tCr" id="rdM-8B-KC3"/>
                 <outlet property="waistLabel" destination="2iv-SJ-YEp" id="SR1-tf-7EE"/>
@@ -96,15 +94,6 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Talisman Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zm0-qv-X86">
-                    <rect key="frame" x="56" y="338" width="222" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dzr-4T-TLy">
-                    <rect key="frame" x="8" y="329" width="30" height="30"/>
-                </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="AUj-pG-wJm">
                     <rect key="frame" x="222" y="140" width="15" height="16"/>
                 </imageView>
@@ -166,19 +155,13 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Cf7-F1-Coz">
-                    <rect key="frame" x="8" y="392" width="304" height="74"/>
+                    <rect key="frame" x="8" y="398" width="268" height="74"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="itt-gg-NdI"/>
                         <outlet property="delegate" destination="-1" id="J8N-yt-sxs"/>
                     </connections>
                 </tableView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Socketed Decorations" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="op1-98-bW6">
-                    <rect key="frame" x="58" y="366" width="186" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>

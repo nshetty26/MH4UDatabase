@@ -7,10 +7,12 @@
 //
 
 #import "MH4UDBEntity.h"
+#import "MenuViewController.h"
 #import "MH4UDBEngine.h"
 #import "ArmorSetDetailViewController.h"
 #import "SkillDetailViewController.h"
 #import "DecorationsDetailViewController.h"
+#import "ItemDetailViewController.h"
 
 @interface ArmorSetDetailViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *weaponImage;
@@ -38,6 +40,7 @@
 @property (strong, nonatomic) ArmorStatSheetView *armorStatSheet;
 @property (strong, nonatomic) NSMutableDictionary *skillDictionary;
 @property (strong, nonatomic) UITabBar *armorSetTab;
+@property (strong, nonatomic) UITabBar *equipmentSocketTab;
 @property (strong, nonatomic) NSArray *weaponDecorationViews;
 @property (strong, nonatomic) NSArray *headDecorationViews;
 @property (strong, nonatomic) NSArray *bodyDecorationViews;
@@ -46,6 +49,7 @@
 @property (strong, nonatomic) NSArray *legsDecorationViews;
 
 @property (strong, nonatomic) NSMutableArray *allDecorations;
+@property (strong, nonatomic) NSArray *displayedDecorations;
 
 
 
@@ -74,6 +78,29 @@
     // Do any additional setup after loading the view from its nib.
     [self populateArmorSet];
     [self setUpArmorSetView];
+    if (_allDecorations.count > 0) {
+        self.navigationItem.rightBarButtonItem = self.editButtonItem;
+        [self setUpEquipmentTabBar];
+        NSArray *firstItemWithDecorations = [[_armorSet returnItemsWithDecorations] firstObject];
+        _displayedDecorations = firstItemWithDecorations[1];
+    }
+}
+
+-(void)setUpEquipmentTabBar {
+    CGRect tabBarFrame = CGRectMake(self.view.frame.origin.x, _socketedTable.frame.origin.y - 49, _baseVC.rightDrawerViewController.view.frame.size.width, 49);
+    _equipmentSocketTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
+    _equipmentSocketTab.delegate = self;
+    NSMutableArray *equipmentTabs = [[NSMutableArray alloc] init];
+    NSArray *itemswithDecorations = [_armorSet returnItemsWithDecorations];
+    
+    for (int i = 0; i < itemswithDecorations.count; i++) {
+        int tag = i+1;
+        NSArray *itemWithDecoration = itemswithDecorations[i];
+        [equipmentTabs addObject:[[UITabBarItem alloc] initWithTitle:itemWithDecoration[0] image:nil tag:tag]];
+    }
+    [_equipmentSocketTab setItems:equipmentTabs];
+    [_equipmentSocketTab setSelectedItem:[equipmentTabs firstObject]];
+    [self.view addSubview:_equipmentSocketTab];
 }
 
 -(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
@@ -127,6 +154,7 @@
     
     if (_armorSet.weapon.num_slots > 0) {
         NSArray *decorations = [_dbEngine getDecorationsForArmorSet:[NSNumber numberWithInt:_armorSet.setID] andSetItem:_armorSet.weapon];
+        _armorSet.weapon.decorationsArray = decorations;
         for (int i = 0; i < _armorSet.weapon.num_slots; i++) {
             UIImageView *decorationView = _weaponDecorationViews[i];
             if (decorations.count < i) {
@@ -142,6 +170,7 @@
     for (Armor *armor in [_armorSet returnNonNullArmor]) {
         if (armor.numSlots > 0) {
             NSArray *decorations = [_dbEngine getDecorationsForArmorSet:[NSNumber numberWithInt:_armorSet.setID] andSetItem:armor];
+            armor.decorationsArray = decorations;
             for (int i = 0; i < armor.numSlots; i++) {
                 UIImageView *decorationView;
                 if ([armor.slot isEqualToString:@"Head"]) {
@@ -206,20 +235,26 @@
     
     [_armorStatSheet populateStatsWithArmorSet:_armorSet];
     _armorStatSheet.numSlots += _armorSet.weapon.num_slots;
-    _armorSet.totalSlots = _armorStatSheet.numSlots;
 }
 
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-    switch (item.tag) {
-        case 1:
-            [_armorStatSheet removeFromSuperview];
-            break;
-        case 2:
-            [self.view addSubview:_armorStatSheet];
-            break;
-        default:
-            break;
+    if ([tabBar isEqual:_armorSetTab]) {
+        switch (item.tag) {
+            case 1:
+                [_armorStatSheet removeFromSuperview];
+                break;
+            case 2:
+                [self.view addSubview:_armorStatSheet];
+                break;
+            default:
+                break;
         }
+    } else if ([tabBar isEqual:_equipmentSocketTab]) {
+        NSArray *equipmentWithDecoration = [[_armorSet returnItemsWithDecorations] objectAtIndex:item.tag - 1];
+        _displayedDecorations = equipmentWithDecoration[1];
+        [_socketedTable reloadData];
+    }
+
     [tabBar setSelectedItem:item];
 }
 
@@ -232,7 +267,7 @@
     if ([tableView isEqual:_armorStatSheet.statTableView]) {
         return _skillDictionary.count;
     } else if ([tableView isEqual:_socketedTable]){
-        return _allDecorations.count;
+        return _displayedDecorations.count;
     } else {
         return 0;
     }
@@ -241,16 +276,15 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
-    }
     
     if ([tableView isEqual:_armorStatSheet.statTableView]) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
+        }
+
         NSArray *allNameAndValues = [_skillDictionary allValues];
         NSArray *nameAndValue = allNameAndValues[indexPath.row];
-        
-
         
         cell.textLabel.text = nameAndValue[0];
         CGRect cellFrame = cell.frame;
@@ -264,14 +298,48 @@
         [cell setAccessoryView: acessoryText];
         return cell;
     } else if ([tableView isEqual:_socketedTable]){
-        Decoration *decoration = _allDecorations[indexPath.row];
-        cell.textLabel.text = decoration.name;
-        cell.imageView.image = [UIImage imageNamed:decoration.icon];
-        return cell;
+        ItemTableCell *itemCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
+        
+        if (!itemCell) {
+            [tableView registerNib:[UINib nibWithNibName:@"ItemTableCell"  bundle:nil] forCellReuseIdentifier:@"itemCell"];
+            itemCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
+        }
+        return itemCell;
+
     } else {
         return nil;
     }
 
+}
+-(void)tableView:(UITableView *)tableView willDisplayCell:(ItemTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([tableView isEqual:_socketedTable]) {
+        Decoration *decoration = _displayedDecorations[indexPath.row];
+        cell.itemImageView.image = [UIImage imageNamed:decoration.icon];
+        cell.itemLabel.text = decoration.name;
+        UIFont *font = [cell.itemLabel.font fontWithSize:14];
+        cell.itemLabel.font = font;
+        
+        if (decoration.skillArray.count == 1) {
+            cell.itemAccessoryLabel1.hidden = YES;
+            cell.itemAccessoryLabel3.hidden = YES;
+            cell.itemAccessoryLabel2.hidden = NO;
+            NSArray *skill1 = decoration.skillArray[0];
+            cell.itemAccessoryLabel2.text = [NSString stringWithFormat:@"%@ %@", skill1[1], skill1[2]];
+        } else if (decoration.skillArray.count == 2) {
+            cell.itemAccessoryLabel1.hidden = NO;
+            cell.itemAccessoryLabel3.hidden = NO;
+            cell.itemAccessoryLabel2.hidden = YES;
+            NSArray *skill1 = decoration.skillArray[0];
+            NSArray *skill2 = decoration.skillArray[1];
+            cell.itemAccessoryLabel1.text = [NSString stringWithFormat:@"%@ %@", skill1[1], skill1[2]];
+            cell.itemAccessoryLabel3.text = [NSString stringWithFormat:@"%@ %@", skill2[1], skill2[2]];
+        }
+        
+        
+        cell.itemSubLabel.hidden = YES;
+    }
+    
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -287,7 +355,7 @@
         sdVC.skillTreeID = [skillID intValue];
         [nC pushViewController:sdVC animated:YES];
     } else if ([tableView isEqual:_socketedTable]){
-        Decoration *decoration= _allDecorations[indexPath.row];
+        Decoration *decoration= _displayedDecorations[indexPath.row];
         decoration.componentArray = [_dbEngine getComponentsfor:decoration.itemID];
         DecorationsDetailViewController *dDVC = [[DecorationsDetailViewController alloc] init];
         dDVC.heightDifference = [self returnHeightDifference];
@@ -296,6 +364,39 @@
         [nC pushViewController:dDVC animated:YES];
     }
 }
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the specified item to be editable.
+    if ([tableView isEqual:_socketedTable]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        //[_dbEngine deleteArmorSetWithID:set[0]];
+        //_allSets = [_dbEngine getAllArmorSets];
+        //[self.tableView reloadData];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (void)setEditing:(BOOL)flag animated:(BOOL)animated
+{
+    [super setEditing:flag animated:animated];
+    [_socketedTable setEditing:flag animated:animated];
+}
+
 /*
 #pragma mark - Navigation
 
