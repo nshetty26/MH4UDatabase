@@ -74,5 +74,7 @@
 -(BOOL)addWeapon:(Weapon *)weapon toArmorSetWithID:(NSNumber *)setID;
 -(BOOL)checkWeapon:(Weapon *)weapon atArmorSetWithID:(NSNumber *)setID;
 
+-(NSArray *)checkArmorSetForSlotsWithSetID:(NSNumber *)setID;
+
 @end
 

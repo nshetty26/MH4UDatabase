@@ -22,6 +22,7 @@
 @property (nonatomic) NSArray *weaponComponents;
 @property (nonatomic) NSArray *hornMelodies;
 @property (nonatomic) NSArray *allViews;
+@property (nonatomic) NSArray *selectedSet;
 @property (nonatomic) UIAlertView *doubleCheckAlert;
 
 @end
@@ -191,16 +192,14 @@
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    NSArray *allSets = [_dbEngine getAllArmorSets];
-    NSArray *selectedSet = allSets[buttonIndex];
-    
     if ([alertView isEqual:_doubleCheckAlert]) {
         if (buttonIndex == 1) {
-            BOOL successful = [_dbEngine addWeapon:_selectedWeapon toArmorSetWithID:selectedSet[0]];
+            BOOL successful = [_dbEngine addWeapon:_selectedWeapon toArmorSetWithID:_selectedSet[0]];
             [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         }
     } else {
         if (buttonIndex == 1) {
+            NSArray *allSets = [_dbEngine getAllArmorSets];
             UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Which Armor Set Would You Like to Add to?" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
             
             for (NSArray *set in allSets) {
@@ -221,12 +220,12 @@
     NSInteger cancelIndex = [actionSheet cancelButtonIndex];
     if (buttonIndex != cancelIndex) {
         NSArray *allSets = [_dbEngine getAllArmorSets];
-        NSArray *selectedSet = allSets[buttonIndex];
+        _selectedSet = allSets[buttonIndex];
         
-        BOOL exists = [_dbEngine checkWeapon:_selectedWeapon atArmorSetWithID:selectedSet[0]];
+        BOOL exists = [_dbEngine checkWeapon:_selectedWeapon atArmorSetWithID:_selectedSet[0]];
         
         if (!exists) {
-            BOOL successful = [_dbEngine addWeapon:_selectedWeapon toArmorSetWithID:selectedSet[0]];
+            BOOL successful = [_dbEngine addWeapon:_selectedWeapon toArmorSetWithID:_selectedSet[0]];
             [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         } else {
             _doubleCheckAlert = [[UIAlertView alloc] initWithTitle:@"Are You Sure?" message:[NSString stringWithFormat:@"This Set Already Has a Weapon"] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"YES", nil];

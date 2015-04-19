@@ -52,6 +52,7 @@
 @property (nonatomic) NSString *gender;
 @property (nonatomic) NSString *hunterType;
 @property (nonatomic) int numSlots;
+@property (nonatomic) int slotsUsed;
 @property (nonatomic) NSArray *skillsArray;
 @property (nonatomic) NSArray *componentArray;
 
@@ -195,6 +196,7 @@
 @property (nonatomic) NSString *ammo;
 @property (nonatomic) NSString *sharpnessFile;
 @property (nonatomic) int num_slots;
+@property (nonatomic) int slotsUsed;
 @property (nonatomic) int tree_depth;
 @property (nonatomic) int final;
 

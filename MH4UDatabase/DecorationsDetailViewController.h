@@ -13,7 +13,7 @@
 @class Decoration;
 @class MH4UDBEngine;
 
-@interface DecorationsDetailViewController : UIViewController <UITabBarDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface DecorationsDetailViewController : UIViewController <UITabBarDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, UIActionSheetDelegate>
 
 @property (strong, nonatomic) BaseViewController *baseViewController;
 @property (nonatomic) Decoration *selectedDecoration;

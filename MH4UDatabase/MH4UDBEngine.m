@@ -207,7 +207,7 @@
     if (!armorID) {
         armorQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name,items.rarity, armor.hunter_type, armor.slot from armor INNER JOIN items on armor._id = items._id"];
     } else {
-        armorQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name,items.rarity, armor.hunter_type, armor.slot from armor INNER JOIN items on armor._id = items._id where armor._id = %@", armorID];
+        armorQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name,items.rarity, armor.hunter_type, armor.num_slots, armor.slot from armor INNER JOIN items on armor._id = items._id where armor._id = %@", armorID];
     }
 
     FMResultSet *s = [self DBquery:armorQuery];
@@ -219,6 +219,7 @@
             armor.name = [s stringForColumn:@"name"];
             armor.hunterType = [s stringForColumn:@"hunter_type"];
             armor.slot = [s stringForColumn:@"slot"];
+            armor.numSlots = [s intForColumn:@"num_slots"];
             armor.rarity = [s intForColumn:@"rarity"];
             armor.icon = [NSString stringWithFormat:@"%@%i.png", armor.slot, armor.rarity].lowercaseString;
             [armorArray addObject:armor];
@@ -1253,7 +1254,6 @@
 }
 
 
-
 -(BOOL)addWeapon:(Weapon *)weapon toArmorSetWithID:(NSNumber *)setID {
     FMDatabase *armorDatabase = [self openDatabase];
     
@@ -1264,6 +1264,28 @@
         return [armorDatabase executeUpdate:query];
     }
     
+}
+
+-(NSArray *)checkArmorSetForSlotsWithSetID:(NSNumber *)setID {
+    NSMutableArray *availableSlotsInEquipment = [[NSMutableArray alloc] init];
+    ArmorSet *armorSet = [self getArmorSetForSetID:setID];
+    
+    if (armorSet.weapon) {
+        int availableSlots = armorSet.weapon.num_slots - armorSet.weapon.slotsUsed;
+        if (armorSet.weapon.num_slots > 0) {
+            [availableSlotsInEquipment addObject:@[@"Weapon", [NSNumber numberWithInt:availableSlots]]];
+        }
+    }
+    
+    for (Armor *armor in [armorSet returnNonNullArmor]) {
+        int availableSlots = armor.numSlots - armor.slotsUsed;
+        if (armor.numSlots > 0) {
+            [availableSlotsInEquipment addObject:@[armor.slot, [NSNumber numberWithInt:availableSlots]]];
+        }
+    }
+    
+    return availableSlotsInEquipment;
+
 }
 
 - (FMDatabase *)openDatabase
