@@ -37,6 +37,7 @@
     ArmorSetTableViewController *aSTVC = [[ArmorSetTableViewController alloc] init];
     self.rightDrawerViewController = [[UINavigationController alloc] initWithRootViewController:aSTVC];
     aSTVC.dbEngine = uSTC.dbEngine;
+    aSTVC.baseVC = self;
     
     
     _menuVC = [[MenuViewController alloc] init];

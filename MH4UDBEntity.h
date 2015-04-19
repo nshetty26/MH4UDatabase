@@ -207,6 +207,7 @@
 
 @interface ArmorSet : NSObject
 
+@property (nonatomic) int setID;
 @property (nonatomic) Weapon *weapon;
 @property (nonatomic) Armor *helm;
 @property (nonatomic) Armor *chest;
@@ -218,6 +219,7 @@
 @property (nonatomic) int slotsUsed;
 
 -(NSArray *)returnNonNullArmor;
+-(Item *)returnItemForSlot:(NSString *)slot;
 
 @end
 

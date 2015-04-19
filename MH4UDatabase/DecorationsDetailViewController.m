@@ -214,15 +214,18 @@
     if (buttonIndex != cancelIndex) {
         if ([actionSheet isEqual:_armorSelectSheet]) {
             NSArray *titleComponents = [[actionSheet buttonTitleAtIndex:buttonIndex] componentsSeparatedByString:@" "];
-            NSString *armorSetSlot = titleComponents[0];
+            
             NSString *armorSlots = titleComponents[1];
             armorSlots = [armorSlots stringByReplacingOccurrencesOfString:@"[" withString:@""];
             armorSlots = [armorSlots stringByReplacingOccurrencesOfString:@"]" withString:@""];
             NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+            
+            NSString *armorSetSlot = titleComponents[0];
             NSNumber *availableSlots = [f numberFromString:armorSlots];
             
             if (availableSlots > 0) {
-                
+                BOOL successful = [_dbEngine addDecoration:_selectedDecoration ToSlot:armorSetSlot andArmorSetWithID:_selectedSet[0]];
+                [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
             }
             
         } else {

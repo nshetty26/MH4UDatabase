@@ -10,6 +10,7 @@
 #import "MH4UDBEngine.h"
 #import "ArmorSetDetailViewController.h"
 #import "SkillDetailViewController.h"
+#import "DecorationsDetailViewController.h"
 
 @interface ArmorSetDetailViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *weaponImage;
@@ -37,12 +38,16 @@
 @property (strong, nonatomic) ArmorStatSheetView *armorStatSheet;
 @property (strong, nonatomic) NSMutableDictionary *skillDictionary;
 @property (strong, nonatomic) UITabBar *armorSetTab;
-@property (strong, nonatomic) NSArray *weaponDecorations;
-@property (strong, nonatomic) NSArray *headDecorations;
-@property (strong, nonatomic) NSArray *bodyDecorations;
-@property (strong, nonatomic) NSArray *armsDecorations;
-@property (strong, nonatomic) NSArray *waistDecorations;
-@property (strong, nonatomic) NSArray *legsDecorations;
+@property (strong, nonatomic) NSArray *weaponDecorationViews;
+@property (strong, nonatomic) NSArray *headDecorationViews;
+@property (strong, nonatomic) NSArray *bodyDecorationViews;
+@property (strong, nonatomic) NSArray *armsDecorationViews;
+@property (strong, nonatomic) NSArray *waistDecorationViews;
+@property (strong, nonatomic) NSArray *legsDecorationViews;
+
+@property (strong, nonatomic) NSMutableArray *allDecorations;
+
+
 
 @end
 
@@ -52,13 +57,14 @@
     [super viewDidLoad];
     self.title = _setName;
     _skillDictionary = [[NSMutableDictionary alloc] init];
+    _allDecorations = [[NSMutableArray alloc] init];
     
-    _weaponDecorations = @[_weaponSlot1, _weaponSlot2, _weaponSlot3];
-    _headDecorations = @[_helmSlot1, _helmSlot2, _helmSlot3];
-    _bodyDecorations = @[_bodySlot1, _bodySlot2, _bodySlot3];
-    _armsDecorations = @[_armsSlot1, _armsSlot2, _armsSlot3];
-    _waistDecorations = @[_waistSlot1, _waistSlot2, _waistSlot3];
-    _legsDecorations = @[_legsSlot1, _legsSlot2, _legsSlot3];
+    _weaponDecorationViews = @[_weaponSlot1, _weaponSlot2, _weaponSlot3];
+    _headDecorationViews = @[_helmSlot1, _helmSlot2, _helmSlot3];
+    _bodyDecorationViews = @[_bodySlot1, _bodySlot2, _bodySlot3];
+    _armsDecorationViews = @[_armsSlot1, _armsSlot2, _armsSlot3];
+    _waistDecorationViews = @[_waistSlot1, _waistSlot2, _waistSlot3];
+    _legsDecorationViews = @[_legsSlot1, _legsSlot2, _legsSlot3];
     
     CGRect vcFrame = self.view.frame;
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + [self returnHeightDifference], vcFrame.size.width, 49);
@@ -110,35 +116,58 @@
     [_dbEngine populateArmor:_armorSet.legs];
     
     [self drawDecorationForArmorSet];
+    
+    for (Decoration *decoration in _allDecorations) {
+        [self combineSkillsArray:decoration.skillArray];
+    }
 
 }
 
 -(void)drawDecorationForArmorSet {
     
-    for (int i = 0; i < _armorSet.weapon.num_slots; i++) {
-        UIImageView *decorationView = _weaponDecorations[i];
-        decorationView.image = [UIImage imageNamed:@"circle.png"];
-    }
-    
-    for (Armor *armor in [_armorSet returnNonNullArmor]) {
-        for (int i = 0; i < armor.numSlots; i++) {
-            if ([armor.slot isEqualToString:@"Head"]) {
-                UIImageView *headSlot = _headDecorations[i];
-                headSlot.image = [UIImage imageNamed:@"circle.png"];
-            } else if ([armor.slot isEqualToString:@"Body"]) {
-                UIImageView *bodySlot = _bodyDecorations[i];
-                bodySlot.image = [UIImage imageNamed:@"circle.png"];
-            } else if ([armor.slot isEqualToString:@"Arms"]) {
-                UIImageView *armsSlot = _armsDecorations[i];
-                armsSlot.image = [UIImage imageNamed:@"circle.png"];
-            } else if ([armor.slot isEqualToString:@"Waist"]) {
-                UIImageView *waistSlot = _waistDecorations[i];
-                waistSlot.image = [UIImage imageNamed:@"circle.png"];
-            } else if ([armor.slot isEqualToString:@"Legs"]) {
-                UIImageView *legSlot = _legsDecorations[i];
-                legSlot.image = [UIImage imageNamed:@"circle.png"];
+    if (_armorSet.weapon.num_slots > 0) {
+        NSArray *decorations = [_dbEngine getDecorationsForArmorSet:[NSNumber numberWithInt:_armorSet.setID] andSetItem:_armorSet.weapon];
+        for (int i = 0; i < _armorSet.weapon.num_slots; i++) {
+            UIImageView *decorationView = _weaponDecorationViews[i];
+            if (decorations.count < i) {
+                Decoration *decoration = decorations[i];
+                [_allDecorations addObject:decoration];
+                decorationView.image = [UIImage imageNamed:decoration.icon];
+            } else {
+                decorationView.image = [UIImage imageNamed:@"circle.png"];
             }
         }
+    }
+
+    for (Armor *armor in [_armorSet returnNonNullArmor]) {
+        if (armor.numSlots > 0) {
+            NSArray *decorations = [_dbEngine getDecorationsForArmorSet:[NSNumber numberWithInt:_armorSet.setID] andSetItem:armor];
+            for (int i = 0; i < armor.numSlots; i++) {
+                UIImageView *decorationView;
+                if ([armor.slot isEqualToString:@"Head"]) {
+                    decorationView = _headDecorationViews[i];
+                } else if ([armor.slot isEqualToString:@"Body"]) {
+                    decorationView = _bodyDecorationViews[i];
+                } else if ([armor.slot isEqualToString:@"Arms"]) {
+                    decorationView = _armsDecorationViews[i];
+                } else if ([armor.slot isEqualToString:@"Waist"]) {
+                    decorationView = _waistDecorationViews[i];
+                } else if ([armor.slot isEqualToString:@"Legs"]) {
+                    decorationView = _legsDecorationViews[i];
+                }
+                if (decorations.count >= i+1) {
+                    
+                    Decoration *decoration = decorations[i];
+                    [_allDecorations addObject:decoration];
+                    decorationView.image = [UIImage imageNamed:decoration.icon];
+                } else {
+                    decorationView.image = [UIImage imageNamed:@"circle.png"];
+                }
+
+                
+            }
+        }
+
     }
 }
 
@@ -200,41 +229,72 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _skillDictionary.count;
+    if ([tableView isEqual:_armorStatSheet.statTableView]) {
+        return _skillDictionary.count;
+    } else if ([tableView isEqual:_socketedTable]){
+        return _allDecorations.count;
+    } else {
+        return 0;
+    }
+    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *allNameAndValues = [_skillDictionary allValues];
-    NSArray *nameAndValue = allNameAndValues[indexPath.row];
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
     }
     
-    cell.textLabel.text = nameAndValue[0];
-    CGRect cellFrame = cell.frame;
-    CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 50, 20);
-    UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
-    acessoryText.textAlignment =  NSTextAlignmentRight;
-    
-    
-    acessoryText.text = [NSString stringWithFormat:@"%@", nameAndValue[1]];
-    [cell addSubview:acessoryText];
-    [cell setAccessoryView: acessoryText];
-    return cell;
+    if ([tableView isEqual:_armorStatSheet.statTableView]) {
+        NSArray *allNameAndValues = [_skillDictionary allValues];
+        NSArray *nameAndValue = allNameAndValues[indexPath.row];
+        
+
+        
+        cell.textLabel.text = nameAndValue[0];
+        CGRect cellFrame = cell.frame;
+        CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 50, 20);
+        UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
+        acessoryText.textAlignment =  NSTextAlignmentRight;
+        
+        
+        acessoryText.text = [NSString stringWithFormat:@"%@", nameAndValue[1]];
+        [cell addSubview:acessoryText];
+        [cell setAccessoryView: acessoryText];
+        return cell;
+    } else if ([tableView isEqual:_socketedTable]){
+        Decoration *decoration = _allDecorations[indexPath.row];
+        cell.textLabel.text = decoration.name;
+        cell.imageView.image = [UIImage imageNamed:decoration.icon];
+        return cell;
+    } else {
+        return nil;
+    }
+
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *allNameAndValues = [_skillDictionary allValues];
-    NSArray *nameAndValue = allNameAndValues[indexPath.row];
-    NSNumber *skillID = [[_skillDictionary allKeysForObject:nameAndValue] firstObject];
-    SkillDetailViewController *sdVC = [[SkillDetailViewController alloc] init];
-    sdVC.heightDifference = [self returnHeightDifference];
-    sdVC.dbEngine = _dbEngine;
-    sdVC.skilTreeName = nameAndValue[0];
-    sdVC.skillTreeID = [skillID intValue];
-    [self.navigationController pushViewController:sdVC animated:YES];
-
+    UINavigationController *nC = (UINavigationController *)_baseVC.centerViewController;
+    if ([tableView isEqual:_armorStatSheet.statTableView]) {
+        NSArray *allNameAndValues = [_skillDictionary allValues];
+        NSArray *nameAndValue = allNameAndValues[indexPath.row];
+        NSNumber *skillID = [[_skillDictionary allKeysForObject:nameAndValue] firstObject];
+        SkillDetailViewController *sdVC = [[SkillDetailViewController alloc] init];
+        sdVC.heightDifference = [self returnHeightDifference];
+        sdVC.dbEngine = _dbEngine;
+        sdVC.skilTreeName = nameAndValue[0];
+        sdVC.skillTreeID = [skillID intValue];
+        [nC pushViewController:sdVC animated:YES];
+    } else if ([tableView isEqual:_socketedTable]){
+        Decoration *decoration= _allDecorations[indexPath.row];
+        decoration.componentArray = [_dbEngine getComponentsfor:decoration.itemID];
+        DecorationsDetailViewController *dDVC = [[DecorationsDetailViewController alloc] init];
+        dDVC.heightDifference = [self returnHeightDifference];
+        dDVC.dbEngine = _dbEngine;
+        dDVC.selectedDecoration = decoration;
+        [nC pushViewController:dDVC animated:YES];
+    }
 }
 /*
 #pragma mark - Navigation

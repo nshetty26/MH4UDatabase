@@ -99,5 +99,24 @@
     return nonNullArmor;
 }
 
+-(Item *)returnItemForSlot:(NSString *)slot {
+    if ([slot isEqualToString:@"Head"]) {
+        return self.helm;
+    } else if ([slot isEqualToString:@"Body"]) {
+        return self.chest;
+    } else if ([slot isEqualToString:@"Arms"]) {
+        return self.arms;
+    } else if ([slot isEqualToString:@"Waist"]) {
+        return self.waist;
+    } else if ([slot isEqualToString:@"Legs"]) {
+        return self.legs;
+    } else if ([slot isEqualToString:@"Weapon"]){
+        return self.weapon;
+    } else {
+        return nil;
+    }
+    
+}
+
 @end
 

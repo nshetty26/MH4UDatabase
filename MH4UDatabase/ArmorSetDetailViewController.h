@@ -12,12 +12,15 @@
 
 @class ArmorSet;
 @class MH4UDBEngine;
+@class BaseViewController;
 
 @interface ArmorSetDetailViewController : UIViewController <UITabBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) MH4UDBEngine *dbEngine;
+@property (strong, nonatomic) BaseViewController *baseVC;
 @property (strong, nonatomic) ArmorSet *armorSet;
 @property (strong, nonatomic) NSString *setName;
 
+@property (weak, nonatomic) IBOutlet UITableView *socketedTable;
 @property (weak, nonatomic) IBOutlet UIImageView *weaponSlot1;
 @property (weak, nonatomic) IBOutlet UIImageView *weaponSlot2;
 @property (weak, nonatomic) IBOutlet UIImageView *weaponSlot3;

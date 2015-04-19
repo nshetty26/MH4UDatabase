@@ -10,9 +10,11 @@
 #import "UIViewController+UIViewController_MenuButton.h"
 
 @class MH4UDBEngine;
+@class BaseViewController;
 
 @interface ArmorSetTableViewController : UITableViewController <UIAlertViewDelegate>
 
 @property (strong, nonatomic) MH4UDBEngine *dbEngine;
+@property (strong, nonatomic) BaseViewController *baseVC;
 
 @end

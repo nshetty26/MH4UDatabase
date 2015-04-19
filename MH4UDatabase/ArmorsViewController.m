@@ -297,6 +297,7 @@
     aSVC.dbEngine = _dbEngine;
     aSVC.armorSet = armorSet;
     aSVC.setName = [[armor.name componentsSeparatedByString:@" "] firstObject];
+    aSVC.setName = [NSString stringWithFormat:@"%@ %@ Set", aSVC.setName, armor.hunterType];
     [self.navigationController pushViewController:aSVC animated:YES];
     
     

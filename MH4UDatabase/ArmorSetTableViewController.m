@@ -9,6 +9,7 @@
 #import "ArmorSetTableViewController.h"
 #import "ArmorSetDetailViewController.h"
 #import "MH4UDBEngine.h"
+#import "MH4UDBEntity.h"
 
 @interface ArmorSetTableViewController ()
 @property (strong, nonatomic) NSArray *allSets;
@@ -72,7 +73,9 @@
     ArmorSetDetailViewController *aSDVC = [[ArmorSetDetailViewController alloc] init];
     aSDVC.dbEngine = _dbEngine;
     aSDVC.armorSet = [_dbEngine getArmorSetForSetID:set[0]];
+    aSDVC.armorSet.setID = [set[0] intValue];
     aSDVC.setName = set[1];
+    aSDVC.baseVC = _baseVC;
     [self.navigationController pushViewController:aSDVC animated:YES];
 }
 

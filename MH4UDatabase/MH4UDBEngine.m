@@ -14,6 +14,7 @@
 #import <FMDB.h>
 
 
+
 @interface MH4UDBEngine ()
 @property (nonatomic) NSString *mhDBPath;
 @property (nonatomic) FMDatabase *mh4DB;
@@ -219,7 +220,10 @@
             armor.name = [s stringForColumn:@"name"];
             armor.hunterType = [s stringForColumn:@"hunter_type"];
             armor.slot = [s stringForColumn:@"slot"];
-            armor.numSlots = [s intForColumn:@"num_slots"];
+            if (armorID) {
+                armor.numSlots = [s intForColumn:@"num_slots"];
+            }
+            
             armor.rarity = [s intForColumn:@"rarity"];
             armor.icon = [NSString stringWithFormat:@"%@%i.png", armor.slot, armor.rarity].lowercaseString;
             [armorArray addObject:armor];
@@ -1131,6 +1135,7 @@
             }
             
         }
+        [armorDatabase close];
         return armorSet;
     }
 }
@@ -1203,21 +1208,7 @@
 -(BOOL)addArmor:(Armor *)armor toArmorSetWithID:(NSNumber *)setID {
     FMDatabase *armorDatabase = [self openDatabase];
     
-    NSString *armorType;
-    
-    if ([armor.slot isEqualToString:@"Head"]) {
-        armorType = @"head_id";
-    } else if ([armor.slot isEqualToString:@"Body"]) {
-        armorType = @"body_id";
-    } else if ([armor.slot isEqualToString:@"Arms"]) {
-        armorType = @"arms_id";
-    } else if ([armor.slot isEqualToString:@"Waist"]) {
-        armorType = @"waist_id";
-    } else if ([armor.slot isEqualToString:@"Legs"]) {
-        armorType = @"legs_id";
-    } else {
-        armorType = @"";
-    }
+    NSString *armorType = [self returnDBTypeForArmorSlot:armor.slot];
     
     if (![armorDatabase open]) {
         return FALSE;
@@ -1271,20 +1262,77 @@
     ArmorSet *armorSet = [self getArmorSetForSetID:setID];
     
     if (armorSet.weapon) {
-        int availableSlots = armorSet.weapon.num_slots - armorSet.weapon.slotsUsed;
         if (armorSet.weapon.num_slots > 0) {
+            FMDatabase *armorDatabase = [self openDatabase];
+            if (![armorDatabase open]) {
+                return FALSE;
+            } else {
+                NSString *query = [NSString stringWithFormat:@"select count(*) as Count from Decorations where ArmorSet_id = %i and item_id = %i" , [setID intValue], armorSet.weapon.itemID];
+                FMResultSet *s = [armorDatabase executeQuery:query];
+                [s next];
+                armorSet.weapon.slotsUsed = [s intForColumn:@"Count"];
+                
+            }
+            int availableSlots = armorSet.weapon.num_slots - armorSet.weapon.slotsUsed;
             [availableSlotsInEquipment addObject:@[@"Weapon", [NSNumber numberWithInt:availableSlots]]];
         }
     }
     
     for (Armor *armor in [armorSet returnNonNullArmor]) {
-        int availableSlots = armor.numSlots - armor.slotsUsed;
         if (armor.numSlots > 0) {
+            FMDatabase *armorDatabase = [self openDatabase];
+            if (![armorDatabase open]) {
+                return FALSE;
+            } else {
+                NSString *query = [NSString stringWithFormat:@"select count(*) as Count from Decorations where ArmorSet_id = %i and item_id = %i" , [setID intValue], armor.itemID];
+                FMResultSet *s = [armorDatabase executeQuery:query];
+                [s next];
+                armor.slotsUsed = [s intForColumn:@"Count"];
+                
+            }
+            int availableSlots = armor.numSlots - armor.slotsUsed;
             [availableSlotsInEquipment addObject:@[armor.slot, [NSNumber numberWithInt:availableSlots]]];
         }
+
     }
     
     return availableSlotsInEquipment;
+
+}
+
+-(BOOL)addDecoration:(Decoration *)decoration ToSlot:(NSString *)slot andArmorSetWithID:(NSNumber *)setID {
+    ArmorSet *armorSet = [self getArmorSetForSetID:setID];
+    FMDatabase *armorDatabase = [self openDatabase];
+    
+    Item *setItem = [armorSet returnItemForSlot:slot];
+    
+    if (![armorDatabase open]) {
+        return FALSE;
+    } else {
+         NSString *query = [NSString stringWithFormat:@"insert into Decorations (ArmorSet_id, item_id, decoration_id) Values (%i, %i, %i)", [setID intValue], setItem.itemID, decoration.itemID];
+        return [armorDatabase executeUpdate:query];
+    }
+
+    return FALSE;
+}
+
+-(NSArray *)getDecorationsForArmorSet:(NSNumber *)setID andSetItem:(Item *)setItem {
+    NSMutableArray *decorations = [[NSMutableArray alloc] init];
+    FMDatabase *armorDatabase = [self openDatabase];
+    if (![armorDatabase open]) {
+        return FALSE;
+    } else {
+        NSString *query = [NSString stringWithFormat:@"select _id, ArmorSet_id, item_id, decoration_id from Decorations where ArmorSet_id = %i and item_id = %i" , [setID intValue], setItem.itemID];
+        FMResultSet *s = [armorDatabase executeQuery:query];
+        while ([s next]) {
+            int decorationID = [s intForColumn:@"decoration_id"];
+            Decoration *decoration = [[self getAllDecorations:[NSNumber numberWithInt:decorationID]]  firstObject];
+            [decorations addObject:decoration];
+        }
+        
+    }
+    
+    return decorations;
 
 }
 
@@ -1312,6 +1360,24 @@
     if (![db open])
         NSLog(@"Failed to open database!");
     return db;
+}
+
+-(NSString *)returnDBTypeForArmorSlot:(NSString *)slot {
+    if ([slot isEqualToString:@"Head"]) {
+        return @"head_id";
+    } else if ([slot isEqualToString:@"Body"]) {
+        return @"body_id";
+    } else if ([slot isEqualToString:@"Arms"]) {
+        return @"arms_id";
+    } else if ([slot isEqualToString:@"Waist"]) {
+        return @"waist_id";
+    } else if ([slot isEqualToString:@"Legs"]) {
+        return @"legs_id";
+    } else if ([slot isEqualToString:@"Weapon"]){
+        return @"weapon_id";
+    } else {
+        return @"";
+    }
 }
 
 
