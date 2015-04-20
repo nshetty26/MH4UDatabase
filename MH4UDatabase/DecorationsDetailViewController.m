@@ -22,6 +22,8 @@
 @property (nonatomic) NSArray *selectedSet;
 @property (nonatomic) UIAlertView *doubleCheckAlert;
 @property (nonatomic) UIActionSheet *armorSelectSheet;
+@property (nonatomic) UIActionSheet *decorationSheet;
+@property (nonatomic) NSString *selectedArmorSetPiece;
 
 @end
 
@@ -190,12 +192,25 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView isEqual:_doubleCheckAlert]) {
         if (buttonIndex == 1) {
-//            BOOL successful = [_dbEngine addArmor:_selectedArmor toArmorSetWithID:_selectedSet[0]];
-//            [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            ArmorSet  *selectedSet = [_dbEngine getArmorSetForSetID:_selectedSet[0]];
+            Item *setItem = [selectedSet returnItemForSlot:_selectedArmorSetPiece];
+            _decorationSheet = [[UIActionSheet alloc] initWithTitle:@"Which Decoration Would You Like To Replace?" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
+            setItem.decorationsArray = [_dbEngine getDecorationsForArmorSet:_selectedSet[0] andSetItem:setItem];
+            for (Decoration *decoration in setItem.decorationsArray) {
+                [_decorationSheet addButtonWithTitle:decoration.name];
+            }
+            
+            _decorationSheet.cancelButtonIndex = [_decorationSheet addButtonWithTitle:@"Cancel"];
+            [_decorationSheet showInView:self.view];
+            
         }
     } else {
         if (buttonIndex == 1) {
             NSArray *allSets = [_dbEngine getAllArmorSets];
+            if (allSets.count <= 0) {
+                [[[UIAlertView alloc] initWithTitle:@"No Custom Sets" message:@"Please add a custom set before trying to add items to it" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                return;
+            }
             UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Which Armor Set Would You Like to Add to?" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
             
             for (NSArray *set in allSets) {
@@ -220,14 +235,26 @@
             armorSlots = [armorSlots stringByReplacingOccurrencesOfString:@"]" withString:@""];
             NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
             
-            NSString *armorSetSlot = titleComponents[0];
+            _selectedArmorSetPiece = titleComponents[0];
             NSNumber *availableSlots = [f numberFromString:armorSlots];
             
-            if (availableSlots > 0) {
-                BOOL successful = [_dbEngine addDecoration:_selectedDecoration ToSlot:armorSetSlot andArmorSetWithID:_selectedSet[0]];
+            if ([availableSlots intValue] > 0) {
+                BOOL successful = [_dbEngine addDecoration:_selectedDecoration ToSlot:_selectedArmorSetPiece andArmorSetWithID:_selectedSet[0]];
                 [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            } else {
+                _doubleCheckAlert = [[UIAlertView alloc] initWithTitle:@"Are You Sure" message:@"The Armor Slot you have picked has no open slots, would you like to replace one of the slots?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+                [_doubleCheckAlert show];
             }
             
+        } else if ([actionSheet isEqual:_decorationSheet]){
+            ArmorSet  *selectedSet = [_dbEngine getArmorSetForSetID:_selectedSet[0]];
+            Item *setItem = [selectedSet returnItemForSlot:_selectedArmorSetPiece];
+            setItem.decorationsArray = [_dbEngine getDecorationsForArmorSet:_selectedSet[0] andSetItem:setItem];
+            Decoration *decorationToRemove = setItem.decorationsArray[buttonIndex];
+            BOOL deleteSuccess = [_dbEngine deleteDecoration:decorationToRemove FromSetItemWithItemID:setItem SetWithID:_selectedSet[0]];
+            BOOL successful = [_dbEngine addDecoration:_selectedDecoration ToSlot:_selectedArmorSetPiece andArmorSetWithID:_selectedSet[0]];
+            BOOL allSuccess = (deleteSuccess == TRUE && successful == TRUE) ? TRUE : FALSE;
+            [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",allSuccess ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         } else {
             NSArray *allSets = [_dbEngine getAllArmorSets];
             _selectedSet = allSets[buttonIndex];
@@ -246,17 +273,6 @@
             }
         }
 
-//        
-//        BOOL exists = [_dbEngine checkArmor:_selectedArmor atArmorSetWithID:_selectedSet[0]];
-//        
-//        if (!exists) {
-//            BOOL successful = [_dbEngine addArmor:_selectedArmor toArmorSetWithID:_selectedSet[0]];
-//            [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-//        } else {
-//            _doubleCheckAlert = [[UIAlertView alloc] initWithTitle:@"Are You Sure?" message:[NSString stringWithFormat:@"This Set Already Has a Piece in the %@ Slot", _selectedArmor.slot] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"YES", nil];
-//            [_doubleCheckAlert show];
-//        }
-        
     }
 }
 

@@ -44,7 +44,7 @@
 
     self.leftDrawerViewController = [[UINavigationController alloc] initWithRootViewController:_menuVC];
     [self setMaximumLeftDrawerWidth:180];
-    [self setMaximumLeftDrawerWidth:240];
+    [self setMaximumRightDrawerWidth:300];
     
     self.closeDrawerGestureModeMask = MMCloseDrawerGestureModeTapCenterView;
     //MMDrawerBarButtonItem *leftButton = [[MMDrawerBarButtonItem alloc] initWithTarget:nil action:@selector(openMenu)];

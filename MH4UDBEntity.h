@@ -34,6 +34,7 @@
 @property (nonatomic) NSArray *monsterDropsArray;
 @property (nonatomic) NSArray *questRewardsArray;
 @property (nonatomic) NSArray *locationsArray;
+@property (nonatomic) NSArray *decorationsArray;
 @end
 
 @interface Armor : Item
@@ -55,7 +56,6 @@
 @property (nonatomic) int slotsUsed;
 @property (nonatomic) NSArray *skillsArray;
 @property (nonatomic) NSArray *componentArray;
-@property (nonatomic) NSArray *decorationsArray;
 
 @end
 
@@ -200,7 +200,7 @@
 @property (nonatomic) int slotsUsed;
 @property (nonatomic) int tree_depth;
 @property (nonatomic) int final;
-@property (nonatomic) NSArray *decorationsArray;
+
 
 -(NSString *)getElementalDescription;
 

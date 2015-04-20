@@ -27,7 +27,6 @@
                 <outlet property="legsSlot1" destination="p7v-1R-G92" id="3I1-S9-vWn"/>
                 <outlet property="legsSlot2" destination="bHR-5w-yjb" id="wpm-vb-4VI"/>
                 <outlet property="legsSlot3" destination="Jpm-vW-JlE" id="1O2-wJ-DEn"/>
-                <outlet property="socketedTable" destination="Cf7-F1-Coz" id="qBj-8W-k0h"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="waistImage" destination="vqO-ep-tCr" id="rdM-8B-KC3"/>
                 <outlet property="waistLabel" destination="2iv-SJ-YEp" id="SR1-tf-7EE"/>
@@ -154,14 +153,6 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Cf7-F1-Coz">
-                    <rect key="frame" x="8" y="398" width="268" height="74"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="itt-gg-NdI"/>
-                        <outlet property="delegate" destination="-1" id="J8N-yt-sxs"/>
-                    </connections>
-                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>

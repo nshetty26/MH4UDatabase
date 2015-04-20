@@ -37,6 +37,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *talismanLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *talismanImage;
 
+@property (strong, nonatomic) UITableView *statTableView;
+@property (strong, nonatomic) UITableView *socketedTable;
+
 @property (strong, nonatomic) ArmorStatSheetView *armorStatSheet;
 @property (strong, nonatomic) NSMutableDictionary *skillDictionary;
 @property (strong, nonatomic) UITabBar *armorSetTab;
@@ -75,6 +78,9 @@
     _armorStatSheet = [[[NSBundle mainBundle] loadNibNamed:@"ArmorStatSheetView" owner:self options:nil] lastObject];
     _armorStatSheet.aSVC = self;
     [self setUpTabBarWithFrame:tabBarFrame];
+    _statTableView = [[UITableView alloc] init];
+    _statTableView.delegate = self;
+    _statTableView.dataSource = self;
     // Do any additional setup after loading the view from its nib.
     [self populateArmorSet];
     [self setUpArmorSetView];
@@ -100,6 +106,10 @@
     }
     [_equipmentSocketTab setItems:equipmentTabs];
     [_equipmentSocketTab setSelectedItem:[equipmentTabs firstObject]];
+    _socketedTable = [[UITableView alloc] init];
+    _socketedTable.delegate = self;
+    _socketedTable.dataSource = self;
+    [self.view addSubview:_socketedTable];
     [self.view addSubview:_equipmentSocketTab];
 }
 
@@ -109,8 +119,10 @@
         
         UITabBarItem *armorSet = [[UITabBarItem alloc] initWithTitle:@"Set" image:nil tag:1];
         UITabBarItem *armorStats = [[UITabBarItem alloc] initWithTitle:@"Stats" image:nil tag:2];
+        UITabBarItem *skillsTable = [[UITabBarItem alloc] initWithTitle:@"Skills" image:nil tag:3];
         [tabItems addObject:armorSet];
         [tabItems addObject:armorStats];
+        [tabItems addObject:skillsTable];
         
         _armorSetTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
         _armorSetTab.delegate = self;
@@ -157,7 +169,7 @@
         _armorSet.weapon.decorationsArray = decorations;
         for (int i = 0; i < _armorSet.weapon.num_slots; i++) {
             UIImageView *decorationView = _weaponDecorationViews[i];
-            if (decorations.count < i) {
+            if (decorations.count >= i+1) {
                 Decoration *decoration = decorations[i];
                 [_allDecorations addObject:decoration];
                 decorationView.image = [UIImage imageNamed:decoration.icon];
@@ -166,6 +178,7 @@
             }
         }
     }
+    
 
     for (Armor *armor in [_armorSet returnNonNullArmor]) {
         if (armor.numSlots > 0) {
@@ -242,9 +255,16 @@
         switch (item.tag) {
             case 1:
                 [_armorStatSheet removeFromSuperview];
+                [_statTableView removeFromSuperview];
                 break;
             case 2:
                 [self.view addSubview:_armorStatSheet];
+                break;
+            case 3:
+                if (_armorStatSheet.superview != nil) {
+                    [_armorStatSheet removeFromSuperview];
+                }
+                [self.view addSubview:_statTableView];
                 break;
             default:
                 break;
@@ -264,7 +284,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([tableView isEqual:_armorStatSheet.statTableView]) {
+    if ([tableView isEqual:_statTableView]) {
         return _skillDictionary.count;
     } else if ([tableView isEqual:_socketedTable]){
         return _displayedDecorations.count;
@@ -277,14 +297,22 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    if ([tableView isEqual:_armorStatSheet.statTableView]) {
+    if ([tableView isEqual:_statTableView]) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
         }
 
         NSArray *allNameAndValues = [_skillDictionary allValues];
-        NSArray *nameAndValue = allNameAndValues[indexPath.row];
+        NSArray *sortedValuesArray = [allNameAndValues sortedArrayUsingComparator:^NSComparisonResult(id one, id two){
+            NSArray *nameAndValueOne = (NSArray *)one;
+            NSArray *nameAndValueTwo = (NSArray *)two;
+            NSNumber *valueOne = nameAndValueOne[1];
+            NSNumber *valueTwo = nameAndValueTwo[1];
+            return [valueTwo compare:valueOne];
+        }];
+
+        NSArray *nameAndValue = sortedValuesArray[indexPath.row];
         
         cell.textLabel.text = nameAndValue[0];
         CGRect cellFrame = cell.frame;
@@ -344,16 +372,24 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UINavigationController *nC = (UINavigationController *)_baseVC.centerViewController;
-    if ([tableView isEqual:_armorStatSheet.statTableView]) {
+    if ([tableView isEqual:_statTableView]) {
         NSArray *allNameAndValues = [_skillDictionary allValues];
-        NSArray *nameAndValue = allNameAndValues[indexPath.row];
+        NSArray *sortedValuesArray = [allNameAndValues sortedArrayUsingComparator:^NSComparisonResult(id one, id two){
+            NSArray *nameAndValueOne = (NSArray *)one;
+            NSArray *nameAndValueTwo = (NSArray *)two;
+            NSNumber *valueOne = nameAndValueOne[1];
+            NSNumber *valueTwo = nameAndValueTwo[1];
+            return [valueTwo compare:valueOne];
+        }];
+        
+        NSArray *nameAndValue = sortedValuesArray[indexPath.row];
         NSNumber *skillID = [[_skillDictionary allKeysForObject:nameAndValue] firstObject];
         SkillDetailViewController *sdVC = [[SkillDetailViewController alloc] init];
         sdVC.heightDifference = [self returnHeightDifference];
         sdVC.dbEngine = _dbEngine;
         sdVC.skilTreeName = nameAndValue[0];
         sdVC.skillTreeID = [skillID intValue];
-        [nC pushViewController:sdVC animated:YES];
+        [self.navigationController pushViewController:sdVC animated:YES];
     } else if ([tableView isEqual:_socketedTable]){
         Decoration *decoration= _displayedDecorations[indexPath.row];
         decoration.componentArray = [_dbEngine getComponentsfor:decoration.itemID];
@@ -377,9 +413,14 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        //[_dbEngine deleteArmorSetWithID:set[0]];
-        //_allSets = [_dbEngine getAllArmorSets];
-        //[self.tableView reloadData];
+        Decoration *decoration = _displayedDecorations[indexPath.row];
+        Item *setItem = [_armorSet returnItemForSlot:_equipmentSocketTab.selectedItem.title];
+        
+        BOOL successful = [_dbEngine deleteDecoration:decoration FromSetItemWithItemID:setItem SetWithID:[NSNumber numberWithInt:_armorSet.setID]];
+
+//        setItem.decorationsArray = [_dbEngine getDecorationsForArmorSet:[NSNumber numberWithInt:_armorSet.setID] andSetItem:setItem];
+        [self drawDecorationForArmorSet];
+        _displayedDecorations = setItem.decorationsArray;
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
@@ -411,8 +452,18 @@
     CGRect vcFrame = self.view.frame;
     _armorSetTab.frame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + [self returnHeightDifference], vcFrame.size.width, 49);
     _armorStatSheet.frame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _armorSetTab.frame.size.height + [self returnHeightDifference], vcFrame.size.width, vcFrame.size.height - [self returnHeightDifference] - _armorSetTab.frame.size.height);
-    CGRect skillFrame = _armorStatSheet.statTableView.frame;
-    _armorStatSheet.statTableView.frame = CGRectMake(skillFrame.origin.x, skillFrame.origin.y, vcFrame.size.width, skillFrame.size.height);
+    _statTableView.frame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _armorSetTab.frame.size.height + [self returnHeightDifference], vcFrame.size.width, vcFrame.size.height - (_armorSetTab.frame.size.height + [self returnHeightDifference]));
+    _equipmentSocketTab.frame = CGRectMake(self.view.frame.origin.x, _legImage.frame.origin.y + _legImage.frame.size.height + 10, _baseVC.rightDrawerViewController.view.frame.size.width, 49);
+    _socketedTable.frame = CGRectMake(vcFrame.origin.x, _equipmentSocketTab.frame.origin.y + _equipmentSocketTab.frame.size.height, _baseVC.rightDrawerViewController.view.frame.size.width, vcFrame.size.height - (_armorSetTab.frame.size.height + [self returnHeightDifference]));
+    
+    if (_armorStatSheet.superview || _statTableView.superview) {
+        self.navigationItem.rightBarButtonItem = nil;
+    } else {
+        self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    }
+    
+    [self drawDecorationForArmorSet];
+    [_statTableView reloadData];
 }
 
 @end

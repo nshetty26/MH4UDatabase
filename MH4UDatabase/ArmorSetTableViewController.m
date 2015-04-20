@@ -49,7 +49,7 @@
 }
 
 -(void)promptUserForNewArmorSet {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add New Set" message:@"Please enter the name of the new set" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"OK", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add New Set" message:@"Please enter the name of the new set" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alert show];
 }

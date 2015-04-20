@@ -192,6 +192,10 @@
     } else {
         if (buttonIndex == 1) {
             NSArray *allSets = [_dbEngine getAllArmorSets];
+            if (allSets.count <= 0) {
+                [[[UIAlertView alloc] initWithTitle:@"No Custom Sets" message:@"Please add a custom set before trying to add items to it" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                return;
+            }
             UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Which Armor Set Would You Like to Add to?" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
             
             for (NSArray *set in allSets) {

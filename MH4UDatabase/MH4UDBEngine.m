@@ -1244,6 +1244,17 @@
     return FALSE;
 }
 
+-(BOOL)deleteAllDecorationsForArmorSetWithID:(NSNumber *)setID andSetItem:(Item *)setItem {
+    FMDatabase *armorDatabase = [self openDatabase];
+    
+    if (![armorDatabase open]) {
+        return FALSE;
+    } else {
+        NSString *query = [NSString stringWithFormat:@"DELETE FROM Decorations where ArmorSet_id = %i and item_id = %i", [setID intValue], setItem.itemID];
+        return [armorDatabase executeUpdate:query];
+    }
+}
+
 
 -(BOOL)addWeapon:(Weapon *)weapon toArmorSetWithID:(NSNumber *)setID {
     FMDatabase *armorDatabase = [self openDatabase];
@@ -1334,6 +1345,17 @@
     
     return decorations;
 
+}
+
+-(BOOL)deleteDecoration:(Decoration *)decoration FromSetItemWithItemID:(Item *)setItem SetWithID:(NSNumber *)setID {
+    FMDatabase *armorDatabase = [self openDatabase];
+    
+    if (![armorDatabase open]) {
+        return FALSE;
+    } else {
+        NSString *query = [NSString stringWithFormat:@"delete from Decorations where ArmorSet_id = %i and item_id = %i and decoration_id = %i", [setID intValue], setItem.itemID , decoration.itemID];
+        return [armorDatabase executeUpdate:query];
+    }
 }
 
 - (FMDatabase *)openDatabase

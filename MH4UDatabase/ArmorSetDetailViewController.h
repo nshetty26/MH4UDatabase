@@ -20,7 +20,6 @@
 @property (strong, nonatomic) ArmorSet *armorSet;
 @property (strong, nonatomic) NSString *setName;
 
-@property (weak, nonatomic) IBOutlet UITableView *socketedTable;
 @property (weak, nonatomic) IBOutlet UIImageView *weaponSlot1;
 @property (weak, nonatomic) IBOutlet UIImageView *weaponSlot2;
 @property (weak, nonatomic) IBOutlet UIImageView *weaponSlot3;
