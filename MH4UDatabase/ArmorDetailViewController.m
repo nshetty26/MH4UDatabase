@@ -186,6 +186,7 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView isEqual:_doubleCheckAlert]) {
         if (buttonIndex == 1) {
+            BOOL successfulDelete = [_dbEngine deleteAllDecorationsForArmorSetWithID:_selectedSet[0] andSetItem:_selectedArmor];
             BOOL successful = [_dbEngine addArmor:_selectedArmor toArmorSetWithID:_selectedSet[0]];
             [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         }

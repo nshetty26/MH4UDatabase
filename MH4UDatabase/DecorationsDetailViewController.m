@@ -270,6 +270,9 @@
                 
                 _armorSelectSheet.cancelButtonIndex = [_armorSelectSheet addButtonWithTitle:@"Cancel"];
                 [_armorSelectSheet showInView:self.view];
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"No Available Slots" message:[NSString stringWithFormat:@"Please add equipment to %@ that has slots for decorations", _selectedSet[1]] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                return;
             }
         }
 

@@ -21,6 +21,7 @@
     [super viewDidLoad];
     _allSets = [_dbEngine getAllArmorSets];
     self.title = @"Armor Set Table";
+
     
     
     // Uncomment the following line to preserve selection between presentations.
@@ -75,6 +76,7 @@
     aSDVC.armorSet = [_dbEngine getArmorSetForSetID:set[0]];
     aSDVC.armorSet.setID = [set[0] intValue];
     aSDVC.setName = set[1];
+    aSDVC.setID = set[0];
     aSDVC.baseVC = _baseVC;
     [self.navigationController pushViewController:aSDVC animated:YES];
 }

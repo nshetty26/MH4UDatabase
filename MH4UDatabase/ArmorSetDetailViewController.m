@@ -62,6 +62,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _baseVC.aSDVC = self;
     self.title = _setName;
     _skillDictionary = [[NSMutableDictionary alloc] init];
     _allDecorations = [[NSMutableArray alloc] init];
@@ -81,36 +82,48 @@
     _statTableView = [[UITableView alloc] init];
     _statTableView.delegate = self;
     _statTableView.dataSource = self;
+    
     // Do any additional setup after loading the view from its nib.
     [self populateArmorSet];
+    [self drawDecorationForArmorSet];
     [self setUpArmorSetView];
+    [self setUpEquipmentTabBar];
+    [self.view addSubview:_socketedTable];
     if (_allDecorations.count > 0) {
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
-        [self setUpEquipmentTabBar];
         NSArray *firstItemWithDecorations = [[_armorSet returnItemsWithDecorations] firstObject];
         _displayedDecorations = firstItemWithDecorations[1];
+        _socketedTable = [[UITableView alloc] init];
+        _socketedTable.delegate = self;
+        _socketedTable.dataSource = self;
+        
     }
+    
+    [self calculateSkillsForSelectedArmorSet];
 }
 
 -(void)setUpEquipmentTabBar {
     CGRect tabBarFrame = CGRectMake(self.view.frame.origin.x, _socketedTable.frame.origin.y - 49, _baseVC.rightDrawerViewController.view.frame.size.width, 49);
     _equipmentSocketTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
     _equipmentSocketTab.delegate = self;
+    [self setTabBarItemsForEquipmentTabBar];
+    [self.view addSubview:_socketedTable];
+    [self.view addSubview:_equipmentSocketTab];
+}
+
+-(void)setTabBarItemsForEquipmentTabBar {
     NSMutableArray *equipmentTabs = [[NSMutableArray alloc] init];
     NSArray *itemswithDecorations = [_armorSet returnItemsWithDecorations];
-    
+
     for (int i = 0; i < itemswithDecorations.count; i++) {
         int tag = i+1;
         NSArray *itemWithDecoration = itemswithDecorations[i];
         [equipmentTabs addObject:[[UITabBarItem alloc] initWithTitle:itemWithDecoration[0] image:nil tag:tag]];
     }
+    
     [_equipmentSocketTab setItems:equipmentTabs];
     [_equipmentSocketTab setSelectedItem:[equipmentTabs firstObject]];
-    _socketedTable = [[UITableView alloc] init];
-    _socketedTable.delegate = self;
-    _socketedTable.dataSource = self;
-    [self.view addSubview:_socketedTable];
-    [self.view addSubview:_equipmentSocketTab];
+    
 }
 
 -(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
@@ -153,13 +166,6 @@
     [_dbEngine populateArmor:_armorSet.waist];
     
     [_dbEngine populateArmor:_armorSet.legs];
-    
-    [self drawDecorationForArmorSet];
-    
-    for (Decoration *decoration in _allDecorations) {
-        [self combineSkillsArray:decoration.skillArray];
-    }
-
 }
 
 -(void)drawDecorationForArmorSet {
@@ -179,10 +185,14 @@
         }
     }
     
-
-    for (Armor *armor in [_armorSet returnNonNullArmor]) {
+    NSArray *armorArray = [_armorSet returnNonNullArmor];
+    for (int i = 0; i < armorArray.count; i++) {
+        Armor *armor = armorArray[i];
         if (armor.numSlots > 0) {
-            NSArray *decorations = [_dbEngine getDecorationsForArmorSet:[NSNumber numberWithInt:_armorSet.setID] andSetItem:armor];
+            NSArray *decorations = [_dbEngine getDecorationsForArmorSet:_setID andSetItem:armor];
+            if (armor.decorationsArray) {
+                armor.decorationsArray = nil;
+            }
             armor.decorationsArray = decorations;
             for (int i = 0; i < armor.numSlots; i++) {
                 UIImageView *decorationView;
@@ -211,6 +221,31 @@
         }
 
     }
+}
+
+-(void)calculateSkillsForSelectedArmorSet {
+    _skillDictionary = [[NSMutableDictionary alloc] init];
+    if (_armorSet.weapon) {
+        if (_armorSet.weapon.decorationsArray.count > 0) {
+            for (Decoration *decoration in _armorSet.weapon.decorationsArray) {
+                [self combineSkillsArray:decoration.skillArray];
+            }
+        }
+    }
+    
+    for (Armor *armor in [_armorSet returnNonNullArmor]) {
+        if (!armor.skillsArray) {
+            [_dbEngine populateArmor:armor];
+        }
+        [self combineSkillsArray:armor.skillsArray];
+        if (armor.decorationsArray.count > 0) {
+            for (Decoration *decoration in armor.decorationsArray) {
+                [self combineSkillsArray:decoration.skillArray];
+            }
+        }
+    }
+    
+    [_statTableView reloadData];
 }
 
 -(void)combineSkillsArray:(NSArray *)skillArray {
@@ -247,7 +282,6 @@
     _legLabel.text = _armorSet.legs.name;
     
     [_armorStatSheet populateStatsWithArmorSet:_armorSet];
-    _armorStatSheet.numSlots += _armorSet.weapon.num_slots;
 }
 
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
@@ -416,11 +450,12 @@
         Decoration *decoration = _displayedDecorations[indexPath.row];
         Item *setItem = [_armorSet returnItemForSlot:_equipmentSocketTab.selectedItem.title];
         
-        BOOL successful = [_dbEngine deleteDecoration:decoration FromSetItemWithItemID:setItem SetWithID:[NSNumber numberWithInt:_armorSet.setID]];
+        BOOL successful = [_dbEngine deleteDecoration:decoration FromSetItemWithItemID:setItem SetWithID:_setID];
 
-//        setItem.decorationsArray = [_dbEngine getDecorationsForArmorSet:[NSNumber numberWithInt:_armorSet.setID] andSetItem:setItem];
         [self drawDecorationForArmorSet];
-        _displayedDecorations = setItem.decorationsArray;
+        [self calculateSkillsForSelectedArmorSet];
+        [_statTableView reloadData];
+        _displayedDecorations = [_armorSet returnItemForSlot:_equipmentSocketTab.selectedItem.title].decorationsArray;
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
@@ -462,8 +497,23 @@
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
     }
     
+    [self setUpArmorSetView];
     [self drawDecorationForArmorSet];
-    [_statTableView reloadData];
+    
+}
+
+-(void)reDrawEverything {
+    [self viewDidLayoutSubviews];
+    
+    if (_equipmentSocketTab.selectedItem) {
+        NSArray *itemsWithDecorations = [_armorSet returnItemsWithDecorations];
+        NSArray *itemWithDecoration = itemsWithDecorations[_equipmentSocketTab.selectedItem.tag - 1];
+        _displayedDecorations = itemWithDecoration[1];
+        [_socketedTable reloadData];
+    } else {
+        [self setTabBarItemsForEquipmentTabBar];
+    }
+
 }
 
 @end
@@ -512,6 +562,15 @@
 }
 
 -(void)sumAllStats:(NSArray *)armorArray {
+    _minDefense = 0;
+    _maxDefense = 0;
+    _fireRes = 0;
+    _waterRes = 0;
+    _thunderRes = 0;
+    _iceRes = 0;
+    _dragonRes = 0;
+    _numSlots = 0;
+    
     for (Armor *armor in armorArray) {
         _minDefense += armor.defense;
         _maxDefense += armor.maxDefense;
@@ -521,7 +580,6 @@
         _iceRes += armor.iceResistance;
         _dragonRes += armor.dragonResistance;
         _numSlots += armor.numSlots;
-        [_aSVC combineSkillsArray:armor.skillsArray];
     }
     
 }

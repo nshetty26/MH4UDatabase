@@ -7,11 +7,13 @@
 //
 
 #import "BaseViewController.h"
+#import "ArmorSetDetailViewController.h"
 #import "ArmorSetTableViewController.h"
 #import "UniversalSearchTableViewController.h"
 #import "MenuViewController.h"
 #import "MonstersViewController.h"
 #import "MH4UDBEngine.h"
+#import "MH4UDBEntity.h"
 #import <MMDrawerBarButtonItem.h>
 
 @interface BaseViewController ()
@@ -59,6 +61,13 @@
 }
 
 -(void)openArmorBuilder {
+    UINavigationController *nC = (UINavigationController *)self.rightDrawerViewController;
+    UIViewController *vC = nC.visibleViewController;
+    if ([vC isEqual:_aSDVC]) {
+        _aSDVC.armorSet = [_aSDVC.dbEngine getArmorSetForSetID:_aSDVC.setID];
+        [_aSDVC reDrawEverything];
+        [_aSDVC calculateSkillsForSelectedArmorSet];
+    }
     [self toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
 }
 

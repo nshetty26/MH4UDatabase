@@ -19,6 +19,7 @@
 @property (strong, nonatomic) BaseViewController *baseVC;
 @property (strong, nonatomic) ArmorSet *armorSet;
 @property (strong, nonatomic) NSString *setName;
+@property (strong, nonatomic) NSNumber *setID;
 
 @property (weak, nonatomic) IBOutlet UIImageView *weaponSlot1;
 @property (weak, nonatomic) IBOutlet UIImageView *weaponSlot2;
@@ -40,7 +41,11 @@
 @property (weak, nonatomic) IBOutlet UIImageView *legsSlot3;
 
 
--(void)combineSkillsArray:(NSArray *)skillArray;
+-(void)calculateSkillsForSelectedArmorSet;
+-(void)setTabBarItemsForEquipmentTabBar;
+-(void)populateArmorSet;
+-(void)reDrawEverything;
+
 @end
 
 @interface ArmorStatSheetView : UIView

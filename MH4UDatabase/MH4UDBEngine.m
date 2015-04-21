@@ -658,9 +658,9 @@
 -(NSArray *)getAllDecorations:(NSNumber *)decorationID {
     NSString *decorationQuery;
     if (!decorationID) {
-        decorationQuery = @"select items._id as itemID, items.rarity, items.buy, items.description, items.carry_capacity, items.sell, items.name, item_to_skill_tree._id,  items.icon_name from items inner join decorations on items._id = decorations._id inner join item_to_skill_tree on item_to_skill_tree.item_id = items._id";
+        decorationQuery = @"select items._id as itemID, items.rarity, items.buy, items.description, items.carry_capacity, items.sell, items.name, items.icon_name from items inner join decorations on items._id = decorations._id ";
     } else {
-        decorationQuery = [NSString stringWithFormat:@"select items._id as itemID, items.rarity, items.buy, items.description, items.carry_capacity, items.sell, items.name, item_to_skill_tree._id,  items.icon_name from items inner join decorations on items._id = decorations._id inner join item_to_skill_tree on item_to_skill_tree.item_id = items._id where items._id = %@", decorationID];
+        decorationQuery = [NSString stringWithFormat:@"select items._id as itemID, items.rarity, items.buy, items.description, items.carry_capacity, items.sell, items.name, items.icon_name from items inner join decorations on items._id = decorations._id where items._id = %@", decorationID];
     }
    
     NSMutableArray *decorationArray = [[NSMutableArray alloc] init];
