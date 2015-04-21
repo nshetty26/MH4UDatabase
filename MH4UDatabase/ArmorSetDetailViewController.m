@@ -13,6 +13,8 @@
 #import "SkillDetailViewController.h"
 #import "DecorationsDetailViewController.h"
 #import "ItemDetailViewController.h"
+#import "WeaponDetailViewController.h"
+#import "ArmorDetailViewController.h"
 
 @interface ArmorSetDetailViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *weaponImage;
@@ -53,7 +55,15 @@
 
 @property (strong, nonatomic) NSMutableArray *allDecorations;
 @property (strong, nonatomic) NSArray *displayedDecorations;
+@property (weak, nonatomic) IBOutlet UIButton *weaponButton;
+@property (weak, nonatomic) IBOutlet UIButton *headButton;
+@property (weak, nonatomic) IBOutlet UIButton *bodyButton;
+@property (weak, nonatomic) IBOutlet UIButton *armsButton;
+@property (weak, nonatomic) IBOutlet UIButton *waistButton;
+@property (weak, nonatomic) IBOutlet UIButton *legsButton;
+@property (nonatomic, strong) NSArray *buttonArray;
 
+- (IBAction)launchDetailVC:(id)sender;
 
 
 @end
@@ -64,6 +74,7 @@
     [super viewDidLoad];
     _baseVC.aSDVC = self;
     self.title = _setName;
+    _buttonArray = @[_weaponButton, _headButton, _bodyButton, _armsButton, _waistButton, _legsButton];
     _skillDictionary = [[NSMutableDictionary alloc] init];
     _allDecorations = [[NSMutableArray alloc] init];
     
@@ -88,15 +99,15 @@
     [self drawDecorationForArmorSet];
     [self setUpArmorSetView];
     [self setUpEquipmentTabBar];
+    
+    _socketedTable = [[UITableView alloc] init];
+    _socketedTable.delegate = self;
+    _socketedTable.dataSource = self;
     [self.view addSubview:_socketedTable];
     if (_allDecorations.count > 0) {
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
         NSArray *firstItemWithDecorations = [[_armorSet returnItemsWithDecorations] firstObject];
         _displayedDecorations = firstItemWithDecorations[1];
-        _socketedTable = [[UITableView alloc] init];
-        _socketedTable.delegate = self;
-        _socketedTable.dataSource = self;
-        
     }
     
     [self calculateSkillsForSelectedArmorSet];
@@ -516,6 +527,35 @@
 
 }
 
+- (IBAction)launchDetailVC:(id)sender {
+    UINavigationController *nC = (UINavigationController *)_baseVC.centerViewController;
+    UIButton *button = (UIButton *)sender;
+    Armor *armor;
+    if ([button isEqual:_weaponButton]) {
+        WeaponDetailViewController *wDVC = [[WeaponDetailViewController alloc] init];
+        wDVC.selectedWeapon = _armorSet.weapon;
+        wDVC.dbEngine = _dbEngine;
+        wDVC.heightDifference = [self returnHeightDifference];
+        [nC pushViewController:wDVC animated:YES];
+        return;
+    } else if ([button isEqual:_headButton]) {
+        armor = _armorSet.helm;
+    } else if ([button isEqual:_bodyButton]) {
+        armor = _armorSet.chest;
+    } else if ([button isEqual:_armsButton]) {
+        armor = _armorSet.arms;
+    } else if ([button isEqual:_waistButton]) {
+        armor = _armorSet.waist;
+    } else if ([button isEqual:_legsButton]) {
+        armor = _armorSet.legs;
+    }
+    
+    ArmorDetailViewController *aDVC = [[ArmorDetailViewController alloc] init];
+    aDVC.heightDifference = [self returnHeightDifference];
+    aDVC.selectedArmor = armor;
+    aDVC.dbEngine = _dbEngine;
+    [nC pushViewController:aDVC animated:YES];
+}
 @end
 
 
@@ -548,6 +588,13 @@
 @implementation ArmorStatSheetView
 
 -(void)populateStatsWithArmorSet:(ArmorSet *)armorSet {
+    if (armorSet.weapon.sharpness) {
+        [self drawSharpnessRectWithWeapon:armorSet.weapon];
+    } else {
+        _sharpnessBackground.hidden = YES;
+        _sharpnessView1.hidden = YES;
+        _sharpnessView2.hidden = YES;
+    }
     [self sumAllStats:[armorSet returnNonNullArmor]];
     _attackValue.text = [NSString stringWithFormat:@"%i", armorSet.weapon.attack];
     
@@ -584,5 +631,74 @@
     
 }
 
+-(void)drawSharpnessRectWithWeapon:(Weapon *)weapon {
+    NSArray *sharpnessStringArray = [weapon.sharpness componentsSeparatedByString:@" "];
+    int sharpnessCount = 0;
+    for (NSString *sharpnessString in sharpnessStringArray) {
+        sharpnessCount++;
+        float frameWidth = 0.0;
+        UIView *sharpnessView = (sharpnessCount == 1) ? _sharpnessView1 : _sharpnessView2;
+        
+        [sharpnessView setBackgroundColor:[UIColor clearColor]];
+        NSArray *sharpness = [sharpnessString componentsSeparatedByString:@"."];
+        
+        float mRed1 = (float)[sharpness[0] floatValue];
+        float mOrange1 = (float)[sharpness[1] floatValue];
+        float mYellow1 = (float)[sharpness[2] floatValue];
+        float mGreen1 = (float)[sharpness[3] floatValue];
+        float mBlue1 = (float)[sharpness[4] floatValue];
+        float mWhite1 = (float)[sharpness[5] floatValue];
+        float mPurple1 = (float)[sharpness[6] floatValue];
+        
+        float widthMultiplier = sharpnessView.bounds.size.width / (mRed1 + mOrange1 + mYellow1 + mGreen1 + mBlue1 + mWhite1 + mPurple1);
+        
+        CGRect sharpnessRect = sharpnessView.bounds;
+        
+        CGRect red = CGRectMake(sharpnessRect.origin.x, sharpnessRect.origin.y, mRed1 * widthMultiplier, sharpnessRect.size.height);
+        UIView *redView = [[UIView alloc] initWithFrame:red];
+        frameWidth += red.size.width;
+        [redView setBackgroundColor:[UIColor redColor]];
+        [sharpnessView addSubview:redView];
+        
+        CGRect orange = CGRectMake(red.size.width, red.origin.y, mOrange1 * widthMultiplier, sharpnessRect.size.height);
+        UIView *orangeView = [[UIView alloc] initWithFrame:orange];
+        frameWidth += orange.size.width;
+        [orangeView setBackgroundColor:[UIColor orangeColor]];
+        [sharpnessView addSubview:orangeView];
+        
+        CGRect yellow = CGRectMake(red.size.width + orange.size.width, orange.origin.y, mYellow1 * widthMultiplier, sharpnessRect.size.height);
+        UIView *yellowView = [[UIView alloc] initWithFrame:yellow];
+        frameWidth += yellow.size.width;
+        [yellowView setBackgroundColor:[UIColor yellowColor]];
+        [sharpnessView addSubview:yellowView];
+        
+        CGRect green = CGRectMake(red.size.width+yellow.size.width+orange.size.width, yellow.origin.y, mGreen1 * widthMultiplier, sharpnessRect.size.height);
+        UIView *greenView = [[UIView alloc] initWithFrame:green];
+        frameWidth += green.size.width;
+        [greenView setBackgroundColor:[UIColor greenColor]];
+        [sharpnessView addSubview:greenView];
+        
+        CGRect blue = CGRectMake(red.size.width+yellow.size.width+orange.size.width+green.size.width, green.origin.y, mBlue1 * widthMultiplier, sharpnessRect.size.height);
+        frameWidth += blue.size.width;
+        UIView *blueView = [[UIView alloc] initWithFrame:blue];
+        [blueView setBackgroundColor:[UIColor blueColor]];
+        [sharpnessView addSubview:blueView];
+        
+        CGRect white = CGRectMake(red.size.width+yellow.size.width+orange.size.width+green.size.width+blue.size.width, blue.origin.y, mWhite1 * widthMultiplier, sharpnessRect.size.height);
+        frameWidth += white.size.width;
+        UIView *whiteView = [[UIView alloc] initWithFrame:white];
+        [whiteView setBackgroundColor:[UIColor whiteColor]];
+        [sharpnessView addSubview:whiteView];
+        
+        CGRect purple = CGRectMake(red.size.width+yellow.size.width+orange.size.width+green.size.width+blue.size.width+white.size.width, white.origin.y, mPurple1 * widthMultiplier, sharpnessRect.size.height);
+        UIView *purpleView = [[UIView alloc] initWithFrame:purple];
+        frameWidth += purple.size.width;
+        [purpleView setBackgroundColor:[UIColor purpleColor]];
+        [sharpnessView addSubview:purpleView];
+        
+        [sharpnessView setFrame:CGRectMake(sharpnessView.frame.origin.x, sharpnessView.frame.origin.x, frameWidth, sharpnessView.frame.size.height)];
+        
+    }
+}
 
 @end

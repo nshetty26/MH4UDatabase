@@ -50,6 +50,9 @@
 
 @interface ArmorStatSheetView : UIView
 @property (nonatomic, strong) ArmorSetDetailViewController *aSVC;
+@property (weak, nonatomic) IBOutlet UIView *sharpnessView1;
+@property (weak, nonatomic) IBOutlet UIView *sharpnessView2;
+@property (weak, nonatomic) IBOutlet UIView *sharpnessBackground;
 @property (nonatomic) int numSlots;
 @property (weak, nonatomic) IBOutlet UITableView *statTableView;
 -(void)populateStatsWithArmorSet:(ArmorSet *)armorSet;

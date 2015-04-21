@@ -914,12 +914,12 @@
                   moduleName = "MH4UDatabase"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/COBNShetty/Development/MH4UDatabase/MH4UDatabase/ItemsViewController.m"
-                  timestampString = "451282411.292191"
+                  timestampString = "451285181.98968"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "20"
                   endingLineNumber = "20"
-                  offsetFromSymbolStart = "24">
+                  offsetFromSymbolStart = "20">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -929,12 +929,12 @@
                   moduleName = "MH4UDatabase"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/COBNShetty/Development/MH4UDatabase/MH4UDatabase/ItemsViewController.m"
-                  timestampString = "451282411.292422"
+                  timestampString = "451285181.989829"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "20"
                   endingLineNumber = "20"
-                  offsetFromSymbolStart = "31">
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2112,11 +2112,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/DecorationsViewController.m"
-            timestampString = "450828934.200671"
+            timestampString = "451285181.934205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2912,11 +2912,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "278"
-            endingLineNumber = "278"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
             landmarkName = "-setUpArmorSetView"
             landmarkType = "5">
          </BreakpointContent>
@@ -2928,11 +2928,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284"
+            startingLineNumber = "295"
+            endingLineNumber = "295"
             landmarkName = "-setUpArmorSetView"
             landmarkType = "5">
          </BreakpointContent>
@@ -2944,11 +2944,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "545"
-            endingLineNumber = "545"
+            startingLineNumber = "585"
+            endingLineNumber = "585"
             landmarkName = "@interface ArmorStatSheetView()"
             landmarkType = "2">
          </BreakpointContent>
@@ -2960,11 +2960,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "328"
-            endingLineNumber = "328"
+            startingLineNumber = "339"
+            endingLineNumber = "339"
             landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2976,11 +2976,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "311"
-            endingLineNumber = "311"
+            startingLineNumber = "322"
+            endingLineNumber = "322"
             landmarkName = "-tabBar:didSelectItem:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3168,11 +3168,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
+            startingLineNumber = "274"
+            endingLineNumber = "274"
             landmarkName = "-combineSkillsArray:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3184,11 +3184,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "540"
-            endingLineNumber = "540"
+            startingLineNumber = "580"
+            endingLineNumber = "580"
             landmarkName = "thunderRes"
             landmarkType = "19">
          </BreakpointContent>
@@ -3200,11 +3200,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284463.676179"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "554"
-            endingLineNumber = "554"
+            startingLineNumber = "601"
+            endingLineNumber = "601"
             landmarkName = "-populateStatsWithArmorSet:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3216,11 +3216,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "541"
-            endingLineNumber = "541"
+            startingLineNumber = "581"
+            endingLineNumber = "581"
             landmarkName = "iceRes"
             landmarkType = "19">
          </BreakpointContent>
@@ -3232,11 +3232,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "541"
-            endingLineNumber = "541"
+            startingLineNumber = "581"
+            endingLineNumber = "581"
             landmarkName = "iceRes"
             landmarkType = "19">
          </BreakpointContent>
@@ -3376,11 +3376,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "353"
-            endingLineNumber = "353"
+            startingLineNumber = "364"
+            endingLineNumber = "364"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3392,11 +3392,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "323"
-            endingLineNumber = "323"
+            startingLineNumber = "334"
+            endingLineNumber = "334"
             landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3408,11 +3408,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "429"
-            endingLineNumber = "429"
+            startingLineNumber = "440"
+            endingLineNumber = "440"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3424,11 +3424,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "458"
-            endingLineNumber = "458"
+            startingLineNumber = "469"
+            endingLineNumber = "469"
             landmarkName = "-tableView:commitEditingStyle:forRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3440,11 +3440,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "438"
-            endingLineNumber = "438"
+            startingLineNumber = "449"
+            endingLineNumber = "449"
             landmarkName = "-tableView:canEditRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3452,15 +3452,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "307"
-            endingLineNumber = "307"
+            startingLineNumber = "318"
+            endingLineNumber = "318"
             landmarkName = "-tabBar:didSelectItem:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3468,15 +3468,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "450"
-            endingLineNumber = "450"
+            startingLineNumber = "461"
+            endingLineNumber = "461"
             landmarkName = "-tableView:commitEditingStyle:forRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3536,11 +3536,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "341"
-            endingLineNumber = "341"
+            startingLineNumber = "352"
+            endingLineNumber = "352"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
             <Locations>
@@ -3584,11 +3584,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "349"
-            endingLineNumber = "349"
+            startingLineNumber = "360"
+            endingLineNumber = "360"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3632,11 +3632,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281917.122665"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "174"
-            endingLineNumber = "174"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
             landmarkName = "-drawDecorationForArmorSet"
             landmarkType = "5">
          </BreakpointContent>
@@ -3744,11 +3744,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "508"
-            endingLineNumber = "508"
+            startingLineNumber = "519"
+            endingLineNumber = "519"
             landmarkName = "-reDrawEverything"
             landmarkType = "5">
          </BreakpointContent>
@@ -3756,7 +3756,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/BaseViewController.m"
@@ -3776,11 +3776,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
-            timestampString = "451281944.667485"
+            timestampString = "451284067.697762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "449"
-            endingLineNumber = "449"
+            startingLineNumber = "460"
+            endingLineNumber = "460"
             landmarkName = "-tableView:commitEditingStyle:forRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
