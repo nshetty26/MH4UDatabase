@@ -7,8 +7,11 @@
 //
 
 #import "MMDrawerController.h"
+#import "ArmorSetDetailViewController.h"
 
 @interface BaseViewController : MMDrawerController
+
+@property (strong, nonatomic) ArmorSetDetailViewController *aSDVC;
 
 -(void)openMenu;
 -(void)openArmorBuilder;

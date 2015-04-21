@@ -12,16 +12,48 @@
 
 @class ArmorSet;
 @class MH4UDBEngine;
+@class BaseViewController;
 
 @interface ArmorSetDetailViewController : UIViewController <UITabBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) MH4UDBEngine *dbEngine;
+@property (strong, nonatomic) BaseViewController *baseVC;
 @property (strong, nonatomic) ArmorSet *armorSet;
 @property (strong, nonatomic) NSString *setName;
--(void)combineSkillsArray:(NSArray *)skillArray;
+@property (strong, nonatomic) NSNumber *setID;
+
+@property (weak, nonatomic) IBOutlet UIImageView *weaponSlot1;
+@property (weak, nonatomic) IBOutlet UIImageView *weaponSlot2;
+@property (weak, nonatomic) IBOutlet UIImageView *weaponSlot3;
+@property (weak, nonatomic) IBOutlet UIImageView *helmSlot1;
+@property (weak, nonatomic) IBOutlet UIImageView *helmSlot2;
+@property (weak, nonatomic) IBOutlet UIImageView *helmSlot3;
+@property (weak, nonatomic) IBOutlet UIImageView *bodySlot1;
+@property (weak, nonatomic) IBOutlet UIImageView *bodySlot2;
+@property (weak, nonatomic) IBOutlet UIImageView *bodySlot3;
+@property (weak, nonatomic) IBOutlet UIImageView *armsSlot1;
+@property (weak, nonatomic) IBOutlet UIImageView *armsSlot2;
+@property (weak, nonatomic) IBOutlet UIImageView *armsSlot3;
+@property (weak, nonatomic) IBOutlet UIImageView *waistSlot1;
+@property (weak, nonatomic) IBOutlet UIImageView *waistSlot2;
+@property (weak, nonatomic) IBOutlet UIImageView *waistSlot3;
+@property (weak, nonatomic) IBOutlet UIImageView *legsSlot1;
+@property (weak, nonatomic) IBOutlet UIImageView *legsSlot2;
+@property (weak, nonatomic) IBOutlet UIImageView *legsSlot3;
+
+
+-(void)calculateSkillsForSelectedArmorSet;
+-(void)setTabBarItemsForEquipmentTabBar;
+-(void)populateArmorSet;
+-(void)reDrawEverything;
+
 @end
 
 @interface ArmorStatSheetView : UIView
 @property (nonatomic, strong) ArmorSetDetailViewController *aSVC;
+@property (weak, nonatomic) IBOutlet UIView *sharpnessView1;
+@property (weak, nonatomic) IBOutlet UIView *sharpnessView2;
+@property (weak, nonatomic) IBOutlet UIView *sharpnessBackground;
+@property (nonatomic) int numSlots;
 @property (weak, nonatomic) IBOutlet UITableView *statTableView;
 -(void)populateStatsWithArmorSet:(ArmorSet *)armorSet;
 @end

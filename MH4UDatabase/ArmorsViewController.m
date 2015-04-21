@@ -7,7 +7,7 @@
 //
 
 #import "ArmorsViewController.h"
-#import "ArmorSetDetailViewController.h";
+#import "ArmorSetDetailViewController.h"
 #import "ArmorDetailViewController.h"
 #import "MH4UDBEngine.h"
 #import "MH4UDBEntity.h"
@@ -285,17 +285,19 @@
         armorSet.arms = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -1]] firstObject];
         armorSet.waist = armor;
         armorSet.legs = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 1]] firstObject];
-    } else if ([armor.slot isEqualToString:@"legs"]) {
-        armorSet.helm = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -4]] firstObject];
-        armorSet.chest = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -3]] firstObject];
-        armorSet.arms = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -2]] firstObject];
-        armorSet.waist = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -1]] firstObject];
+    } else if ([armor.slot isEqualToString:@"Legs"]) {
+        armorSet.helm = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID -4]] firstObject];
+        armorSet.chest = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID -3]] firstObject];
+        armorSet.arms = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID -2]] firstObject];
+        armorSet.waist = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID -1]] firstObject];
         armorSet.legs = armor;
     }
     
     ArmorSetDetailViewController *aSVC = [[ArmorSetDetailViewController alloc] init];
     aSVC.dbEngine = _dbEngine;
     aSVC.armorSet = armorSet;
+    aSVC.setName = [[armor.name componentsSeparatedByString:@" "] firstObject];
+    aSVC.setName = [NSString stringWithFormat:@"%@ %@ Set", aSVC.setName, armor.hunterType];
     [self.navigationController pushViewController:aSVC animated:YES];
     
     

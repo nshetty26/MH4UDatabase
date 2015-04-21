@@ -99,5 +99,42 @@
     return nonNullArmor;
 }
 
+-(Item *)returnItemForSlot:(NSString *)slot {
+    if ([slot isEqualToString:@"Head"]) {
+        return self.helm;
+    } else if ([slot isEqualToString:@"Body"]) {
+        return self.chest;
+    } else if ([slot isEqualToString:@"Arms"]) {
+        return self.arms;
+    } else if ([slot isEqualToString:@"Waist"]) {
+        return self.waist;
+    } else if ([slot isEqualToString:@"Legs"]) {
+        return self.legs;
+    } else if ([slot isEqualToString:@"Weapon"]){
+        return self.weapon;
+    } else {
+        return nil;
+    }
+    
+}
+
+-(NSArray *)returnItemsWithDecorations {
+    NSMutableArray *itemsWithDecorations = [[NSMutableArray alloc] init];
+    
+    if (_weapon) {
+        if (_weapon.decorationsArray > 0) {
+            [itemsWithDecorations addObject:@[@"Weapon", _weapon.decorationsArray]];
+        }
+    }
+    
+    for (Armor *armor in [self returnNonNullArmor]) {
+        if (armor.decorationsArray > 0) {
+            [itemsWithDecorations addObject:@[armor.slot, armor.decorationsArray]];
+        }
+    }
+    
+    return itemsWithDecorations;
+}
+
 @end
 

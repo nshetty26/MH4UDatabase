@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <objects>
@@ -8,19 +9,41 @@
             <connections>
                 <outlet property="armImage" destination="EY0-oH-Txa" id="y2n-I3-NEH"/>
                 <outlet property="armLabel" destination="IwT-q6-tbY" id="6Cl-0m-3IY"/>
+                <outlet property="armsButton" destination="AAj-FT-E8W" id="uG7-IU-8Ro"/>
+                <outlet property="armsSlot1" destination="ngy-Ag-aul" id="2B1-C3-1BD"/>
+                <outlet property="armsSlot2" destination="QSv-uH-y5c" id="Jrw-R6-2HJ"/>
+                <outlet property="armsSlot3" destination="pfP-zj-ikP" id="JIE-vS-et7"/>
+                <outlet property="bodyButton" destination="WCB-qg-jSx" id="Shc-93-jhA"/>
+                <outlet property="bodySlot1" destination="5gX-cO-JHj" id="Wqp-cy-9Vy"/>
+                <outlet property="bodySlot2" destination="QHu-S0-N4l" id="Ah4-nZ-I77"/>
+                <outlet property="bodySlot3" destination="rpj-RO-yPP" id="MP7-SU-MM6"/>
                 <outlet property="chestImage" destination="Cvg-ak-nFh" id="V0c-eD-WKi"/>
                 <outlet property="chestLabel" destination="fvT-V7-2zH" id="LN2-kd-iQ0"/>
+                <outlet property="headButton" destination="hrE-jb-ran" id="UOC-8k-t06"/>
                 <outlet property="helmImage" destination="AZr-l9-Hlh" id="S09-xf-XlF"/>
                 <outlet property="helmLabel" destination="hnv-li-axq" id="4BI-KD-GKH"/>
+                <outlet property="helmSlot1" destination="CFM-qB-rPW" id="CM5-54-gkl"/>
+                <outlet property="helmSlot2" destination="tMh-gp-hQj" id="hKr-lO-byg"/>
+                <outlet property="helmSlot3" destination="pda-Py-z8H" id="dzR-vY-CCf"/>
                 <outlet property="legImage" destination="0Vu-vQ-pMQ" id="D9p-L9-6OE"/>
                 <outlet property="legLabel" destination="lSf-ly-yOX" id="bk7-nz-X8j"/>
-                <outlet property="talismanImage" destination="dzr-4T-TLy" id="pml-9Z-UFV"/>
-                <outlet property="talismanLabel" destination="zm0-qv-X86" id="9im-Ww-oCm"/>
+                <outlet property="legsButton" destination="cO6-Lf-iFf" id="pwa-By-ZBd"/>
+                <outlet property="legsSlot1" destination="p7v-1R-G92" id="3I1-S9-vWn"/>
+                <outlet property="legsSlot2" destination="bHR-5w-yjb" id="wpm-vb-4VI"/>
+                <outlet property="legsSlot3" destination="Jpm-vW-JlE" id="1O2-wJ-DEn"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="waistButton" destination="S8V-Ci-X8R" id="fnT-8i-cwg"/>
                 <outlet property="waistImage" destination="vqO-ep-tCr" id="rdM-8B-KC3"/>
                 <outlet property="waistLabel" destination="2iv-SJ-YEp" id="SR1-tf-7EE"/>
+                <outlet property="waistSlot1" destination="xS5-dv-icA" id="1aU-Vp-90J"/>
+                <outlet property="waistSlot2" destination="jhi-Ct-A5t" id="hPU-uN-2vC"/>
+                <outlet property="waistSlot3" destination="JIr-yp-yYL" id="X2U-22-Him"/>
+                <outlet property="weaponButton" destination="lZm-9Z-Na2" id="rtv-xj-XHt"/>
                 <outlet property="weaponImage" destination="LIv-qV-dl9" id="lki-PJ-crg"/>
                 <outlet property="weaponLabel" destination="Wcb-DS-6yj" id="9y1-6W-5YQ"/>
+                <outlet property="weaponSlot1" destination="AUj-pG-wJm" id="HHv-jm-is3"/>
+                <outlet property="weaponSlot2" destination="uny-k8-C9H" id="zW7-Y9-cG7"/>
+                <outlet property="weaponSlot3" destination="oQn-gX-Sdl" id="rN1-vw-LU0"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -29,72 +52,175 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LIv-qV-dl9">
-                    <rect key="frame" x="8" y="128" width="40" height="40"/>
+                    <rect key="frame" x="8" y="128" width="30" height="30"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AZr-l9-Hlh">
-                    <rect key="frame" x="8" y="176" width="40" height="40"/>
+                    <rect key="frame" x="8" y="160" width="30" height="30"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cvg-ak-nFh">
-                    <rect key="frame" x="8" y="224" width="40" height="40"/>
+                    <rect key="frame" x="8" y="193" width="30" height="30"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EY0-oH-Txa">
-                    <rect key="frame" x="8" y="272" width="40" height="40"/>
+                    <rect key="frame" x="8" y="225" width="30" height="30"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vqO-ep-tCr">
-                    <rect key="frame" x="8" y="320" width="40" height="40"/>
+                    <rect key="frame" x="8" y="258" width="30" height="30"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Vu-vQ-pMQ">
-                    <rect key="frame" x="8" y="368" width="40" height="40"/>
+                    <rect key="frame" x="8" y="293" width="30" height="30"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Weapon Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wcb-DS-6yj">
-                    <rect key="frame" x="56" y="137" width="222" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <rect key="frame" x="56" y="134" width="158" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Helm Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hnv-li-axq">
-                    <rect key="frame" x="56" y="185" width="222" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <rect key="frame" x="56" y="169" width="158" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Chest Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvT-V7-2zH">
-                    <rect key="frame" x="56" y="233" width="222" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <rect key="frame" x="56" y="202" width="158" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Wasit Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2iv-SJ-YEp">
-                    <rect key="frame" x="56" y="329" width="222" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Waist Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2iv-SJ-YEp">
+                    <rect key="frame" x="56" y="267" width="158" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Arms Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IwT-q6-tbY">
-                    <rect key="frame" x="56" y="281" width="222" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Leg Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lSf-ly-yOX">
-                    <rect key="frame" x="56" y="377" width="222" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Talisman Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zm0-qv-X86">
-                    <rect key="frame" x="56" y="425" width="222" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dzr-4T-TLy">
-                    <rect key="frame" x="8" y="416" width="40" height="40"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="AUj-pG-wJm">
+                    <rect key="frame" x="222" y="140" width="15" height="16"/>
                 </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="uny-k8-C9H">
+                    <rect key="frame" x="242" y="140" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="oQn-gX-Sdl">
+                    <rect key="frame" x="261" y="140" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="CFM-qB-rPW">
+                    <rect key="frame" x="224" y="172" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="tMh-gp-hQj">
+                    <rect key="frame" x="242" y="172" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="pda-Py-z8H">
+                    <rect key="frame" x="261" y="172" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="5gX-cO-JHj">
+                    <rect key="frame" x="222" y="205" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="QHu-S0-N4l">
+                    <rect key="frame" x="242" y="205" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="rpj-RO-yPP">
+                    <rect key="frame" x="261" y="205" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="ngy-Ag-aul">
+                    <rect key="frame" x="222" y="237" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="QSv-uH-y5c">
+                    <rect key="frame" x="242" y="237" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="pfP-zj-ikP">
+                    <rect key="frame" x="261" y="237" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="xS5-dv-icA">
+                    <rect key="frame" x="222" y="270" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="jhi-Ct-A5t">
+                    <rect key="frame" x="242" y="270" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="JIr-yp-yYL">
+                    <rect key="frame" x="261" y="270" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="p7v-1R-G92">
+                    <rect key="frame" x="222" y="305" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="bHR-5w-yjb">
+                    <rect key="frame" x="242" y="305" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Jpm-vW-JlE">
+                    <rect key="frame" x="261" y="305" width="15" height="16"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Leg Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lSf-ly-yOX">
+                    <rect key="frame" x="56" y="302" width="158" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lZm-9Z-Na2">
+                    <rect key="frame" x="8" y="129" width="146" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="launchDetailVC:" destination="-1" eventType="touchUpInside" id="omM-Oh-vXN"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hrE-jb-ran">
+                    <rect key="frame" x="8" y="165" width="146" height="30"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="launchDetailVC:" destination="-1" eventType="touchUpInside" id="bas-Uk-WP1"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WCB-qg-jSx">
+                    <rect key="frame" x="8" y="198" width="146" height="30"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="launchDetailVC:" destination="-1" eventType="touchUpInside" id="Xi4-wK-F9O"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AAj-FT-E8W">
+                    <rect key="frame" x="8" y="230" width="146" height="30"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="launchDetailVC:" destination="-1" eventType="touchUpInside" id="xv0-oA-caE"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S8V-Ci-X8R">
+                    <rect key="frame" x="8" y="263" width="146" height="30"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="launchDetailVC:" destination="-1" eventType="touchUpInside" id="df0-MS-rGp"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cO6-Lf-iFf">
+                    <rect key="frame" x="8" y="296" width="146" height="30"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="launchDetailVC:" destination="-1" eventType="touchUpInside" id="t8c-29-IF3"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Arms Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IwT-q6-tbY">
+                    <rect key="frame" x="56" y="234" width="158" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
+    <resources>
+        <image name="dash.jpg" width="600" height="600"/>
+    </resources>
 </document>

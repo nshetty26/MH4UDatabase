@@ -51,7 +51,7 @@
 
     _dbEngine = [[MH4UDBEngine alloc] init];
     if (!_menuOptions) {
-        _menuOptions = [NSArray arrayWithObjects:@"Monsters", @"Weapons", @"Armor", @"Quests", @"Items", @"Combining", @"Locations", @"Decorations", @"Skill Tree", @"Set Builder", nil];
+        _menuOptions = [NSArray arrayWithObjects:@"Monsters", @"Weapons", @"Armor", @"Quests", @"Items", @"Combining", @"Locations", @"Decorations", @"Skill Tree", nil];
     }
     UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 80)];
     logo.backgroundColor = [UIColor grayColor];
@@ -155,10 +155,6 @@
         stVC.heightDifference = heightDifference;
         stVC.dbEngine = _dbEngine;
         [nC setViewControllers:@[stVC]];
-    } else if ([menuOption isEqualToString:@"Set Builder"]) {
-        ArmorSetTableViewController *aSTVC = [[ArmorSetTableViewController alloc] init];
-        aSTVC.dbEngine = _dbEngine;
-        [nC setViewControllers:@[aSTVC]];
     }
     
 }

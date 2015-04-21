@@ -19,6 +19,7 @@
 @class SkillCollection;
 @class Location;
 @class ArmorSet;
+@class Decoration;
 
 @interface MH4UDBEngine : NSObject
 
@@ -73,6 +74,12 @@
 
 -(BOOL)addWeapon:(Weapon *)weapon toArmorSetWithID:(NSNumber *)setID;
 -(BOOL)checkWeapon:(Weapon *)weapon atArmorSetWithID:(NSNumber *)setID;
+
+-(NSArray *)checkArmorSetForSlotsWithSetID:(NSNumber *)setID;
+-(BOOL)addDecoration:(Decoration *)decoration ToSlot:(NSString *)slot andArmorSetWithID:(NSNumber *)setID;
+-(NSArray *)getDecorationsForArmorSet:(NSNumber *)setID andSetItem:(Item *)setItem;
+-(BOOL)deleteDecoration:(Decoration *)decoration FromSetItemWithItemID:(Item *)setItem SetWithID:(NSNumber *)setID;
+-(BOOL)deleteAllDecorationsForArmorSetWithID:(NSNumber *)setID andSetItem:(Item *)setItem;
 
 @end
 

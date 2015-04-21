@@ -122,6 +122,9 @@
             cell.itemAccessoryLabel3.text = [NSString stringWithFormat:@"%@ %@", skill2[1], skill2[2]];
         }
         
+        if (decoration.componentArray < 0) {
+            cell.itemSubLabel.text = @"Relic Decoration";
+        }
         
         cell.itemSubLabel.hidden = YES;
     }

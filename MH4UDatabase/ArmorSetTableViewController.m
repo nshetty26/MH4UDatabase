@@ -9,6 +9,7 @@
 #import "ArmorSetTableViewController.h"
 #import "ArmorSetDetailViewController.h"
 #import "MH4UDBEngine.h"
+#import "MH4UDBEntity.h"
 
 @interface ArmorSetTableViewController ()
 @property (strong, nonatomic) NSArray *allSets;
@@ -20,6 +21,7 @@
     [super viewDidLoad];
     _allSets = [_dbEngine getAllArmorSets];
     self.title = @"Armor Set Table";
+
     
     
     // Uncomment the following line to preserve selection between presentations.
@@ -48,7 +50,7 @@
 }
 
 -(void)promptUserForNewArmorSet {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add New Set" message:@"Please enter the name of the new set" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"OK", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add New Set" message:@"Please enter the name of the new set" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alert show];
 }
@@ -72,7 +74,10 @@
     ArmorSetDetailViewController *aSDVC = [[ArmorSetDetailViewController alloc] init];
     aSDVC.dbEngine = _dbEngine;
     aSDVC.armorSet = [_dbEngine getArmorSetForSetID:set[0]];
+    aSDVC.armorSet.setID = [set[0] intValue];
     aSDVC.setName = set[1];
+    aSDVC.setID = set[0];
+    aSDVC.baseVC = _baseVC;
     [self.navigationController pushViewController:aSDVC animated:YES];
 }
 
@@ -109,6 +114,7 @@
     if (buttonIndex == 1) {
         NSString *armorSetName = [[alertView textFieldAtIndex:0] text];
         BOOL successful = [_dbEngine insertNewArmorSetWithName:armorSetName];
+        [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your New Set Addition Was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         _allSets = [_dbEngine getAllArmorSets];
         [self.tableView reloadData];
     }

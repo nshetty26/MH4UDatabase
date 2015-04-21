@@ -14,6 +14,7 @@
 #import <FMDB.h>
 
 
+
 @interface MH4UDBEngine ()
 @property (nonatomic) NSString *mhDBPath;
 @property (nonatomic) FMDatabase *mh4DB;
@@ -207,7 +208,7 @@
     if (!armorID) {
         armorQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name,items.rarity, armor.hunter_type, armor.slot from armor INNER JOIN items on armor._id = items._id"];
     } else {
-        armorQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name,items.rarity, armor.hunter_type, armor.slot from armor INNER JOIN items on armor._id = items._id where armor._id = %@", armorID];
+        armorQuery = [NSString stringWithFormat:@"SELECT armor._id, items.name,items.rarity, armor.hunter_type, armor.num_slots, armor.slot from armor INNER JOIN items on armor._id = items._id where armor._id = %@", armorID];
     }
 
     FMResultSet *s = [self DBquery:armorQuery];
@@ -219,6 +220,10 @@
             armor.name = [s stringForColumn:@"name"];
             armor.hunterType = [s stringForColumn:@"hunter_type"];
             armor.slot = [s stringForColumn:@"slot"];
+            if (armorID) {
+                armor.numSlots = [s intForColumn:@"num_slots"];
+            }
+            
             armor.rarity = [s intForColumn:@"rarity"];
             armor.icon = [NSString stringWithFormat:@"%@%i.png", armor.slot, armor.rarity].lowercaseString;
             [armorArray addObject:armor];
@@ -653,9 +658,9 @@
 -(NSArray *)getAllDecorations:(NSNumber *)decorationID {
     NSString *decorationQuery;
     if (!decorationID) {
-        decorationQuery = @"select items._id as itemID, items.rarity, items.buy, items.description, items.carry_capacity, items.sell, items.name, item_to_skill_tree._id,  items.icon_name from items inner join decorations on items._id = decorations._id inner join item_to_skill_tree on item_to_skill_tree.item_id = items._id";
+        decorationQuery = @"select items._id as itemID, items.rarity, items.buy, items.description, items.carry_capacity, items.sell, items.name, items.icon_name from items inner join decorations on items._id = decorations._id ";
     } else {
-        decorationQuery = [NSString stringWithFormat:@"select items._id as itemID, items.rarity, items.buy, items.description, items.carry_capacity, items.sell, items.name, item_to_skill_tree._id,  items.icon_name from items inner join decorations on items._id = decorations._id inner join item_to_skill_tree on item_to_skill_tree.item_id = items._id where items._id = %@", decorationID];
+        decorationQuery = [NSString stringWithFormat:@"select items._id as itemID, items.rarity, items.buy, items.description, items.carry_capacity, items.sell, items.name, items.icon_name from items inner join decorations on items._id = decorations._id where items._id = %@", decorationID];
     }
    
     NSMutableArray *decorationArray = [[NSMutableArray alloc] init];
@@ -1130,6 +1135,7 @@
             }
             
         }
+        [armorDatabase close];
         return armorSet;
     }
 }
@@ -1138,7 +1144,7 @@
     FMDatabase *armorDatabase = [self openDatabase];
     
     if (![armorDatabase open]) {
-        return nil;
+        return FALSE;
     } else {
         NSString *query = [NSString stringWithFormat:@"insert into ArmorSet (name) Values ('%@')", name];
         return [armorDatabase executeUpdate:query];
@@ -1149,7 +1155,7 @@
     FMDatabase *armorDatabase = [self openDatabase];
     
     if (![armorDatabase open]) {
-        return nil;
+        return FALSE;
     } else {
         NSString *query = [NSString stringWithFormat:@"delete from ArmorSet where _id = %i", [setID intValue]];
         return [armorDatabase executeUpdate:query];
@@ -1176,7 +1182,7 @@
     }
     
     if (![armorDatabase open]) {
-        return nil;
+        return FALSE;
     } else {
         NSString *query = [NSString stringWithFormat:@"select %@ from ArmorSet where _id = %i", armorType, [setID intValue]];
         FMResultSet *s = [armorDatabase executeQuery:query];
@@ -1202,24 +1208,10 @@
 -(BOOL)addArmor:(Armor *)armor toArmorSetWithID:(NSNumber *)setID {
     FMDatabase *armorDatabase = [self openDatabase];
     
-    NSString *armorType;
-    
-    if ([armor.slot isEqualToString:@"Head"]) {
-        armorType = @"head_id";
-    } else if ([armor.slot isEqualToString:@"Body"]) {
-        armorType = @"body_id";
-    } else if ([armor.slot isEqualToString:@"Arms"]) {
-        armorType = @"arms_id";
-    } else if ([armor.slot isEqualToString:@"Waist"]) {
-        armorType = @"waist_id";
-    } else if ([armor.slot isEqualToString:@"Legs"]) {
-        armorType = @"legs_id";
-    } else {
-        armorType = @"";
-    }
+    NSString *armorType = [self returnDBTypeForArmorSlot:armor.slot];
     
     if (![armorDatabase open]) {
-        return nil;
+        return FALSE;
     } else {
         NSString *query = [NSString stringWithFormat:@"UPDATE ArmorSet SET %@ = '%i' where _id = %i", armorType, armor.itemID, [setID intValue]];
         return [armorDatabase executeUpdate:query];
@@ -1231,7 +1223,7 @@
     FMDatabase *armorDatabase = [self openDatabase];
     
     if (![armorDatabase open]) {
-        return nil;
+        return FALSE;
     } else {
         NSString *query = [NSString stringWithFormat:@"select %@ from ArmorSet where _id = %i", @"weapon_id", [setID intValue]];
         FMResultSet *s = [armorDatabase executeQuery:query];
@@ -1252,18 +1244,118 @@
     return FALSE;
 }
 
+-(BOOL)deleteAllDecorationsForArmorSetWithID:(NSNumber *)setID andSetItem:(Item *)setItem {
+    FMDatabase *armorDatabase = [self openDatabase];
+    
+    if (![armorDatabase open]) {
+        return FALSE;
+    } else {
+        NSString *query = [NSString stringWithFormat:@"DELETE FROM Decorations where ArmorSet_id = %i and item_id = %i", [setID intValue], setItem.itemID];
+        return [armorDatabase executeUpdate:query];
+    }
+}
 
 
 -(BOOL)addWeapon:(Weapon *)weapon toArmorSetWithID:(NSNumber *)setID {
     FMDatabase *armorDatabase = [self openDatabase];
     
     if (![armorDatabase open]) {
-        return nil;
+        return FALSE;
     } else {
         NSString *query = [NSString stringWithFormat:@"UPDATE ArmorSet SET %@ = '%i' where _id = %i", @"weapon_id", weapon.itemID, [setID intValue]];
         return [armorDatabase executeUpdate:query];
     }
     
+}
+
+-(NSArray *)checkArmorSetForSlotsWithSetID:(NSNumber *)setID {
+    NSMutableArray *availableSlotsInEquipment = [[NSMutableArray alloc] init];
+    ArmorSet *armorSet = [self getArmorSetForSetID:setID];
+    
+    if (armorSet.weapon) {
+        if (armorSet.weapon.num_slots > 0) {
+            FMDatabase *armorDatabase = [self openDatabase];
+            if (![armorDatabase open]) {
+                return FALSE;
+            } else {
+                NSString *query = [NSString stringWithFormat:@"select count(*) as Count from Decorations where ArmorSet_id = %i and item_id = %i" , [setID intValue], armorSet.weapon.itemID];
+                FMResultSet *s = [armorDatabase executeQuery:query];
+                [s next];
+                armorSet.weapon.slotsUsed = [s intForColumn:@"Count"];
+                
+            }
+            int availableSlots = armorSet.weapon.num_slots - armorSet.weapon.slotsUsed;
+            [availableSlotsInEquipment addObject:@[@"Weapon", [NSNumber numberWithInt:availableSlots]]];
+        }
+    }
+    
+    for (Armor *armor in [armorSet returnNonNullArmor]) {
+        if (armor.numSlots > 0) {
+            FMDatabase *armorDatabase = [self openDatabase];
+            if (![armorDatabase open]) {
+                return FALSE;
+            } else {
+                NSString *query = [NSString stringWithFormat:@"select count(*) as Count from Decorations where ArmorSet_id = %i and item_id = %i" , [setID intValue], armor.itemID];
+                FMResultSet *s = [armorDatabase executeQuery:query];
+                [s next];
+                armor.slotsUsed = [s intForColumn:@"Count"];
+                
+            }
+            int availableSlots = armor.numSlots - armor.slotsUsed;
+            [availableSlotsInEquipment addObject:@[armor.slot, [NSNumber numberWithInt:availableSlots]]];
+        }
+
+    }
+    
+    return availableSlotsInEquipment;
+
+}
+
+-(BOOL)addDecoration:(Decoration *)decoration ToSlot:(NSString *)slot andArmorSetWithID:(NSNumber *)setID {
+    ArmorSet *armorSet = [self getArmorSetForSetID:setID];
+    FMDatabase *armorDatabase = [self openDatabase];
+    
+    Item *setItem = [armorSet returnItemForSlot:slot];
+    
+    if (![armorDatabase open]) {
+        return FALSE;
+    } else {
+         NSString *query = [NSString stringWithFormat:@"insert into Decorations (ArmorSet_id, item_id, decoration_id) Values (%i, %i, %i)", [setID intValue], setItem.itemID, decoration.itemID];
+        return [armorDatabase executeUpdate:query];
+    }
+
+    return FALSE;
+}
+
+-(NSArray *)getDecorationsForArmorSet:(NSNumber *)setID andSetItem:(Item *)setItem {
+    NSMutableArray *decorations = [[NSMutableArray alloc] init];
+    FMDatabase *armorDatabase = [self openDatabase];
+    if (![armorDatabase open]) {
+        return FALSE;
+    } else {
+        NSString *query = [NSString stringWithFormat:@"select _id, ArmorSet_id, item_id, decoration_id from Decorations where ArmorSet_id = %i and item_id = %i" , [setID intValue], setItem.itemID];
+        FMResultSet *s = [armorDatabase executeQuery:query];
+        while ([s next]) {
+            int decorationID = [s intForColumn:@"decoration_id"];
+            Decoration *decoration = [[self getAllDecorations:[NSNumber numberWithInt:decorationID]]  firstObject];
+            [decorations addObject:decoration];
+        }
+        
+    }
+    
+    return decorations;
+
+}
+
+-(BOOL)deleteDecoration:(Decoration *)decoration FromSetItemWithItemID:(Item *)setItem SetWithID:(NSNumber *)setID {
+    FMDatabase *armorDatabase = [self openDatabase];
+    
+    if (![armorDatabase open]) {
+        return FALSE;
+    } else {
+        NSString *query = [NSString stringWithFormat:@"delete from Decorations where ArmorSet_id = %i and item_id = %i and decoration_id = %i", [setID intValue], setItem.itemID , decoration.itemID];
+        return [armorDatabase executeUpdate:query];
+    }
 }
 
 - (FMDatabase *)openDatabase
@@ -1275,10 +1367,39 @@
     
     if (![fm fileExistsAtPath:db_path])
         [fm copyItemAtPath:template_path toPath:db_path error:nil];
+    else {
+        NSDictionary *bundleDBAttributes = [fm attributesOfItemAtPath:template_path error:nil];
+        NSDictionary *documentDBAttributes = [fm attributesOfItemAtPath:db_path error:nil];
+        NSDate *bundleModifiedDate = [bundleDBAttributes objectForKey:NSFileModificationDate];
+        NSDate *dbModifiedDate = [documentDBAttributes objectForKey:NSFileModificationDate];
+        
+        if ([bundleModifiedDate compare:dbModifiedDate] == NSOrderedDescending) {
+            [fm removeItemAtPath:db_path error:nil];
+            [fm copyItemAtPath:template_path toPath:db_path error:nil];
+        }
+    }
     FMDatabase *db = [FMDatabase databaseWithPath:db_path];
     if (![db open])
         NSLog(@"Failed to open database!");
     return db;
+}
+
+-(NSString *)returnDBTypeForArmorSlot:(NSString *)slot {
+    if ([slot isEqualToString:@"Head"]) {
+        return @"head_id";
+    } else if ([slot isEqualToString:@"Body"]) {
+        return @"body_id";
+    } else if ([slot isEqualToString:@"Arms"]) {
+        return @"arms_id";
+    } else if ([slot isEqualToString:@"Waist"]) {
+        return @"waist_id";
+    } else if ([slot isEqualToString:@"Legs"]) {
+        return @"legs_id";
+    } else if ([slot isEqualToString:@"Weapon"]){
+        return @"weapon_id";
+    } else {
+        return @"";
+    }
 }
 
 

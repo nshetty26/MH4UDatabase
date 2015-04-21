@@ -34,6 +34,7 @@
 @property (nonatomic) NSArray *monsterDropsArray;
 @property (nonatomic) NSArray *questRewardsArray;
 @property (nonatomic) NSArray *locationsArray;
+@property (nonatomic) NSArray *decorationsArray;
 @end
 
 @interface Armor : Item
@@ -52,6 +53,7 @@
 @property (nonatomic) NSString *gender;
 @property (nonatomic) NSString *hunterType;
 @property (nonatomic) int numSlots;
+@property (nonatomic) int slotsUsed;
 @property (nonatomic) NSArray *skillsArray;
 @property (nonatomic) NSArray *componentArray;
 
@@ -195,8 +197,10 @@
 @property (nonatomic) NSString *ammo;
 @property (nonatomic) NSString *sharpnessFile;
 @property (nonatomic) int num_slots;
+@property (nonatomic) int slotsUsed;
 @property (nonatomic) int tree_depth;
 @property (nonatomic) int final;
+
 
 -(NSString *)getElementalDescription;
 
@@ -205,6 +209,7 @@
 
 @interface ArmorSet : NSObject
 
+@property (nonatomic) int setID;
 @property (nonatomic) Weapon *weapon;
 @property (nonatomic) Armor *helm;
 @property (nonatomic) Armor *chest;
@@ -214,6 +219,8 @@
 @property (nonatomic) Armor *talisman;
 
 -(NSArray *)returnNonNullArmor;
+-(Item *)returnItemForSlot:(NSString *)slot;
+-(NSArray *)returnItemsWithDecorations;
 
 @end
 

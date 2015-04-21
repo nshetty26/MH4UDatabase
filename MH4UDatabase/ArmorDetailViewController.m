@@ -20,6 +20,7 @@
 @property (strong, nonatomic) UITableView *skillTable;
 @property (strong, nonatomic) ItemTableView *componentTable;
 @property (strong, nonatomic) UIAlertView *doubleCheckAlert;
+@property (strong, nonatomic) NSArray *selectedSet;
 @end
 
 
@@ -183,16 +184,19 @@
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    NSArray *allSets = [_dbEngine getAllArmorSets];
-    NSArray *selectedSet = allSets[buttonIndex];
-    
     if ([alertView isEqual:_doubleCheckAlert]) {
         if (buttonIndex == 1) {
-            BOOL successful = [_dbEngine addArmor:_selectedArmor toArmorSetWithID:selectedSet[0]];
+            BOOL successfulDelete = [_dbEngine deleteAllDecorationsForArmorSetWithID:_selectedSet[0] andSetItem:_selectedArmor];
+            BOOL successful = [_dbEngine addArmor:_selectedArmor toArmorSetWithID:_selectedSet[0]];
             [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         }
     } else {
         if (buttonIndex == 1) {
+            NSArray *allSets = [_dbEngine getAllArmorSets];
+            if (allSets.count <= 0) {
+                [[[UIAlertView alloc] initWithTitle:@"No Custom Sets" message:@"Please add a custom set before trying to add items to it" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                return;
+            }
             UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Which Armor Set Would You Like to Add to?" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
             
             for (NSArray *set in allSets) {
@@ -213,12 +217,12 @@
     NSInteger cancelIndex = [actionSheet cancelButtonIndex];
     if (buttonIndex != cancelIndex) {
         NSArray *allSets = [_dbEngine getAllArmorSets];
-        NSArray *selectedSet = allSets[buttonIndex];
+        _selectedSet = allSets[buttonIndex];
         
-        BOOL exists = [_dbEngine checkArmor:_selectedArmor atArmorSetWithID:selectedSet[0]];
+        BOOL exists = [_dbEngine checkArmor:_selectedArmor atArmorSetWithID:_selectedSet[0]];
         
         if (!exists) {
-            BOOL successful = [_dbEngine addArmor:_selectedArmor toArmorSetWithID:selectedSet[0]];
+            BOOL successful = [_dbEngine addArmor:_selectedArmor toArmorSetWithID:_selectedSet[0]];
             [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         } else {
             _doubleCheckAlert = [[UIAlertView alloc] initWithTitle:@"Are You Sure?" message:[NSString stringWithFormat:@"This Set Already Has a Piece in the %@ Slot", _selectedArmor.slot] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"YES", nil];
