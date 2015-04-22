@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 @class  MH4UDBEngine;
+@class  BaseViewController;
 
 @interface UniversalSearchTableViewController : UITableViewController <UISearchBarDelegate>
 
 @property (strong, nonatomic) MH4UDBEngine *dbEngine;
+@property (strong, nonatomic) BaseViewController *baseVC;
 
 @end

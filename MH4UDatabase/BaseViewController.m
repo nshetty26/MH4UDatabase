@@ -33,6 +33,7 @@
     
     UniversalSearchTableViewController *uSTC = [[UniversalSearchTableViewController alloc] init];
     uSTC.dbEngine = [[MH4UDBEngine alloc] init];
+    uSTC.baseVC = self;
     
     self.centerViewController = [[UINavigationController alloc] initWithRootViewController:uSTC];
     
