@@ -188,7 +188,9 @@
 
 -(void)addWeaponToArmorBuilder{
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_selectedWeapon.name message:[NSString stringWithFormat:@"Would you like to add %@ to a custom armor set?", _selectedWeapon.name] delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
     [alert show];
+    });
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -196,14 +198,18 @@
         if (buttonIndex == 1) {
             BOOL successfulDelete = [_dbEngine deleteAllDecorationsForArmorSetWithID:_selectedSet[0] andSetItem:_selectedWeapon];
             BOOL successful = [_dbEngine addWeapon:_selectedWeapon toArmorSetWithID:_selectedSet[0]];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            });
         }
     } else {
         if (buttonIndex == 1) {
             NSArray *allSets = [_dbEngine getAllArmorSets];
             if (allSets.count <= 0) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [[[UIAlertView alloc] initWithTitle:@"No Custom Sets" message:@"Please add a custom set before trying to add items to it" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
                 return;
+                });
             }
             UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Which Armor Set Would You Like to Add to?" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
             
@@ -212,7 +218,9 @@
             }
             
             actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:@"Cancel"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [actionSheet showInView:self.view];
+            });
         }
     }
     
@@ -231,10 +239,14 @@
         
         if (!exists) {
             BOOL successful = [_dbEngine addWeapon:_selectedWeapon toArmorSetWithID:_selectedSet[0]];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            });
         } else {
             _doubleCheckAlert = [[UIAlertView alloc] initWithTitle:@"Are You Sure?" message:[NSString stringWithFormat:@"This Set Already Has a Weapon"] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"YES", nil];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [_doubleCheckAlert show];
+                });
         }
         
     }

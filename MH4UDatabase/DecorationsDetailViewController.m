@@ -186,7 +186,11 @@
 
 -(void)addDecorationToArmorSet {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_selectedDecoration.name message:[NSString stringWithFormat:@"Would you like to add %@ to a custom armor set?", _selectedDecoration.name] delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
-    [alert show];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [alert show];
+    });
+
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -201,7 +205,9 @@
             }
             
             _decorationSheet.cancelButtonIndex = [_decorationSheet addButtonWithTitle:@"Cancel"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [_decorationSheet showInView:self.view];
+            });
             
         }
     } else {
@@ -218,7 +224,10 @@
             }
             
             actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:@"Cancel"];
-            [actionSheet showInView:self.view];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [actionSheet showInView:self.view];
+            });
+            
         }
     }
     
@@ -240,10 +249,14 @@
             
             if ([availableSlots intValue] > 0) {
                 BOOL successful = [_dbEngine addDecoration:_selectedDecoration ToSlot:_selectedArmorSetPiece andArmorSetWithID:_selectedSet[0]];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                });
             } else {
                 _doubleCheckAlert = [[UIAlertView alloc] initWithTitle:@"Are You Sure" message:@"The Armor Slot you have picked has no open slots, would you like to replace one of the slots?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [_doubleCheckAlert show];
+                });
             }
             
         } else if ([actionSheet isEqual:_decorationSheet]){
@@ -254,7 +267,10 @@
             BOOL deleteSuccess = [_dbEngine deleteDecoration:decorationToRemove FromSetItemWithItemID:setItem SetWithID:_selectedSet[0]];
             BOOL successful = [_dbEngine addDecoration:_selectedDecoration ToSlot:_selectedArmorSetPiece andArmorSetWithID:_selectedSet[0]];
             BOOL allSuccess = (deleteSuccess == TRUE && successful == TRUE) ? TRUE : FALSE;
-            [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",allSuccess ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",allSuccess ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            });
+            
         } else {
             NSArray *allSets = [_dbEngine getAllArmorSets];
             _selectedSet = allSets[buttonIndex];
@@ -269,10 +285,15 @@
                 }
                 
                 _armorSelectSheet.cancelButtonIndex = [_armorSelectSheet addButtonWithTitle:@"Cancel"];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [_armorSelectSheet showInView:self.view];
+                });
             } else {
-                [[[UIAlertView alloc] initWithTitle:@"No Available Slots" message:[NSString stringWithFormat:@"Please add equipment to %@ that has slots for decorations", _selectedSet[1]] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-                return;
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [[[UIAlertView alloc] initWithTitle:@"No Available Slots" message:[NSString stringWithFormat:@"Please add equipment to %@ that has slots for decorations", _selectedSet[1]] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                    return;
+                });
+
             }
         }
 

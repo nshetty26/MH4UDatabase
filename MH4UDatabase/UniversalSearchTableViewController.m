@@ -16,6 +16,7 @@
 #import "ItemDetailViewController.h"
 #import "QuestDetailViewController.h"
 #import "LocationDetailViewController.h"
+#import "BaseViewController.h"
 #import "MH4UDBEngine.h"
 #import "MH4UDBEntity.h"
 
@@ -27,7 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setUpMenuButton];
+    [self setUpMenuButtonWithBaseVC:_baseVC];
     self.title = @"Universal Search";
     CGRect searchBar = CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, 38);
     UISearchBar *mhSearch = [[UISearchBar alloc] initWithFrame:searchBar];

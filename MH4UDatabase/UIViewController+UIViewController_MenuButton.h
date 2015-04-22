@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BaseViewController.h"
+
+
+@class BaseViewController;
 
 @interface UIViewController (UIViewController_MenuButton)
 
 -(void)setUpMenuButton;
+-(void)setUpMenuButtonWithBaseVC:(BaseViewController *)baseVC;
 
 -(CGFloat)returnHeightDifference;
 

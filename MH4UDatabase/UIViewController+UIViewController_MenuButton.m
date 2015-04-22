@@ -8,11 +8,21 @@
 
 #import "UIViewController+UIViewController_MenuButton.h"
 #import <MMDrawerBarButtonItem.h>
+#import "BaseViewController.h"
 
 @implementation UIViewController (UIViewController_MenuButton)
 
 -(void)setUpMenuButton {
     MMDrawerBarButtonItem *leftButton = [[MMDrawerBarButtonItem alloc] initWithTarget:nil action:@selector(openMenu)];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.leftItemsSupplementBackButton = YES;
+    [self.navigationItem  setLeftBarButtonItems:@[leftButton] animated:YES];
+    
+    self.navigationItem.rightBarButtonItem = [[MMDrawerBarButtonItem alloc] initWithTarget:nil action:@selector(openArmorBuilder)];
+}
+
+-(void)setUpMenuButtonWithBaseVC:(BaseViewController *)baseVC {
+    MMDrawerBarButtonItem *leftButton = [[MMDrawerBarButtonItem alloc] initWithTarget:baseVC action:@selector(openMenu)];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.navigationItem.leftItemsSupplementBackButton = YES;
     [self.navigationItem  setLeftBarButtonItems:@[leftButton] animated:YES];

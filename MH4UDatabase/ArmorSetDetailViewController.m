@@ -182,7 +182,7 @@
 -(void)drawDecorationForArmorSet {
     
     if (_armorSet.weapon.num_slots > 0) {
-        NSArray *decorations = [_dbEngine getDecorationsForArmorSet:[NSNumber numberWithInt:_armorSet.setID] andSetItem:_armorSet.weapon];
+        NSArray *decorations = [_dbEngine getDecorationsForArmorSet:_setID andSetItem:_armorSet.weapon];
         _armorSet.weapon.decorationsArray = decorations;
         for (int i = 0; i < _armorSet.weapon.num_slots; i++) {
             UIImageView *decorationView = _weaponDecorationViews[i];
