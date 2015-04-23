@@ -121,6 +121,13 @@
     
 }
 
+-(void)refreshTableView {
+    _allSets = [_dbEngine getAllArmorSets];
+    [self.tableView reloadData];
+}
+
+
+
 /*
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {

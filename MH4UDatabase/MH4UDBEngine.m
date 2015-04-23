@@ -1219,6 +1219,59 @@
 
 }
 
+-(BOOL)cloneArmorSet:(ArmorSet *)armorSet withName:(NSString *)name{
+    NSMutableArray *columns = [[NSMutableArray alloc] init];
+    NSMutableArray *values = [[NSMutableArray alloc] init];;
+    FMDatabase *armorDatabase = [self openDatabase];
+    if (armorSet.weapon) {
+        [columns addObject:[self returnDBTypeForArmorSlot:@"Weapon"]];
+        [values addObject:[NSNumber numberWithInt:armorSet.weapon.itemID]];
+    }
+    
+    for (Armor *armor in [armorSet returnNonNullArmor]) {
+        [columns addObject:[self returnDBTypeForArmorSlot:armor.slot]];
+        [values addObject:[NSNumber numberWithInt:armor.itemID]];
+    }
+    
+    if (![armorDatabase open]) {
+        return FALSE;
+    } else {
+        NSString *columnString;
+        NSString *valuesString;
+        
+        if (columns.count > 0) {
+            columnString = [self returnProperQueryStringForCompnents:columns];
+        } else {
+            columnString = @"";
+        }
+        
+        if (values.count > 0) {
+            valuesString = [self returnProperQueryStringForCompnents:values];
+        } else {
+            valuesString = @"";
+        }
+        
+        
+        NSString *query = [NSString stringWithFormat:@"insert into ArmorSet (name%@) Values ('%@'%@)",columnString, name, valuesString];
+        return [armorDatabase executeUpdate:query];
+    }
+    
+}
+
+-(NSString *)returnProperQueryStringForCompnents:(NSArray *)components {
+    NSString *query = @", ";
+    for (int i = 0; i < components.count; i++) {
+        NSString *component = components[i];
+        if (i < (components.count - 1)) {
+            query = [query stringByAppendingString:[NSString stringWithFormat:@"%@, ", component]];
+        } else {
+            query = [query stringByAppendingString:[NSString stringWithFormat:@"%@", component]];
+        }
+    }
+    
+    return query;
+}
+
 -(BOOL)checkWeapon:(Weapon *)weapon atArmorSetWithID:(NSNumber *)setID {
     FMDatabase *armorDatabase = [self openDatabase];
     

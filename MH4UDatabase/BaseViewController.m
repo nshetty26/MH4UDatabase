@@ -19,6 +19,7 @@
 @interface BaseViewController ()
 
 @property (strong, nonatomic) MenuViewController *menuVC;
+@property (strong, nonatomic) ArmorSetTableViewController *aSTVC;
 @end
 
 @implementation BaseViewController
@@ -35,12 +36,17 @@
     uSTC.dbEngine = [[MH4UDBEngine alloc] init];
     uSTC.baseVC = self;
     
-    self.centerViewController = [[UINavigationController alloc] initWithRootViewController:uSTC];
     
-    ArmorSetTableViewController *aSTVC = [[ArmorSetTableViewController alloc] init];
-    self.rightDrawerViewController = [[UINavigationController alloc] initWithRootViewController:aSTVC];
-    aSTVC.dbEngine = uSTC.dbEngine;
-    aSTVC.baseVC = self;
+    
+    self.centerViewController = [[UINavigationController alloc] initWithRootViewController:uSTC];
+
+    
+    _aSTVC = [[ArmorSetTableViewController alloc] init];
+    UINavigationController *nC = [[UINavigationController alloc] initWithRootViewController:_aSTVC];
+    nC.delegate = self;
+    self.rightDrawerViewController = nC;
+    _aSTVC.dbEngine = uSTC.dbEngine;
+    _aSTVC.baseVC = self;
     
     
     _menuVC = [[MenuViewController alloc] init];
@@ -68,8 +74,16 @@
         _aSDVC.armorSet = [_aSDVC.dbEngine getArmorSetForSetID:_aSDVC.setID];
         [_aSDVC reDrawEverything];
         [_aSDVC calculateSkillsForSelectedArmorSet];
+    } else if ([vC isEqual:_aSTVC]) {
+        [_aSTVC refreshTableView];
     }
     [self toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
+}
+
+-(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    if ([viewController isEqual:_aSTVC]) {
+        [_aSTVC refreshTableView];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

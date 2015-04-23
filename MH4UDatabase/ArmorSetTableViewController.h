@@ -17,4 +17,6 @@
 @property (strong, nonatomic) MH4UDBEngine *dbEngine;
 @property (strong, nonatomic) BaseViewController *baseVC;
 
+-(void)refreshTableView;
+
 @end
