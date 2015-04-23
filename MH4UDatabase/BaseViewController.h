@@ -9,7 +9,7 @@
 #import "MMDrawerController.h"
 #import "ArmorSetDetailViewController.h"
 
-@interface BaseViewController : MMDrawerController
+@interface BaseViewController : MMDrawerController <UINavigationControllerDelegate>
 
 @property (strong, nonatomic) ArmorSetDetailViewController *aSDVC;
 

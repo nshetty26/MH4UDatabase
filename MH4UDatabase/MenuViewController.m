@@ -121,6 +121,7 @@
         ArmorsViewController *aVC = [[ArmorsViewController alloc] init];
         aVC.dbEngine = _dbEngine;
         aVC.heightDifference = heightDifference;
+        aVC.baseViewController = _baseViewController;
         [nC setViewControllers:@[aVC]];
         
     } else if ([menuOption isEqualToString:@"Quests"]) {

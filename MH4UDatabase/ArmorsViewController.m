@@ -294,6 +294,7 @@
     }
     
     ArmorSetDetailViewController *aSVC = [[ArmorSetDetailViewController alloc] init];
+    aSVC.baseVC = self.baseViewController;
     aSVC.dbEngine = _dbEngine;
     aSVC.armorSet = armorSet;
     aSVC.setName = [[armor.name componentsSeparatedByString:@" "] firstObject];

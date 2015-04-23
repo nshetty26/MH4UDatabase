@@ -13,13 +13,15 @@
 @class ArmorSet;
 @class MH4UDBEngine;
 @class BaseViewController;
+@class ArmorSetTableViewController;
 
-@interface ArmorSetDetailViewController : UIViewController <UITabBarDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface ArmorSetDetailViewController : UIViewController <UITabBarDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 @property (strong, nonatomic) MH4UDBEngine *dbEngine;
 @property (strong, nonatomic) BaseViewController *baseVC;
 @property (strong, nonatomic) ArmorSet *armorSet;
 @property (strong, nonatomic) NSString *setName;
 @property (strong, nonatomic) NSNumber *setID;
+@property (strong, nonatomic) ArmorSetTableViewController *armorTVC;
 
 @property (weak, nonatomic) IBOutlet UIImageView *weaponSlot1;
 @property (weak, nonatomic) IBOutlet UIImageView *weaponSlot2;
