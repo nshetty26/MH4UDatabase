@@ -83,5 +83,7 @@
 -(BOOL)deleteDecoration:(Decoration *)decoration FromSetItemWithItemID:(Item *)setItem SetWithID:(NSNumber *)setID;
 -(BOOL)deleteAllDecorationsForArmorSetWithID:(NSNumber *)setID andSetItem:(Item *)setItem;
 
+-(NSArray *)getAllWyporiumTrades;
+
 @end
 

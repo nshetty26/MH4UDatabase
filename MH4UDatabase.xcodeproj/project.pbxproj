@@ -876,6 +876,9 @@
 		E7CC13801AD4D09B00F10AB5 /* UniversalSearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CC137F1AD4D09B00F10AB5 /* UniversalSearchTableViewController.m */; };
 		E7D4B5251AAB693D00C22D41 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D4B5241AAB693D00C22D41 /* DetailViewController.m */; };
 		E7D5E23C1AAE507E0083D2C7 /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D5E23B1AAE507E0083D2C7 /* ItemDetailViewController.m */; };
+		E7E57F601AED81D600CF7D19 /* Wyporium.png in Resources */ = {isa = PBXBuildFile; fileRef = E7E57F5F1AED81D600CF7D19 /* Wyporium.png */; };
+		E7E57F631AED827B00CF7D19 /* WyporiumCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7E57F621AED827B00CF7D19 /* WyporiumCell.xib */; };
+		E7E57F661AED848300CF7D19 /* WyporiumTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7E57F651AED848300CF7D19 /* WyporiumTableViewController.m */; };
 		E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF01AA6AC96007C05E0 /* main.m */; };
 		E7EB7DF41AA6AC96007C05E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF31AA6AC96007C05E0 /* AppDelegate.m */; };
 		E7EB7DF71AA6AC96007C05E0 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7EB7DF61AA6AC96007C05E0 /* MenuViewController.m */; };
@@ -1800,6 +1803,10 @@
 		E7D4B5241AAB693D00C22D41 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		E7D5E23A1AAE507E0083D2C7 /* ItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemDetailViewController.h; sourceTree = "<group>"; };
 		E7D5E23B1AAE507E0083D2C7 /* ItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemDetailViewController.m; sourceTree = "<group>"; };
+		E7E57F5F1AED81D600CF7D19 /* Wyporium.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wyporium.png; sourceTree = "<group>"; };
+		E7E57F621AED827B00CF7D19 /* WyporiumCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WyporiumCell.xib; sourceTree = "<group>"; };
+		E7E57F641AED848300CF7D19 /* WyporiumTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WyporiumTableViewController.h; sourceTree = "<group>"; };
+		E7E57F651AED848300CF7D19 /* WyporiumTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WyporiumTableViewController.m; sourceTree = "<group>"; };
 		E7EB7DEB1AA6AC96007C05E0 /* MH4UDatabase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MH4UDatabase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7EB7DEF1AA6AC96007C05E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E7EB7DF01AA6AC96007C05E0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -1980,6 +1987,7 @@
 		E7460C921AB613AD006C7CD3 /* Menu Icons */ = {
 			isa = PBXGroup;
 			children = (
+				E7E57F5F1AED81D600CF7D19 /* Wyporium.png */,
 				E7460CAD1AB617D0006C7CD3 /* Quests.png */,
 				E7460CB11AB61966006C7CD3 /* MH4ULogoBlack.png */,
 				E7460CAF1AB617E5006C7CD3 /* Locations.png */,
@@ -3019,6 +3027,7 @@
 				E7788E2A1AB3791B006DCDCD /* LargeMapView.xib */,
 				E76B247F1AB3E4790063615B /* DetailedWeaponView.xib */,
 				E749EAB71AC4E49F00E10DFF /* ItemTableCell.xib */,
+				E7E57F621AED827B00CF7D19 /* WyporiumCell.xib */,
 			);
 			name = Nibs;
 			sourceTree = "<group>";
@@ -3041,6 +3050,15 @@
 				E7CC137F1AD4D09B00F10AB5 /* UniversalSearchTableViewController.m */,
 			);
 			name = "Universal Search";
+			sourceTree = "<group>";
+		};
+		E7E57F611AED824500CF7D19 /* Wyporium */ = {
+			isa = PBXGroup;
+			children = (
+				E7E57F641AED848300CF7D19 /* WyporiumTableViewController.h */,
+				E7E57F651AED848300CF7D19 /* WyporiumTableViewController.m */,
+			);
+			name = Wyporium;
 			sourceTree = "<group>";
 		};
 		E7EB7DE21AA6AC96007C05E0 = {
@@ -3068,6 +3086,7 @@
 		E7EB7DED1AA6AC96007C05E0 /* MH4UDatabase */ = {
 			isa = PBXGroup;
 			children = (
+				E7E57F611AED824500CF7D19 /* Wyporium */,
 				E7CC137D1AD4C20000F10AB5 /* Universal Search */,
 				E742B2D11ACCF168007B08AF /* TableViews */,
 				E706CB011AC1CF04004E1835 /* Monster View Controllers */,
@@ -3572,6 +3591,7 @@
 				E78AF9AD1AA92A12009B16C3 /* Fang-Red.png in Resources */,
 				E78AF9E21AA92A12009B16C3 /* Husk-White.png in Resources */,
 				E78AF9B41AA92A12009B16C3 /* Fish-Gold.png in Resources */,
+				E7E57F601AED81D600CF7D19 /* Wyporium.png in Resources */,
 				E78AFA4E1AA92A12009B16C3 /* Sac-Blue.png in Resources */,
 				E78AFBD21AA92A12009B16C3 /* heavy_bowgun8.png in Resources */,
 				E78AF9D81AA92A12009B16C3 /* Hide-Green.png in Resources */,
@@ -3652,6 +3672,7 @@
 				E78AF9BF1AA92A12009B16C3 /* Flute-Green.png in Resources */,
 				E78AFADB1AA92A12009B16C3 /* maps_mh4_dunes_night.png in Resources */,
 				E78AFAA91AA92A12009B16C3 /* Ticket-Blue.png in Resources */,
+				E7E57F631AED827B00CF7D19 /* WyporiumCell.xib in Resources */,
 				E78AFAE21AA92A12009B16C3 /* maps_mh4_great_desert_mini.png in Resources */,
 				E78AFAB61AA92A12009B16C3 /* Trap-Blue.png in Resources */,
 				E78AFA501AA92A12009B16C3 /* Sac-Grey.png in Resources */,
@@ -4140,6 +4161,7 @@
 				E7788E291AB378A6006DCDCD /* LocationDetailViewController.m in Sources */,
 				E7AB48BF1AB2B4F600060D7E /* QuestDetailViewController.m in Sources */,
 				E72E4EAE1AB0C67E0043CC6A /* CombiningViewController.m in Sources */,
+				E7E57F661AED848300CF7D19 /* WyporiumTableViewController.m in Sources */,
 				E76B24831AB3EC6F0063615B /* WeaponDetailViewController.m in Sources */,
 				E703EF7C1AE1828D00B2C9E6 /* ArmorSetDetailViewController.m in Sources */,
 				E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */,
