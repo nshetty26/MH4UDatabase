@@ -30,6 +30,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *salePriceLabel;
 @property (weak, nonatomic) IBOutlet UITextView *itemDescription;
+@property (weak, nonatomic) IBOutlet UILabel *slotTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *slotDescriptionLabel;
 
 -(void)populateViewWithItem:(Item *)item;
 

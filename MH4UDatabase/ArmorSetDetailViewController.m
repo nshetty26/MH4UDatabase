@@ -96,6 +96,7 @@
     
     // Do any additional setup after loading the view from its nib.
     [self populateArmorSet];
+    [self displayAllEmptySlots];
     [self drawDecorationForArmorSet];
     [self setUpArmorSetView];
     [self setUpEquipmentTabBar];
@@ -104,7 +105,7 @@
     _socketedTable.delegate = self;
     _socketedTable.dataSource = self;
     [self.view addSubview:_socketedTable];
-    if (_allDecorations.count > 0) {
+    if ([_armorSet returnItemsWithDecorations].count > 0) {
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
         NSArray *firstItemWithDecorations = [[_armorSet returnItemsWithDecorations] firstObject];
         _displayedDecorations = firstItemWithDecorations[1];
@@ -184,16 +185,19 @@
     if (_armorSet.weapon.num_slots > 0) {
         NSArray *decorations = [_dbEngine getDecorationsForArmorSet:_setID andSetItem:_armorSet.weapon];
         _armorSet.weapon.decorationsArray = decorations;
-        for (int i = 0; i < _armorSet.weapon.num_slots; i++) {
-            UIImageView *decorationView = _weaponDecorationViews[i];
-            if (decorations.count >= i+1) {
-                Decoration *decoration = decorations[i];
-                [_allDecorations addObject:decoration];
-                decorationView.image = [UIImage imageNamed:decoration.icon];
-            } else {
-                decorationView.image = [UIImage imageNamed:@"circle.png"];
+        if (decorations.count > 0) {
+            int counter = 0;
+            NSArray *imageArray = [self returnImageViewArrayForArmorSlot:@"Weapon"];
+            for (Decoration *decoration in decorations) {
+                int imageViewLocations = decoration.slotsRequired + counter;
+                for (int i = counter; i < imageViewLocations; i++) {
+                    UIImageView *imageView = imageArray[counter];
+                    imageView.image = [UIImage imageNamed:decoration.icon];
+                    counter += 1;
+                }
             }
         }
+
     }
     
     NSArray *armorArray = [_armorSet returnNonNullArmor];
@@ -201,37 +205,76 @@
         Armor *armor = armorArray[i];
         if (armor.numSlots > 0) {
             NSArray *decorations = [_dbEngine getDecorationsForArmorSet:_setID andSetItem:armor];
-            if (armor.decorationsArray) {
-                armor.decorationsArray = nil;
-            }
             armor.decorationsArray = decorations;
-            for (int i = 0; i < armor.numSlots; i++) {
-                UIImageView *decorationView;
-                if ([armor.slot isEqualToString:@"Head"]) {
-                    decorationView = _headDecorationViews[i];
-                } else if ([armor.slot isEqualToString:@"Body"]) {
-                    decorationView = _bodyDecorationViews[i];
-                } else if ([armor.slot isEqualToString:@"Arms"]) {
-                    decorationView = _armsDecorationViews[i];
-                } else if ([armor.slot isEqualToString:@"Waist"]) {
-                    decorationView = _waistDecorationViews[i];
-                } else if ([armor.slot isEqualToString:@"Legs"]) {
-                    decorationView = _legsDecorationViews[i];
+            if (decorations.count > 0) {
+                int counter = 0;
+                NSArray *imageArray = [self returnImageViewArrayForArmorSlot:armor.slot];
+                for (Decoration *decoration in decorations) {
+                    int imageViewLocations = decoration.slotsRequired + counter;
+                    for (int i = counter; i < imageViewLocations; i++) {
+                            UIImageView *imageView = imageArray[counter];
+                            imageView.image = [UIImage imageNamed:decoration.icon];
+                            counter += 1;
+                    }
                 }
-                if (decorations.count >= i+1) {
-                    
-                    Decoration *decoration = decorations[i];
-                    [_allDecorations addObject:decoration];
-                    decorationView.image = [UIImage imageNamed:decoration.icon];
-                } else {
-                    decorationView.image = [UIImage imageNamed:@"circle.png"];
-                }
-
-                
             }
+
         }
 
     }
+}
+
+-(void)displayAllEmptySlots {
+    if (_armorSet.weapon.num_slots > 0) {
+        NSArray *imageViewArray = [self returnImageViewArrayForArmorSlot:@"Weapon"];
+        NSMutableArray *slotImages = [[NSMutableArray alloc] init];
+        for (int i = 0; i  < _armorSet.weapon.num_slots; i++) {
+            [slotImages addObject:imageViewArray[i]];
+            [self displayEmptySlotsFromImageViewArray:slotImages];
+        }
+        
+    }
+    
+    if ([_armorSet returnNonNullArmor].count > 0) {
+        for (Armor *armor in [_armorSet returnNonNullArmor]) {
+            if (armor.numSlots > 0) {
+                NSArray *imageViewArray = [self returnImageViewArrayForArmorSlot:armor.slot];
+                NSMutableArray *slotImages = [[NSMutableArray alloc] init];
+                for (int i = 0; i  < armor.numSlots; i++) {
+                    [slotImages addObject:imageViewArray[i]];
+                    [self displayEmptySlotsFromImageViewArray:slotImages];
+                }
+            }
+        }
+    }
+}
+
+-(void)displayEmptySlotsFromImageViewArray:(NSArray *)imageViewArray {
+    for (UIImageView *imageView in imageViewArray) {
+        imageView.image = [UIImage imageNamed:@"circle.png"];
+    }
+}
+
+-(NSArray *)returnImageViewArrayForArmorSlot:(NSString *)armorSlot {
+    NSArray *imageViewArray;
+    if ([armorSlot isEqualToString:@"Head"]) {
+        imageViewArray = _headDecorationViews;
+    } else if ([armorSlot isEqualToString:@"Body"]) {
+        imageViewArray = _bodyDecorationViews;
+    } else if ([armorSlot isEqualToString:@"Arms"]) {
+        imageViewArray = _armsDecorationViews;
+    } else if ([armorSlot isEqualToString:@"Waist"]) {
+        imageViewArray = _waistDecorationViews;
+    } else if ([armorSlot isEqualToString:@"Legs"]) {
+        imageViewArray = _legsDecorationViews;
+    } else if ([armorSlot isEqualToString:@"Weapon"]) {
+        imageViewArray = _weaponDecorationViews;
+    } else {
+        imageViewArray = nil;
+    }
+    
+    return imageViewArray;
+
 }
 
 -(void)calculateSkillsForSelectedArmorSet {
@@ -315,9 +358,12 @@
                 break;
         }
     } else if ([tabBar isEqual:_equipmentSocketTab]) {
-        NSArray *equipmentWithDecoration = [[_armorSet returnItemsWithDecorations] objectAtIndex:item.tag - 1];
-        _displayedDecorations = equipmentWithDecoration[1];
-        [_socketedTable reloadData];
+        if ([_armorSet returnItemsWithDecorations].count > 0) {
+            NSArray *equipmentWithDecoration = [[_armorSet returnItemsWithDecorations] objectAtIndex:item.tag - 1];
+            _displayedDecorations = equipmentWithDecoration[1];
+            [_socketedTable reloadData];
+        } 
+
     }
 
     [tabBar setSelectedItem:item];
@@ -468,9 +514,9 @@
         [_statTableView reloadData];
         _displayedDecorations = [_armorSet returnItemForSlot:_equipmentSocketTab.selectedItem.title].decorationsArray;
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self displayAllEmptySlots];
+        [self drawDecorationForArmorSet];
         
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }
 }
 
@@ -502,10 +548,16 @@
     _equipmentSocketTab.frame = CGRectMake(self.view.frame.origin.x, _legImage.frame.origin.y + _legImage.frame.size.height + 10, _baseVC.rightDrawerViewController.view.frame.size.width, 49);
     _socketedTable.frame = CGRectMake(vcFrame.origin.x, _equipmentSocketTab.frame.origin.y + _equipmentSocketTab.frame.size.height, _baseVC.rightDrawerViewController.view.frame.size.width, vcFrame.size.height - (_armorSetTab.frame.size.height + [self returnHeightDifference]));
     
+    self.navigationItem.rightBarButtonItems = nil;
     if (_armorStatSheet.superview || _statTableView.superview) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(promptToCopy)];
+        self.navigationItem.rightBarButtonItems = @[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(promptToCopy)]];
     } else {
-        self.navigationItem.rightBarButtonItems = @[self.editButtonItem, [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(promptToCopy)]];
+        if ([_armorSet returnItemsWithDecorations].count > 0) {
+            self.navigationItem.rightBarButtonItems = @[self.editButtonItem, [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(promptToCopy)]];
+        } else {
+            self.navigationItem.rightBarButtonItems = @[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(promptToCopy)]];
+        }
+        
     }
     
     [self setUpArmorSetView];
@@ -514,7 +566,7 @@
 }
 
 -(void)promptToCopy {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"This Set Is Going to Be Duplicated" message:@"Please Give This New Set a Name" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"This Set Is Going to Be Duplicated" message:@"Please Give This New Set a Name" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Continue", nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alert show];
 }
@@ -595,6 +647,7 @@
 @property (nonatomic) int thunderRes;
 @property (nonatomic) int iceRes;
 @property (nonatomic) int dragonRes;
+@property (weak, nonatomic) IBOutlet UILabel *sharpnessLabel;
 
 @property (nonatomic, strong) NSMutableDictionary *skillDictionary;
 
@@ -603,13 +656,22 @@
 @implementation ArmorStatSheetView
 
 -(void)populateStatsWithArmorSet:(ArmorSet *)armorSet {
-    if (armorSet.weapon.sharpness) {
-        [self drawSharpnessRectWithWeapon:armorSet.weapon];
+    if (armorSet.weapon) {
+        if (![armorSet.weapon.sharpness isEqualToString:@""]) {
+            [self drawSharpnessRectWithWeapon:armorSet.weapon];
+        } else {
+            _sharpnessLabel.hidden = YES;
+            _sharpnessBackground.hidden = YES;
+            _sharpnessView1.hidden = YES;
+            _sharpnessView2.hidden = YES;
+        }
     } else {
+        _sharpnessLabel.hidden = YES;
         _sharpnessBackground.hidden = YES;
         _sharpnessView1.hidden = YES;
         _sharpnessView2.hidden = YES;
     }
+
     [self sumAllStats:[armorSet returnNonNullArmor]];
     _attackValue.text = [NSString stringWithFormat:@"%i", armorSet.weapon.attack];
     

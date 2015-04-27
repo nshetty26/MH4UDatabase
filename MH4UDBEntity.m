@@ -122,13 +122,13 @@
     NSMutableArray *itemsWithDecorations = [[NSMutableArray alloc] init];
     
     if (_weapon) {
-        if (_weapon.decorationsArray > 0) {
+        if (_weapon.decorationsArray.count > 0) {
             [itemsWithDecorations addObject:@[@"Weapon", _weapon.decorationsArray]];
         }
     }
     
     for (Armor *armor in [self returnNonNullArmor]) {
-        if (armor.decorationsArray > 0) {
+        if (armor.decorationsArray.count > 0) {
             [itemsWithDecorations addObject:@[armor.slot, armor.decorationsArray]];
         }
     }

@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 
 
+#pragma mark - Item
 @interface Item : NSObject
 @property (nonatomic) int itemID;
 @property (nonatomic) NSString *name;
@@ -37,6 +38,7 @@
 @property (nonatomic) NSArray *decorationsArray;
 @end
 
+#pragma mark - Armor
 @interface Armor : Item
 //@property (nonatomic) int armorID;
 //@property (nonatomic) NSString *name;
@@ -59,6 +61,7 @@
 
 @end
 
+#pragma mark - Combining
 @interface Combining : NSObject
 @property (nonatomic) Item *combinedItem;
 @property (nonatomic) Item *item1;
@@ -69,6 +72,7 @@
 
 @end
 
+#pragma mark - Quest
 @interface Quest : NSObject
 @property (nonatomic) int questID;
 @property (nonatomic) NSString *name;
@@ -90,8 +94,8 @@
 @end
 
 
+#pragma mark - Monster
 @interface Monster : NSObject
-
 @property (nonatomic) int monsterID;
 @property (nonatomic) NSString *monsterClass;
 @property (nonatomic) NSString *monsterName;
@@ -106,6 +110,7 @@
 @property (nonatomic) NSArray *questInfos;
 @end
 
+#pragma mark - Monster Damage
 @interface MonsterDamage : NSObject
 @property (nonatomic) NSString *bodyPart;
 @property (nonatomic) int cutDamage;
@@ -120,6 +125,7 @@
 
 @end
 
+#pragma mark - Monster Status Effect
 @interface MonsterStatusEffect : NSObject
 @property (nonatomic) NSString *status;
 @property (nonatomic) int initial;
@@ -130,6 +136,7 @@
 
 @end
 
+#pragma mark - Monster Habitat
 @interface MonsterHabitat : NSObject
 @property (nonatomic) int locationID;
 @property (nonatomic) NSString *locationName;
@@ -141,6 +148,7 @@
 
 @end
 
+#pragma mark - Skill Collection
 @interface SkillCollection : NSObject
 @property (nonatomic) NSArray *skillArray;
 @property (nonatomic) NSArray *headArray;
@@ -152,12 +160,15 @@
 
 @end
 
+#pragma mark - Decoration
 @interface Decoration : Item
+@property (nonatomic) int slotsRequired;
 @property (nonatomic) NSArray *skillArray;
 @property (nonatomic) NSArray *componentArray;
 
 @end
 
+#pragma mark - Location
 @interface Location : NSObject
 @property (nonatomic) int locationID;
 @property (nonatomic) NSString *locationName;
@@ -169,6 +180,7 @@
 
 @end
 
+#pragma mark - Weapon
 @interface Weapon : Item
 @property (nonatomic) NSString *weaponType;
 @property (nonatomic) int parentID;
@@ -204,9 +216,9 @@
 
 -(NSString *)getElementalDescription;
 
-
 @end
 
+#pragma mark - Armor Set
 @interface ArmorSet : NSObject
 
 @property (nonatomic) int setID;

@@ -606,7 +606,7 @@
             armor.name = [s stringForColumn:@"itemName"];
             armor.slot = [s stringForColumn:@"slot"];
             armor.rarity = [s intForColumn:@"rarity"];
-            armor.icon = [NSString stringWithFormat:@"%@%i.png",[s stringForColumn:@"slot"], armor.rarity];
+            armor.icon = [NSString stringWithFormat:@"%@%i.png",[s stringForColumn:@"slot"], armor.rarity].lowercaseString;
             armor.type = @"Armor";
             armor.skillsArray = @[[NSNumber numberWithInt:[s intForColumn:@"point_value"]]];
             [equipmentArray addObject:armor];
@@ -630,7 +630,7 @@
 #pragma mark - Decoration Queries
 
 -(void)getDecorationsForSkillCollection:(SkillCollection *)skillCollection andSkillTreeID:(int)skillTreeID{
-    NSString *jewelQuery = [NSString stringWithFormat:@" SELECT items._id as itemID, items.name as itemName, items.icon_name, items.type, skill_trees._id, skill_trees.name, item_to_skill_tree.point_value FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id where skill_trees._id = %i and type = 'Decoration'", skillTreeID];
+    NSString *jewelQuery = [NSString stringWithFormat:@" SELECT items._id as itemID, items.name as itemName, items.icon_name, items.type, skill_trees._id, skill_trees.name, item_to_skill_tree.point_value, decorations.num_slots FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id where skill_trees._id = %i and type = 'Decoration'", skillTreeID];
     NSMutableArray *decorationArray = [[NSMutableArray alloc] init];
     FMResultSet *s = [self DBquery:jewelQuery];
     
@@ -640,6 +640,7 @@
         decoration.type = @"Decoration";
         decoration.name = [s stringForColumn:@"itemName"];
         decoration.icon = [s stringForColumn:@"icon_name"];
+        decoration.slotsRequired = [s intForColumn:@"num_slots"];
         decoration.skillValue = [s intForColumn:@"point_value"];
         decoration.skillArray = [self getSkillTreesForDecorationID:decoration.itemID];
         [decorationArray addObject:decoration];
@@ -658,9 +659,9 @@
 -(NSArray *)getAllDecorations:(NSNumber *)decorationID {
     NSString *decorationQuery;
     if (!decorationID) {
-        decorationQuery = @"select items._id as itemID, items.rarity, items.buy, items.description, items.carry_capacity, items.sell, items.name, items.icon_name from items inner join decorations on items._id = decorations._id ";
+        decorationQuery = @"select items._id as itemID, items.rarity, items.buy, items.description, items.carry_capacity, items.sell, items.name, items.icon_name, decorations.num_slots from items inner join decorations on items._id = decorations._id ";
     } else {
-        decorationQuery = [NSString stringWithFormat:@"select items._id as itemID, items.rarity, items.buy, items.description, items.carry_capacity, items.sell, items.name, items.icon_name from items inner join decorations on items._id = decorations._id where items._id = %@", decorationID];
+        decorationQuery = [NSString stringWithFormat:@"select items._id as itemID, items.rarity, items.buy, items.description, items.carry_capacity, items.sell, items.name, items.icon_name, decorations.num_slots from items inner join decorations on items._id = decorations._id where items._id = %@", decorationID];
     }
    
     NSMutableArray *decorationArray = [[NSMutableArray alloc] init];
@@ -675,6 +676,7 @@
         decoration.rarity = [s intForColumn:@"rarity"];
         decoration.name = [s stringForColumn:@"name"];
         decoration.icon = [s stringForColumn:@"icon_name"];
+        decoration.slotsRequired = [s intForColumn:@"num_slots"];
         decoration.skillArray = [self getSkillTreesForDecorationID:decoration.itemID];
         [decorationArray addObject:decoration];
     }
@@ -889,6 +891,23 @@
     }
     
     return weaponTypes;
+}
+
+-(NSArray *)getAllWyporiumTrades {
+    NSMutableArray *wyporiumTrades = [[NSMutableArray alloc] init];
+    
+    NSString *wyporiumQuery = @"SELECT wyporium._id, i1._id as item1ID, i1.name,i2._id as item2ID, i2.name, quests._id as questID, quests.name FROM wyporium inner join items i1 on wyporium.item_in_id = i1._id inner join items i2 on wyporium.item_out_id = i2._id inner join quests on wyporium.unlock_quest_id = quests._id";
+    
+    FMResultSet *s = [self DBquery:wyporiumQuery];
+    
+    while ([s next]) {
+        Item *itemOut = [self getItemForID:[s intForColumn:@"item1ID"]];
+        Item *itemIn = [self getItemForID:[s intForColumn:@"item2ID"]];
+        Quest *unlockQuest = [[self getAllQuests:[NSNumber numberWithInt:[s intForColumn:@"questID"]]] firstObject];
+        [wyporiumTrades addObject:@[itemIn, itemOut, unlockQuest]];
+    }
+    
+    return wyporiumTrades;
 }
 
 -(NSArray *)getWeaponsForWeaponType:(NSString *)weaponType {
@@ -1315,7 +1334,7 @@
     if (![armorDatabase open]) {
         return FALSE;
     } else {
-        NSString *query = [NSString stringWithFormat:@"UPDATE ArmorSet SET %@ = '%i' where _id = %i", @"weapon_id", weapon.itemID, [setID intValue]];
+        NSString *query = [NSString stringWithFormat:@"UPDATE ArmorSet SET %@ = %i where _id = %i", @"weapon_id", weapon.itemID, [setID intValue]];
         return [armorDatabase executeUpdate:query];
     }
     
@@ -1331,14 +1350,19 @@
             if (![armorDatabase open]) {
                 return FALSE;
             } else {
-                NSString *query = [NSString stringWithFormat:@"select count(*) as Count from Decorations where ArmorSet_id = %i and item_id = %i" , [setID intValue], armorSet.weapon.itemID];
+                NSString *query = [NSString stringWithFormat:@"select * from Decorations where ArmorSet_id = %i and item_id = %i" , [setID intValue], armorSet.weapon.itemID];
                 FMResultSet *s = [armorDatabase executeQuery:query];
-                [s next];
-                armorSet.weapon.slotsUsed = [s intForColumn:@"Count"];
+                int slotsUsed = 0;
+                while ([s next]) {
+                    Decoration *decoration = [[self getAllDecorations:[NSNumber numberWithInt:[s intForColumn:@"decoration_id"]]] firstObject];
+                    slotsUsed += decoration.slotsRequired;
+                    
+                }
+                armorSet.weapon.slotsUsed = slotsUsed;
                 
             }
             int availableSlots = armorSet.weapon.num_slots - armorSet.weapon.slotsUsed;
-            [availableSlotsInEquipment addObject:@[@"Weapon", [NSNumber numberWithInt:availableSlots]]];
+            [availableSlotsInEquipment addObject:@[@"Weapon", [NSNumber numberWithInt:availableSlots], [NSNumber numberWithInt:armorSet.weapon.num_slots]]];
         }
     }
     
@@ -1348,14 +1372,19 @@
             if (![armorDatabase open]) {
                 return FALSE;
             } else {
-                NSString *query = [NSString stringWithFormat:@"select count(*) as Count from Decorations where ArmorSet_id = %i and item_id = %i" , [setID intValue], armor.itemID];
+                NSString *query = [NSString stringWithFormat:@"select * from Decorations where ArmorSet_id = %i and item_id = %i" , [setID intValue], armor.itemID];
                 FMResultSet *s = [armorDatabase executeQuery:query];
-                [s next];
-                armor.slotsUsed = [s intForColumn:@"Count"];
+                int slotsUsed = 0;
+                while ([s next]) {
+                    Decoration *decoration = [[self getAllDecorations:[NSNumber numberWithInt:[s intForColumn:@"decoration_id"]]] firstObject];
+                    slotsUsed += decoration.slotsRequired;
+                    
+                }
+                armor.slotsUsed = slotsUsed;
                 
             }
             int availableSlots = armor.numSlots - armor.slotsUsed;
-            [availableSlotsInEquipment addObject:@[armor.slot, [NSNumber numberWithInt:availableSlots]]];
+            [availableSlotsInEquipment addObject:@[armor.slot, [NSNumber numberWithInt:availableSlots], [NSNumber numberWithInt:armor.numSlots]]];
         }
 
     }

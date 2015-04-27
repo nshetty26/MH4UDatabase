@@ -54,12 +54,19 @@
     else {
         NSArray *searchedItems = [_allDecorations filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
             Decoration *decoration = (Decoration *)evaluatedObjected;
+            NSArray *skillArray = decoration.skillArray;
+            BOOL shouldBeDisplayed = FALSE;
             if (!([decoration.name.lowercaseString rangeOfString:searchText.lowercaseString].location == NSNotFound)) {
-                return YES;
-            } else {
-                return NO;
+                shouldBeDisplayed = TRUE;
             }
             
+            for (NSArray *skillTree in skillArray) {
+                NSString *skillName = skillTree[1];
+                if (!([skillName.lowercaseString rangeOfString:searchText.lowercaseString].location == NSNotFound)) {
+                    shouldBeDisplayed = TRUE;
+                }
+            }
+            return shouldBeDisplayed;
         }]];
         
         _displayedDecorations = searchedItems;

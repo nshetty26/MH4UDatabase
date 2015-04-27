@@ -17,12 +17,6 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sharpness:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i4y-Cx-q8T">
-                    <rect key="frame" x="18" y="73" width="84" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Element:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f53-1e-y0S">
                     <rect key="frame" x="18" y="131" width="67" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -133,6 +127,12 @@
                     </subviews>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sharpness:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i4y-Cx-q8T">
+                    <rect key="frame" x="18" y="73" width="84" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <nil key="simulatedTopBarMetrics"/>
@@ -145,6 +145,7 @@
                 <outlet property="iceResValue" destination="DJd-pR-bAO" id="1jc-Fu-497"/>
                 <outlet property="minDefenseValue" destination="Qyz-im-PWn" id="Qr8-hN-AbK"/>
                 <outlet property="sharpnessBackground" destination="Ahf-TO-gms" id="fJE-Yu-Uni"/>
+                <outlet property="sharpnessLabel" destination="i4y-Cx-q8T" id="nnI-Ft-3Ot"/>
                 <outlet property="sharpnessView1" destination="FeH-iH-Tgy" id="KRS-Te-p9M"/>
                 <outlet property="sharpnessView2" destination="HCl-t5-ehF" id="8YK-AL-Gca"/>
                 <outlet property="thunderResValue" destination="L7h-am-pE1" id="OZh-Ne-Ubo"/>

@@ -47,6 +47,9 @@
     _detailItemView = [[[NSBundle mainBundle] loadNibNamed:@"DetailedItemView" owner:self options:nil] lastObject];
     _detailItemView.frame = tableFrame;
     [_detailItemView populateViewWithItem:(Item *)_selectedDecoration];
+    _detailItemView.slotTitleLabel.hidden = NO;
+    _detailItemView.slotDescriptionLabel.hidden = NO;
+    _detailItemView.slotDescriptionLabel.text = [NSString stringWithFormat:@"%i", _selectedDecoration.slotsRequired];
     
     _skillTable = [[UITableView alloc] initWithFrame:tableFrame];
     _skillTable.dataSource = self;
@@ -200,14 +203,25 @@
             Item *setItem = [selectedSet returnItemForSlot:_selectedArmorSetPiece];
             _decorationSheet = [[UIActionSheet alloc] initWithTitle:@"Which Decoration Would You Like To Replace?" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
             setItem.decorationsArray = [_dbEngine getDecorationsForArmorSet:_selectedSet[0] andSetItem:setItem];
+            BOOL enoughSlots = false;
             for (Decoration *decoration in setItem.decorationsArray) {
-                [_decorationSheet addButtonWithTitle:decoration.name];
+                if (decoration.slotsRequired >= _selectedDecoration.slotsRequired) {
+                    [_decorationSheet addButtonWithTitle:decoration.name];
+                    enoughSlots = true;
+                }
             }
             
             _decorationSheet.cancelButtonIndex = [_decorationSheet addButtonWithTitle:@"Cancel"];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [_decorationSheet showInView:self.view];
-            });
+            if (enoughSlots) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [_decorationSheet showInView:self.view];
+                });
+            } else {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [[[UIAlertView alloc] initWithTitle:@"Not Enough Available Slots" message:@"Please delete enough decorations to make room for this gem." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+                });
+            }
+
             
         }
     } else {
@@ -243,20 +257,23 @@
             armorSlots = [armorSlots stringByReplacingOccurrencesOfString:@"[" withString:@""];
             armorSlots = [armorSlots stringByReplacingOccurrencesOfString:@"]" withString:@""];
             NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
-            
             _selectedArmorSetPiece = titleComponents[0];
-            NSNumber *availableSlots = [f numberFromString:armorSlots];
-            
-            if ([availableSlots intValue] > 0) {
-                BOOL successful = [_dbEngine addDecoration:_selectedDecoration ToSlot:_selectedArmorSetPiece andArmorSetWithID:_selectedSet[0]];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-                });
+            if (![armorSlots isEqualToString:@"N/A"]) {
+                NSNumber *availableSlots = [f numberFromString:armorSlots];
+                if ([availableSlots intValue] >= _selectedDecoration.slotsRequired) {
+                    BOOL successful = [_dbEngine addDecoration:_selectedDecoration ToSlot:_selectedArmorSetPiece andArmorSetWithID:_selectedSet[0]];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                    });
+                } else {
+                    _doubleCheckAlert = [[UIAlertView alloc] initWithTitle:@"Are You Sure" message:@"The Armor Slot you have picked has no open slots, would you like to replace one of the slots?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [_doubleCheckAlert show];
+                    });
+                }
+
             } else {
-                _doubleCheckAlert = [[UIAlertView alloc] initWithTitle:@"Are You Sure" message:@"The Armor Slot you have picked has no open slots, would you like to replace one of the slots?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [_doubleCheckAlert show];
-                });
+                [[[UIAlertView alloc] initWithTitle:@"Not Enough Slots" message:@"The Armor Piece You Selected Does Not Have enough Total Slots" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
             }
             
         } else if ([actionSheet isEqual:_decorationSheet]){
@@ -281,7 +298,12 @@
                 _armorSelectSheet = [[UIActionSheet alloc] initWithTitle:@"Which Slot Would You Like to Add To?" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
                 
                 for (NSArray *equipment in availableEquipment) {
-                    [_armorSelectSheet addButtonWithTitle:[NSString stringWithFormat:@"%@ [%@]", equipment[0], equipment[1]]];
+                    NSNumber *totalSlots = equipment[2];
+                    if ([totalSlots intValue] >= _selectedDecoration.slotsRequired) {
+                        [_armorSelectSheet addButtonWithTitle:[NSString stringWithFormat:@"%@ [%@]", equipment[0], equipment[1]]];
+                    } else {
+                        [_armorSelectSheet addButtonWithTitle:[NSString stringWithFormat:@"%@ [%@]", equipment[0], @"N/A"]];
+                    }
                 }
                 
                 _armorSelectSheet.cancelButtonIndex = [_armorSelectSheet addButtonWithTitle:@"Cancel"];
