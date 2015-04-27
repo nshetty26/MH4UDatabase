@@ -105,7 +105,7 @@
     _socketedTable.delegate = self;
     _socketedTable.dataSource = self;
     [self.view addSubview:_socketedTable];
-    if (_allDecorations.count > 0) {
+    if ([_armorSet returnItemsWithDecorations].count > 0) {
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
         NSArray *firstItemWithDecorations = [[_armorSet returnItemsWithDecorations] firstObject];
         _displayedDecorations = firstItemWithDecorations[1];
@@ -182,21 +182,24 @@
 
 -(void)drawDecorationForArmorSet {
     
-//    if (_armorSet.weapon.num_slots > 0) {
-//        NSArray *decorations = [_dbEngine getDecorationsForArmorSet:_setID andSetItem:_armorSet.weapon];
-//        _armorSet.weapon.decorationsArray = decorations;
-//        for (int i = 0; i < _armorSet.weapon.num_slots; i++) {
-//            UIImageView *decorationView = _weaponDecorationViews[i];
-//            if (decorations.count >= i+1) {
-//                Decoration *decoration = decorations[i];
-//                [_allDecorations addObject:decoration];
-//                decorationView.image = [UIImage imageNamed:decoration.icon];
-//            } else {
-//                decorationView.image = [UIImage imageNamed:@"circle.png"];
-//            }
-//        }
-//    }
-//    
+    if (_armorSet.weapon.num_slots > 0) {
+        NSArray *decorations = [_dbEngine getDecorationsForArmorSet:_setID andSetItem:_armorSet.weapon];
+        _armorSet.weapon.decorationsArray = decorations;
+        if (decorations.count > 0) {
+            int counter = 0;
+            NSArray *imageArray = [self returnImageViewArrayForArmorSlot:@"Weapon"];
+            for (Decoration *decoration in decorations) {
+                int imageViewLocations = decoration.slotsRequired + counter;
+                for (int i = counter; i < imageViewLocations; i++) {
+                    UIImageView *imageView = imageArray[counter];
+                    imageView.image = [UIImage imageNamed:decoration.icon];
+                    counter += 1;
+                }
+            }
+        }
+
+    }
+    
     NSArray *armorArray = [_armorSet returnNonNullArmor];
     for (int i = 0; i < armorArray.count; i++) {
         Armor *armor = armorArray[i];
@@ -214,53 +217,8 @@
                             counter += 1;
                     }
                 }
-                
             }
-            
-            
-//            armor.decorationsArray = decorations;
-//            switch (armor.decorationsArray) {
-//                case ;:
-//                    <#statements#>
-//                    break;
-//                    
-//                default:
-//                    break;
-//            }
-//            
-//            for (int i = 0; i < armor.numSlots; i++) {
-//                UIImage *icon;
-//                Decoration *decoration;
-//                if (decorations.count >= i+1) {
-//                    decoration = decorations[i];
-//                    icon = [UIImage imageNamed:decoration.icon];
-//                } else {
-//                    icon = [UIImage imageNamed:@"circle.png"];
-//                }
-//                
-//                UIImageView *decorationView;
-//                if ([armor.slot isEqualToString:@"Head"]) {
-//                    decorationView = _headDecorationViews[i];
-//                } else if ([armor.slot isEqualToString:@"Body"]) {
-//                    decorationView = _bodyDecorationViews[i];
-//                } else if ([armor.slot isEqualToString:@"Arms"]) {
-//                    decorationView = _armsDecorationViews[i];
-//                } else if ([armor.slot isEqualToString:@"Waist"]) {
-//                    decorationView = _waistDecorationViews[i];
-//                } else if ([armor.slot isEqualToString:@"Legs"]) {
-//                    decorationView = _legsDecorationViews[i];
-//                }
-//                if (decorations.count >= i+1) {
-//                    
-//                    Decoration *decoration = decorations[i];
-//                    [_allDecorations addObject:decoration];
-//                    decorationView.image = [UIImage imageNamed:decoration.icon];
-//                } else {
-//                    decorationView.image = [UIImage imageNamed:@"circle.png"];
-//                }
-//
-//                
-//            }
+
         }
 
     }
@@ -400,9 +358,12 @@
                 break;
         }
     } else if ([tabBar isEqual:_equipmentSocketTab]) {
-        NSArray *equipmentWithDecoration = [[_armorSet returnItemsWithDecorations] objectAtIndex:item.tag - 1];
-        _displayedDecorations = equipmentWithDecoration[1];
-        [_socketedTable reloadData];
+        if ([_armorSet returnItemsWithDecorations].count > 0) {
+            NSArray *equipmentWithDecoration = [[_armorSet returnItemsWithDecorations] objectAtIndex:item.tag - 1];
+            _displayedDecorations = equipmentWithDecoration[1];
+            [_socketedTable reloadData];
+        } 
+
     }
 
     [tabBar setSelectedItem:item];
@@ -587,10 +548,16 @@
     _equipmentSocketTab.frame = CGRectMake(self.view.frame.origin.x, _legImage.frame.origin.y + _legImage.frame.size.height + 10, _baseVC.rightDrawerViewController.view.frame.size.width, 49);
     _socketedTable.frame = CGRectMake(vcFrame.origin.x, _equipmentSocketTab.frame.origin.y + _equipmentSocketTab.frame.size.height, _baseVC.rightDrawerViewController.view.frame.size.width, vcFrame.size.height - (_armorSetTab.frame.size.height + [self returnHeightDifference]));
     
+    self.navigationItem.rightBarButtonItems = nil;
     if (_armorStatSheet.superview || _statTableView.superview) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(promptToCopy)];
+        self.navigationItem.rightBarButtonItems = @[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(promptToCopy)]];
     } else {
-        self.navigationItem.rightBarButtonItems = @[self.editButtonItem, [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(promptToCopy)]];
+        if ([_armorSet returnItemsWithDecorations].count > 0) {
+            self.navigationItem.rightBarButtonItems = @[self.editButtonItem, [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(promptToCopy)]];
+        } else {
+            self.navigationItem.rightBarButtonItems = @[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(promptToCopy)]];
+        }
+        
     }
     
     [self setUpArmorSetView];
