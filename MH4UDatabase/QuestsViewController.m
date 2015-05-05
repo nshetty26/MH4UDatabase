@@ -155,7 +155,7 @@
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if ([tableView isEqual:_questTable]) {
-        switch (section) {
+        switch (section + 1) {
             case 1:
                 return @"1 *";
                 break;
@@ -195,10 +195,12 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSInteger stars = section + 1;
     if ([tableView isEqual:_questTable]) {
+//        NSInteger stars = section + 1;
         NSArray *questArray = [_displayedQuests filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
             Quest *quest = (Quest *)evaluatedObject;
-            return quest.stars == section;}]];
+            return quest.stars == stars;}]];
         return questArray.count;
     } else {
         return 0;
@@ -242,9 +244,10 @@
 
 #pragma mark - Helper Methods
 -(Quest *)returnQuestAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger stars = indexPath.section + 1;
     NSArray *questArray = [_displayedQuests filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
         Quest *quest = (Quest *)evaluatedObject;
-        return quest.stars == indexPath.section;}]];
+        return quest.stars == stars;}]];
     Quest *quest = questArray[indexPath.row];
     return quest;
 }
