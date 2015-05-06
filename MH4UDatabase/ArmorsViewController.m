@@ -28,6 +28,33 @@
 @implementation ArmorsViewController
 
 #pragma mark - Setup Views
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setUpMenuButton];
+    self.title = NSLocalizedString(@"Armor", @"Armor");
+    
+    _allArmorArray = [_dbEngine getArmor:nil];
+    _displayedArmor = _allArmorArray;
+    CGRect vcFrame = self.view.frame;
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
+    CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference + tabBarFrame.size.height, vcFrame.size.width, 44);
+    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
+    
+    [self setUpTabBarWithFrame:tabBarFrame];
+    [self setUpViewsWithFrame:tableWithSearch];
+    
+    _armorSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
+    _armorSearch.delegate = self;
+    
+    [self.view addSubview:_armorTable];
+    [self.view addSubview:_armorFilterTab];
+    [self.view addSubview:_armorSearch];
+    
+    
+    // Do any additional setup after loading the view.
+}
+
 -(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
     if (!_armorFilterTab) {
         _armorFilterTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
@@ -45,32 +72,6 @@
     _armorTable = [[UITableView alloc] initWithFrame:tableFrame];
     _armorTable.dataSource = self;
     _armorTable.delegate = self;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setUpMenuButton];
-    self.title = NSLocalizedString(@"Armor", @"Armor");
-    
-    _allArmorArray = [_dbEngine retrieveArmor:nil];
-    _displayedArmor = _allArmorArray;
-    CGRect vcFrame = self.view.frame;
-    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
-    CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference + tabBarFrame.size.height, vcFrame.size.width, 44);
-    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
-    
-    [self setUpTabBarWithFrame:tabBarFrame];
-    [self setUpViewsWithFrame:tableWithSearch];
-    
-    _armorSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
-    _armorSearch.delegate = self;
-    
-    [self.view addSubview:_armorTable];
-    [self.view addSubview:_armorFilterTab];
-    [self.view addSubview:_armorSearch];
-
-
-    // Do any additional setup after loading the view.
 }
 
 #pragma mark - Search Methods
@@ -263,33 +264,33 @@
     ArmorSet *armorSet = [[ArmorSet alloc] init];
     if ([armor.slot isEqualToString:@"Head"]) {
         armorSet.helm = armor;
-        armorSet.chest = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 1]] firstObject];
-        armorSet.arms = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 2]] firstObject];
-        armorSet.waist = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 3]] firstObject];
-        armorSet.legs = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 4]] firstObject];
+        armorSet.chest = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID + 1]] firstObject];
+        armorSet.arms = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID + 2]] firstObject];
+        armorSet.waist = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID + 3]] firstObject];
+        armorSet.legs = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID + 4]] firstObject];
     } else if ([armor.slot isEqualToString:@"Body"]) {
-        armorSet.helm = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -1]] firstObject];
+        armorSet.helm = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID + -1]] firstObject];
         armorSet.chest = armor;
-        armorSet.arms = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 1]] firstObject];
-        armorSet.waist = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 2]] firstObject];
-        armorSet.legs = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 3]] firstObject];
+        armorSet.arms = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID + 1]] firstObject];
+        armorSet.waist = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID + 2]] firstObject];
+        armorSet.legs = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID + 3]] firstObject];
     } else if ([armor.slot isEqualToString:@"Arms"]) {
-        armorSet.helm = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -2]] firstObject];
-        armorSet.chest = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -1]] firstObject];
+        armorSet.helm = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID + -2]] firstObject];
+        armorSet.chest = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID + -1]] firstObject];
         armorSet.arms = armor;
-        armorSet.waist = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 1]] firstObject];
-        armorSet.legs = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 2]] firstObject];
+        armorSet.waist = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID + 1]] firstObject];
+        armorSet.legs = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID + 2]] firstObject];
     } else if ([armor.slot isEqualToString:@"Waist"]) {
-        armorSet.helm = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -3]] firstObject];
-        armorSet.chest = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -2]] firstObject];
-        armorSet.arms = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + -1]] firstObject];
+        armorSet.helm = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID + -3]] firstObject];
+        armorSet.chest = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID + -2]] firstObject];
+        armorSet.arms = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID + -1]] firstObject];
         armorSet.waist = armor;
-        armorSet.legs = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID + 1]] firstObject];
+        armorSet.legs = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID + 1]] firstObject];
     } else if ([armor.slot isEqualToString:@"Legs"]) {
-        armorSet.helm = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID -4]] firstObject];
-        armorSet.chest = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID -3]] firstObject];
-        armorSet.arms = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID -2]] firstObject];
-        armorSet.waist = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:armor.itemID -1]] firstObject];
+        armorSet.helm = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID -4]] firstObject];
+        armorSet.chest = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID -3]] firstObject];
+        armorSet.arms = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID -2]] firstObject];
+        armorSet.waist = [[_dbEngine getArmor:[NSNumber numberWithInt:armor.itemID -1]] firstObject];
         armorSet.legs = armor;
     }
     

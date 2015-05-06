@@ -70,6 +70,7 @@
 
 @implementation ArmorSetDetailViewController
 
+#pragma mark - Setting up View Methods
 - (void)viewDidLoad {
     [super viewDidLoad];
     _baseVC.aSDVC = self;
@@ -162,11 +163,11 @@
         _dbEngine = [[MH4UDBEngine alloc] init];
         _armorSet = [[ArmorSet alloc] init];
         _armorSet.weapon = [_dbEngine getWeaponForWeaponID:5002];
-        _armorSet.helm = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:1914]] firstObject];
-        _armorSet.chest = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:1915]] firstObject];
-        _armorSet.arms = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:1916]] firstObject];
-        _armorSet.waist = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:1917]] firstObject];
-        _armorSet.legs = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:1918]] firstObject];
+        _armorSet.helm = [[_dbEngine getArmor:[NSNumber numberWithInt:1914]] firstObject];
+        _armorSet.chest = [[_dbEngine getArmor:[NSNumber numberWithInt:1915]] firstObject];
+        _armorSet.arms = [[_dbEngine getArmor:[NSNumber numberWithInt:1916]] firstObject];
+        _armorSet.waist = [[_dbEngine getArmor:[NSNumber numberWithInt:1917]] firstObject];
+        _armorSet.legs = [[_dbEngine getArmor:[NSNumber numberWithInt:1918]] firstObject];
     }
     
     [_dbEngine populateArmor:_armorSet.helm];
@@ -182,33 +183,15 @@
 
 -(void)drawDecorationForArmorSet {
     
-    if (_armorSet.weapon.num_slots > 0) {
-        NSArray *decorations = [_dbEngine getDecorationsForArmorSet:_setID andSetItem:_armorSet.weapon];
-        _armorSet.weapon.decorationsArray = decorations;
-        if (decorations.count > 0) {
-            int counter = 0;
-            NSArray *imageArray = [self returnImageViewArrayForArmorSlot:@"Weapon"];
-            for (Decoration *decoration in decorations) {
-                int imageViewLocations = decoration.slotsRequired + counter;
-                for (int i = counter; i < imageViewLocations; i++) {
-                    UIImageView *imageView = imageArray[counter];
-                    imageView.image = [UIImage imageNamed:decoration.icon];
-                    counter += 1;
-                }
-            }
-        }
-
-    }
-    
-    NSArray *armorArray = [_armorSet returnNonNullArmor];
-    for (int i = 0; i < armorArray.count; i++) {
-        Armor *armor = armorArray[i];
-        if (armor.numSlots > 0) {
-            NSArray *decorations = [_dbEngine getDecorationsForArmorSet:_setID andSetItem:armor];
-            armor.decorationsArray = decorations;
+    NSArray *armorSetArray = [_armorSet returnNonNullSetItems];
+    for (int i = 0; i < armorSetArray.count; i++) {
+        Item *setItem = armorSetArray[i];
+        if (setItem.numSlots > 0) {
+            NSArray *decorations = [_dbEngine getDecorationsForArmorSet:_setID andSetItem:setItem];
+            setItem.decorationsArray = decorations;
             if (decorations.count > 0) {
                 int counter = 0;
-                NSArray *imageArray = [self returnImageViewArrayForArmorSlot:armor.slot];
+                NSArray *imageArray = [self returnImageViewArrayForArmorSlot:setItem.slot];
                 for (Decoration *decoration in decorations) {
                     int imageViewLocations = decoration.slotsRequired + counter;
                     for (int i = counter; i < imageViewLocations; i++) {
@@ -224,23 +207,13 @@
     }
 }
 
--(void)displayAllEmptySlots {
-    if (_armorSet.weapon.num_slots > 0) {
-        NSArray *imageViewArray = [self returnImageViewArrayForArmorSlot:@"Weapon"];
-        NSMutableArray *slotImages = [[NSMutableArray alloc] init];
-        for (int i = 0; i  < _armorSet.weapon.num_slots; i++) {
-            [slotImages addObject:imageViewArray[i]];
-            [self displayEmptySlotsFromImageViewArray:slotImages];
-        }
-        
-    }
-    
-    if ([_armorSet returnNonNullArmor].count > 0) {
-        for (Armor *armor in [_armorSet returnNonNullArmor]) {
-            if (armor.numSlots > 0) {
-                NSArray *imageViewArray = [self returnImageViewArrayForArmorSlot:armor.slot];
+-(void)displayAllEmptySlots {    
+    if ([_armorSet returnNonNullSetItems].count > 0) {
+        for (Item *setItem in [_armorSet returnNonNullSetItems]) {
+            if (setItem.numSlots > 0) {
+                NSArray *imageViewArray = [self returnImageViewArrayForArmorSlot:setItem.slot];
                 NSMutableArray *slotImages = [[NSMutableArray alloc] init];
-                for (int i = 0; i  < armor.numSlots; i++) {
+                for (int i = 0; i  < setItem.numSlots; i++) {
                     [slotImages addObject:imageViewArray[i]];
                     [self displayEmptySlotsFromImageViewArray:slotImages];
                 }
@@ -279,21 +252,19 @@
 
 -(void)calculateSkillsForSelectedArmorSet {
     _skillDictionary = [[NSMutableDictionary alloc] init];
-    if (_armorSet.weapon) {
-        if (_armorSet.weapon.decorationsArray.count > 0) {
-            for (Decoration *decoration in _armorSet.weapon.decorationsArray) {
-                [self combineSkillsArray:decoration.skillArray];
+
+    for (Item *setItem in [_armorSet returnNonNullSetItems]) {
+        if (![setItem isEqual:_armorSet.weapon]) {
+            Armor *armor = (Armor *)setItem;
+            if (!armor.skillsArray) {
+                [_dbEngine populateArmor:armor];
             }
+            
+            [self combineSkillsArray:armor.skillsArray];
         }
-    }
-    
-    for (Armor *armor in [_armorSet returnNonNullArmor]) {
-        if (!armor.skillsArray) {
-            [_dbEngine populateArmor:armor];
-        }
-        [self combineSkillsArray:armor.skillsArray];
-        if (armor.decorationsArray.count > 0) {
-            for (Decoration *decoration in armor.decorationsArray) {
+
+        if (setItem.decorationsArray.count > 0) {
+            for (Decoration *decoration in setItem.decorationsArray) {
                 [self combineSkillsArray:decoration.skillArray];
             }
         }
@@ -338,6 +309,7 @@
     [_armorStatSheet populateStatsWithArmorSet:_armorSet];
 }
 
+#pragma mark - Tab Bar Delegate Methods
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
     if ([tabBar isEqual:_armorSetTab]) {
         switch (item.tag) {
@@ -369,11 +341,7 @@
     [tabBar setSelectedItem:item];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
+#pragma mark - TableView Delegate Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([tableView isEqual:_statTableView]) {
         return _skillDictionary.count;
@@ -386,8 +354,6 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
     if ([tableView isEqual:_statTableView]) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
         if (!cell) {
@@ -530,15 +496,11 @@
     [_socketedTable setEditing:flag animated:animated];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - Helper Methods
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
-*/
 
 -(void)viewDidLayoutSubviews {
     CGRect vcFrame = self.view.frame;
@@ -565,21 +527,6 @@
     
 }
 
--(void)promptToCopy {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"This Set Is Going to Be Duplicated" message:@"Please Give This New Set a Name" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Continue", nil];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alert show];
-}
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        NSString *name = [[alertView textFieldAtIndex:0] text];
-        bool successful = [_dbEngine cloneArmorSet:_armorSet withName:name];
-        [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your New Set Addition Was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    }
-    
-}
-
 -(void)reDrawEverything {
     [self viewDidLayoutSubviews];
     
@@ -591,8 +538,9 @@
     } else {
         [self setTabBarItemsForEquipmentTabBar];
     }
-
+    
 }
+
 
 - (IBAction)launchDetailVC:(id)sender {
     UINavigationController *nC = (UINavigationController *)_baseVC.centerViewController;
@@ -628,9 +576,27 @@
     }
 
 }
+
+#pragma mark - Clone Current Set Methods
+-(void)promptToCopy {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"This Set Is Going to Be Duplicated" message:@"Please Give This New Set a Name" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Continue", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+}
+
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        NSString *name = [[alertView textFieldAtIndex:0] text];
+        bool successful = [_dbEngine cloneArmorSet:_armorSet withName:name];
+        [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your New Set Addition Was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    }
+    
+}
+
 @end
 
-
+#pragma mark - Armor Stat Sheet View
 @interface ArmorStatSheetView()
 @property (weak, nonatomic) IBOutlet UILabel *healthValue;
 @property (weak, nonatomic) IBOutlet UILabel *staminaValue;
@@ -645,13 +611,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *dragonResValue;
 @property (weak, nonatomic) IBOutlet UITableView *skillTableView;
 
-@property (nonatomic) int minDefense;
-@property (nonatomic) int maxDefense;
-@property (nonatomic) int fireRes;
-@property (nonatomic) int waterRes;
-@property (nonatomic) int thunderRes;
-@property (nonatomic) int iceRes;
-@property (nonatomic) int dragonRes;
 @property (weak, nonatomic) IBOutlet UILabel *sharpnessLabel;
 
 @property (nonatomic, strong) NSMutableDictionary *skillDictionary;
@@ -677,40 +636,18 @@
         _sharpnessView2.hidden = YES;
     }
 
-    [self sumAllStats:[armorSet returnNonNullArmor]];
+    NSDictionary *armorStats = [armorSet sumAllStats];
+    
     _attackValue.text = [NSString stringWithFormat:@"%i", armorSet.weapon.attack];
     
     _elementValue.text = [armorSet.weapon getElementalDescription];
     
-    _minDefenseValue.text = [NSString stringWithFormat:@"%i - %i", _minDefense, _maxDefense];
-    _fireResValue.text = [NSString stringWithFormat:@"%i", _fireRes];
-    _waterResValue.text = [NSString stringWithFormat:@"%i",_waterRes];
-    _thunderResValue.text = [NSString stringWithFormat:@"%i", _thunderRes];
-    _iceResValue.text = [NSString stringWithFormat:@"%i", _iceRes];
-    _dragonResValue.text = [NSString stringWithFormat:@"%i", _dragonRes];
-}
-
--(void)sumAllStats:(NSArray *)armorArray {
-    _minDefense = 0;
-    _maxDefense = 0;
-    _fireRes = 0;
-    _waterRes = 0;
-    _thunderRes = 0;
-    _iceRes = 0;
-    _dragonRes = 0;
-    _numSlots = 0;
-    
-    for (Armor *armor in armorArray) {
-        _minDefense += armor.defense;
-        _maxDefense += armor.maxDefense;
-        _fireRes += armor.fireResistance;
-        _waterRes += armor.waterResistance;
-        _thunderRes += armor.thunderResistance;
-        _iceRes += armor.iceResistance;
-        _dragonRes += armor.dragonResistance;
-        _numSlots += armor.numSlots;
-    }
-    
+    _minDefenseValue.text = [NSString stringWithFormat:@"%@ - %@", armorStats[@"minDefense"], armorStats[@"maxDefense"]];
+    _fireResValue.text = [NSString stringWithFormat:@"%@", armorStats[@"fireRes"]];
+    _waterResValue.text = [NSString stringWithFormat:@"%@",armorStats[@"waterRes"]];
+    _thunderResValue.text = [NSString stringWithFormat:@"%@", armorStats[@"thunderRes"]];
+    _iceResValue.text = [NSString stringWithFormat:@"%@", armorStats[@"iceRes"]];
+    _dragonResValue.text = [NSString stringWithFormat:@"%@", armorStats[@"dragonRes"]];
 }
 
 -(void)drawSharpnessRectWithWeapon:(Weapon *)weapon {
@@ -718,67 +655,8 @@
     int sharpnessCount = 0;
     for (NSString *sharpnessString in sharpnessStringArray) {
         sharpnessCount++;
-        float frameWidth = 0.0;
         UIView *sharpnessView = (sharpnessCount == 1) ? _sharpnessView1 : _sharpnessView2;
-        
-        [sharpnessView setBackgroundColor:[UIColor clearColor]];
-        NSArray *sharpness = [sharpnessString componentsSeparatedByString:@"."];
-        
-        float mRed1 = (float)[sharpness[0] floatValue];
-        float mOrange1 = (float)[sharpness[1] floatValue];
-        float mYellow1 = (float)[sharpness[2] floatValue];
-        float mGreen1 = (float)[sharpness[3] floatValue];
-        float mBlue1 = (float)[sharpness[4] floatValue];
-        float mWhite1 = (float)[sharpness[5] floatValue];
-        float mPurple1 = (float)[sharpness[6] floatValue];
-        
-        float widthMultiplier = sharpnessView.bounds.size.width / (mRed1 + mOrange1 + mYellow1 + mGreen1 + mBlue1 + mWhite1 + mPurple1);
-        
-        CGRect sharpnessRect = sharpnessView.bounds;
-        
-        CGRect red = CGRectMake(sharpnessRect.origin.x, sharpnessRect.origin.y, mRed1 * widthMultiplier, sharpnessRect.size.height);
-        UIView *redView = [[UIView alloc] initWithFrame:red];
-        frameWidth += red.size.width;
-        [redView setBackgroundColor:[UIColor redColor]];
-        [sharpnessView addSubview:redView];
-        
-        CGRect orange = CGRectMake(red.size.width, red.origin.y, mOrange1 * widthMultiplier, sharpnessRect.size.height);
-        UIView *orangeView = [[UIView alloc] initWithFrame:orange];
-        frameWidth += orange.size.width;
-        [orangeView setBackgroundColor:[UIColor orangeColor]];
-        [sharpnessView addSubview:orangeView];
-        
-        CGRect yellow = CGRectMake(red.size.width + orange.size.width, orange.origin.y, mYellow1 * widthMultiplier, sharpnessRect.size.height);
-        UIView *yellowView = [[UIView alloc] initWithFrame:yellow];
-        frameWidth += yellow.size.width;
-        [yellowView setBackgroundColor:[UIColor yellowColor]];
-        [sharpnessView addSubview:yellowView];
-        
-        CGRect green = CGRectMake(red.size.width+yellow.size.width+orange.size.width, yellow.origin.y, mGreen1 * widthMultiplier, sharpnessRect.size.height);
-        UIView *greenView = [[UIView alloc] initWithFrame:green];
-        frameWidth += green.size.width;
-        [greenView setBackgroundColor:[UIColor greenColor]];
-        [sharpnessView addSubview:greenView];
-        
-        CGRect blue = CGRectMake(red.size.width+yellow.size.width+orange.size.width+green.size.width, green.origin.y, mBlue1 * widthMultiplier, sharpnessRect.size.height);
-        frameWidth += blue.size.width;
-        UIView *blueView = [[UIView alloc] initWithFrame:blue];
-        [blueView setBackgroundColor:[UIColor blueColor]];
-        [sharpnessView addSubview:blueView];
-        
-        CGRect white = CGRectMake(red.size.width+yellow.size.width+orange.size.width+green.size.width+blue.size.width, blue.origin.y, mWhite1 * widthMultiplier, sharpnessRect.size.height);
-        frameWidth += white.size.width;
-        UIView *whiteView = [[UIView alloc] initWithFrame:white];
-        [whiteView setBackgroundColor:[UIColor whiteColor]];
-        [sharpnessView addSubview:whiteView];
-        
-        CGRect purple = CGRectMake(red.size.width+yellow.size.width+orange.size.width+green.size.width+blue.size.width+white.size.width, white.origin.y, mPurple1 * widthMultiplier, sharpnessRect.size.height);
-        UIView *purpleView = [[UIView alloc] initWithFrame:purple];
-        frameWidth += purple.size.width;
-        [purpleView setBackgroundColor:[UIColor purpleColor]];
-        [sharpnessView addSubview:purpleView];
-        
-        [sharpnessView setFrame:CGRectMake(sharpnessView.frame.origin.x, sharpnessView.frame.origin.x, frameWidth, sharpnessView.frame.size.height)];
+        [weapon drawSharpness:sharpnessString inView:sharpnessView];
         
     }
 }

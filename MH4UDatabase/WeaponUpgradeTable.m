@@ -95,7 +95,7 @@
 
 }
 
-
+#pragma mark - Methods for creating Upgrade Tree
 -(void)populateWeaponUpgradeTree {
     NSArray *weaponFamily = [_dbEngine getWeaponsForWeaponType:_selectedWeapon.weaponType];
     NSMutableArray *parentWeapons = [[NSMutableArray alloc] init];

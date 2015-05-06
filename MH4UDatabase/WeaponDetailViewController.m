@@ -12,6 +12,7 @@
 #import "MH4UDBEntity.h"
 #import "MH4UDBEngine.h"
 #import "WeaponUpgradeTable.h"
+#import "ArmorSetDelegates.h"
 
 @interface WeaponDetailViewController ()
 @property (nonatomic) DetailedWeaponView *detailedView;
@@ -24,12 +25,32 @@
 @property (nonatomic) NSArray *allViews;
 @property (nonatomic) NSArray *selectedSet;
 @property (nonatomic) UIAlertView *doubleCheckAlert;
+@property (nonatomic, strong) ArmorSetDelegates *armorSetDelegate;
 
 @end
 
 @implementation WeaponDetailViewController
 
 #pragma mark - Setup Views
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setUpMenuButton];
+    self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem , [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addWeaponToArmorBuilder)]];
+    // Do any additional setup after loading the view.
+    self.title = NSLocalizedString(_selectedWeapon.name, _selectedWeapon.name);
+    _weaponComponents = [_dbEngine getComponentsfor:_selectedWeapon.itemID];
+    
+    CGRect vcFrame = self.view.frame;
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + tabBarFrame.size.height + _heightDifference, vcFrame.size.width, vcFrame.size.height - _heightDifference - tabBarFrame.size.height);
+    
+    [self setUpTabBarWithFrame:tabBarFrame];
+    [self setUpViewsWithFrame:tablewithTabbar];
+    
+    [self.view addSubview:_weaponDetailTab];
+    [self.view addSubview:_detailedView];
+}
+
 -(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
     if (!_weaponDetailTab) {
         NSMutableArray *tabItems = [[NSMutableArray alloc] init];
@@ -79,25 +100,6 @@
     }
 
     _allViews = allViews;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setUpMenuButton];
-        self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem , [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addWeaponToArmorBuilder)]];
-    // Do any additional setup after loading the view.
-    self.title = NSLocalizedString(_selectedWeapon.name, _selectedWeapon.name);
-    _weaponComponents = [_dbEngine getComponentsfor:_selectedWeapon.itemID];
-    
-    CGRect vcFrame = self.view.frame;
-    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
-    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + tabBarFrame.size.height + _heightDifference, vcFrame.size.width, vcFrame.size.height - _heightDifference - tabBarFrame.size.height);
-    
-    [self setUpTabBarWithFrame:tabBarFrame];
-    [self setUpViewsWithFrame:tablewithTabbar];
-
-    [self.view addSubview:_weaponDetailTab];
-    [self.view addSubview:_detailedView];
 }
 
 #pragma mark - Tab Bar Methods
@@ -187,70 +189,14 @@
 }
 
 -(void)addWeaponToArmorBuilder{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_selectedWeapon.name message:[NSString stringWithFormat:@"Would you like to add %@ to a custom armor set?", _selectedWeapon.name] delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    _armorSetDelegate = [[ArmorSetDelegates alloc] initWithSelectedItem:_selectedWeapon andDBEngine:_dbEngine andViewController:self];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_selectedWeapon.name message:[NSString stringWithFormat:@"Would you like to add %@ to a custom armor set?", _selectedWeapon.name] delegate:_armorSetDelegate cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
     [alert show];
     });
 }
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if ([alertView isEqual:_doubleCheckAlert]) {
-        if (buttonIndex == 1) {
-            BOOL successfulDelete = [_dbEngine deleteAllDecorationsForArmorSetWithID:_selectedSet[0] andSetItem:_selectedWeapon];
-            BOOL successful = [_dbEngine addWeapon:_selectedWeapon toArmorSetWithID:_selectedSet[0]];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-            });
-        }
-    } else {
-        if (buttonIndex == 1) {
-            NSArray *allSets = [_dbEngine getAllArmorSets];
-            if (allSets.count <= 0) {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [[[UIAlertView alloc] initWithTitle:@"No Custom Sets" message:@"Please add a custom set before trying to add items to it" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-                return;
-                });
-            }
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Which Armor Set Would You Like to Add to?" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
-            
-            for (NSArray *set in allSets) {
-                [actionSheet addButtonWithTitle:set[1]];
-            }
-            
-            actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:@"Cancel"];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [actionSheet showInView:self.view];
-            });
-        }
-    }
-    
-    
-    
-    
-}
 
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    NSInteger cancelIndex = [actionSheet cancelButtonIndex];
-    if (buttonIndex != cancelIndex) {
-        NSArray *allSets = [_dbEngine getAllArmorSets];
-        _selectedSet = allSets[buttonIndex];
-        
-        BOOL exists = [_dbEngine checkWeapon:_selectedWeapon atArmorSetWithID:_selectedSet[0]];
-        
-        if (!exists) {
-            BOOL successful = [_dbEngine addWeapon:_selectedWeapon toArmorSetWithID:_selectedSet[0]];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-            });
-        } else {
-            _doubleCheckAlert = [[UIAlertView alloc] initWithTitle:@"Are You Sure?" message:[NSString stringWithFormat:@"This Set Already Has a Weapon"] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"YES", nil];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [_doubleCheckAlert show];
-                });
-        }
-        
-    }
-}
 
 @end
 
@@ -361,7 +307,7 @@
     }
 
     _rarityLabel.text = [NSString stringWithFormat:@"%i", weapon.rarity];
-    _numSlotsLabel.text = [NSString stringWithFormat:@"%i", weapon.num_slots];
+    _numSlotsLabel.text = [NSString stringWithFormat:@"%i", weapon.numSlots];
     _defenseLabel.text = [NSString stringWithFormat:@"%i", weapon.defense];
     _creationCostLabel.text = [NSString stringWithFormat:@"%i", weapon.creationCost];
     _upgradeCostLabel.text = [NSString stringWithFormat:@"%i", weapon.upgradeCost];
@@ -372,68 +318,8 @@
     int sharpnessCount = 0;
     for (NSString *sharpnessString in sharpnessStringArray) {
         sharpnessCount++;
-        float frameWidth = 0.0;
         UIView *sharpnessView = (sharpnessCount == 1) ? _sharpnessView1 : _sharpnessView2;
-        
-        [sharpnessView setBackgroundColor:[UIColor clearColor]];
-        NSArray *sharpness = [sharpnessString componentsSeparatedByString:@"."];
-        
-        float mRed1 = (float)[sharpness[0] floatValue];
-        float mOrange1 = (float)[sharpness[1] floatValue];
-        float mYellow1 = (float)[sharpness[2] floatValue];
-        float mGreen1 = (float)[sharpness[3] floatValue];
-        float mBlue1 = (float)[sharpness[4] floatValue];
-        float mWhite1 = (float)[sharpness[5] floatValue];
-        float mPurple1 = (float)[sharpness[6] floatValue];
-        
-        float widthMultiplier = sharpnessView.bounds.size.width / (mRed1 + mOrange1 + mYellow1 + mGreen1 + mBlue1 + mWhite1 + mPurple1);
-        
-        CGRect sharpnessRect = sharpnessView.bounds;
-        
-        CGRect red = CGRectMake(sharpnessRect.origin.x, sharpnessRect.origin.y, mRed1 * widthMultiplier, sharpnessRect.size.height);
-        UIView *redView = [[UIView alloc] initWithFrame:red];
-        frameWidth += red.size.width;
-        [redView setBackgroundColor:[UIColor redColor]];
-        [sharpnessView addSubview:redView];
-        
-        CGRect orange = CGRectMake(red.size.width, red.origin.y, mOrange1 * widthMultiplier, sharpnessRect.size.height);
-        UIView *orangeView = [[UIView alloc] initWithFrame:orange];
-        frameWidth += orange.size.width;
-        [orangeView setBackgroundColor:[UIColor orangeColor]];
-        [sharpnessView addSubview:orangeView];
-        
-        CGRect yellow = CGRectMake(red.size.width + orange.size.width, orange.origin.y, mYellow1 * widthMultiplier, sharpnessRect.size.height);
-        UIView *yellowView = [[UIView alloc] initWithFrame:yellow];
-        frameWidth += yellow.size.width;
-        [yellowView setBackgroundColor:[UIColor yellowColor]];
-        [sharpnessView addSubview:yellowView];
-        
-        CGRect green = CGRectMake(red.size.width+yellow.size.width+orange.size.width, yellow.origin.y, mGreen1 * widthMultiplier, sharpnessRect.size.height);
-        UIView *greenView = [[UIView alloc] initWithFrame:green];
-        frameWidth += green.size.width;
-        [greenView setBackgroundColor:[UIColor greenColor]];
-        [sharpnessView addSubview:greenView];
-        
-        CGRect blue = CGRectMake(red.size.width+yellow.size.width+orange.size.width+green.size.width, green.origin.y, mBlue1 * widthMultiplier, sharpnessRect.size.height);
-        frameWidth += blue.size.width;
-        UIView *blueView = [[UIView alloc] initWithFrame:blue];
-        [blueView setBackgroundColor:[UIColor blueColor]];
-        [sharpnessView addSubview:blueView];
-        
-        CGRect white = CGRectMake(red.size.width+yellow.size.width+orange.size.width+green.size.width+blue.size.width, blue.origin.y, mWhite1 * widthMultiplier, sharpnessRect.size.height);
-        frameWidth += white.size.width;
-        UIView *whiteView = [[UIView alloc] initWithFrame:white];
-        [whiteView setBackgroundColor:[UIColor whiteColor]];
-        [sharpnessView addSubview:whiteView];
-        
-        CGRect purple = CGRectMake(red.size.width+yellow.size.width+orange.size.width+green.size.width+blue.size.width+white.size.width, white.origin.y, mPurple1 * widthMultiplier, sharpnessRect.size.height);
-        UIView *purpleView = [[UIView alloc] initWithFrame:purple];
-        frameWidth += purple.size.width;
-        [purpleView setBackgroundColor:[UIColor purpleColor]];
-        [sharpnessView addSubview:purpleView];
-        
-        [sharpnessView setFrame:CGRectMake(sharpnessView.frame.origin.x, sharpnessView.frame.origin.x, frameWidth, sharpnessView.frame.size.height)];
-        
+        [weapon drawSharpness:sharpnessString inView:sharpnessView];
     }
 }
 

@@ -16,7 +16,7 @@
 @end
 
 @implementation ArmorSetTableViewController
-
+#pragma mark - View Loading Methods
 - (void)viewDidLoad {
     [super viewDidLoad];
     _allSets = [_dbEngine getAllArmorSets];
@@ -37,7 +37,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table View Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
@@ -49,34 +49,28 @@
     return _allSets.count;
 }
 
--(void)promptUserForNewArmorSet {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add New Set" message:@"Please enter the name of the new set" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alert show];
-}
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *set = _allSets[indexPath.row];
+    NSDictionary *set = _allSets[indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
     }
     
-    cell.textLabel.text = set[1];
+    cell.textLabel.text = [set objectForKey:@"setName"];
     
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *set = _allSets[indexPath.row];
+    NSDictionary *set = _allSets[indexPath.row];
     ArmorSetDetailViewController *aSDVC = [[ArmorSetDetailViewController alloc] init];
     aSDVC.dbEngine = _dbEngine;
-    aSDVC.armorSet = [_dbEngine getArmorSetForSetID:set[0]];
-    aSDVC.armorSet.setID = [set[0] intValue];
-    aSDVC.setName = set[1];
-    aSDVC.setID = set[0];
+    aSDVC.armorSet = [_dbEngine getArmorSetForSetID:[set objectForKey:@"setID"]];
+    aSDVC.armorSet.setID = [[set objectForKey:@"setID"] intValue];
+    aSDVC.setName = [set objectForKey:@"setName"];
+    aSDVC.setID = [set objectForKey:@"setID"];
     aSDVC.baseVC = _baseVC;
     [self.navigationController pushViewController:aSDVC animated:YES];
 }
@@ -108,6 +102,13 @@
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewCellEditingStyleDelete;
+}
+
+#pragma mark - Adding New Armor Set Methods
+-(void)promptUserForNewArmorSet {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add New Set" message:@"Please enter the name of the new set" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {

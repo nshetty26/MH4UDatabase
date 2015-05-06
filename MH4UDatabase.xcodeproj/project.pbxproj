@@ -12,6 +12,7 @@
 		E703EF7D1AE1828D00B2C9E6 /* ArmorSetDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E703EF7B1AE1828D00B2C9E6 /* ArmorSetDetailViewController.xib */; };
 		E703EF7F1AE184BE00B2C9E6 /* ArmorStatSheetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E703EF7E1AE184BE00B2C9E6 /* ArmorStatSheetView.xib */; };
 		E703EF831AE1B41000B2C9E6 /* ArmorSetTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E703EF821AE1B41000B2C9E6 /* ArmorSetTableViewController.m */; };
+		E72AAF9A1AF99A8B00318F74 /* ArmorSetDelegates.m in Sources */ = {isa = PBXBuildFile; fileRef = E72AAF991AF99A8B00318F74 /* ArmorSetDelegates.m */; };
 		E72E4EAE1AB0C67E0043CC6A /* CombiningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E72E4EAD1AB0C67E0043CC6A /* CombiningViewController.m */; };
 		E72E4EB01AB0D3390043CC6A /* UICombiningTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E72E4EAF1AB0D3390043CC6A /* UICombiningTableCell.xib */; };
 		E734F05A1AB0F9DA0037E684 /* SkillTreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E734F0591AB0F9DA0037E684 /* SkillTreeViewController.m */; };
@@ -874,7 +875,6 @@
 		E7C600821AAFA48100EC6E84 /* MH4UDBEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C600811AAFA48100EC6E84 /* MH4UDBEntity.m */; };
 		E7C600891AAFA9D200EC6E84 /* ArmorDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C600881AAFA9D200EC6E84 /* ArmorDetailViewController.m */; };
 		E7CC13801AD4D09B00F10AB5 /* UniversalSearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CC137F1AD4D09B00F10AB5 /* UniversalSearchTableViewController.m */; };
-		E7D4B5251AAB693D00C22D41 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D4B5241AAB693D00C22D41 /* DetailViewController.m */; };
 		E7D5E23C1AAE507E0083D2C7 /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D5E23B1AAE507E0083D2C7 /* ItemDetailViewController.m */; };
 		E7E57F601AED81D600CF7D19 /* Wyporium.png in Resources */ = {isa = PBXBuildFile; fileRef = E7E57F5F1AED81D600CF7D19 /* Wyporium.png */; };
 		E7E57F631AED827B00CF7D19 /* WyporiumCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7E57F621AED827B00CF7D19 /* WyporiumCell.xib */; };
@@ -911,6 +911,8 @@
 		E703EF7E1AE184BE00B2C9E6 /* ArmorStatSheetView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmorStatSheetView.xib; path = MH4UDatabase/ArmorStatSheetView.xib; sourceTree = "<group>"; };
 		E703EF811AE1B41000B2C9E6 /* ArmorSetTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArmorSetTableViewController.h; sourceTree = "<group>"; };
 		E703EF821AE1B41000B2C9E6 /* ArmorSetTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmorSetTableViewController.m; sourceTree = "<group>"; };
+		E72AAF981AF99A8B00318F74 /* ArmorSetDelegates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArmorSetDelegates.h; sourceTree = "<group>"; };
+		E72AAF991AF99A8B00318F74 /* ArmorSetDelegates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmorSetDelegates.m; sourceTree = "<group>"; };
 		E72E4EAA1AB0C6690043CC6A /* CombiningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombiningViewController.h; sourceTree = "<group>"; };
 		E72E4EAD1AB0C67E0043CC6A /* CombiningViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombiningViewController.m; sourceTree = "<group>"; };
 		E72E4EAF1AB0D3390043CC6A /* UICombiningTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UICombiningTableCell.xib; path = MH4UDatabase/UICombiningTableCell.xib; sourceTree = "<group>"; };
@@ -1799,8 +1801,6 @@
 		E7C600881AAFA9D200EC6E84 /* ArmorDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmorDetailViewController.m; sourceTree = "<group>"; };
 		E7CC137E1AD4D09B00F10AB5 /* UniversalSearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniversalSearchTableViewController.h; sourceTree = "<group>"; };
 		E7CC137F1AD4D09B00F10AB5 /* UniversalSearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UniversalSearchTableViewController.m; sourceTree = "<group>"; };
-		E7D4B5231AAB693D00C22D41 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		E7D4B5241AAB693D00C22D41 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		E7D5E23A1AAE507E0083D2C7 /* ItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemDetailViewController.h; sourceTree = "<group>"; };
 		E7D5E23B1AAE507E0083D2C7 /* ItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemDetailViewController.m; sourceTree = "<group>"; };
 		E7E57F5F1AED81D600CF7D19 /* Wyporium.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wyporium.png; sourceTree = "<group>"; };
@@ -1950,10 +1950,6 @@
 				E78C04921AAF4BE5005ECCF6 /* ArmorsViewController.m */,
 				E7C600871AAFA9D200EC6E84 /* ArmorDetailViewController.h */,
 				E7C600881AAFA9D200EC6E84 /* ArmorDetailViewController.m */,
-				E703EF791AE1828D00B2C9E6 /* ArmorSetDetailViewController.h */,
-				E703EF7A1AE1828D00B2C9E6 /* ArmorSetDetailViewController.m */,
-				E703EF811AE1B41000B2C9E6 /* ArmorSetTableViewController.h */,
-				E703EF821AE1B41000B2C9E6 /* ArmorSetTableViewController.m */,
 			);
 			name = "Armor View Controller";
 			sourceTree = "<group>";
@@ -1969,6 +1965,19 @@
 				E7AD31F61ADEF77E00E8FBA4 /* BaseViewController.m */,
 			);
 			name = "Menu View Controller";
+			sourceTree = "<group>";
+		};
+		E72AAF971AF99A6800318F74 /* ArmorSet Builder */ = {
+			isa = PBXGroup;
+			children = (
+				E703EF811AE1B41000B2C9E6 /* ArmorSetTableViewController.h */,
+				E703EF821AE1B41000B2C9E6 /* ArmorSetTableViewController.m */,
+				E703EF791AE1828D00B2C9E6 /* ArmorSetDetailViewController.h */,
+				E703EF7A1AE1828D00B2C9E6 /* ArmorSetDetailViewController.m */,
+				E72AAF981AF99A8B00318F74 /* ArmorSetDelegates.h */,
+				E72AAF991AF99A8B00318F74 /* ArmorSetDelegates.m */,
+			);
+			name = "ArmorSet Builder";
 			sourceTree = "<group>";
 		};
 		E742B2D11ACCF168007B08AF /* TableViews */ = {
@@ -3086,6 +3095,7 @@
 		E7EB7DED1AA6AC96007C05E0 /* MH4UDatabase */ = {
 			isa = PBXGroup;
 			children = (
+				E72AAF971AF99A6800318F74 /* ArmorSet Builder */,
 				E7E57F611AED824500CF7D19 /* Wyporium */,
 				E7CC137D1AD4C20000F10AB5 /* Universal Search */,
 				E742B2D11ACCF168007B08AF /* TableViews */,
@@ -3098,8 +3108,6 @@
 				E706CAFF1AC1CEE7004E1835 /* Decoration View Controllers */,
 				E706CB001AC1CEF3004E1835 /* Skill View Controller */,
 				E706CB031AC1CF2B004E1835 /* Menu View Controller */,
-				E7D4B5231AAB693D00C22D41 /* DetailViewController.h */,
-				E7D4B5241AAB693D00C22D41 /* DetailViewController.m */,
 				E7EB7DFB1AA6AC96007C05E0 /* Main.storyboard */,
 				E7EB7DFE1AA6AC96007C05E0 /* Images.xcassets */,
 				E7EB7E001AA6AC96007C05E0 /* LaunchScreen.xib */,
@@ -4143,8 +4151,8 @@
 				E7AD31F71ADEF77E00E8FBA4 /* BaseViewController.m in Sources */,
 				E7A00DF81AAFBDB90037BE61 /* MonstersViewController.m in Sources */,
 				E7C600891AAFA9D200EC6E84 /* ArmorDetailViewController.m in Sources */,
+				E72AAF9A1AF99A8B00318F74 /* ArmorSetDelegates.m in Sources */,
 				E749BA971AB3D22F003860E8 /* WeaponsTableViewController.m in Sources */,
-				E7D4B5251AAB693D00C22D41 /* DetailViewController.m in Sources */,
 				E7CC13801AD4D09B00F10AB5 /* UniversalSearchTableViewController.m in Sources */,
 				E78ED7C51AB21E0200E80635 /* DecorationsDetailViewController.m in Sources */,
 				E703EF831AE1B41000B2C9E6 /* ArmorSetTableViewController.m in Sources */,

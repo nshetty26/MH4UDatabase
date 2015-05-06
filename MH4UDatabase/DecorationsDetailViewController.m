@@ -19,7 +19,7 @@
 @property (nonatomic) UITabBar *decorationDetailTab;
 @property (nonatomic) DetailedItemView *detailItemView;
 @property (nonatomic) NSArray *allViews;
-@property (nonatomic) NSArray *selectedSet;
+@property (nonatomic) NSDictionary *selectedSet;
 @property (nonatomic) UIAlertView *doubleCheckAlert;
 @property (nonatomic) UIActionSheet *armorSelectSheet;
 @property (nonatomic) UIActionSheet *decorationSheet;
@@ -30,6 +30,26 @@
 @implementation DecorationsDetailViewController
 
 #pragma mark - Setup Views
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setUpMenuButton];
+    self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem , [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addDecorationToArmorSet)]];
+    self.title = NSLocalizedString(_selectedDecoration.name, _selectedDecoration.name);
+    [self populateDecorationComponent];
+    // Do any additional setup after loading the view.
+    CGRect vcFrame = self.view.frame;
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
+    [self setUpTabBarWithFrame:tabBarFrame];
+    
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
+    [self setUpViewsWithFrame:tablewithTabbar];
+    
+    [self.view addSubview:_decorationDetailTab];
+    [self.view addSubview:_detailItemView];
+    
+}
+
 -(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
     if (!_decorationDetailTab) {
         _decorationDetailTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
@@ -62,24 +82,6 @@
     _allViews = @[_detailItemView, _skillTable, _componentTable];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setUpMenuButton];
-    self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem , [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addDecorationToArmorSet)]];
-    self.title = NSLocalizedString(_selectedDecoration.name, _selectedDecoration.name);
-    [self populateDecorationComponent];
-    // Do any additional setup after loading the view.
-    CGRect vcFrame = self.view.frame;
-    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
-    [self setUpTabBarWithFrame:tabBarFrame];
-    
-    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
-    [self setUpViewsWithFrame:tablewithTabbar];
-
-    [self.view addSubview:_decorationDetailTab];
-    [self.view addSubview:_detailItemView];
-
-}
 
 #pragma mark - Tab Bar Methods
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
@@ -187,6 +189,8 @@
     _selectedDecoration.componentArray = componentArray;
 }
 
+
+#pragma mark - Adding Decoration into Armor Set Methods
 -(void)addDecorationToArmorSet {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_selectedDecoration.name message:[NSString stringWithFormat:@"Would you like to add %@ to a custom armor set?", _selectedDecoration.name] delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
     
@@ -197,12 +201,12 @@
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if ([alertView isEqual:_doubleCheckAlert]) {
+    if ([alertView isEqual:_doubleCheckAlert]) { //Step 4: The user picks which decoration they want to replace in step 5, if the decoration they want to add is too big they will be forced to delete it from the Armor Set Detail View Controller
         if (buttonIndex == 1) {
-            ArmorSet  *selectedSet = [_dbEngine getArmorSetForSetID:_selectedSet[0]];
+            ArmorSet  *selectedSet = [_dbEngine getArmorSetForSetID:_selectedSet[@"setID"]];
             Item *setItem = [selectedSet returnItemForSlot:_selectedArmorSetPiece];
             _decorationSheet = [[UIActionSheet alloc] initWithTitle:@"Which Decoration Would You Like To Replace?" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
-            setItem.decorationsArray = [_dbEngine getDecorationsForArmorSet:_selectedSet[0] andSetItem:setItem];
+            setItem.decorationsArray = [_dbEngine getDecorationsForArmorSet: _selectedSet[@"setID"] andSetItem:setItem];
             BOOL enoughSlots = false;
             for (Decoration *decoration in setItem.decorationsArray) {
                 if (decoration.slotsRequired >= _selectedDecoration.slotsRequired) {
@@ -225,6 +229,7 @@
             
         }
     } else {
+        //Step One: Check to Make Sure We Have Armor Sets and if so present all the possible choices to be selected
         if (buttonIndex == 1) {
             NSArray *allSets = [_dbEngine getAllArmorSets];
             if (allSets.count <= 0) {
@@ -233,8 +238,8 @@
             }
             UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Which Armor Set Would You Like to Add to?" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
             
-            for (NSArray *set in allSets) {
-                [actionSheet addButtonWithTitle:set[1]];
+            for (NSDictionary *set in allSets) {
+                [actionSheet addButtonWithTitle:set[@"setName"]];
             }
             
             actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:@"Cancel"];
@@ -250,7 +255,7 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSInteger cancelIndex = [actionSheet cancelButtonIndex];
     if (buttonIndex != cancelIndex) {
-        if ([actionSheet isEqual:_armorSelectSheet]) {
+        if ([actionSheet isEqual:_armorSelectSheet]) { //Step 3: If the user selected an armor piece with available slots insert it, otherwise prompt the user to confirm this in step 4
             NSArray *titleComponents = [[actionSheet buttonTitleAtIndex:buttonIndex] componentsSeparatedByString:@" "];
             
             NSString *armorSlots = titleComponents[1];
@@ -261,7 +266,7 @@
             if (![armorSlots isEqualToString:@"N/A"]) {
                 NSNumber *availableSlots = [f numberFromString:armorSlots];
                 if ([availableSlots intValue] >= _selectedDecoration.slotsRequired) {
-                    BOOL successful = [_dbEngine addDecoration:_selectedDecoration ToSlot:_selectedArmorSetPiece andArmorSetWithID:_selectedSet[0]];
+                    BOOL successful = [_dbEngine addDecoration:_selectedDecoration ToSlot:_selectedArmorSetPiece andArmorSetWithID:_selectedSet[@"setID"]];
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                         [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
                     });
@@ -276,23 +281,24 @@
                 [[[UIAlertView alloc] initWithTitle:@"Not Enough Slots" message:@"The Armor Piece You Selected Does Not Have enough Total Slots" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
             }
             
-        } else if ([actionSheet isEqual:_decorationSheet]){
-            ArmorSet  *selectedSet = [_dbEngine getArmorSetForSetID:_selectedSet[0]];
+        } else if ([actionSheet isEqual:_decorationSheet]){ //The users selection is processed and the decoration they picked is deleted and then removed
+            ArmorSet  *selectedSet = [_dbEngine getArmorSetForSetID:_selectedSet[@"setID"]];
             Item *setItem = [selectedSet returnItemForSlot:_selectedArmorSetPiece];
-            setItem.decorationsArray = [_dbEngine getDecorationsForArmorSet:_selectedSet[0] andSetItem:setItem];
+            setItem.decorationsArray = [_dbEngine getDecorationsForArmorSet:_selectedSet[@"setID"] andSetItem:setItem];
             Decoration *decorationToRemove = setItem.decorationsArray[buttonIndex];
-            BOOL deleteSuccess = [_dbEngine deleteDecoration:decorationToRemove FromSetItemWithItemID:setItem SetWithID:_selectedSet[0]];
-            BOOL successful = [_dbEngine addDecoration:_selectedDecoration ToSlot:_selectedArmorSetPiece andArmorSetWithID:_selectedSet[0]];
+            BOOL deleteSuccess = [_dbEngine deleteDecoration:decorationToRemove FromSetItemWithItemID:setItem SetWithID:_selectedSet[@"setID"]];
+            BOOL successful = [_dbEngine addDecoration:_selectedDecoration ToSlot:_selectedArmorSetPiece andArmorSetWithID:_selectedSet[@"setID"]];
             BOOL allSuccess = (deleteSuccess == TRUE && successful == TRUE) ? TRUE : FALSE;
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",allSuccess ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
             });
             
         } else {
+            //Step Two: For each piece of equipment in the set see how many available slots there are
             NSArray *allSets = [_dbEngine getAllArmorSets];
             _selectedSet = allSets[buttonIndex];
             
-            NSArray *availableEquipment = [_dbEngine checkArmorSetForSlotsWithSetID:_selectedSet[0]];
+            NSArray *availableEquipment = [_dbEngine checkArmorSetForSlotsWithSetID:_selectedSet[@"setID"]];
             
             if (availableEquipment.count > 0) {
                 _armorSelectSheet = [[UIActionSheet alloc] initWithTitle:@"Which Slot Would You Like to Add To?" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
@@ -312,10 +318,9 @@
                 });
             } else {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [[[UIAlertView alloc] initWithTitle:@"No Available Slots" message:[NSString stringWithFormat:@"Please add equipment to %@ that has slots for decorations", _selectedSet[1]] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                    [[[UIAlertView alloc] initWithTitle:@"No Available Slots" message:[NSString stringWithFormat:@"Please add equipment to %@ that has slots for decorations", _selectedSet[@"setName"]] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
                     return;
                 });
-
             }
         }
 

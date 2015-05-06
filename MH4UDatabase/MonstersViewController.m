@@ -25,6 +25,29 @@
 @implementation MonstersViewController
 
 #pragma mark - Setup Views
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setUpMenuButton];
+    _allMonstersArray = [_dbEngine getMonsters:nil];
+    // Do any additional setup after loading the view.
+    self.title = NSLocalizedString(@"Monsters", @"Monsters");
+    _displayedMonsters = _allMonstersArray;
+    CGRect vcFrame = self.view.frame;
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
+    [self setUpTabBarWithFrame:tabBarFrame];
+    
+    CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference + tabBarFrame.size.height, vcFrame.size.width, 44);
+    _monsterSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
+    _monsterSearch.delegate = self;
+    
+    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height + tabBarFrame.size.height + _heightDifference, vcFrame.size.width, vcFrame.size.height - (searchBarFrame.size.height + tabBarFrame.size.height));
+    [self setUpTableWithFrame:tableWithSearch];
+    
+    [self.view addSubview:_monsterTable];
+    [self.view addSubview:_monstersTab];
+    [self.view addSubview:_monsterSearch];
+}
+
 -(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
     if (!_monstersTab) {
         _monstersTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
@@ -48,28 +71,6 @@
     }
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setUpMenuButton];
-    _allMonstersArray = [_dbEngine retrieveMonsters:nil];
-    // Do any additional setup after loading the view.
-    self.title = NSLocalizedString(@"Monsters", @"Monsters");
-    _displayedMonsters = _allMonstersArray;
-    CGRect vcFrame = self.view.frame;
-    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
-    [self setUpTabBarWithFrame:tabBarFrame];
-    
-    CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference + tabBarFrame.size.height, vcFrame.size.width, 44);
-    _monsterSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
-    _monsterSearch.delegate = self;
-    
-    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height + tabBarFrame.size.height + _heightDifference, vcFrame.size.width, vcFrame.size.height - (searchBarFrame.size.height + tabBarFrame.size.height));
-    [self setUpTableWithFrame:tableWithSearch];
-    
-    [self.view addSubview:_monsterTable];
-    [self.view addSubview:_monstersTab];
-    [self.view addSubview:_monsterSearch];
-}
 
 #pragma mark - Search Bar Methods
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {

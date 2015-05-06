@@ -16,7 +16,6 @@
 #import "ItemDetailViewController.h"
 #import "MonstersViewController.h"
 #import "ArmorsViewController.h"
-#import "DetailViewController.h"
 #import "WeaponTypeTableViewController.h"
 #import "CombiningViewController.h"
 #import "UniversalSearchTableViewController.h"

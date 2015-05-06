@@ -34,6 +34,26 @@
 
 #pragma mark - Setup Views
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setUpMenuButton];
+    self.title = NSLocalizedString(_selectedLocation.locationName, _selectedLocation.locationName);
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+    [_dbEngine getMonstersForLocation:_selectedLocation];
+    [_dbEngine getItemsForLocation:_selectedLocation];
+    
+    CGRect vcFrame = self.view.frame;
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
+    [self setUpTabBarWithFrame:tabBarFrame];
+    
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + tabBarFrame.size.height + _heightDifference, vcFrame.size.width, vcFrame.size.height - (_heightDifference + tabBarFrame.size.height));
+    [self setUpViewsWithFrame:tablewithTabbar];
+    
+    //[self.view addSubview:_largeMap];
+    [self.view addSubview:_locationDetailTabBar];
+    
+}
+
 -(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
     _locationDetailTabBar = [[UITabBar alloc] initWithFrame:tabBarFrame];
     _locationDetailTabBar.delegate = self;
@@ -79,25 +99,6 @@
     _allViews = @[_mapLabel, _mapView, _rankDropTable, _monsterTable];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setUpMenuButton];
-    self.title = NSLocalizedString(_selectedLocation.locationName, _selectedLocation.locationName);
-    [self.view setBackgroundColor:[UIColor whiteColor]];
-    [_dbEngine monstersForLocationID:_selectedLocation];
-    [_dbEngine itemsForLocationID:_selectedLocation];
-
-    CGRect vcFrame = self.view.frame;
-    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
-    [self setUpTabBarWithFrame:tabBarFrame];
-    
-    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + tabBarFrame.size.height + _heightDifference, vcFrame.size.width, vcFrame.size.height - (_heightDifference + tabBarFrame.size.height));
-    [self setUpViewsWithFrame:tablewithTabbar];
-
-    //[self.view addSubview:_largeMap];
-    [self.view addSubview:_locationDetailTabBar];
-    
-}
 
 #pragma mark - Tab Bar Methods
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {

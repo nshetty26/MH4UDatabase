@@ -21,6 +21,32 @@
 @implementation QuestsViewController
 
 #pragma mark - Setup Views
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setUpMenuButton];
+    self.title = NSLocalizedString(@"Quests", @"Quests");
+    
+    _allQuestsArray = [_dbEngine getAllQuests:nil];
+    _displayedQuests = [_allQuestsArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
+        Quest *quest = (Quest *)evaluatedObject;
+        return [quest.hub isEqualToString:@"Caravan"];}]];;
+    
+    CGRect vcFrame = self.view.frame;
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
+    [self setUpTabBarWithFrame:tabBarFrame];
+    
+    CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference + tabBarFrame.size.height, vcFrame.size.width, 44);
+    _questSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
+    _questSearch.delegate = self;
+    
+    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
+    [self setUpTableWithFrame:tableWithSearch];
+    
+    [self.view addSubview:_questTable];
+    [self.view addSubview:_questTypeTab];
+    [self.view addSubview:_questSearch];
+}
+
 -(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
     if (!_questTypeTab) {
         _questTypeTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
@@ -43,31 +69,6 @@
     }
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setUpMenuButton];
-    self.title = NSLocalizedString(@"Quests", @"Quests");
-    
-    _allQuestsArray = [_dbEngine getAllQuests:nil];
-    _displayedQuests = [_allQuestsArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings){
-        Quest *quest = (Quest *)evaluatedObject;
-        return [quest.hub isEqualToString:@"Caravan"];}]];;
-    
-    CGRect vcFrame = self.view.frame;
-    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
-    [self setUpTabBarWithFrame:tabBarFrame];
-    
-    CGRect searchBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference + tabBarFrame.size.height, vcFrame.size.width, 44);
-    _questSearch = [[UISearchBar alloc] initWithFrame:searchBarFrame];
-    _questSearch.delegate = self;
-    
-    CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
-    [self setUpTableWithFrame:tableWithSearch];
-
-    [self.view addSubview:_questTable];
-    [self.view addSubview:_questTypeTab];
-    [self.view addSubview:_questSearch];
-}
 
 #pragma mark - Search Bar Methods
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {

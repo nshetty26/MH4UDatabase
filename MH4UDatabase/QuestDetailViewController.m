@@ -24,6 +24,27 @@
 @implementation QuestDetailViewController
 
 #pragma mark - Setup Views
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setUpMenuButton];
+    [_dbEngine getQuestInfoforQuest:_selectedQuest];
+    // Do any additional setup after loading the view from its nib.
+    self.title = NSLocalizedString(_selectedQuest.name, _selectedQuest.name);
+    
+    // Do any additional setup after loading the view.
+    CGRect vcFrame = self.view.frame;
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
+    [self setUpTabBarWithFrame:tabBarFrame];
+    
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - _heightDifference - tabBarFrame.size.height);
+    [self setUpViewsWithFrame:tablewithTabbar];
+    
+    
+    [self.view addSubview:_detailedView];
+    [self.view addSubview:_questDetailTab];
+    
+}
+
 -(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
     if (!_questDetailTab) {
         _questDetailTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
@@ -52,26 +73,6 @@
     _allViews = @[_detailedView, _monsterTable, _rewardTable];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setUpMenuButton];
-    [_dbEngine getQuestInfoforQuest:_selectedQuest];
-    // Do any additional setup after loading the view from its nib.
-    self.title = NSLocalizedString(_selectedQuest.name, _selectedQuest.name);
-    
-    // Do any additional setup after loading the view.
-    CGRect vcFrame = self.view.frame;
-    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
-    [self setUpTabBarWithFrame:tabBarFrame];
-    
-    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height - _heightDifference - tabBarFrame.size.height);
-    [self setUpViewsWithFrame:tablewithTabbar];
-    
-
-    [self.view addSubview:_detailedView];
-    [self.view addSubview:_questDetailTab];
-    
-}
 
 #pragma mark - Tab Bar Methods
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {

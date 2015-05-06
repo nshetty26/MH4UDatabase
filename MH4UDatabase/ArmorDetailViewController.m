@@ -12,6 +12,7 @@
 #import "MH4UDBEntity.h"
 #import "SkillDetailViewController.h"
 #import "ItemTableView.h"
+#import "ArmorSetDelegates.h"
 
 @interface ArmorDetailViewController ()
 @property (strong, nonatomic) DetailedArmorView *statView;
@@ -21,12 +22,32 @@
 @property (strong, nonatomic) ItemTableView *componentTable;
 @property (strong, nonatomic) UIAlertView *doubleCheckAlert;
 @property (strong, nonatomic) NSArray *selectedSet;
+@property (strong, nonatomic) ArmorSetDelegates *armorSetDelegate;
 @end
 
 
 @implementation ArmorDetailViewController
 
 #pragma mark - Setup Views
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setUpMenuButton];
+    self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem , [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addArmorToArmorBuilder)]];
+    [_dbEngine populateArmor:_selectedArmor];
+    self.title = NSLocalizedString(_selectedArmor.name, _selectedArmor.name);
+    
+    CGRect vcFrame = self.view.frame;
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
+    
+    [self setUpTabBarWithFrame:tabBarFrame];
+    [self setUpViewsWithFrame:tablewithTabbar];
+    
+    [_statView populateArmor:_selectedArmor];
+    [self.view addSubview:_statView];
+    [self.view addSubview:_armorDetailTab];
+}
+
 -(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
     if (!_armorDetailTab) {
         _armorDetailTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
@@ -54,25 +75,6 @@
     _statView.frame = tableFrame;
     
     _allViews = @[_statView, _skillTable, _componentTable];
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setUpMenuButton];
-    self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem , [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addArmorToArmorBuilder)]];
-    [_dbEngine populateArmor:_selectedArmor];
-    self.title = NSLocalizedString(_selectedArmor.name, _selectedArmor.name);
-
-    CGRect vcFrame = self.view.frame;
-    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
-    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y +tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
-    
-    [self setUpTabBarWithFrame:tabBarFrame];
-    [self setUpViewsWithFrame:tablewithTabbar];
-
-    [_statView populateArmor:_selectedArmor];
-    [self.view addSubview:_statView];
-    [self.view addSubview:_armorDetailTab];
 }
 
 #pragma mark - Tab Bar Methods
@@ -179,71 +181,12 @@
 }
 
 -(void)addArmorToArmorBuilder{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_selectedArmor.name message:[NSString stringWithFormat:@"Would you like to add %@ to a custom armor set?", _selectedArmor.name] delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    _armorSetDelegate = [[ArmorSetDelegates alloc] initWithSelectedItem:_selectedArmor andDBEngine:_dbEngine andViewController:self];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_selectedArmor.name message:[NSString stringWithFormat:@"Would you like to add %@ to a custom armor set?", _selectedArmor.name] delegate:_armorSetDelegate cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
     [alert show];
     });
 }
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if ([alertView isEqual:_doubleCheckAlert]) {
-        if (buttonIndex == 1) {
-            BOOL successfulDelete = [_dbEngine deleteAllDecorationsForArmorSetWithID:_selectedSet[0] andSetItem:_selectedArmor];
-            BOOL successful = [_dbEngine addArmor:_selectedArmor toArmorSetWithID:_selectedSet[0]];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-            });
-        }
-    } else {
-        if (buttonIndex == 1) {
-            NSArray *allSets = [_dbEngine getAllArmorSets];
-            if (allSets.count <= 0) {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [[[UIAlertView alloc] initWithTitle:@"No Custom Sets" message:@"Please add a custom set before trying to add items to it" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-                return;
-                });
-            }
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Which Armor Set Would You Like to Add to?" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
-            
-            for (NSArray *set in allSets) {
-                [actionSheet addButtonWithTitle:set[1]];
-            }
-            
-            actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:@"Cancel"];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [actionSheet showInView:self.view];
-                });
-        }
-    }
-
-    
-    
-    
-}
-
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    NSInteger cancelIndex = [actionSheet cancelButtonIndex];
-    if (buttonIndex != cancelIndex) {
-        NSArray *allSets = [_dbEngine getAllArmorSets];
-        _selectedSet = allSets[buttonIndex];
-        
-        BOOL exists = [_dbEngine checkArmor:_selectedArmor atArmorSetWithID:_selectedSet[0]];
-        
-        if (!exists) {
-            BOOL successful = [_dbEngine addArmor:_selectedArmor toArmorSetWithID:_selectedSet[0]];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [[[UIAlertView alloc] initWithTitle:@"Confirmation" message:[NSString stringWithFormat:@"Your update was %@",successful ? @"Successful" : @"Failed"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-            });
-        } else {
-            _doubleCheckAlert = [[UIAlertView alloc] initWithTitle:@"Are You Sure?" message:[NSString stringWithFormat:@"This Set Already Has a Piece in the %@ Slot", _selectedArmor.slot] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"YES", nil];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [_doubleCheckAlert show];
-            });
-        }
-        
-    }
-}
-
 
 @end
 

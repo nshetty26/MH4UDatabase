@@ -23,10 +23,10 @@
 
 @interface MH4UDBEngine : NSObject
 
--(NSArray *)retrieveMonsters:(NSNumber *)monsterID;
+-(NSArray *)getMonsters:(NSNumber *)monsterID;
 -(void)getDetailsForMonster:(Monster *)monster;
 
--(NSArray *)retrieveArmor:(NSNumber *)armorID;
+-(NSArray *)getArmor:(NSNumber *)armorID;
 
 -(Armor *)populateArmor:(Armor *)armor;
 
@@ -54,8 +54,8 @@
 -(void)getQuestInfoforQuest:(Quest*)quest;
 
 -(NSArray *)getAllLocations:(NSNumber *)locationID;
--(void)monstersForLocationID:(Location *)location;
--(void)itemsForLocationID:(Location *)location;
+-(void)getMonstersForLocation:(Location *)location;
+-(void)getItemsForLocation:(Location *)location;
 
 -(NSArray *)getWeaponTypes;
 -(NSArray *)getWeaponsForWeaponType:(NSString *)weaponType;
@@ -69,11 +69,8 @@
 -(BOOL)insertNewArmorSetWithName:(NSString *)name;
 -(BOOL)deleteArmorSetWithID:(NSNumber *)setID;
 
--(BOOL)addArmor:(Armor *)armor toArmorSetWithID:(NSNumber *)setID;
--(BOOL)checkArmor:(Armor *)armor atArmorSetWithID:(NSNumber *)setID;
-
--(BOOL)addWeapon:(Weapon *)weapon toArmorSetWithID:(NSNumber *)setID;
--(BOOL)checkWeapon:(Weapon *)weapon atArmorSetWithID:(NSNumber *)setID;
+-(BOOL)addSetItem:(Item *)setItem toArmorSetWithID:(NSNumber *)setID;
+-(BOOL)checkSetItem:(Item *)setItem atArmorSetWithID:(NSNumber *)setID;
 
 -(NSArray *)checkArmorSetForSlotsWithSetID:(NSNumber *)setID;
 -(BOOL)cloneArmorSet:(ArmorSet *)armorSet withName:(NSString *)name;

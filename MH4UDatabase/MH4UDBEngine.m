@@ -38,7 +38,7 @@
 
 
 #pragma mark - Monster Queries
--(NSArray *)retrieveMonsters:(NSNumber *)monsterID {
+-(NSArray *)getMonsters:(NSNumber *)monsterID {
     NSMutableArray *allMonsterArray = [[NSMutableArray alloc] init];
     
     NSString *monsterQuery;
@@ -201,7 +201,7 @@
 }
 
 #pragma mark - Armor Queries
--(NSArray *)retrieveArmor:(NSNumber *)armorID {
+-(NSArray *)getArmor:(NSNumber *)armorID {
     NSMutableArray *armorArray = [[NSMutableArray alloc] init];
     
     NSString *armorQuery;
@@ -240,7 +240,6 @@
     NSString *armorQuery = [NSString stringWithFormat:@"SELECT armor.slot, armor.defense, armor.max_defense, items.rarity, items.buy, armor.fire_res, armor.thunder_res, armor.dragon_res, armor.water_res, armor.ice_res, armor.gender, armor.num_slots from armor INNER JOIN items on armor._id = items._id WHERE armor._id = %i", armor.itemID];
     FMResultSet *s = [self DBquery:armorQuery];
     if ([s next]) {
-        //armor.rarity = [s intForColumn:@"rarity"];
         armor.price = [s intForColumn:@"buy"];
         armor.defense = [s intForColumn:@"defense"];
         armor.maxDefense = [s intForColumn:@"max_defense"];
@@ -405,21 +404,6 @@
     item.combinedItemsArray = combinedItemsArray;
 }
 
--(NSArray *)infoForCombinedTableCellforItemID:(NSNumber *)itemID
-{
-    NSString *itemPartQuery = [NSString stringWithFormat:@"SELECT name, icon_name FROM items where _id = %@", itemID];
-    NSArray *info;
-    FMResultSet *s = [self DBquery:itemPartQuery];
-    if ([s next]) {
-        NSString *name = [s stringForColumn:@"name"];
-        NSString *icon = [s stringForColumn:@"icon_name"];
-        info = @[name, icon];
-    }
-    
-    return info;
-
-}
-
 -(void)getUsageItemsForItem:(Item*)item
 {
     NSMutableArray *usageItemsArray = [[NSMutableArray alloc] init];
@@ -522,6 +506,7 @@
     item.locationsArray = locationsArray;
 }
 
+#pragma mark - Table Display Queries
 -(NSArray *)infoForUsageTableCellforItemID:(NSNumber *)itemID
 {
     NSString * usageQuery = [NSString stringWithFormat:@"select components.created_item_id, i2.name, i1.name, components.quantity, components.type from components inner join items as i1 on i1._id = components.component_item_id inner join items as i2 on i2._id = components.created_item_id where i1._id = %i", itemID.intValue];
@@ -535,6 +520,21 @@
     }
     
     return usageInfo;
+}
+
+-(NSArray *)infoForCombinedTableCellforItemID:(NSNumber *)itemID
+{
+    NSString *itemPartQuery = [NSString stringWithFormat:@"SELECT name, icon_name FROM items where _id = %@", itemID];
+    NSArray *info;
+    FMResultSet *s = [self DBquery:itemPartQuery];
+    if ([s next]) {
+        NSString *name = [s stringForColumn:@"name"];
+        NSString *icon = [s stringForColumn:@"icon_name"];
+        info = @[name, icon];
+    }
+    
+    return info;
+    
 }
 
 #pragma mark - Skill Queries
@@ -630,7 +630,7 @@
 #pragma mark - Decoration Queries
 
 -(void)getDecorationsForSkillCollection:(SkillCollection *)skillCollection andSkillTreeID:(int)skillTreeID{
-    NSString *jewelQuery = [NSString stringWithFormat:@" SELECT items._id as itemID, items.name as itemName, items.icon_name, items.type, skill_trees._id, skill_trees.name, item_to_skill_tree.point_value, decorations.num_slots FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id where skill_trees._id = %i and type = 'Decoration'", skillTreeID];
+    NSString *jewelQuery = [NSString stringWithFormat:@" SELECT items._id as itemID, items.name as itemName, items.icon_name, items.type, skill_trees._id, skill_trees.name, item_to_skill_tree.point_value FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id where skill_trees._id = %i and type = 'Decoration'", skillTreeID];
     NSMutableArray *decorationArray = [[NSMutableArray alloc] init];
     FMResultSet *s = [self DBquery:jewelQuery];
     
@@ -640,7 +640,6 @@
         decoration.type = @"Decoration";
         decoration.name = [s stringForColumn:@"itemName"];
         decoration.icon = [s stringForColumn:@"icon_name"];
-        decoration.slotsRequired = [s intForColumn:@"num_slots"];
         decoration.skillValue = [s intForColumn:@"point_value"];
         decoration.skillArray = [self getSkillTreesForDecorationID:decoration.itemID];
         [decorationArray addObject:decoration];
@@ -824,7 +823,7 @@
     return locationArray;
 }
 
--(void)monstersForLocationID:(Location *)location {
+-(void)getMonstersForLocation:(Location *)location {
     NSString *monsterLocationQuery = [NSString stringWithFormat:@"SELECT monster_habitat.location_id,monsters._id as monsterID, monsters.name as monName, monsters.icon_name , monster_habitat.start_area, monster_habitat.move_area, monster_habitat.rest_area From monster_habitat INNER JOIN locations on monster_habitat.location_id = locations._id inner join monsters on monsters._id = monster_habitat.monster_id where monster_habitat.location_id = %i", location.locationID];
     NSMutableArray *monsterArray = [[NSMutableArray alloc] init];
     FMResultSet *s = [self DBquery:monsterLocationQuery];
@@ -846,7 +845,7 @@
     location.monsterArray = monsterArray;
 }
 
--(void)itemsForLocationID:(Location *)location {
+-(void)getItemsForLocation:(Location *)location {
     NSArray *ranks = @[@"LR", @"HR", @"G"];
     
     for (NSString *rank in ranks) {
@@ -918,6 +917,7 @@
         Weapon *weapon = [[Weapon alloc] init];
         weapon.name = [s stringForColumn:@"name"];
         weapon.itemID = [s intForColumn:@"_id"];
+        weapon.slot = @"Weapon";
         weapon.creationCost = [s intForColumn:@"creation_cost"];
         weapon.upgradeCost = [s intForColumn:@"upgrade_cost"];
         weapon.type = [s stringForColumn:@"wType"];
@@ -931,7 +931,7 @@
         weapon.elementalDamage_1 = [s intForColumn:@"element_attack"];;
         weapon.elementalDamageType_2 = [s stringForColumn:@"element_2"];;
         weapon.elementalDamage_2 = [s intForColumn:@"element_2_attack"];
-        weapon.num_slots = [s intForColumn:@"num_slots"];
+        weapon.numSlots = [s intForColumn:@"num_slots"];
         weapon.affinity = [s intForColumn:@"affinity"];
         weapon.defense = [s intForColumn:@"defense"];
         weapon.sharpness = [s stringForColumn:@"sharpness"];
@@ -957,6 +957,7 @@
     while ([s next]) {
         Weapon *weapon = [[Weapon alloc] init];
         weapon.name = [s stringForColumn:@"name"];
+        weapon.slot = @"Weapon";
         weapon.itemID = [s intForColumn:@"_id"];
         weapon.creationCost = [s intForColumn:@"creation_cost"];
         weapon.upgradeCost = [s intForColumn:@"upgrade_cost"];
@@ -971,7 +972,7 @@
         weapon.elementalDamage_1 = [s intForColumn:@"element_attack"];;
         weapon.elementalDamageType_2 = [s stringForColumn:@"element_2"];;
         weapon.elementalDamage_2 = [s intForColumn:@"element_2_attack"];
-        weapon.num_slots = [s intForColumn:@"num_slots"];
+        weapon.numSlots = [s intForColumn:@"num_slots"];
         weapon.affinity = [s intForColumn:@"affinity"];
         weapon.defense = [s intForColumn:@"defense"];
         weapon.sharpness = [s stringForColumn:@"sharpness"];
@@ -1009,6 +1010,7 @@
     return hornMelodies;
 }
 
+#pragma mark - Universal Search
 -(NSArray *) populateResultsWithSearch:(NSString *)searchString {
     NSMutableArray *everythingArray = [[NSMutableArray alloc] init];
     
@@ -1102,6 +1104,8 @@
     return everythingArray;
 }
 
+#pragma mark - Armor Set Builder Queries
+#pragma mark Pulling / Adding / Deleting The Whole Armor Set
 -(NSArray *)getAllArmorSets {
     NSMutableArray *allSets = [[NSMutableArray alloc] init];
     FMDatabase *armorDatabase = [self openDatabase];
@@ -1114,7 +1118,7 @@
         while ([s next]) {
             NSNumber *setID = [NSNumber numberWithInt:[s intForColumn:@"_id"]];
             NSString *setName = [s stringForColumn:@"name"];
-            [allSets addObject:@[setID, setName]];
+            [allSets addObject:@{@"setID" : setID, @"setName" : setName}];
             
         }
         return allSets;
@@ -1135,22 +1139,22 @@
                 armorSet.weapon = [self getWeaponForWeaponID:[s intForColumn:@"weapon_id"]];
             }
             if (![s columnIsNull:@"head_id"]) {
-                armorSet.helm = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"head_id"]]] firstObject];
+                armorSet.helm = [[self getArmor:[NSNumber numberWithInt:[s intForColumn:@"head_id"]]] firstObject];
             }
             if (![s columnIsNull:@"body_id"]) {
-                armorSet.chest = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"body_id"]]] firstObject];
+                armorSet.chest = [[self getArmor:[NSNumber numberWithInt:[s intForColumn:@"body_id"]]] firstObject];
             }
             if (![s columnIsNull:@"arms_id"]) {
-                armorSet.arms = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"arms_id"]]] firstObject];
+                armorSet.arms = [[self getArmor:[NSNumber numberWithInt:[s intForColumn:@"arms_id"]]] firstObject];
             }
             if (![s columnIsNull:@"waist_id"]) {
-                armorSet.waist = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"waist_id"]]] firstObject];
+                armorSet.waist = [[self getArmor:[NSNumber numberWithInt:[s intForColumn:@"waist_id"]]] firstObject];
             }
             if (![s columnIsNull:@"legs_id"]) {
-                armorSet.legs = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"legs_id"]]] firstObject];
+                armorSet.legs = [[self getArmor:[NSNumber numberWithInt:[s intForColumn:@"legs_id"]]] firstObject];
             }
             if (![s columnIsNull:@"talisman_id"]) {
-                armorSet.talisman = [[self retrieveArmor:[NSNumber numberWithInt:[s intForColumn:@"talisman_id"]]] firstObject];
+                armorSet.talisman = [[self getArmor:[NSNumber numberWithInt:[s intForColumn:@"talisman_id"]]] firstObject];
             }
             
         }
@@ -1181,63 +1185,6 @@
     }
 }
 
--(BOOL)checkArmor:(Armor *)armor atArmorSetWithID:(NSNumber *)setID {
-    FMDatabase *armorDatabase = [self openDatabase];
-    
-    NSString *armorType;
-    
-    if ([armor.slot isEqualToString:@"Head"]) {
-        armorType = @"head_id";
-    } else if ([armor.slot isEqualToString:@"Body"]) {
-        armorType = @"body_id";
-    } else if ([armor.slot isEqualToString:@"Arms"]) {
-        armorType = @"arms_id";
-    } else if ([armor.slot isEqualToString:@"Waist"]) {
-        armorType = @"waist_id";
-    } else if ([armor.slot isEqualToString:@"Legs"]) {
-        armorType = @"legs_id";
-    } else {
-        armorType = @"";
-    }
-    
-    if (![armorDatabase open]) {
-        return FALSE;
-    } else {
-        NSString *query = [NSString stringWithFormat:@"select %@ from ArmorSet where _id = %i", armorType, [setID intValue]];
-        FMResultSet *s = [armorDatabase executeQuery:query];
-        
-        while ([s next]) {
-            if ([s columnIsNull:armorType]) {
-                [armorDatabase close];
-                return FALSE;
-                
-            } else {
-                [armorDatabase close];
-                return TRUE;
-            }
-        }
-    }
-    
-    [armorDatabase close];
-    return FALSE;
-}
-
-
-
--(BOOL)addArmor:(Armor *)armor toArmorSetWithID:(NSNumber *)setID {
-    FMDatabase *armorDatabase = [self openDatabase];
-    
-    NSString *armorType = [self returnDBTypeForArmorSlot:armor.slot];
-    
-    if (![armorDatabase open]) {
-        return FALSE;
-    } else {
-        NSString *query = [NSString stringWithFormat:@"UPDATE ArmorSet SET %@ = '%i' where _id = %i", armorType, armor.itemID, [setID intValue]];
-        return [armorDatabase executeUpdate:query];
-    }
-
-}
-
 -(BOOL)cloneArmorSet:(ArmorSet *)armorSet withName:(NSString *)name{
     NSMutableArray *columns = [[NSMutableArray alloc] init];
     NSMutableArray *values = [[NSMutableArray alloc] init];;
@@ -1247,7 +1194,7 @@
         [values addObject:[NSNumber numberWithInt:armorSet.weapon.itemID]];
     }
     
-    for (Armor *armor in [armorSet returnNonNullArmor]) {
+    for (Armor *armor in [armorSet returnNonNullSetItems]) {
         [columns addObject:[self returnDBTypeForArmorSlot:armor.slot]];
         [values addObject:[NSNumber numberWithInt:armor.itemID]];
     }
@@ -1270,39 +1217,43 @@
             valuesString = @"";
         }
         
-        
         NSString *query = [NSString stringWithFormat:@"insert into ArmorSet (name%@) Values ('%@'%@)",columnString, name, valuesString];
         return [armorDatabase executeUpdate:query];
     }
     
 }
 
--(NSString *)returnProperQueryStringForCompnents:(NSArray *)components {
-    NSString *query = @", ";
-    for (int i = 0; i < components.count; i++) {
-        NSString *component = components[i];
-        if (i < (components.count - 1)) {
-            query = [query stringByAppendingString:[NSString stringWithFormat:@"%@, ", component]];
-        } else {
-            query = [query stringByAppendingString:[NSString stringWithFormat:@"%@", component]];
-        }
-    }
-    
-    return query;
-}
-
--(BOOL)checkWeapon:(Weapon *)weapon atArmorSetWithID:(NSNumber *)setID {
+#pragma mark Pulling / Checking / Deleting Individual Set Items
+-(BOOL)checkSetItem:(Item *)setItem atArmorSetWithID:(NSNumber *)setID {
     FMDatabase *armorDatabase = [self openDatabase];
+    
+    NSString *armorType;
+    
+    if ([setItem.slot isEqualToString:@"Head"]) {
+        armorType = @"head_id";
+    } else if ([setItem.slot isEqualToString:@"Body"]) {
+        armorType = @"body_id";
+    } else if ([setItem.slot isEqualToString:@"Arms"]) {
+        armorType = @"arms_id";
+    } else if ([setItem.slot isEqualToString:@"Waist"]) {
+        armorType = @"waist_id";
+    } else if ([setItem.slot isEqualToString:@"Legs"]) {
+        armorType = @"legs_id";
+    } else if ([setItem.slot isEqualToString:@"Weapon"]) {
+        armorType = @"weapon_id";
+    } else {
+        armorType = @"";
+    }
     
     if (![armorDatabase open]) {
         return FALSE;
     } else {
-        NSString *query = [NSString stringWithFormat:@"select %@ from ArmorSet where _id = %i", @"weapon_id", [setID intValue]];
+        NSString *query = [NSString stringWithFormat:@"select %@ from ArmorSet where _id = %i", armorType, [setID intValue]];
         FMResultSet *s = [armorDatabase executeQuery:query];
         
         while ([s next]) {
-            if ([s columnIsNull:@"weapon_id"]) {
-                [armorDatabase close];
+            if ([s columnIsNull:armorType]) {
+                [armorDatabase close]; //required so when we do the insert the DB isnt locked up
                 return FALSE;
                 
             } else {
@@ -1316,41 +1267,34 @@
     return FALSE;
 }
 
--(BOOL)deleteAllDecorationsForArmorSetWithID:(NSNumber *)setID andSetItem:(Item *)setItem {
+
+
+-(BOOL)addSetItem:(Item *)setItem toArmorSetWithID:(NSNumber *)setID {
     FMDatabase *armorDatabase = [self openDatabase];
+    
+    NSString *armorType = [self returnDBTypeForArmorSlot:setItem.slot];
     
     if (![armorDatabase open]) {
         return FALSE;
     } else {
-        NSString *query = [NSString stringWithFormat:@"DELETE FROM Decorations where ArmorSet_id = %i and item_id = %i", [setID intValue], setItem.itemID];
+        NSString *query = [NSString stringWithFormat:@"UPDATE ArmorSet SET %@ = '%i' where _id = %i", armorType, setItem.itemID, [setID intValue]];
         return [armorDatabase executeUpdate:query];
     }
+
 }
 
-
--(BOOL)addWeapon:(Weapon *)weapon toArmorSetWithID:(NSNumber *)setID {
-    FMDatabase *armorDatabase = [self openDatabase];
-    
-    if (![armorDatabase open]) {
-        return FALSE;
-    } else {
-        NSString *query = [NSString stringWithFormat:@"UPDATE ArmorSet SET %@ = %i where _id = %i", @"weapon_id", weapon.itemID, [setID intValue]];
-        return [armorDatabase executeUpdate:query];
-    }
-    
-}
-
+#pragma mark Pulling / Adding / Deleting Decorations from Set Items
 -(NSArray *)checkArmorSetForSlotsWithSetID:(NSNumber *)setID {
     NSMutableArray *availableSlotsInEquipment = [[NSMutableArray alloc] init];
     ArmorSet *armorSet = [self getArmorSetForSetID:setID];
     
-    if (armorSet.weapon) {
-        if (armorSet.weapon.num_slots > 0) {
+    for (Item *setItem in [armorSet returnNonNullSetItems]) {
+        if (setItem.numSlots > 0) {
             FMDatabase *armorDatabase = [self openDatabase];
             if (![armorDatabase open]) {
                 return FALSE;
             } else {
-                NSString *query = [NSString stringWithFormat:@"select * from Decorations where ArmorSet_id = %i and item_id = %i" , [setID intValue], armorSet.weapon.itemID];
+                NSString *query = [NSString stringWithFormat:@"select * from Decorations where ArmorSet_id = %i and item_id = %i" , [setID intValue], setItem.itemID];
                 FMResultSet *s = [armorDatabase executeQuery:query];
                 int slotsUsed = 0;
                 while ([s next]) {
@@ -1358,33 +1302,11 @@
                     slotsUsed += decoration.slotsRequired;
                     
                 }
-                armorSet.weapon.slotsUsed = slotsUsed;
+                setItem.slotsUsed = slotsUsed;
                 
             }
-            int availableSlots = armorSet.weapon.num_slots - armorSet.weapon.slotsUsed;
-            [availableSlotsInEquipment addObject:@[@"Weapon", [NSNumber numberWithInt:availableSlots], [NSNumber numberWithInt:armorSet.weapon.num_slots]]];
-        }
-    }
-    
-    for (Armor *armor in [armorSet returnNonNullArmor]) {
-        if (armor.numSlots > 0) {
-            FMDatabase *armorDatabase = [self openDatabase];
-            if (![armorDatabase open]) {
-                return FALSE;
-            } else {
-                NSString *query = [NSString stringWithFormat:@"select * from Decorations where ArmorSet_id = %i and item_id = %i" , [setID intValue], armor.itemID];
-                FMResultSet *s = [armorDatabase executeQuery:query];
-                int slotsUsed = 0;
-                while ([s next]) {
-                    Decoration *decoration = [[self getAllDecorations:[NSNumber numberWithInt:[s intForColumn:@"decoration_id"]]] firstObject];
-                    slotsUsed += decoration.slotsRequired;
-                    
-                }
-                armor.slotsUsed = slotsUsed;
-                
-            }
-            int availableSlots = armor.numSlots - armor.slotsUsed;
-            [availableSlotsInEquipment addObject:@[armor.slot, [NSNumber numberWithInt:availableSlots], [NSNumber numberWithInt:armor.numSlots]]];
+            int availableSlots = setItem.numSlots - setItem.slotsUsed;
+            [availableSlotsInEquipment addObject:@[setItem.slot, [NSNumber numberWithInt:availableSlots], [NSNumber numberWithInt:setItem.numSlots]]];
         }
 
     }
@@ -1440,7 +1362,19 @@
     }
 }
 
-- (FMDatabase *)openDatabase
+-(BOOL)deleteAllDecorationsForArmorSetWithID:(NSNumber *)setID andSetItem:(Item *)setItem {
+    FMDatabase *armorDatabase = [self openDatabase];
+    
+    if (![armorDatabase open]) {
+        return FALSE;
+    } else {
+        NSString *query = [NSString stringWithFormat:@"DELETE FROM Decorations where ArmorSet_id = %i and item_id = %i", [setID intValue], setItem.itemID];
+        return [armorDatabase executeUpdate:query];
+    }
+}
+
+#pragma mark - Helper Methods
+- (FMDatabase *)openDatabase //This method is required to do a check to see if the DB is not in the main bundle (which is read only)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSString *documents_dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -1482,6 +1416,20 @@
     } else {
         return @"";
     }
+}
+
+-(NSString *)returnProperQueryStringForCompnents:(NSArray *)components {
+    NSString *query = @", ";
+    for (int i = 0; i < components.count; i++) {
+        NSString *component = components[i];
+        if (i < (components.count - 1)) {
+            query = [query stringByAppendingString:[NSString stringWithFormat:@"%@, ", component]];
+        } else {
+            query = [query stringByAppendingString:[NSString stringWithFormat:@"%@", component]];
+        }
+    }
+    
+    return query;
 }
 
 

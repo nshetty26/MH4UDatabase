@@ -48,6 +48,25 @@
 @implementation ItemDetailViewController
 
 #pragma mark - Setup Views
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setUpMenuButton];
+    // Do any additional setup after loading the view.
+    self.title = NSLocalizedString(_selectedItem.name, _selectedItem.name);
+    [self populateDetailsforItem:_selectedItem];
+    
+    CGRect tabBarFrame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + _heightDifference , self.view.frame.size.width, 49);
+    [self setUpTabBarWithFrame:tabBarFrame];
+    
+    CGRect vcFrame = CGRectMake(self.view.frame.origin.x, tabBarFrame.origin.y + tabBarFrame.size.height, self.view.frame.size.width, self.view.frame.size.height);
+    [self setUpViewsWithFrame:vcFrame];
+    
+    [self.view addSubview:_detailItemView];
+    [self.view addSubview:_itemDetailBar];
+    
+    
+}
+
 -(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
     if (!_itemDetailBar) {
         _itemDetailBar = [[UITabBar alloc] initWithFrame:tabBarFrame];
@@ -101,25 +120,6 @@
     }
     
     _allViews = allViews;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setUpMenuButton];
-    // Do any additional setup after loading the view.
-    self.title = NSLocalizedString(_selectedItem.name, _selectedItem.name);
-    [self populateDetailsforItem:_selectedItem];
-    
-    CGRect tabBarFrame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + _heightDifference , self.view.frame.size.width, 49);
-    [self setUpTabBarWithFrame:tabBarFrame];
-    
-    CGRect vcFrame = CGRectMake(self.view.frame.origin.x, tabBarFrame.origin.y + tabBarFrame.size.height, self.view.frame.size.width, self.view.frame.size.height);
-    [self setUpViewsWithFrame:vcFrame];
-
-    [self.view addSubview:_detailItemView];
-    [self.view addSubview:_itemDetailBar];
-
-
 }
 
 #pragma mark - Tab Bar Methods
@@ -247,7 +247,7 @@
     
     if ([tableView isEqual:_monsterDropTable]){
         NSArray *monsterDropArray = _selectedItem.monsterDropsArray[indexPath.row];
-        Monster *monster = [[_dbEngine retrieveMonsters:monsterDropArray[6]] firstObject];
+        Monster *monster = [[_dbEngine getMonsters:monsterDropArray[6]] firstObject];
         MonsterDetailViewController *mDVC = [[MonsterDetailViewController alloc] init];
         mDVC.selectedMonster = monster;
         mDVC.heightDifference = _heightDifference;

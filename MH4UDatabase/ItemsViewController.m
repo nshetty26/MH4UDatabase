@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 GuthuDesigns. All rights reserved.
 //
 
-#import "DetailViewController.h"
 #import "MenuViewController.h"
 #import "MH4UDBEngine.h"
 #import "ItemsViewController.h"
@@ -25,15 +24,6 @@
 @implementation ItemsViewController
 
 #pragma mark - Setup Views
--(void)setUpTableViewsWithFrame:(CGRect)tableFrame {
-    if (!_itemTable) {
-        _itemTable = [[UITableView alloc] initWithFrame:tableFrame];
-        _itemTable.dataSource = self;
-        _itemTable.delegate = self;
-    }
-
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setUpMenuButton];
@@ -55,8 +45,18 @@
     
     [self.view addSubview:_itemTable];
     [self.view addSubview:_itemSearch];
+    
+}
+
+-(void)setUpTableViewsWithFrame:(CGRect)tableFrame {
+    if (!_itemTable) {
+        _itemTable = [[UITableView alloc] initWithFrame:tableFrame];
+        _itemTable.dataSource = self;
+        _itemTable.delegate = self;
+    }
 
 }
+
 
 #pragma mark - Search Bar Methods
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {

@@ -50,6 +50,32 @@
 @implementation MonsterDetailViewController
 
 #pragma mark - Setup Views
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setUpMenuButton];
+    // Do any additional setup after loading the view.
+    self.title = NSLocalizedString(_selectedMonster.monsterName, _selectedMonster.monsterName);
+    [self populateDetailForMonster:_selectedMonster];
+    CGRect vcFrame = self.view.frame;
+    
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
+    
+    CGRect fullViewFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
+    _monsterDetailView = [[[NSBundle mainBundle] loadNibNamed:@"DetailedMonsterView" owner:self options:nil] lastObject];
+    _monsterDetailView.frame = fullViewFrame;
+    _monsterDetailView.monsterName.text = _selectedMonster.monsterName;
+    _monsterDetailView.monsterImage.image = [UIImage imageNamed:_selectedMonster.iconName];
+    
+    CGRect tableFrame = CGRectMake(vcFrame.origin.x, _monsterDetailView.monsterImage.frame.origin.y + _monsterDetailView.monsterImage.frame.size.height + 20, vcFrame.size.height, vcFrame.size.width);
+    
+    [self setUpTabBarWithFrame:tabBarFrame];
+    [self setUpTablesWithFrame:tableFrame];
+    
+    [_monsterDetailView addSubview:_monsterDetailTable];
+    [self.view addSubview:_monsterDetailView];
+    [self.view addSubview:_monsterDetailTabBar];
+}
+
 -(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
     if (!_monsterDetailTabBar) {
         _monsterDetailTabBar = [[UITabBar alloc] initWithFrame:tabBarFrame];
@@ -87,31 +113,7 @@
     }
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setUpMenuButton];
-    // Do any additional setup after loading the view.
-    self.title = NSLocalizedString(_selectedMonster.monsterName, _selectedMonster.monsterName);
-    [self populateDetailForMonster:_selectedMonster];
-    CGRect vcFrame = self.view.frame;
-    
-    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
-    
-    CGRect fullViewFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
-    _monsterDetailView = [[[NSBundle mainBundle] loadNibNamed:@"DetailedMonsterView" owner:self options:nil] lastObject];
-    _monsterDetailView.frame = fullViewFrame;
-    _monsterDetailView.monsterName.text = _selectedMonster.monsterName;
-    _monsterDetailView.monsterImage.image = [UIImage imageNamed:_selectedMonster.iconName];
-    
-    CGRect tableFrame = CGRectMake(vcFrame.origin.x, _monsterDetailView.monsterImage.frame.origin.y + _monsterDetailView.monsterImage.frame.size.height + 20, vcFrame.size.height, vcFrame.size.width);
-    
-    [self setUpTabBarWithFrame:tabBarFrame];
-    [self setUpTablesWithFrame:tableFrame];
-    
-    [_monsterDetailView addSubview:_monsterDetailTable];
-    [self.view addSubview:_monsterDetailView];
-    [self.view addSubview:_monsterDetailTabBar];
-}
+
 
 #pragma mark - Tab Bar Methods
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {

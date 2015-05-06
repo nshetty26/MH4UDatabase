@@ -111,7 +111,7 @@
         
         
     } else if ([item.type isEqualToString:@"Armor"]) {
-        Armor *armor = [[_dbEngine retrieveArmor:[NSNumber numberWithInt:item.itemID] ] firstObject];
+        Armor *armor = [[_dbEngine getArmor:[NSNumber numberWithInt:item.itemID] ] firstObject];
         ArmorDetailViewController *aDVC = [[ArmorDetailViewController alloc] init];
         aDVC.heightDifference = [self returnHeightDifference];
         aDVC.selectedArmor = armor;

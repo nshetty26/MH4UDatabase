@@ -42,6 +42,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Search Bar Delegate Methods
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [searchBar setShowsCancelButton:YES];
     if (searchText.length == 0) {

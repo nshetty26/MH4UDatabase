@@ -15,6 +15,9 @@
 @property (nonatomic) int itemID;
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSString *type;
+@property (nonatomic) NSString *slot;
+@property (nonatomic) int numSlots;
+@property (nonatomic) int slotsUsed;
 @property (nonatomic) int rarity;
 @property (nonatomic) int capacity;
 @property (nonatomic) int price;
@@ -38,13 +41,45 @@
 @property (nonatomic) NSArray *decorationsArray;
 @end
 
+#pragma mark - Weapon
+@interface Weapon : Item
+@property (nonatomic) NSString *weaponType;
+@property (nonatomic) int parentID;
+@property (nonatomic) int creationCost;
+@property (nonatomic) int upgradeCost;
+@property (nonatomic) int attack;
+@property (nonatomic) int maxAttack;
+@property (nonatomic) NSString *elementalDamageType_1;
+@property (nonatomic) int elementalDamage_1;
+@property (nonatomic) NSString *elementalDamageType_2;
+@property (nonatomic) int elementalDamage_2;
+@property (nonatomic) NSString *awaken_type;
+@property (nonatomic) int awakenDamage;
+@property (nonatomic) int defense;
+@property (nonatomic) NSString *sharpness;
+@property (nonatomic) int affinity;
+@property (nonatomic) NSString *hornNotes;
+@property (nonatomic) NSString *shellingType;
+@property (nonatomic) NSString *phial;
+@property (nonatomic) NSString *charges;
+@property (nonatomic) NSString *coatings;
+@property (nonatomic) NSString *recoil;
+@property (nonatomic) NSString *reloadSpeed;
+@property (nonatomic) NSString *rapidFire;
+@property (nonatomic) NSString *deviation;
+@property (nonatomic) NSString *ammo;
+@property (nonatomic) NSString *sharpnessFile;
+@property (nonatomic) int tree_depth;
+@property (nonatomic) int final;
+
+
+-(NSString *)getElementalDescription;
+-(void)drawSharpness:(NSString *)sharpnessString inView:(UIView *)sharpnessView;
+
+@end
+
 #pragma mark - Armor
 @interface Armor : Item
-//@property (nonatomic) int armorID;
-//@property (nonatomic) NSString *name;
-@property (nonatomic) NSString *slot;
-//@property (nonatomic) int rarity;
-//@property (nonatomic) int price;
 @property (nonatomic) int defense;
 @property (nonatomic) int maxDefense;
 @property (nonatomic) int fireResistance;
@@ -54,8 +89,6 @@
 @property (nonatomic) int iceResistance;
 @property (nonatomic) NSString *gender;
 @property (nonatomic) NSString *hunterType;
-@property (nonatomic) int numSlots;
-@property (nonatomic) int slotsUsed;
 @property (nonatomic) NSArray *skillsArray;
 @property (nonatomic) NSArray *componentArray;
 
@@ -180,43 +213,6 @@
 
 @end
 
-#pragma mark - Weapon
-@interface Weapon : Item
-@property (nonatomic) NSString *weaponType;
-@property (nonatomic) int parentID;
-@property (nonatomic) int creationCost;
-@property (nonatomic) int upgradeCost;
-@property (nonatomic) int attack;
-@property (nonatomic) int maxAttack;
-@property (nonatomic) NSString *elementalDamageType_1;
-@property (nonatomic) int elementalDamage_1;
-@property (nonatomic) NSString *elementalDamageType_2;
-@property (nonatomic) int elementalDamage_2;
-@property (nonatomic) NSString *awaken_type;
-@property (nonatomic) int awakenDamage;
-@property (nonatomic) int defense;
-@property (nonatomic) NSString *sharpness;
-@property (nonatomic) int affinity;
-@property (nonatomic) NSString *hornNotes;
-@property (nonatomic) NSString *shellingType;
-@property (nonatomic) NSString *phial;
-@property (nonatomic) NSString *charges;
-@property (nonatomic) NSString *coatings;
-@property (nonatomic) NSString *recoil;
-@property (nonatomic) NSString *reloadSpeed;
-@property (nonatomic) NSString *rapidFire;
-@property (nonatomic) NSString *deviation;
-@property (nonatomic) NSString *ammo;
-@property (nonatomic) NSString *sharpnessFile;
-@property (nonatomic) int num_slots;
-@property (nonatomic) int slotsUsed;
-@property (nonatomic) int tree_depth;
-@property (nonatomic) int final;
-
-
--(NSString *)getElementalDescription;
-
-@end
 
 #pragma mark - Armor Set
 @interface ArmorSet : NSObject
@@ -230,9 +226,10 @@
 @property (nonatomic) Armor *legs;
 @property (nonatomic) Armor *talisman;
 
--(NSArray *)returnNonNullArmor;
+-(NSArray *)returnNonNullSetItems;
 -(Item *)returnItemForSlot:(NSString *)slot;
 -(NSArray *)returnItemsWithDecorations;
+-(NSDictionary *)sumAllStats;
 
 @end
 

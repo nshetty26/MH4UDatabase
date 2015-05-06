@@ -31,6 +31,25 @@
 
 @implementation SkillDetailViewController
 #pragma mark - Setup Views
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setUpMenuButton];
+    self.title = NSLocalizedString(_skilTreeName, _skilTreeName);
+    _skillCollection = [_dbEngine getSkillCollectionForSkillTreeID:_skillTreeID];
+    CGRect vcFrame = self.view.frame;
+    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
+    [self setUpTabBarWithFrame:tabBarFrame];
+    
+    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height -( _heightDifference + tabBarFrame.size.height));
+    [self setUpViewsWithFrame:tablewithTabbar];
+    
+    
+    [self.view addSubview:_skillDetailTable];
+    [self.view addSubview:_skillDetailTab];
+    
+}
+
 -(void)setUpTabBarWithFrame:(CGRect)tabBarFrame {
     _skillDetailTab = [[UITabBar alloc] initWithFrame:tabBarFrame];
     _skillDetailTab.delegate = self;
@@ -57,23 +76,6 @@
     _allViews = @[_skillDetailTable, _equipmentTable];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setUpMenuButton];
-    self.title = NSLocalizedString(_skilTreeName, _skilTreeName);
-    _skillCollection = [_dbEngine getSkillCollectionForSkillTreeID:_skillTreeID];
-    CGRect vcFrame = self.view.frame;
-    CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _heightDifference, vcFrame.size.width, 49);
-    [self setUpTabBarWithFrame:tabBarFrame];
-    
-    CGRect tablewithTabbar = CGRectMake(vcFrame.origin.x, tabBarFrame.origin.y + tabBarFrame.size.height, vcFrame.size.width, vcFrame.size.height -( _heightDifference + tabBarFrame.size.height));
-    [self setUpViewsWithFrame:tablewithTabbar];
-    
-
-    [self.view addSubview:_skillDetailTable];
-    [self.view addSubview:_skillDetailTab];
-
-}
 
 #pragma mark - Tab Bar Methods
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
