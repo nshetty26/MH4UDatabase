@@ -13,9 +13,7 @@ Steps:
   1. Download this Repo
   2. Open the XCode Workspace
   3. Build Application
-    a. If you have issues building try running the command 'pod install' from the directory 
-    b. If that doesnt work try 'setup pod' first 
-    c. If that doesnt work please open up an issue and I will try and help you get it working
+  4. If you have issues building try running the command 'pod install' from the directory, If that doesnt work try 'setup pod' first, If that doesnt work please open up an issue and I will try and help you get it working
 
 Feel free to leave comments about the app!
 
