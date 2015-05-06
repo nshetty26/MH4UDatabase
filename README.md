@@ -7,7 +7,7 @@ You can download the app off the Apple App Store here: https://appsto.re/us/IxHh
 Steps to Build This App:
 Requirements:
   1. XCode 6.3
-  2. Pods
+  2. Pods - FMDB and MMDrawerController (included in this repo)
 
 Steps:
   1. Download this Repo
@@ -16,8 +16,6 @@ Steps:
   4. If you have issues building try running the command 'pod install' from the directory, If that doesnt work try 'setup pod' first, If that doesnt work please open up an issue and I will try and help you get it working
 
 Feel free to leave comments about the app!
-
-Cocoa Pods and FMDB are the only dependencies needed to build this app. 
 
 
 
