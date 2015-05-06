@@ -598,13 +598,15 @@
     UINavigationController *nC = (UINavigationController *)_baseVC.centerViewController;
     UIButton *button = (UIButton *)sender;
     Armor *armor;
-    if ([button isEqual:_weaponButton]) {
-        WeaponDetailViewController *wDVC = [[WeaponDetailViewController alloc] init];
-        wDVC.selectedWeapon = _armorSet.weapon;
-        wDVC.dbEngine = _dbEngine;
-        wDVC.heightDifference = [self returnHeightDifference];
-        [nC pushViewController:wDVC animated:YES];
-        return;
+    if (_armorSet.weapon) {
+        if ([button isEqual:_weaponButton]) {
+            WeaponDetailViewController *wDVC = [[WeaponDetailViewController alloc] init];
+            wDVC.selectedWeapon = _armorSet.weapon;
+            wDVC.dbEngine = _dbEngine;
+            wDVC.heightDifference = [self returnHeightDifference];
+            [nC pushViewController:wDVC animated:YES];
+            return;
+    }
     } else if ([button isEqual:_headButton]) {
         armor = _armorSet.helm;
     } else if ([button isEqual:_bodyButton]) {
@@ -617,11 +619,14 @@
         armor = _armorSet.legs;
     }
     
-    ArmorDetailViewController *aDVC = [[ArmorDetailViewController alloc] init];
-    aDVC.heightDifference = [self returnHeightDifference];
-    aDVC.selectedArmor = armor;
-    aDVC.dbEngine = _dbEngine;
-    [nC pushViewController:aDVC animated:YES];
+    if (armor) {
+        ArmorDetailViewController *aDVC = [[ArmorDetailViewController alloc] init];
+        aDVC.heightDifference = [self returnHeightDifference];
+        aDVC.selectedArmor = armor;
+        aDVC.dbEngine = _dbEngine;
+        [nC pushViewController:aDVC animated:YES];
+    }
+
 }
 @end
 
