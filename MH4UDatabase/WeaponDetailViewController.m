@@ -78,7 +78,7 @@
     NSMutableArray *allViews = [[NSMutableArray alloc] init];
     
     _detailedView = [[[NSBundle mainBundle] loadNibNamed:@"DetailedWeaponView" owner:self options:nil] firstObject];
-    [_detailedView populateWeapon:_selectedWeapon];
+    [_detailedView populateViewWithWeapon:_selectedWeapon];
     _detailedView.frame = tableFrame;
     [allViews addObject:_detailedView];
     
@@ -144,10 +144,10 @@
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"hornCell"];
         }
-        NSArray *hornMelody = _hornMelodies[indexPath.row];
-        cell.textLabel.text =[NSString stringWithFormat:@"%@: Dur:%@\\Ext:%@",hornMelody[0], hornMelody[3], hornMelody[4]];
+        NSDictionary *hornMelody = _hornMelodies[indexPath.row];
+        cell.textLabel.text =[NSString stringWithFormat:@"%@: Dur:%@\\Ext:%@",[hornMelody valueForKey:@"song"], [hornMelody valueForKey:@"duration"], [hornMelody valueForKey:@"extension"]];
 
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@\\%@",hornMelody[1], hornMelody[2]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@\\%@",[hornMelody valueForKey:@"effect1"], [hornMelody valueForKey:@"effect2"]];
         return cell;
     }
     
@@ -202,7 +202,7 @@
 
 @implementation DetailedWeaponView
 
--(void)populateWeapon:(Weapon *)weapon {
+-(void)populateViewWithWeapon:(Weapon *)weapon {
     _icon.image = [UIImage imageNamed:weapon.icon];
     _nameLabel.text = weapon.name;
     _attackLabel.text = [NSString stringWithFormat:@"%i", weapon.attack];

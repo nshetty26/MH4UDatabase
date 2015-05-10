@@ -53,8 +53,8 @@
     }
     else {
         NSArray *searchedItems = [_allSkillTrees filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
-            NSArray *skillTree = (NSArray *)evaluatedObjected;
-            NSString *skillTreeName = skillTree[1];
+            NSDictionary *skillTree = (NSDictionary *)evaluatedObjected;
+            NSString *skillTreeName = [skillTree valueForKey:@"skillTreeName"];
             if (!([skillTreeName.lowercaseString rangeOfString:searchText.lowercaseString].location == NSNotFound)) {
                 return YES;
             } else {
@@ -89,24 +89,27 @@
     return _displayedSkillTree.count;
 }
 
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *skillTree = _displayedSkillTree[indexPath.row];
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"skillTreeCell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"skillTreeCell"];
+    }
+    
+    cell.textLabel.text = [skillTree valueForKey:@"skillTreeName"];
+    return cell;
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *skillTree = _displayedSkillTree[indexPath.row];
+    NSDictionary *skillTree = _displayedSkillTree[indexPath.row];
     SkillDetailViewController *sdVC = [[SkillDetailViewController alloc] init];
     sdVC.heightDifference = _heightDifference;
     sdVC.dbEngine = _dbEngine;
-    sdVC.skilTreeName = skillTree[1];
-    NSNumber *skillTreeID = skillTree[0];
-    sdVC.skillTreeID = [skillTreeID intValue];
+    sdVC.skilTreeName = [skillTree valueForKey:@"skillTreeName"];
+    sdVC.skillTreeID = [[skillTree valueForKey:@"skillTreeID"] intValue];
     [self.navigationController pushViewController:sdVC animated:YES];
     
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"skillTree"];
-    NSArray *skillTree = _displayedSkillTree[indexPath.row];
-    cell.textLabel.text = skillTree[1];
-    return cell;
 }
 
 #pragma mark - Helper Methods

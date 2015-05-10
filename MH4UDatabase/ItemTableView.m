@@ -82,7 +82,8 @@
             accessoryText.font = font;
         } else if ([item isKindOfClass:[Armor class]]) {
             Armor *armor = (Armor *)item;
-            accessoryText.text = [NSString stringWithFormat:@"%@", armor.skillsArray[0]];
+            NSDictionary *skillTree = armor.skillsArray[0];
+            accessoryText.text = [NSString stringWithFormat:@"%@", [skillTree valueForKey:@"skillTreePointValue"]];
             font = [accessoryText.font fontWithSize:15];
             accessoryText.font = font;
         } else if ([item isKindOfClass:[Decoration class]]) {

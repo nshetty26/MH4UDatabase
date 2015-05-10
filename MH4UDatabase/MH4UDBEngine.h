@@ -16,7 +16,7 @@
 @class Weapon;
 @class Item;
 @class Monster;
-@class SkillCollection;
+@class SkillTreeCollection;
 @class Location;
 @class ArmorSet;
 @class Decoration;
@@ -35,9 +35,9 @@
 
 
 -(void)getCombiningItemsForItem:(Item*)item;
--(NSArray *)infoForCombinedTableCellforItemID:(NSNumber *)itemID;
+//-(NSArray *)infoForCombinedTableCellforItemID:(NSNumber *)itemID;
 -(void)getUsageItemsForItem:(Item*)item;
--(NSArray *)infoForUsageTableCellforItemID:(NSNumber *)itemID;
+//-(NSArray *)infoForUsageTableCellforItemID:(NSNumber *)itemID;
 -(void)getMonsterDropsForItem:(Item*)item;
 -(void)getQuestRewardsForItem:(Item*)item;
 -(void)getLocationsForItem:(Item*)item;
@@ -45,7 +45,7 @@
 -(NSArray *)getCombiningItems;
 
 -(NSArray *)getSkillTrees;
--(SkillCollection *)getSkillCollectionForSkillTreeID:(int)skillTreeID;
+-(SkillTreeCollection *)getSkillCollectionForSkillTreeID:(int)skillTreeID;
 
 -(NSArray *)getAllDecorations:(NSNumber *)decorationID;
 -(NSArray *)getComponentsfor:(int)armorID;

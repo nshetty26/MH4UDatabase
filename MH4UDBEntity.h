@@ -182,8 +182,8 @@
 @end
 
 #pragma mark - Skill Collection
-@interface SkillCollection : NSObject
-@property (nonatomic) NSArray *skillArray;
+@interface SkillTreeCollection : NSObject
+@property (nonatomic) NSArray *skillDescriptionArray;
 @property (nonatomic) NSArray *headArray;
 @property (nonatomic) NSArray *bodyArray;
 @property (nonatomic) NSArray *armArray;

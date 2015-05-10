@@ -44,7 +44,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *auxiliaryValue5;
 @property (weak, nonatomic) IBOutlet UILabel *auxiliaryValue6;
 
--(void)populateWeapon:(Weapon *)weapon;
+-(void)populateViewWithWeapon:(Weapon *)weapon;
 @property (weak, nonatomic) IBOutlet UIView *sharpnessView1;
 @property (weak, nonatomic) IBOutlet UIView *sharpnessView2;
 

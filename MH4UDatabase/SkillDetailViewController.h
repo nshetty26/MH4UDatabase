@@ -10,7 +10,7 @@
 #import "UIViewController+UIViewController_MenuButton.h"
 
 @class BaseViewController;
-@class SkillCollection;
+@class SkillTreeCollection;
 @class MH4UDBEngine;
 
 @interface SkillDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITabBarDelegate>

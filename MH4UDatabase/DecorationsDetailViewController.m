@@ -119,22 +119,25 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"skillTreeCell"];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"skillTreeCell"];
     }
     
     if ([tableView isEqual:_skillTable]) {
-        NSArray *skillArray = _selectedDecoration.skillArray[indexPath.row];
-        NSString *detailLabel = [NSString stringWithFormat:@"%@", [skillArray objectAtIndex:1]];
-        cell.textLabel.text = detailLabel;
+        NSDictionary *skillDictionary = _selectedDecoration.skillArray[indexPath.row];
+        
+        //create accessory view programmatically
         CGRect cellFrame = cell.frame;
         CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 30, 20);
         UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
         [cell addSubview:acessoryText];
         acessoryText.textAlignment =  NSTextAlignmentRight;
-        acessoryText.text = [NSString stringWithFormat:@"%@", skillArray[2]];
         [cell setAccessoryView: acessoryText];
+        
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", [skillDictionary valueForKey:@"skillTreeName"]];
+        acessoryText.text = [NSString stringWithFormat:@"%@", [skillDictionary valueForKey:@"skillTreePointValue"]];
+        
     }
     
     return cell;
@@ -142,13 +145,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView isEqual:_skillTable]) {
-        NSArray *skillArray = _selectedDecoration.skillArray[indexPath.row];
+        NSDictionary *skillDictionary = _selectedDecoration.skillArray[indexPath.row];
         SkillDetailViewController *sdVC = [[SkillDetailViewController alloc] init];
         sdVC.heightDifference = _heightDifference;
         sdVC.dbEngine = _dbEngine;
-        sdVC.skilTreeName = skillArray[1];
-        NSNumber *skillTreeID = skillArray[0];
-        sdVC.skillTreeID = [skillTreeID intValue];
+        sdVC.skilTreeName = [skillDictionary valueForKey:@"skillTreeName"];
+        sdVC.skillTreeID = [[skillDictionary valueForKey:@"skillTreeID"] intValue];
         [self.navigationController pushViewController:sdVC animated:YES];
     }
 }

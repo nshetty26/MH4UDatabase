@@ -12,6 +12,7 @@
 		E703EF7D1AE1828D00B2C9E6 /* ArmorSetDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E703EF7B1AE1828D00B2C9E6 /* ArmorSetDetailViewController.xib */; };
 		E703EF7F1AE184BE00B2C9E6 /* ArmorStatSheetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E703EF7E1AE184BE00B2C9E6 /* ArmorStatSheetView.xib */; };
 		E703EF831AE1B41000B2C9E6 /* ArmorSetTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E703EF821AE1B41000B2C9E6 /* ArmorSetTableViewController.m */; };
+		E726FF4B1B00060A002BCF07 /* DecorationTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E726FF4A1B00060A002BCF07 /* DecorationTableView.m */; };
 		E72AAF9A1AF99A8B00318F74 /* ArmorSetDelegates.m in Sources */ = {isa = PBXBuildFile; fileRef = E72AAF991AF99A8B00318F74 /* ArmorSetDelegates.m */; };
 		E72E4EAE1AB0C67E0043CC6A /* CombiningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E72E4EAD1AB0C67E0043CC6A /* CombiningViewController.m */; };
 		E72E4EB01AB0D3390043CC6A /* UICombiningTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E72E4EAF1AB0D3390043CC6A /* UICombiningTableCell.xib */; };
@@ -30,7 +31,7 @@
 		E7460CB21AB61966006C7CD3 /* MH4ULogoBlack.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460CB11AB61966006C7CD3 /* MH4ULogoBlack.png */; };
 		E7460CB41AB61AFF006C7CD3 /* MH4ULogo.png in Resources */ = {isa = PBXBuildFile; fileRef = E7460CB31AB61AFF006C7CD3 /* MH4ULogo.png */; };
 		E749BA971AB3D22F003860E8 /* WeaponsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E749BA961AB3D22F003860E8 /* WeaponsTableViewController.m */; };
-		E749EAB81AC4E49F00E10DFF /* ItemTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E749EAB71AC4E49F00E10DFF /* ItemTableCell.xib */; };
+		E749EAB81AC4E49F00E10DFF /* DecorationTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E749EAB71AC4E49F00E10DFF /* DecorationTableCell.xib */; };
 		E749EABB1AC4EB4900E10DFF /* ItemTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E749EABA1AC4EB4900E10DFF /* ItemTableView.m */; };
 		E749EABD1AC5118800E10DFF /* mh4u.db in Resources */ = {isa = PBXBuildFile; fileRef = E749EABC1AC50F5000E10DFF /* mh4u.db */; };
 		E75C3AF21AB1189B00C0D155 /* SkillDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E75C3AF11AB1189B00C0D155 /* SkillDetailViewController.m */; };
@@ -665,7 +666,7 @@
 		E78AFB501AA92A12009B16C3 /* MH4U-Shah_Dalamadur_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8081AA92A11009B16C3 /* MH4U-Shah_Dalamadur_Icon.png */; };
 		E78AFB511AA92A12009B16C3 /* MH4U-Shrouded_Nerscylla_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF8091AA92A11009B16C3 /* MH4U-Shrouded_Nerscylla_Icon.png */; };
 		E78AFB521AA92A12009B16C3 /* MH4U-Silver_Rathalos_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF80A1AA92A11009B16C3 /* MH4U-Silver_Rathalos_Icon.png */; };
-		E78AFB531AA92A12009B16C3 /* MH4U-Slagtoth_Icon.png.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF80B1AA92A11009B16C3 /* MH4U-Slagtoth_Icon.png.png */; };
+		E78AFB531AA92A12009B16C3 /* MH4U-Slagtoth_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF80B1AA92A11009B16C3 /* MH4U-Slagtoth_Icon.png */; };
 		E78AFB541AA92A12009B16C3 /* MH4U-Slagtoth_Red_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF80C1AA92A11009B16C3 /* MH4U-Slagtoth_Red_Icon.png */; };
 		E78AFB551AA92A12009B16C3 /* MH4U-Stygian_Zinogre_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF80D1AA92A11009B16C3 /* MH4U-Stygian_Zinogre_Icon.png */; };
 		E78AFB561AA92A12009B16C3 /* MH4U-Teostra_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF80E1AA92A11009B16C3 /* MH4U-Teostra_Icon.png */; };
@@ -911,6 +912,8 @@
 		E703EF7E1AE184BE00B2C9E6 /* ArmorStatSheetView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmorStatSheetView.xib; path = MH4UDatabase/ArmorStatSheetView.xib; sourceTree = "<group>"; };
 		E703EF811AE1B41000B2C9E6 /* ArmorSetTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArmorSetTableViewController.h; sourceTree = "<group>"; };
 		E703EF821AE1B41000B2C9E6 /* ArmorSetTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmorSetTableViewController.m; sourceTree = "<group>"; };
+		E726FF491B00060A002BCF07 /* DecorationTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecorationTableView.h; sourceTree = "<group>"; };
+		E726FF4A1B00060A002BCF07 /* DecorationTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecorationTableView.m; sourceTree = "<group>"; };
 		E72AAF981AF99A8B00318F74 /* ArmorSetDelegates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArmorSetDelegates.h; sourceTree = "<group>"; };
 		E72AAF991AF99A8B00318F74 /* ArmorSetDelegates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmorSetDelegates.m; sourceTree = "<group>"; };
 		E72E4EAA1AB0C6690043CC6A /* CombiningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombiningViewController.h; sourceTree = "<group>"; };
@@ -935,7 +938,7 @@
 		E7460CB31AB61AFF006C7CD3 /* MH4ULogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MH4ULogo.png; sourceTree = "<group>"; };
 		E749BA951AB3D22F003860E8 /* WeaponsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeaponsTableViewController.h; sourceTree = "<group>"; };
 		E749BA961AB3D22F003860E8 /* WeaponsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeaponsTableViewController.m; sourceTree = "<group>"; };
-		E749EAB71AC4E49F00E10DFF /* ItemTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemTableCell.xib; sourceTree = "<group>"; };
+		E749EAB71AC4E49F00E10DFF /* DecorationTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DecorationTableCell.xib; sourceTree = "<group>"; };
 		E749EAB91AC4EB4900E10DFF /* ItemTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemTableView.h; sourceTree = "<group>"; };
 		E749EABA1AC4EB4900E10DFF /* ItemTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemTableView.m; sourceTree = "<group>"; };
 		E749EABC1AC50F5000E10DFF /* mh4u.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = mh4u.db; sourceTree = "<group>"; };
@@ -1576,7 +1579,7 @@
 		E78AF8081AA92A11009B16C3 /* MH4U-Shah_Dalamadur_Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MH4U-Shah_Dalamadur_Icon.png"; sourceTree = "<group>"; };
 		E78AF8091AA92A11009B16C3 /* MH4U-Shrouded_Nerscylla_Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MH4U-Shrouded_Nerscylla_Icon.png"; sourceTree = "<group>"; };
 		E78AF80A1AA92A11009B16C3 /* MH4U-Silver_Rathalos_Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MH4U-Silver_Rathalos_Icon.png"; sourceTree = "<group>"; };
-		E78AF80B1AA92A11009B16C3 /* MH4U-Slagtoth_Icon.png.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MH4U-Slagtoth_Icon.png.png"; sourceTree = "<group>"; };
+		E78AF80B1AA92A11009B16C3 /* MH4U-Slagtoth_Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MH4U-Slagtoth_Icon.png"; sourceTree = "<group>"; };
 		E78AF80C1AA92A11009B16C3 /* MH4U-Slagtoth_Red_Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MH4U-Slagtoth_Red_Icon.png"; sourceTree = "<group>"; };
 		E78AF80D1AA92A11009B16C3 /* MH4U-Stygian_Zinogre_Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MH4U-Stygian_Zinogre_Icon.png"; sourceTree = "<group>"; };
 		E78AF80E1AA92A11009B16C3 /* MH4U-Teostra_Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MH4U-Teostra_Icon.png"; sourceTree = "<group>"; };
@@ -1989,6 +1992,8 @@
 				E749EABA1AC4EB4900E10DFF /* ItemTableView.m */,
 				E78F599B1ACE343600E1F542 /* WeaponUpgradeTable.h */,
 				E78F599C1ACE343600E1F542 /* WeaponUpgradeTable.m */,
+				E726FF491B00060A002BCF07 /* DecorationTableView.h */,
+				E726FF4A1B00060A002BCF07 /* DecorationTableView.m */,
 			);
 			name = TableViews;
 			sourceTree = "<group>";
@@ -2701,7 +2706,7 @@
 				E78AF8081AA92A11009B16C3 /* MH4U-Shah_Dalamadur_Icon.png */,
 				E78AF8091AA92A11009B16C3 /* MH4U-Shrouded_Nerscylla_Icon.png */,
 				E78AF80A1AA92A11009B16C3 /* MH4U-Silver_Rathalos_Icon.png */,
-				E78AF80B1AA92A11009B16C3 /* MH4U-Slagtoth_Icon.png.png */,
+				E78AF80B1AA92A11009B16C3 /* MH4U-Slagtoth_Icon.png */,
 				E78AF80C1AA92A11009B16C3 /* MH4U-Slagtoth_Red_Icon.png */,
 				E78AF80D1AA92A11009B16C3 /* MH4U-Stygian_Zinogre_Icon.png */,
 				E78AF80E1AA92A11009B16C3 /* MH4U-Teostra_Icon.png */,
@@ -3035,7 +3040,7 @@
 				E7AB48C01AB2B68000060D7E /* DetailedQuestView.xib */,
 				E7788E2A1AB3791B006DCDCD /* LargeMapView.xib */,
 				E76B247F1AB3E4790063615B /* DetailedWeaponView.xib */,
-				E749EAB71AC4E49F00E10DFF /* ItemTableCell.xib */,
+				E749EAB71AC4E49F00E10DFF /* DecorationTableCell.xib */,
 				E7E57F621AED827B00CF7D19 /* WyporiumCell.xib */,
 			);
 			name = Nibs;
@@ -3748,7 +3753,7 @@
 				E78AFA811AA92A12009B16C3 /* Shell-Green.png in Resources */,
 				E78AFBE71AA92A12009B16C3 /* insect_glaive9.png in Resources */,
 				E78AF9CB1AA92A12009B16C3 /* Herb-Green.png in Resources */,
-				E749EAB81AC4E49F00E10DFF /* ItemTableCell.xib in Resources */,
+				E749EAB81AC4E49F00E10DFF /* DecorationTableCell.xib in Resources */,
 				E78AFA6A1AA92A12009B16C3 /* Scraps-Gold.png in Resources */,
 				E78AF9F41AA92A12009B16C3 /* Liquid-Black.png in Resources */,
 				E78AF96C1AA92A12009B16C3 /* Bottle-Slime.png in Resources */,
@@ -4069,7 +4074,7 @@
 				E78AFA6C1AA92A12009B16C3 /* Scraps-Grey.png in Resources */,
 				E78AF9FE1AA92A12009B16C3 /* Liquid-Slime.png in Resources */,
 				E78AFA3A1AA92A12009B16C3 /* Ore-Grey.png in Resources */,
-				E78AFB531AA92A12009B16C3 /* MH4U-Slagtoth_Icon.png.png in Resources */,
+				E78AFB531AA92A12009B16C3 /* MH4U-Slagtoth_Icon.png in Resources */,
 				E78AFA471AA92A12009B16C3 /* QuestionMark-Green.png in Resources */,
 				E78AFA3D1AA92A12009B16C3 /* Ore-Purple.png in Resources */,
 				E78AF9E91AA92A12009B16C3 /* Jewel-Purple.png in Resources */,
@@ -4148,6 +4153,7 @@
 				E7EB7DF41AA6AC96007C05E0 /* AppDelegate.m in Sources */,
 				E73ECE5E1AB3C139002F41B0 /* WeaponTypeTableViewController.m in Sources */,
 				E7D5E23C1AAE507E0083D2C7 /* ItemDetailViewController.m in Sources */,
+				E726FF4B1B00060A002BCF07 /* DecorationTableView.m in Sources */,
 				E7AD31F71ADEF77E00E8FBA4 /* BaseViewController.m in Sources */,
 				E7A00DF81AAFBDB90037BE61 /* MonstersViewController.m in Sources */,
 				E7C600891AAFA9D200EC6E84 /* ArmorDetailViewController.m in Sources */,

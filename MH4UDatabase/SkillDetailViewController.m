@@ -15,7 +15,7 @@
 #import "MH4UDBEntity.h"
 
 @interface SkillDetailViewController ()
-@property (nonatomic) SkillCollection *skillCollection;
+@property (nonatomic) SkillTreeCollection *skillCollection;
 @property (nonatomic) NSArray *allViews;
 @property (nonatomic) UITableView *skillDetailTable;
 @property (nonatomic) ItemTableView *equipmentTable;
@@ -139,7 +139,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if ([tableView isEqual:_skillDetailTable]){
-        return _skillCollection.skillArray.count;
+        return _skillCollection.skillDescriptionArray.count;
     } else {
         return 0;
     }
@@ -151,7 +151,7 @@
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"skillDetail"];
         }
-        NSArray *skillArray = _skillCollection.skillArray[indexPath.row];
+        NSDictionary *skillTreeDescription = _skillCollection.skillDescriptionArray[indexPath.row];
         
         UIFont *font = [cell.detailTextLabel.font fontWithSize:10];
         cell.detailTextLabel.numberOfLines = 3;
@@ -165,9 +165,9 @@
         [cell setAccessoryView: accessoryText];
         
         
-        cell.textLabel.text = skillArray[1];
-        cell.detailTextLabel.text = skillArray[2];
-        accessoryText.text = [NSString stringWithFormat:@"%@", skillArray[0]];
+        cell.textLabel.text = [skillTreeDescription valueForKey:@"skillName"];
+        cell.detailTextLabel.text = [skillTreeDescription valueForKey:@"skillDecription"];
+        accessoryText.text = [NSString stringWithFormat:@"%@", [skillTreeDescription valueForKey:@"skillPointsNeeded"]];
         
         return cell;
     }

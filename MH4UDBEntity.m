@@ -40,7 +40,7 @@
 
 @end
 
-@implementation SkillCollection
+@implementation SkillTreeCollection
 
 @end
 

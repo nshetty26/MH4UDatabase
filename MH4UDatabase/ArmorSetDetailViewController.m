@@ -7,6 +7,7 @@
 //
 
 #import "MH4UDBEntity.h"
+#import "DecorationTableView.h"
 #import "MenuViewController.h"
 #import "MH4UDBEngine.h"
 #import "ArmorSetDetailViewController.h"
@@ -290,14 +291,14 @@
 }
 
 -(void)combineSkillsArray:(NSArray *)skillArray {
-    for (NSArray *skill in skillArray) {
-        if (![_skillDictionary objectForKey:skill[0]]) {
-            [_skillDictionary setObject:[[NSMutableArray alloc] initWithArray:@[skill[1], skill[2]]] forKey:skill[0]];
+    for (NSDictionary *skill in skillArray) {
+        if (![_skillDictionary objectForKey:[skill valueForKey:@"skillTreeID"]]) {
+            [_skillDictionary setObject:[[NSMutableArray alloc] initWithArray:@[[skill valueForKey:@"skillTreeName"], [skill valueForKey:@"skillTreePointValue"]]] forKey:[skill valueForKey:@"skillTreeID"]];
         } else {
-            NSMutableArray *nameAndValue = [_skillDictionary objectForKey:skill[0]];
+            NSMutableArray *nameAndValue = [_skillDictionary objectForKey:[skill valueForKey:@"skillTreeID"]];
             NSNumber *originalValue = nameAndValue[1];
-            NSNumber *addedSkillValue = skill[2];
-            int newValue = [originalValue intValue] + [addedSkillValue intValue];
+            NSNumber *additionalSkillValue = [skill valueForKey:@"skillTreePointValue"];
+            int newValue = [originalValue intValue] + [additionalSkillValue intValue];
             nameAndValue[1] = [NSNumber numberWithInt:newValue];
         }
     }
@@ -386,57 +387,59 @@
         }];
 
         NSArray *nameAndValue = sortedValuesArray[indexPath.row];
-        
-        cell.textLabel.text = nameAndValue[0];
         CGRect cellFrame = cell.frame;
         CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 50, 20);
         UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
         acessoryText.textAlignment =  NSTextAlignmentRight;
-        
-        
-        acessoryText.text = [NSString stringWithFormat:@"%@", nameAndValue[1]];
         [cell addSubview:acessoryText];
         [cell setAccessoryView: acessoryText];
-        return cell;
-    } else if ([tableView isEqual:_socketedTable]){
-        ItemTableCell *itemCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
         
-        if (!itemCell) {
-            [tableView registerNib:[UINib nibWithNibName:@"ItemTableCell"  bundle:nil] forCellReuseIdentifier:@"itemCell"];
-            itemCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
+        
+        cell.textLabel.text = nameAndValue[0];
+        acessoryText.text = [NSString stringWithFormat:@"%@", nameAndValue[1]];
+        return cell;
+        
+    } else if ([tableView isEqual:_socketedTable]){
+        DecorationTableCell *decorationCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
+        
+        if (!decorationCell) {
+            [tableView registerNib:[UINib nibWithNibName:@"DecorationTableCell"  bundle:nil] forCellReuseIdentifier:@"itemCell"];
+            decorationCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
         }
-        return itemCell;
+        return decorationCell;
 
     } else {
         return nil;
     }
 
 }
--(void)tableView:(UITableView *)tableView willDisplayCell:(ItemTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(DecorationTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if ([tableView isEqual:_socketedTable]) {
         Decoration *decoration = _displayedDecorations[indexPath.row];
         cell.itemImageView.image = [UIImage imageNamed:decoration.icon];
         cell.itemLabel.text = decoration.name;
-        UIFont *font = [cell.itemLabel.font fontWithSize:14];
-        cell.itemLabel.font = font;
         
         if (decoration.skillArray.count == 1) {
             cell.itemAccessoryLabel1.hidden = YES;
             cell.itemAccessoryLabel3.hidden = YES;
             cell.itemAccessoryLabel2.hidden = NO;
-            NSArray *skill1 = decoration.skillArray[0];
-            cell.itemAccessoryLabel2.text = [NSString stringWithFormat:@"%@ %@", skill1[1], skill1[2]];
+            NSDictionary *skill1 = decoration.skillArray[0];
+            cell.itemAccessoryLabel2.text = [NSString stringWithFormat:@"%@ %@", [skill1 valueForKey:@"skillTreeName"], [skill1 valueForKey:@"skillTreePointValue"]];
         } else if (decoration.skillArray.count == 2) {
             cell.itemAccessoryLabel1.hidden = NO;
             cell.itemAccessoryLabel3.hidden = NO;
             cell.itemAccessoryLabel2.hidden = YES;
-            NSArray *skill1 = decoration.skillArray[0];
-            NSArray *skill2 = decoration.skillArray[1];
-            cell.itemAccessoryLabel1.text = [NSString stringWithFormat:@"%@ %@", skill1[1], skill1[2]];
-            cell.itemAccessoryLabel3.text = [NSString stringWithFormat:@"%@ %@", skill2[1], skill2[2]];
+            NSDictionary *skill1 = decoration.skillArray[0];
+            NSDictionary *skill2 = decoration.skillArray[1];
+            cell.itemAccessoryLabel1.text = [NSString stringWithFormat:@"%@ %@", [skill1 valueForKey:@"skillTreeName"], [skill1 valueForKey:@"skillTreePointValue"]];
+            cell.itemAccessoryLabel3.text = [NSString stringWithFormat:@"%@ %@", [skill2 valueForKey:@"skillTreeName"], [skill2 valueForKey:@"skillTreePointValue"]];
         }
         
+        if (decoration.componentArray < 0) {
+            cell.itemSubLabel.text = @"Relic Decoration";
+        }
         
         cell.itemSubLabel.hidden = YES;
     }

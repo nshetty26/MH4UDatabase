@@ -174,62 +174,74 @@
     }
     
    if ([tableView isEqual:_monsterDropTable]){
-        NSArray *monsterDropArray = _selectedItem.monsterDropsArray[indexPath.row];
-        NSString *label = [NSString stringWithFormat:@"%@", monsterDropArray[0]];
-        cell.textLabel.text = label;
-        NSString *detailLabel = [NSString stringWithFormat:@"%@ %@", monsterDropArray[1], monsterDropArray[2]];
-        cell.textLabel.text = label;
-        cell.detailTextLabel.text = detailLabel;
-        CGRect cellFrame = cell.frame;
-        CGRect textView = CGRectMake(cellFrame.size.width - 60, cellFrame.size.height - 10, 30, 20);
-        UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
-        [cell addSubview:acessoryText];
-        acessoryText.textAlignment =  NSTextAlignmentRight;
-        acessoryText.text = [NSString stringWithFormat:@"%@%@",monsterDropArray[4], @"%"];
-        UIFont *font = [acessoryText.font fontWithSize:11];
-        acessoryText.font = font;
-        cell.accessoryView = acessoryText;
-        cell.imageView.image = [UIImage imageNamed:monsterDropArray[5]];
+       NSArray *monsterDrop = _selectedItem.monsterDropsArray[indexPath.row];
+       cell.imageView.image = [UIImage imageNamed:[monsterDrop valueForKey:@"icon"]];
+       
+       //create accessory view
+       CGRect cellFrame = cell.frame;
+       CGRect textView = CGRectMake(cellFrame.size.width - 60, cellFrame.size.height - 10, 30, 20);
+       UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
+       [cell addSubview:acessoryText];
+       acessoryText.textAlignment =  NSTextAlignmentRight;
+       UIFont *font = [acessoryText.font fontWithSize:11];
+       acessoryText.font = font;
+       cell.accessoryView = acessoryText;
+       
+       
+       cell.textLabel.text = [NSString stringWithFormat:@"%@", [monsterDrop valueForKey:@"monsterName"]];;
+       cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", [monsterDrop valueForKey:@"rank"], [monsterDrop valueForKey:@"condition"]];
+       acessoryText.text = [NSString stringWithFormat:@"%@%@",[monsterDrop valueForKey:@"percentage"], @"%"];
 
-        return cell;
+       return cell;
     }
     
     else if ([tableView isEqual:_questRewardTable]){
-        NSArray *questRewardArray = _selectedItem.questRewardsArray[indexPath.row];
-        NSString *label = [NSString stringWithFormat:@"%@", questRewardArray[0]];
-        NSString *quest = [questRewardArray[3] isEqualToString:@"A"] ? @"Main" : @"Sub";
-        NSString *detailLabel = [NSString stringWithFormat:@"%@ %@ %@ Quest", questRewardArray[1], questRewardArray[2], quest];
-        cell.textLabel.text = label;
-        cell.detailTextLabel.text = detailLabel;
+        NSDictionary *questReward = _selectedItem.questRewardsArray[indexPath.row];
+
+        NSString *quest = [[questReward valueForKey:@"rewardSlot"] isEqualToString:@"A"] ? @"Main" : @"Sub";
+        NSString *detailLabel = [NSString stringWithFormat:@"%@ %@ %@ Quest", [questReward valueForKey:@"hub"], [questReward valueForKey:@"stars"], quest];
+        
+        
         CGRect cellFrame = cell.frame;
         CGRect textView = CGRectMake(cellFrame.size.width - 65, cellFrame.size.height - 10, 35, 20);
         UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
         [cell addSubview:accessoryText];
+        cell.accessoryView = accessoryText;
+        
         accessoryText.textAlignment =  NSTextAlignmentRight;
-        accessoryText.text = [NSString stringWithFormat:@"%@%@",questRewardArray[5], @"%"];
         UIFont *font = [accessoryText.font fontWithSize:11];
         accessoryText.font = font;
-        cell.accessoryView = accessoryText;
+        
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", [questReward valueForKey:@"questName"]];
+        cell.detailTextLabel.text = detailLabel;
+        accessoryText.text = [NSString stringWithFormat:@"%@%@",[questReward valueForKey:@"percentage"], @"%"];
+
 
         return cell;
     }
     
     else if ([tableView isEqual:_locationTable]){
-        NSArray *locationArray = _selectedItem.locationsArray[indexPath.row];
-        NSString *label = [NSString stringWithFormat:@"%@", locationArray[0]];
-        NSString *detailLabel = [NSString stringWithFormat:@"%@ %@", locationArray[1], locationArray[2]];
-        cell.textLabel.text = label;
-        cell.detailTextLabel.text = detailLabel;
-        cell.imageView.image = [UIImage imageNamed:locationArray[7]];
+        NSDictionary *locationDict = _selectedItem.locationsArray[indexPath.row];
+
+
+        cell.imageView.image = [UIImage imageNamed:[locationDict valueForKey:@"locationIcon"]];
+        
+        //Creates the accessory text view programmatically
         CGRect cellFrame = cell.frame;
         CGRect textView = CGRectMake(cellFrame.size.width - 80, cellFrame.size.height - 10, 70, 20);
         UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
         [cell addSubview:accessoryText];
         accessoryText.textAlignment =  NSTextAlignmentRight;
-        accessoryText.text = [NSString stringWithFormat:@"%@ %@%@",locationArray[3], locationArray[5], @"%"];
         UIFont *font = [accessoryText.font fontWithSize:11];
-        accessoryText.font = font;
         cell.accessoryView = accessoryText;
+        accessoryText.font = font;
+        
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", [locationDict valueForKey:@"locationName"]];
+
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", [locationDict valueForKey:@"rank"], [locationDict valueForKey:@"area"]];
+
+        accessoryText.text = [NSString stringWithFormat:@"%@ %@%@",[locationDict valueForKey:@"site"], [locationDict valueForKey:@"percentage"], @"%"];
+        
         return cell;
     }
     
@@ -246,8 +258,8 @@
     }
     
     if ([tableView isEqual:_monsterDropTable]){
-        NSArray *monsterDropArray = _selectedItem.monsterDropsArray[indexPath.row];
-        Monster *monster = [[_dbEngine getMonsters:monsterDropArray[6]] firstObject];
+        NSDictionary *monsterDrop = _selectedItem.monsterDropsArray[indexPath.row];
+        Monster *monster = [[_dbEngine getMonsters:[monsterDrop valueForKey:@"monsterID"]] firstObject];
         MonsterDetailViewController *mDVC = [[MonsterDetailViewController alloc] init];
         mDVC.selectedMonster = monster;
         mDVC.heightDifference = _heightDifference;
@@ -256,12 +268,12 @@
     }
     
     else if ([tableView isEqual:_questRewardTable]){
-        NSArray *questRewardArray = _selectedItem.questRewardsArray[indexPath.row];
+        NSDictionary *questReward = _selectedItem.questRewardsArray[indexPath.row];
         Quest *quest = [[Quest alloc] init];
-        quest.questID = [questRewardArray[6] intValue];
-        quest.name = questRewardArray[0];
-        quest.hub = questRewardArray[1];
-        quest.stars = [questRewardArray[2] intValue];
+        quest.questID = [[questReward valueForKey:@"questID"] intValue];
+        quest.name = [questReward valueForKey:@"questName"];
+        quest.hub = [questReward valueForKey:@"hub"];
+        quest.stars = [[questReward valueForKey:@"stars"] intValue];
         
         QuestDetailViewController *qDVC = [[QuestDetailViewController alloc] init];
         qDVC.dbEngine = _dbEngine;
@@ -271,11 +283,11 @@
     }
     
     else if ([tableView isEqual:_locationTable]){
-        NSArray *locationArray = _selectedItem.locationsArray[indexPath.row];
+        NSDictionary *locationDict = _selectedItem.locationsArray[indexPath.row];
         Location *location = [[Location alloc] init];
-        location.locationID = [locationArray[6] intValue];
-        location.locationName = locationArray[0];
-        location.locationIcon = locationArray[7];
+        location.locationID = [[locationDict valueForKey:@"locationID"] intValue];
+        location.locationName = [locationDict valueForKey:@"locationName"];
+        location.locationIcon = [locationDict valueForKey:@"locationIcon"];
         LocationDetailViewController *lDVC = [[LocationDetailViewController alloc] init];
         lDVC.heightDifference = _heightDifference;
         lDVC.selectedLocation = location;

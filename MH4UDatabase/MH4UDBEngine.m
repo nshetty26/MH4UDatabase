@@ -266,10 +266,9 @@
     if (s) {
         while ([s next]) {
             int skillTreeID = [s intForColumn:@"_id"];
-            NSString *skillName = [s stringForColumn:@"name"];
-            int value = [s intForColumn:@"point_value"];
-            int armorID = [s intForColumn:@"itemID"];
-            [skillTreeArray addObject:@[[NSNumber numberWithInt:skillTreeID], skillName, [NSNumber numberWithInt:value], [NSNumber numberWithInt:armorID]]];
+            NSString *skillTreeName = [s stringForColumn:@"name"];
+            int pointValue = [s intForColumn:@"point_value"];
+            [skillTreeArray addObject:@{@"skillTreeID" : [NSNumber numberWithInt:skillTreeID], @"skillTreeName" : skillTreeName, @"skillTreePointValue" : [NSNumber numberWithInt:pointValue]}];
         }
     } else {
         return nil;
@@ -419,6 +418,7 @@
         item.rarity = [s intForColumn:@"rarity"];
         item.type = [s stringForColumn:@"iType"];
         item.componentType = [s stringForColumn:@"type"];
+        
         if ([itemType isEqualToString:@"Decoration"]) {
             Decoration *decoration = (Decoration *)item;
             decoration.itemID = [s intForColumn:@"created_item_id"];
@@ -455,7 +455,7 @@
         NSString *icon = [s stringForColumn:@"icon_name"];
         int monsterID = [s intForColumn:@"mID"];
         
-        [monsterDropArray addObject:@[monsterName, rank, condition, [NSNumber numberWithInt:stackSize],[NSNumber numberWithInt:percentage], icon, [NSNumber numberWithInt:monsterID]]];
+        [monsterDropArray addObject:@{@"monsterName" : monsterName, @"rank": rank, @"condition" : condition, @"stackSize" : [NSNumber numberWithInt:stackSize], @"percentage" : [NSNumber numberWithInt:percentage], @"icon" : icon, @"monsterID" : [NSNumber numberWithInt:monsterID]}];
         
     }
     
@@ -477,7 +477,7 @@
         int questID = [s intForColumn:@"_id"];
         
         
-        [questRewardArray addObject:@[questName, hub, [NSNumber numberWithInt:stars],rewardSlot, [NSNumber numberWithInt:stackSize], [NSNumber numberWithInt:percentage], [NSNumber numberWithInt:questID]]];
+        [questRewardArray addObject:@{@"questName" : questName, @"hub" : hub, @"stars" : [NSNumber numberWithInt:stars], @"rewardSlot" : rewardSlot, @"stackSize" : [NSNumber numberWithInt:stackSize], @"percentage" : [NSNumber numberWithInt:percentage], @"questID" : [NSNumber numberWithInt:questID]}];
         
     }
     
@@ -499,42 +499,11 @@
         int locationID = [s intForColumn:@"lID"];
         NSString *locationIcon = [s stringForColumn:@"map"];
         
-        [locationsArray addObject:@[locationName, rank, area, site, [NSNumber numberWithInt:quantity], [NSNumber numberWithInt:percentage],[NSNumber numberWithInt:locationID], locationIcon]];
+        [locationsArray addObject:@{@"locationName" : locationName, @"rank": rank, @"area": area, @"site": site, @"quantity" : [NSNumber numberWithInt:quantity], @"percentage" : [NSNumber numberWithInt:percentage], @"locationID" : [NSNumber numberWithInt:locationID], @"locationIcon" : locationIcon}];
         
     }
     
     item.locationsArray = locationsArray;
-}
-
-#pragma mark - Table Display Queries
--(NSArray *)infoForUsageTableCellforItemID:(NSNumber *)itemID
-{
-    NSString * usageQuery = [NSString stringWithFormat:@"select components.created_item_id, i2.name, i1.name, components.quantity, components.type from components inner join items as i1 on i1._id = components.component_item_id inner join items as i2 on i2._id = components.created_item_id where i1._id = %i", itemID.intValue];
-    NSArray *usageInfo;
-    
-    FMResultSet *s = [self DBquery:usageQuery];
-    if ([s next]) {
-        int createdID = [s intForColumn:@"components.created_item_id"];
-        NSString *name = [s stringForColumn:@"i2.name"];
-        usageInfo = @[[NSNumber numberWithInt:createdID], name];
-    }
-    
-    return usageInfo;
-}
-
--(NSArray *)infoForCombinedTableCellforItemID:(NSNumber *)itemID
-{
-    NSString *itemPartQuery = [NSString stringWithFormat:@"SELECT name, icon_name FROM items where _id = %@", itemID];
-    NSArray *info;
-    FMResultSet *s = [self DBquery:itemPartQuery];
-    if ([s next]) {
-        NSString *name = [s stringForColumn:@"name"];
-        NSString *icon = [s stringForColumn:@"icon_name"];
-        info = @[name, icon];
-    }
-    
-    return info;
-    
 }
 
 #pragma mark - Skill Queries
@@ -548,14 +517,14 @@
     while ([s next]) {
         int skillTreeID = [s intForColumn:@"_id"];
         NSString *skillTreeName = [s stringForColumn:@"name"];
-        [skillTrees addObject:@[[NSNumber numberWithInt:skillTreeID], skillTreeName]];
+        [skillTrees addObject:@{@"skillTreeID" : [NSNumber numberWithInt:skillTreeID], @"skillTreeName" : skillTreeName}];
     }
     
     [skillTrees sortUsingComparator:^NSComparisonResult(id tree1, id tree2){
-        NSArray *skillTree1 = (NSArray *)tree1;
-        NSArray *skillTree2 = (NSArray *)tree2;
-        NSString *skillTree1Name = skillTree1[1];
-        NSString  *skillTree2Name = skillTree2[1];
+        NSDictionary *skillTree1 = (NSDictionary *)tree1;
+        NSDictionary *skillTree2 = (NSDictionary *)tree2;
+        NSString *skillTree1Name = [skillTree1 valueForKey:@"skillTreeName"];
+        NSString  *skillTree2Name = [skillTree2 valueForKey:@"skillTreeName"];
         return [(NSString *) skillTree1Name compare:skillTree2Name options:NSNumericSearch];
     }];
     
@@ -564,9 +533,9 @@
         
 }
 
--(SkillCollection *)getSkillCollectionForSkillTreeID:(int)skillTreeID {
+-(SkillTreeCollection *)getSkillCollectionForSkillTreeID:(int)skillTreeID {
     NSMutableArray *skillsArray = [[NSMutableArray alloc] init];
-    SkillCollection *skillCollection = [[SkillCollection alloc] init];
+    SkillTreeCollection *skillCollection = [[SkillTreeCollection alloc] init];
     NSString *skillsQuery = [NSString stringWithFormat:@"SELECT required_skill_tree_points, name, description from skills where skills.skill_tree_id = %i", skillTreeID];
     
     FMResultSet *s = [self DBquery:skillsQuery];
@@ -575,27 +544,28 @@
         int pointsNeeded = [s intForColumn:@"required_skill_tree_points"];
         NSString *name = [s stringForColumn:@"name"];
         NSString *skillDescription = [s stringForColumn:@"description"];
-        [skillsArray addObject:@[[NSNumber numberWithInt:pointsNeeded], name, skillDescription]];
-    }
+        [skillsArray addObject:@{@"skillPointsNeeded" : [NSNumber numberWithInt:pointsNeeded], @"skillName" : name, @"skillDecription" :skillDescription}];
+         }
     
     [skillsArray sortUsingComparator:^NSComparisonResult(id skill1, id skill2){
-        NSArray *skillArray1 = (NSArray *)skill1;
-        NSArray *skillArray2 = (NSArray *)skill2;
-        NSNumber *pointsNeeded1 = skillArray1[0];
-        NSNumber *pointsNeeded2 = skillArray2[0];
+        NSDictionary *skillDict1 = (NSDictionary *)skill1;
+        NSDictionary *skillDict2 = (NSDictionary *)skill2;
+        NSNumber *pointsNeeded1 = [skillDict1 valueForKey:@"skillPointsNeeded"];
+        NSNumber *pointsNeeded2 = [skillDict2 valueForKey:@"skillPointsNeeded"];
         return [(NSNumber *) pointsNeeded1 compare:pointsNeeded2];
     }];
-    skillCollection.skillArray = skillsArray;
+    
+    skillCollection.skillDescriptionArray = skillsArray;
     [self getEquipmentForSkillCollection:skillCollection andSkillTreeID:skillTreeID];
     [self getDecorationsForSkillCollection:skillCollection andSkillTreeID:skillTreeID];
     return skillCollection;
 }
 
--(void)getEquipmentForSkillCollection:(SkillCollection *)skillCollection andSkillTreeID:(int)skillTreeID{
+-(void)getEquipmentForSkillCollection:(SkillTreeCollection *)skillCollection andSkillTreeID:(int)skillTreeID{
     
     NSArray *equipmentParts = @[@"Head", @"Body", @"Arms", @"Waist", @"Legs"];
     for (NSString *part in equipmentParts) {
-        NSString *equipmentQuery = [NSString stringWithFormat:@"SELECT items._id as itemID, items.name as itemName, items.rarity, armor.slot, skill_trees._id, skill_trees.name, item_to_skill_tree.point_value FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id inner join armor on armor._id = items._id where skill_trees._id = %i and armor.slot = '%@'", skillTreeID, part];
+        NSString *equipmentQuery = [NSString stringWithFormat:@"SELECT items._id as itemID, items.name as itemName, items.rarity, armor.slot, skill_trees._id, skill_trees.name as skillTreeName, item_to_skill_tree.point_value FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id inner join armor on armor._id = items._id where skill_trees._id = %i and armor.slot = '%@'", skillTreeID, part];
         NSMutableArray *equipmentArray = [[NSMutableArray alloc] init];
         
         FMResultSet *s = [self DBquery:equipmentQuery];
@@ -608,7 +578,7 @@
             armor.rarity = [s intForColumn:@"rarity"];
             armor.icon = [NSString stringWithFormat:@"%@%i.png",[s stringForColumn:@"slot"], armor.rarity].lowercaseString;
             armor.type = @"Armor";
-            armor.skillsArray = @[[NSNumber numberWithInt:[s intForColumn:@"point_value"]]];
+            armor.skillsArray = @[@{@"skillTreeName" : [s stringForColumn:@"skillTreeName"], @"skillTreePointValue" : [NSNumber numberWithInt:[s intForColumn:@"point_value"]]}];
             [equipmentArray addObject:armor];
         }
         
@@ -629,7 +599,7 @@
 
 #pragma mark - Decoration Queries
 
--(void)getDecorationsForSkillCollection:(SkillCollection *)skillCollection andSkillTreeID:(int)skillTreeID{
+-(void)getDecorationsForSkillCollection:(SkillTreeCollection *)skillCollection andSkillTreeID:(int)skillTreeID{
     NSString *jewelQuery = [NSString stringWithFormat:@" SELECT items._id as itemID, items.name as itemName, items.icon_name, items.type, skill_trees._id, skill_trees.name, item_to_skill_tree.point_value FROM items INNER JOIN item_to_skill_tree on items._id = item_to_skill_tree.item_id INNER JOIN skill_trees on item_to_skill_tree.skill_tree_id = skill_trees._id where skill_trees._id = %i and type = 'Decoration'", skillTreeID];
     NSMutableArray *decorationArray = [[NSMutableArray alloc] init];
     FMResultSet *s = [self DBquery:jewelQuery];
@@ -691,7 +661,7 @@
         int skillTreeID = [s intForColumn:@"_id"];
         NSString *skillTreeName = [s stringForColumn:@"name"];
         int pointValue = [s intForColumn:@"point_value"];
-        [skillsArray addObject:@[[NSNumber numberWithInt:skillTreeID], skillTreeName, [NSNumber numberWithInt:pointValue]]];
+        [skillsArray addObject:@{@"skillTreeID" : [NSNumber numberWithInt:skillTreeID], @"skillTreeName" : skillTreeName, @"skillTreePointValue" : [NSNumber numberWithInt:pointValue]}];
     }
     
     return skillsArray;
@@ -777,6 +747,7 @@
         item.itemDescription = [s stringForColumn:@"description"];
         item.icon = [s stringForColumn:@"icon_name"];
         item.percentage = [s intForColumn:@"percentage"];
+        
         NSString *rewardType = [s stringForColumn:@"reward_slot"];
         if ([rewardType isEqualToString:@"A"]) {
             rewardType = @"Main Quest";
@@ -1004,7 +975,7 @@
         NSString *effect2 = [s stringForColumn:@"effect2"];
         int duration = [s intForColumn:@"duration"];
         int extension = [s intForColumn:@"extension"];
-        [hornMelodies addObject:@[song, effect1, effect2, [NSNumber numberWithInt:duration], [NSNumber numberWithInt:extension]]];
+        [hornMelodies addObject:@{@"song" : song, @"effect1" : effect1, @"effect2" : effect2, @"duration" : [NSNumber numberWithInt:duration], @"extension" : [NSNumber numberWithInt:extension]}];
     }
     
     return hornMelodies;

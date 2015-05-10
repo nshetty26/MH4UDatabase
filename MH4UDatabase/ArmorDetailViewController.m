@@ -111,13 +111,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView isEqual:_skillTable]) {
-        NSArray *skillArray = _selectedArmor.skillsArray[indexPath.row];
+        NSDictionary *skillTree = _selectedArmor.skillsArray[indexPath.row];
         SkillDetailViewController *sdVC = [[SkillDetailViewController alloc] init];
         sdVC.heightDifference = _heightDifference;
         sdVC.dbEngine = _dbEngine;
-        sdVC.skilTreeName = [skillArray objectAtIndex:1];
-        NSNumber *skillTreeID = [skillArray objectAtIndex:0];
-        sdVC.skillTreeID = [skillTreeID intValue];
+        sdVC.skilTreeName = [skillTree valueForKey:@"skillTreeName"];
+        sdVC.skillTreeID = [[skillTree valueForKey:@"skillTreeID"] intValue];
         [self.navigationController pushViewController:sdVC animated:YES];
             
         }
@@ -131,19 +130,18 @@
     }
 
     if ([tableView isEqual:_skillTable]) {
-        NSArray *skillArray = _selectedArmor.skillsArray[indexPath.row];
-        NSString *detailLabel = [NSString stringWithFormat:@"%@", [skillArray objectAtIndex:1]];
-        cell.textLabel.text = detailLabel;
+        NSDictionary *skillTree = _selectedArmor.skillsArray[indexPath.row];
         
         CGRect cellFrame = cell.frame;
         CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 50, 20);
         UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
         acessoryText.textAlignment =  NSTextAlignmentRight;
-        
-        
-        acessoryText.text = [NSString stringWithFormat:@"%@",[skillArray objectAtIndex:2]];
         [cell addSubview:acessoryText];
         [cell setAccessoryView: acessoryText];
+        
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", [skillTree valueForKey:@"skillTreeName"]];
+        acessoryText.text = [NSString stringWithFormat:@"%@", [skillTree valueForKey:@"skillTreePointValue"]];
+
     }
     
     return cell;
