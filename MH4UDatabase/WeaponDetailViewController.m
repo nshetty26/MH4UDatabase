@@ -276,26 +276,23 @@
         _auxiliaryValue3.text = weapon.deviation;
     } else if ([weapon.type isEqualToString:@"Bow"]) {
         NSArray *chargeArray = [weapon.charges componentsSeparatedByString:@"|"];
+        NSArray *auxiliaryLabels = @[@[_auxiliaryLabel2, _auxiliaryValue2], @[_auxiliaryLabel3,_auxiliaryValue3], @[_auxiliaryLabel4, _auxiliaryValue4], @[_auxiliaryLabel5, _auxiliaryValue5]];
         _auxiliaryLabel1.hidden = NO;
         _auxiliaryValue1.hidden = NO;
         _auxiliaryLabel1.text = @"Arc:";
         _auxiliaryValue1.text = weapon.recoil;
         _auxiliaryLabel2.hidden = NO;
         _auxiliaryValue2.hidden = NO;
-        _auxiliaryLabel2.text = @"Charge 1:";
-        _auxiliaryValue2.text = chargeArray[0];
-        _auxiliaryLabel3.hidden = NO;
-        _auxiliaryValue3.hidden = NO;
-        _auxiliaryLabel3.text = @"Charge 2:";
-        _auxiliaryValue3.text = chargeArray[1];
-        _auxiliaryLabel4.hidden = NO;
-        _auxiliaryValue4.hidden = NO;
-        _auxiliaryLabel4.text = @"Charge 3:";
-        _auxiliaryValue4.text = chargeArray[2];
-        _auxiliaryLabel5.hidden = NO;
-        _auxiliaryValue5.hidden = NO;
-        _auxiliaryLabel5.text = @"Charge 4";
-        _auxiliaryValue5.text = chargeArray[3];
+        for (int i = 0; i < chargeArray.count; i++) {
+            NSArray *labels = auxiliaryLabels[i];
+            UILabel *auxiliaryLabel = labels[0];
+            UILabel *auxiliaryValue = labels[1];
+            auxiliaryLabel.hidden = NO;
+            auxiliaryValue.hidden = NO;
+            auxiliaryLabel.text = [NSString stringWithFormat:@"Charge %i:", i];
+            auxiliaryValue.text = [NSString stringWithFormat:@"%@", chargeArray[i]];
+        }
+
     }
     
     if (([weapon.type rangeOfString:@"Bow"].location == NSNotFound)) {

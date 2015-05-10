@@ -269,6 +269,22 @@
             }
         }
     }
+    if ([_skillDictionary objectForKey:[NSNumber numberWithInt:1]]) {
+        NSMutableArray *torsoUpAndValue = [_skillDictionary objectForKey:[NSNumber numberWithInt:1]];
+        NSNumber *torsoUpValue = torsoUpAndValue[1];
+        if (_armorSet.chest) {
+            for (int i = 0; i < [torsoUpValue intValue]; i++) {
+                [self combineSkillsArray:_armorSet.chest.skillsArray];
+                
+                if (_armorSet.chest.decorationsArray.count > 0) {
+                    for (Decoration *decoration in _armorSet.chest.decorationsArray) {
+                        [self combineSkillsArray:decoration.skillArray];
+                    }
+                }
+            }
+        }
+
+    }
     
     [_statTableView reloadData];
 }
@@ -280,8 +296,8 @@
         } else {
             NSMutableArray *nameAndValue = [_skillDictionary objectForKey:skill[0]];
             NSNumber *originalValue = nameAndValue[1];
-            NSNumber *newSkillValue = skill[2];
-            int newValue = [originalValue intValue] + [newSkillValue intValue];
+            NSNumber *addedSkillValue = skill[2];
+            int newValue = [originalValue intValue] + [addedSkillValue intValue];
             nameAndValue[1] = [NSNumber numberWithInt:newValue];
         }
     }
