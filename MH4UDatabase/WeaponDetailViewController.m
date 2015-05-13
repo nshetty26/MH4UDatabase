@@ -292,13 +292,19 @@
             auxiliaryLabel.text = [NSString stringWithFormat:@"Charge %i:", i];
             auxiliaryValue.text = [NSString stringWithFormat:@"%@", chargeArray[i]];
         }
+        
+        _sharpnessView1.hidden = YES;
+        _sharpnessView2.hidden = YES;
+        _sharpnessBackground.hidden = NO;
+        _sharpnessBackground.backgroundColor = [UIColor whiteColor];
+        [weapon drawBowCoatings:weapon.coatings inView:_sharpnessBackground];
 
     }
     
     if (([weapon.type rangeOfString:@"Bow"].location == NSNotFound)) {
         [self drawSharpnessRectWithWeapon:weapon];
     } else {
-        _sharpnessBackground.hidden = YES;
+        //_sharpnessBackground.hidden = YES;
         _sharpnessView1.hidden = YES;
         _sharpnessView2.hidden = YES;
     }

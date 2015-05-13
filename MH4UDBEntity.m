@@ -70,6 +70,62 @@
     return elementString;
 }
 
+-(void)drawBowCoatings:(NSString *)coatingString inView:(UIView *)coatingView {
+    //ammoString = @"Power|Poison|Para|Sleep|-|Paint|-|-@";
+    NSArray *coatingSplit = [coatingString componentsSeparatedByString:@"|"];
+    NSArray *coatingArray = [coatingSplit filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSString *coatingString, NSDictionary *userInfo){
+        if ([coatingString isEqualToString:@"-"]) {
+            return false;
+        } else {
+            return true;
+        }
+    }]];
+    float width = coatingView.frame.size.width / coatingArray.count;
+    
+    for (int i = 0; i < coatingArray.count; i++) {
+        NSString *coating = coatingArray[i];
+        UIImage *coatingImage = [self returnImageForCoating:coating];
+        UIImageView *coatingImageView = [[UIImageView alloc] initWithImage:coatingImage];
+        coatingImageView.frame = CGRectMake(i * width, 0, 30, 30);
+        [coatingView addSubview:coatingImageView];
+    }
+}
+
+-(UIImage *)returnImageForCoating:(NSString *)coating {
+    if ([coating isEqualToString:@"Power"]) {
+        return [UIImage imageNamed:@"Bottle-Red.png"];
+    }
+    
+    else if ([coating isEqualToString:@"Para"]) {
+        return [UIImage imageNamed:@"Bottle-Yellow.png"];
+    }
+    
+    else if ([coating isEqualToString:@"C. Range"]) {
+        return [UIImage imageNamed:@"Bottle-White.png"];
+    }
+    
+    else if ([coating isEqualToString:@"Exhaust"]) {
+        return [UIImage imageNamed:@"Bottle-Blue.png"];
+    }
+    
+    else if ([coating isEqualToString:@"Paint"]) {
+        return [UIImage imageNamed:@"Bottle-Pink.png"];
+    }
+    
+    else if ([coating isEqualToString:@"Poison"]) {
+        return [UIImage imageNamed:@"Bottle-Purple.png"];
+    }
+    
+    else if ([coating isEqualToString:@"Sleep"]) {
+        return [UIImage imageNamed:@"Bottle-Cyan.png"];
+    }
+    
+    else if ([coating isEqualToString:@"Blast"]) {
+        return [UIImage imageNamed:@"Bottle-Orange.png"];
+    }
+    return nil;
+}
+
 -(void)drawSharpness:(NSString *)sharpnessString inView:(UIView *)sharpnessView {
     double frameWidth = 0;
     [sharpnessView setBackgroundColor:[UIColor clearColor]];

@@ -75,6 +75,7 @@
 
 -(NSString *)getElementalDescription;
 -(void)drawSharpness:(NSString *)sharpnessString inView:(UIView *)sharpnessView;
+-(void)drawBowCoatings:(NSString *)ammoString inView:(UIView *)coatingView;
 
 @end
 
