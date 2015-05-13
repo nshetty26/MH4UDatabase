@@ -642,12 +642,21 @@
     if (armorSet.weapon) {
         if (![armorSet.weapon.sharpness isEqualToString:@""]) {
             [self drawSharpnessRectWithWeapon:armorSet.weapon];
-        } else {
-            _sharpnessLabel.hidden = YES;
-            _sharpnessBackground.hidden = YES;
+        } else if ([armorSet.weapon.type isEqualToString:@"Bow"]) {
             _sharpnessView1.hidden = YES;
             _sharpnessView2.hidden = YES;
+            _sharpnessBackground.hidden = NO;
+            _sharpnessLabel.text = @"Coatings: ";
+            _sharpnessBackground.backgroundColor = [UIColor whiteColor];
+            [armorSet.weapon drawBowCoatings:armorSet.weapon.coatings inView:_sharpnessBackground];
+            
+        } else {
+            _sharpnessView1.hidden = YES;
+            _sharpnessView2.hidden = YES;
+            _sharpnessBackground.hidden = YES;
+            _sharpnessLabel.hidden = YES;
         }
+
     } else {
         _sharpnessLabel.hidden = YES;
         _sharpnessBackground.hidden = YES;
