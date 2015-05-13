@@ -70,6 +70,31 @@
     return elementString;
 }
 
+
+
+-(NSAttributedString *)returnAttributedAmmoStringFromAmmoString:(NSString *)bowGunAmmoString {
+    NSArray *ammoArray = [bowGunAmmoString componentsSeparatedByString:@"|"];
+    NSMutableAttributedString *ammoString = [[NSMutableAttributedString alloc] initWithString:@""];
+    for (int i = 0; i < ammoArray.count; ++i) {
+        NSMutableAttributedString *ammo = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ ", ammoArray[i]]];
+        
+        if (!([ammoArray[i] rangeOfString:@"*"].location == NSNotFound)) {
+            [ammo addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(0, ammo.length)];
+        }
+        
+        if (i % 3 == 0 && i != 0) {
+            [ammo insertAttributedString:[[NSMutableAttributedString alloc] initWithString:@"\n"] atIndex:0];
+            [ammoString appendAttributedString:ammo];
+        } else {
+            
+            [ammoString appendAttributedString:ammo];
+        }
+        
+    }
+
+    return ammoString;
+}
+
 -(void)drawBowCoatings:(NSString *)coatingString inView:(UIView *)coatingView {
     //ammoString = @"Power|Poison|Para|Sleep|-|Paint|-|-@";
     NSArray *coatingSplit = [coatingString componentsSeparatedByString:@"|"];

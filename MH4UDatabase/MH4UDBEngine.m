@@ -882,7 +882,7 @@
 
 -(NSArray *)getWeaponsForWeaponType:(NSString *)weaponType {
     NSMutableArray *weaponArray = [[NSMutableArray alloc] init];
-    NSString *weaponQuery =  [NSString stringWithFormat:@"select weapons._id, weapons.wType, weapons.parent_id, items.name, items.rarity, weapons.wtype, weapons.attack, weapons.awaken, weapons.awaken_attack, weapons.element, weapons.element_attack, weapons.element_2, weapons.element_2_attack, weapons.num_slots, weapons.affinity, weapons.defense, weapons.sharpness, weapons.final, weapons.phial, weapons.horn_notes, weapons.reload_speed, weapons.recoil, weapons.deviation, weapons.tree_depth, weapons.creation_cost, weapons.upgrade_cost, weapons.charges, weapons.coatings from weapons inner join items on items._id = weapons._id where weapons.wtype = '%@'", weaponType];
+    NSString *weaponQuery =  [NSString stringWithFormat:@"select weapons._id, weapons.wType, weapons.parent_id, items.name, items.rarity, weapons.wtype, weapons.attack, weapons.awaken, weapons.awaken_attack, weapons.element, weapons.element_attack, weapons.element_2, weapons.element_2_attack, weapons.num_slots, weapons.affinity, weapons.defense, weapons.shelling_type, weapons.sharpness, weapons.final, weapons.phial, weapons.horn_notes, weapons.reload_speed, weapons.recoil, weapons.ammo, weapons.deviation, weapons.tree_depth, weapons.creation_cost, weapons.upgrade_cost, weapons.charges, weapons.coatings from weapons inner join items on items._id = weapons._id where weapons.wtype = '%@'", weaponType];
     FMResultSet *s = [self DBquery:weaponQuery];
     while ([s next]) {
         Weapon *weapon = [[Weapon alloc] init];
@@ -908,9 +908,11 @@
         weapon.sharpness = [s stringForColumn:@"sharpness"];
         weapon.phial = [s stringForColumn:@"phial"];
         weapon.hornNotes = [s stringForColumn:@"horn_notes"];
+        weapon.shellingType = [s stringForColumn:@"shelling_type"];
         weapon.tree_depth = [s intForColumn:@"tree_depth"];
         weapon.final = [s intForColumn:@"final"];
         weapon.recoil = [s stringForColumn:@"recoil"];
+        weapon.ammo = [s stringForColumn:@"ammo"];
         weapon.reloadSpeed = [s stringForColumn:@"reload_speed"];
         weapon.deviation = [s stringForColumn:@"deviation"];
         weapon.charges = [s stringForColumn:@"charges"];
@@ -923,7 +925,7 @@
 }
 
 -(Weapon *)getWeaponForWeaponID:(int)weaponID {
-    NSString *weaponQuery =  [NSString stringWithFormat:@"select weapons._id, weapons.wType, weapons.parent_id, items.name, items.rarity, weapons.wtype, weapons.attack, weapons.awaken, weapons.awaken_attack, weapons.element, weapons.element_attack, weapons.element_2, weapons.element_2_attack, weapons.num_slots, weapons.affinity, weapons.defense, weapons.sharpness, weapons.final, weapons.phial, weapons.horn_notes, weapons.reload_speed, weapons.recoil, weapons.deviation, weapons.tree_depth, weapons.creation_cost, weapons.upgrade_cost, weapons.charges, weapons.coatings from weapons inner join items on items._id = weapons._id where weapons._id = %i", weaponID];
+    NSString *weaponQuery =  [NSString stringWithFormat:@"select weapons._id, weapons.wType, weapons.parent_id, items.name, items.rarity, weapons.wtype, weapons.attack, weapons.awaken, weapons.awaken_attack, weapons.element, weapons.element_attack, weapons.element_2, weapons.element_2_attack, weapons.num_slots, weapons.affinity, weapons.defense, weapons.sharpness, weapons.shelling_type, weapons.final, weapons.phial, weapons.horn_notes, weapons.reload_speed, weapons.recoil, weapons.ammo, weapons.deviation, weapons.tree_depth, weapons.creation_cost, weapons.upgrade_cost, weapons.charges, weapons.coatings from weapons inner join items on items._id = weapons._id where weapons._id = %i", weaponID];
     FMResultSet *s = [self DBquery:weaponQuery];
     while ([s next]) {
         Weapon *weapon = [[Weapon alloc] init];
@@ -947,12 +949,14 @@
         weapon.affinity = [s intForColumn:@"affinity"];
         weapon.defense = [s intForColumn:@"defense"];
         weapon.sharpness = [s stringForColumn:@"sharpness"];
+        weapon.shellingType = [s stringForColumn:@"shelling_type"];
         weapon.phial = [s stringForColumn:@"phial"];
         weapon.hornNotes = [s stringForColumn:@"horn_notes"];
         weapon.tree_depth = [s intForColumn:@"tree_depth"];
         weapon.final = [s intForColumn:@"final"];
         weapon.recoil = [s stringForColumn:@"recoil"];
         weapon.reloadSpeed = [s stringForColumn:@"reload_speed"];
+        weapon.ammo = [s stringForColumn:@"ammo"];
         weapon.deviation = [s stringForColumn:@"deviation"];
         weapon.charges = [s stringForColumn:@"charges"];
         weapon.coatings = [s stringForColumn:@"coatings"];

@@ -274,6 +274,11 @@
         _auxiliaryValue3.hidden = NO;
         _auxiliaryLabel3.text = @"Steadiness";
         _auxiliaryValue3.text = weapon.deviation;
+        _sharpnessBackground.hidden = YES;
+        NSAttributedString *ammoString = [weapon returnAttributedAmmoStringFromAmmoString:weapon.ammo];
+        [_ammoTextView setAttributedText:ammoString];
+        _ammoTextView.hidden = NO;
+        
     } else if ([weapon.type isEqualToString:@"Bow"]) {
         NSArray *chargeArray = [weapon.charges componentsSeparatedByString:@"|"];
         NSArray *auxiliaryLabels = @[@[_auxiliaryLabel2, _auxiliaryValue2], @[_auxiliaryLabel3,_auxiliaryValue3], @[_auxiliaryLabel4, _auxiliaryValue4], @[_auxiliaryLabel5, _auxiliaryValue5]];
@@ -304,9 +309,16 @@
     if (([weapon.type rangeOfString:@"Bow"].location == NSNotFound)) {
         [self drawSharpnessRectWithWeapon:weapon];
     } else {
-        //_sharpnessBackground.hidden = YES;
+        
         _sharpnessView1.hidden = YES;
         _sharpnessView2.hidden = YES;
+    }
+    
+    if (!([weapon.type rangeOfString:@"Gunlance"].location == NSNotFound)) {
+        _auxiliaryLabel1.hidden = NO;
+        _auxiliaryValue1.hidden = NO;
+        _auxiliaryLabel1.text = @"Shelling: ";
+        _auxiliaryValue1.text = weapon.shellingType;
     }
 
     _rarityLabel.text = [NSString stringWithFormat:@"%i", weapon.rarity];
