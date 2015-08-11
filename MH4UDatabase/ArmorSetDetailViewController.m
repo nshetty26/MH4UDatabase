@@ -16,6 +16,7 @@
 #import "ItemDetailViewController.h"
 #import "WeaponDetailViewController.h"
 #import "ArmorDetailViewController.h"
+#import "TalismanCreatorViewController.h"
 
 @interface ArmorSetDetailViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *weaponImage;
@@ -66,6 +67,7 @@
 
 - (IBAction)launchDetailVC:(id)sender;
 
+- (IBAction)launchTalismanVC:(id)sender;
 
 @end
 
@@ -323,6 +325,7 @@
     _legImage.image = [UIImage imageNamed:_armorSet.legs.icon];
     _legLabel.text = _armorSet.legs.name;
     
+    
     [_armorStatSheet populateStatsWithArmorSet:_armorSet];
 }
 
@@ -526,7 +529,7 @@
     _armorSetTab.frame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + [self returnHeightDifference], vcFrame.size.width, 49);
     _armorStatSheet.frame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _armorSetTab.frame.size.height + [self returnHeightDifference], vcFrame.size.width, vcFrame.size.height - [self returnHeightDifference] - _armorSetTab.frame.size.height);
     _statTableView.frame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _armorSetTab.frame.size.height + [self returnHeightDifference], vcFrame.size.width, vcFrame.size.height - (_armorSetTab.frame.size.height + [self returnHeightDifference]));
-    _equipmentSocketTab.frame = CGRectMake(self.view.frame.origin.x, _legImage.frame.origin.y + _legImage.frame.size.height + 10, _baseVC.rightDrawerViewController.view.frame.size.width, 49);
+    _equipmentSocketTab.frame = CGRectMake(self.view.frame.origin.x, _talismanImage.frame.origin.y + _talismanImage.frame.size.height + 10, _baseVC.rightDrawerViewController.view.frame.size.width, 49);
     _socketedTable.frame = CGRectMake(vcFrame.origin.x, _equipmentSocketTab.frame.origin.y + _equipmentSocketTab.frame.size.height, _baseVC.rightDrawerViewController.view.frame.size.width, vcFrame.size.height - (_armorSetTab.frame.size.height + [self returnHeightDifference]));
     
     self.navigationItem.rightBarButtonItems = nil;
@@ -594,6 +597,13 @@
         [nC pushViewController:aDVC animated:YES];
     }
 
+}
+
+- (IBAction)launchTalismanVC:(id)sender {
+    TalismanCreatorViewController *tCVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"talismanCreatorVC"];
+    tCVC.dbEngine = _dbEngine;
+    //UINavigationController *nC = (UINavigationController *)_baseVC.centerViewController;
+    [self.navigationController pushViewController:tCVC animated:YES];
 }
 
 #pragma mark - Clone Current Set Methods

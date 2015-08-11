@@ -12,7 +12,7 @@
 @class BaseViewController;
 @class  MH4UDBEngine;
 
-@interface DecorationsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+@interface DecorationsViewController : UIViewController <UISearchBarDelegate>
 
 @property (strong, nonatomic) BaseViewController *baseViewController;
 @property (nonatomic) NSArray *allDecorations;

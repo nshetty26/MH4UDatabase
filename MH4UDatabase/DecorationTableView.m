@@ -60,6 +60,7 @@
 -(void)tableView:(UITableView *)tableView willDisplayCell:(DecorationTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     Decoration *decoration = _displayedDecorations[indexPath.row];
+    decoration.skillArray = [_dbEngine getSkillTreesForDecorationID:decoration.itemID];
     cell.itemImageView.image = [UIImage imageNamed:decoration.icon];
     cell.itemLabel.text = decoration.name;
     

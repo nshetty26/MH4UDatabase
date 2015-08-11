@@ -48,6 +48,7 @@
 -(SkillTreeCollection *)getSkillCollectionForSkillTreeID:(int)skillTreeID;
 
 -(NSArray *)getAllDecorations:(NSNumber *)decorationID;
+-(NSArray *)getSkillTreesForDecorationID:(int)decorationID;
 -(NSArray *)getComponentsfor:(int)armorID;
 
 -(NSArray *)getAllQuests:(NSNumber *)questID;

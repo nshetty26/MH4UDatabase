@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		40FA94B51B7A6B4F00D817EB /* mh4u.db in Resources */ = {isa = PBXBuildFile; fileRef = 40FA94B41B7A6B4F00D817EB /* mh4u.db */; };
+		40FA94BB1B7A6CF100D817EB /* maps_mh4_ancestral_steppe.png in Resources */ = {isa = PBXBuildFile; fileRef = 40FA94BA1B7A6CF100D817EB /* maps_mh4_ancestral_steppe.png */; };
+		40FA94BD1B7A6D3600D817EB /* maps_mh4_sunken_hollow.png in Resources */ = {isa = PBXBuildFile; fileRef = 40FA94BC1B7A6D3600D817EB /* maps_mh4_sunken_hollow.png */; };
+		40FA94BF1B7A6D9B00D817EB /* maps_mh4_volcanic_hollow.png in Resources */ = {isa = PBXBuildFile; fileRef = 40FA94BE1B7A6D9B00D817EB /* maps_mh4_volcanic_hollow.png */; };
+		40FA94C11B7A6DF600D817EB /* maps_mh4_primal_forest.png in Resources */ = {isa = PBXBuildFile; fileRef = 40FA94C01B7A6DF600D817EB /* maps_mh4_primal_forest.png */; };
+		40FA94C31B7A6E6100D817EB /* maps_mh4_frozen_seaway.png.png in Resources */ = {isa = PBXBuildFile; fileRef = 40FA94C21B7A6E6100D817EB /* maps_mh4_frozen_seaway.png.png */; };
+		40FA94C51B7A6ED000D817EB /* maps_mh4_heavens_mount.png in Resources */ = {isa = PBXBuildFile; fileRef = 40FA94C41B7A6ED000D817EB /* maps_mh4_heavens_mount.png */; };
+		40FA94C71B7A6EF000D817EB /* maps_mh4_dunes_day.png in Resources */ = {isa = PBXBuildFile; fileRef = 40FA94C61B7A6EF000D817EB /* maps_mh4_dunes_day.png */; };
+		40FA94C91B7A6FA200D817EB /* maps_mh4_dunes_night.png in Resources */ = {isa = PBXBuildFile; fileRef = 40FA94C81B7A6FA200D817EB /* maps_mh4_dunes_night.png */; };
+		40FA94CC1B7A9F3300D817EB /* TalismanCreatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40FA94CB1B7A9F3300D817EB /* TalismanCreatorViewController.m */; };
 		499F66047D4F8AC8382E0904 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D81653FF5EF53FDB102D0403 /* libPods.a */; };
 		E703EF7C1AE1828D00B2C9E6 /* ArmorSetDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E703EF7A1AE1828D00B2C9E6 /* ArmorSetDetailViewController.m */; };
 		E703EF7D1AE1828D00B2C9E6 /* ArmorSetDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E703EF7B1AE1828D00B2C9E6 /* ArmorSetDetailViewController.xib */; };
@@ -33,7 +43,7 @@
 		E749BA971AB3D22F003860E8 /* WeaponsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E749BA961AB3D22F003860E8 /* WeaponsTableViewController.m */; };
 		E749EAB81AC4E49F00E10DFF /* DecorationTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E749EAB71AC4E49F00E10DFF /* DecorationTableCell.xib */; };
 		E749EABB1AC4EB4900E10DFF /* ItemTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E749EABA1AC4EB4900E10DFF /* ItemTableView.m */; };
-		E749EABD1AC5118800E10DFF /* mh4u.db in Resources */ = {isa = PBXBuildFile; fileRef = E749EABC1AC50F5000E10DFF /* mh4u.db */; };
+		E749EABD1AC5118800E10DFF /* old_mh4u.db in Resources */ = {isa = PBXBuildFile; fileRef = E749EABC1AC50F5000E10DFF /* old_mh4u.db */; };
 		E75C3AF21AB1189B00C0D155 /* SkillDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E75C3AF11AB1189B00C0D155 /* SkillDetailViewController.m */; };
 		E76B24801AB3E4790063615B /* DetailedWeaponView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E76B247F1AB3E4790063615B /* DetailedWeaponView.xib */; };
 		E76B24831AB3EC6F0063615B /* WeaponDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E76B24821AB3EC6F0063615B /* WeaponDetailViewController.m */; };
@@ -536,7 +546,6 @@
 		E78AFACE1AA92A12009B16C3 /* Wystone-Red.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7841AA92A11009B16C3 /* Wystone-Red.png */; };
 		E78AFACF1AA92A12009B16C3 /* Wyvern-Crystal-Purple.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7851AA92A11009B16C3 /* Wyvern-Crystal-Purple.png */; };
 		E78AFAD01AA92A12009B16C3 /* Wyvern-Crystal-White.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7861AA92A11009B16C3 /* Wyvern-Crystal-White.png */; };
-		E78AFAD11AA92A12009B16C3 /* maps_mh4_ancestral_steppe.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7881AA92A11009B16C3 /* maps_mh4_ancestral_steppe.png */; };
 		E78AFAD21AA92A12009B16C3 /* maps_mh4_ancestral_steppe_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7891AA92A11009B16C3 /* maps_mh4_ancestral_steppe_mini.png */; };
 		E78AFAD31AA92A12009B16C3 /* maps_mh4_arena.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF78A1AA92A11009B16C3 /* maps_mh4_arena.png */; };
 		E78AFAD41AA92A12009B16C3 /* maps_mh4_arena_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF78B1AA92A11009B16C3 /* maps_mh4_arena_mini.png */; };
@@ -544,25 +553,20 @@
 		E78AFAD61AA92A12009B16C3 /* maps_mh4_battlequarters_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF78D1AA92A11009B16C3 /* maps_mh4_battlequarters_mini.png */; };
 		E78AFAD71AA92A12009B16C3 /* maps_mh4_castle_schrade.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF78E1AA92A11009B16C3 /* maps_mh4_castle_schrade.png */; };
 		E78AFAD81AA92A12009B16C3 /* maps_mh4_castle_schrade_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF78F1AA92A11009B16C3 /* maps_mh4_castle_schrade_mini.png */; };
-		E78AFAD91AA92A12009B16C3 /* maps_mh4_dunes_day.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7901AA92A11009B16C3 /* maps_mh4_dunes_day.png */; };
 		E78AFADA1AA92A12009B16C3 /* maps_mh4_dunes_day_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7911AA92A11009B16C3 /* maps_mh4_dunes_day_mini.png */; };
-		E78AFADB1AA92A12009B16C3 /* maps_mh4_dunes_night.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7921AA92A11009B16C3 /* maps_mh4_dunes_night.png */; };
 		E78AFADC1AA92A12009B16C3 /* maps_mh4_dunes_night_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7931AA92A11009B16C3 /* maps_mh4_dunes_night_mini.png */; };
 		E78AFADD1AA92A12009B16C3 /* maps_mh4_everwood.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7941AA92A11009B16C3 /* maps_mh4_everwood.png */; };
 		E78AFADE1AA92A12009B16C3 /* maps_mh4_everwood_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7951AA92A11009B16C3 /* maps_mh4_everwood_mini.png */; };
-		E78AFADF1AA92A12009B16C3 /* maps_mh4_frozen_seaway.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7961AA92A11009B16C3 /* maps_mh4_frozen_seaway.png */; };
 		E78AFAE01AA92A12009B16C3 /* maps_mh4_frozen_seaway_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7971AA92A11009B16C3 /* maps_mh4_frozen_seaway_mini.png */; };
 		E78AFAE11AA92A12009B16C3 /* maps_mh4_great_desert.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7981AA92A11009B16C3 /* maps_mh4_great_desert.png */; };
 		E78AFAE21AA92A12009B16C3 /* maps_mh4_great_desert_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7991AA92A11009B16C3 /* maps_mh4_great_desert_mini.png */; };
 		E78AFAE31AA92A12009B16C3 /* maps_mh4_great_sea.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF79A1AA92A11009B16C3 /* maps_mh4_great_sea.png */; };
 		E78AFAE41AA92A12009B16C3 /* maps_mh4_great_sea_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF79B1AA92A11009B16C3 /* maps_mh4_great_sea_mini.png */; };
-		E78AFAE51AA92A12009B16C3 /* maps_mh4_heavens_mount.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF79C1AA92A11009B16C3 /* maps_mh4_heavens_mount.png */; };
 		E78AFAE61AA92A12009B16C3 /* maps_mh4_heavens_mount_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF79D1AA92A11009B16C3 /* maps_mh4_heavens_mount_mini.png */; };
 		E78AFAE71AA92A12009B16C3 /* maps_mh4_ingle_isle.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF79E1AA92A11009B16C3 /* maps_mh4_ingle_isle.png */; };
 		E78AFAE81AA92A12009B16C3 /* maps_mh4_ingle_isle_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF79F1AA92A11009B16C3 /* maps_mh4_ingle_isle_mini.png */; };
 		E78AFAE91AA92A12009B16C3 /* maps_mh4_polar_field.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7A01AA92A11009B16C3 /* maps_mh4_polar_field.png */; };
 		E78AFAEA1AA92A12009B16C3 /* maps_mh4_polar_field_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7A11AA92A11009B16C3 /* maps_mh4_polar_field_mini.png */; };
-		E78AFAEB1AA92A12009B16C3 /* maps_mh4_primal_forest.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7A21AA92A11009B16C3 /* maps_mh4_primal_forest.png */; };
 		E78AFAEC1AA92A12009B16C3 /* maps_mh4_primal_forest_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7A31AA92A11009B16C3 /* maps_mh4_primal_forest_mini.png */; };
 		E78AFAED1AA92A12009B16C3 /* maps_mh4_sanctuary.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7A41AA92A11009B16C3 /* maps_mh4_sanctuary.png */; };
 		E78AFAEE1AA92A12009B16C3 /* maps_mh4_sanctuary_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7A51AA92A11009B16C3 /* maps_mh4_sanctuary_mini.png */; };
@@ -570,11 +574,9 @@
 		E78AFAF01AA92A12009B16C3 /* maps_mh4_slayground_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7A71AA92A11009B16C3 /* maps_mh4_slayground_mini.png */; };
 		E78AFAF11AA92A12009B16C3 /* maps_mh4_speartip_crag.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7A81AA92A11009B16C3 /* maps_mh4_speartip_crag.png */; };
 		E78AFAF21AA92A12009B16C3 /* maps_mh4_speartip_crag_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7A91AA92A11009B16C3 /* maps_mh4_speartip_crag_mini.png */; };
-		E78AFAF31AA92A12009B16C3 /* maps_mh4_sunken_hollow.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7AA1AA92A11009B16C3 /* maps_mh4_sunken_hollow.png */; };
 		E78AFAF41AA92A12009B16C3 /* maps_mh4_sunken_hollow_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7AB1AA92A11009B16C3 /* maps_mh4_sunken_hollow_mini.png */; };
 		E78AFAF51AA92A12009B16C3 /* maps_mh4_tower_summit.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7AC1AA92A11009B16C3 /* maps_mh4_tower_summit.png */; };
 		E78AFAF61AA92A12009B16C3 /* maps_mh4_tower_summit_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7AD1AA92A11009B16C3 /* maps_mh4_tower_summit_mini.png */; };
-		E78AFAF71AA92A12009B16C3 /* maps_mh4_volcanic_hollow.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7AE1AA92A11009B16C3 /* maps_mh4_volcanic_hollow.png */; };
 		E78AFAF81AA92A12009B16C3 /* maps_mh4_volcanic_hollow_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7AF1AA92A11009B16C3 /* maps_mh4_volcanic_hollow_mini.png */; };
 		E78AFAF91AA92A12009B16C3 /* MH4U-Akantor_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7B11AA92A11009B16C3 /* MH4U-Akantor_Icon.png */; };
 		E78AFAFA1AA92A12009B16C3 /* MH4U-Altaroth_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E78AF7B21AA92A11009B16C3 /* MH4U-Altaroth_Icon.png */; };
@@ -904,6 +906,17 @@
 
 /* Begin PBXFileReference section */
 		0DA25932ADF33E4E62A2F9CB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		40FA94B41B7A6B4F00D817EB /* mh4u.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = mh4u.db; sourceTree = "<group>"; };
+		40FA94BA1B7A6CF100D817EB /* maps_mh4_ancestral_steppe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_ancestral_steppe.png; sourceTree = "<group>"; };
+		40FA94BC1B7A6D3600D817EB /* maps_mh4_sunken_hollow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_sunken_hollow.png; sourceTree = "<group>"; };
+		40FA94BE1B7A6D9B00D817EB /* maps_mh4_volcanic_hollow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_volcanic_hollow.png; sourceTree = "<group>"; };
+		40FA94C01B7A6DF600D817EB /* maps_mh4_primal_forest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_primal_forest.png; sourceTree = "<group>"; };
+		40FA94C21B7A6E6100D817EB /* maps_mh4_frozen_seaway.png.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_frozen_seaway.png.png; sourceTree = "<group>"; };
+		40FA94C41B7A6ED000D817EB /* maps_mh4_heavens_mount.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_heavens_mount.png; sourceTree = "<group>"; };
+		40FA94C61B7A6EF000D817EB /* maps_mh4_dunes_day.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_dunes_day.png; sourceTree = "<group>"; };
+		40FA94C81B7A6FA200D817EB /* maps_mh4_dunes_night.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_dunes_night.png; sourceTree = "<group>"; };
+		40FA94CA1B7A9F3300D817EB /* TalismanCreatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TalismanCreatorViewController.h; sourceTree = "<group>"; };
+		40FA94CB1B7A9F3300D817EB /* TalismanCreatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TalismanCreatorViewController.m; sourceTree = "<group>"; };
 		CBEDC553F9524B0EE6960A11 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D81653FF5EF53FDB102D0403 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E703EF791AE1828D00B2C9E6 /* ArmorSetDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArmorSetDetailViewController.h; sourceTree = "<group>"; };
@@ -941,7 +954,7 @@
 		E749EAB71AC4E49F00E10DFF /* DecorationTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DecorationTableCell.xib; sourceTree = "<group>"; };
 		E749EAB91AC4EB4900E10DFF /* ItemTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemTableView.h; sourceTree = "<group>"; };
 		E749EABA1AC4EB4900E10DFF /* ItemTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemTableView.m; sourceTree = "<group>"; };
-		E749EABC1AC50F5000E10DFF /* mh4u.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = mh4u.db; sourceTree = "<group>"; };
+		E749EABC1AC50F5000E10DFF /* old_mh4u.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = old_mh4u.db; sourceTree = "<group>"; };
 		E75C3AF01AB1189B00C0D155 /* SkillDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillDetailViewController.h; sourceTree = "<group>"; };
 		E75C3AF11AB1189B00C0D155 /* SkillDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillDetailViewController.m; sourceTree = "<group>"; };
 		E76B247F1AB3E4790063615B /* DetailedWeaponView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailedWeaponView.xib; sourceTree = "<group>"; };
@@ -1449,7 +1462,6 @@
 		E78AF7841AA92A11009B16C3 /* Wystone-Red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wystone-Red.png"; sourceTree = "<group>"; };
 		E78AF7851AA92A11009B16C3 /* Wyvern-Crystal-Purple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wyvern-Crystal-Purple.png"; sourceTree = "<group>"; };
 		E78AF7861AA92A11009B16C3 /* Wyvern-Crystal-White.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wyvern-Crystal-White.png"; sourceTree = "<group>"; };
-		E78AF7881AA92A11009B16C3 /* maps_mh4_ancestral_steppe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_ancestral_steppe.png; sourceTree = "<group>"; };
 		E78AF7891AA92A11009B16C3 /* maps_mh4_ancestral_steppe_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_ancestral_steppe_mini.png; sourceTree = "<group>"; };
 		E78AF78A1AA92A11009B16C3 /* maps_mh4_arena.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_arena.png; sourceTree = "<group>"; };
 		E78AF78B1AA92A11009B16C3 /* maps_mh4_arena_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_arena_mini.png; sourceTree = "<group>"; };
@@ -1457,25 +1469,20 @@
 		E78AF78D1AA92A11009B16C3 /* maps_mh4_battlequarters_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_battlequarters_mini.png; sourceTree = "<group>"; };
 		E78AF78E1AA92A11009B16C3 /* maps_mh4_castle_schrade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_castle_schrade.png; sourceTree = "<group>"; };
 		E78AF78F1AA92A11009B16C3 /* maps_mh4_castle_schrade_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_castle_schrade_mini.png; sourceTree = "<group>"; };
-		E78AF7901AA92A11009B16C3 /* maps_mh4_dunes_day.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_dunes_day.png; sourceTree = "<group>"; };
 		E78AF7911AA92A11009B16C3 /* maps_mh4_dunes_day_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_dunes_day_mini.png; sourceTree = "<group>"; };
-		E78AF7921AA92A11009B16C3 /* maps_mh4_dunes_night.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_dunes_night.png; sourceTree = "<group>"; };
 		E78AF7931AA92A11009B16C3 /* maps_mh4_dunes_night_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_dunes_night_mini.png; sourceTree = "<group>"; };
 		E78AF7941AA92A11009B16C3 /* maps_mh4_everwood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_everwood.png; sourceTree = "<group>"; };
 		E78AF7951AA92A11009B16C3 /* maps_mh4_everwood_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_everwood_mini.png; sourceTree = "<group>"; };
-		E78AF7961AA92A11009B16C3 /* maps_mh4_frozen_seaway.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_frozen_seaway.png; sourceTree = "<group>"; };
 		E78AF7971AA92A11009B16C3 /* maps_mh4_frozen_seaway_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_frozen_seaway_mini.png; sourceTree = "<group>"; };
 		E78AF7981AA92A11009B16C3 /* maps_mh4_great_desert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_great_desert.png; sourceTree = "<group>"; };
 		E78AF7991AA92A11009B16C3 /* maps_mh4_great_desert_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_great_desert_mini.png; sourceTree = "<group>"; };
 		E78AF79A1AA92A11009B16C3 /* maps_mh4_great_sea.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_great_sea.png; sourceTree = "<group>"; };
 		E78AF79B1AA92A11009B16C3 /* maps_mh4_great_sea_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_great_sea_mini.png; sourceTree = "<group>"; };
-		E78AF79C1AA92A11009B16C3 /* maps_mh4_heavens_mount.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_heavens_mount.png; sourceTree = "<group>"; };
 		E78AF79D1AA92A11009B16C3 /* maps_mh4_heavens_mount_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_heavens_mount_mini.png; sourceTree = "<group>"; };
 		E78AF79E1AA92A11009B16C3 /* maps_mh4_ingle_isle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_ingle_isle.png; sourceTree = "<group>"; };
 		E78AF79F1AA92A11009B16C3 /* maps_mh4_ingle_isle_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_ingle_isle_mini.png; sourceTree = "<group>"; };
 		E78AF7A01AA92A11009B16C3 /* maps_mh4_polar_field.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_polar_field.png; sourceTree = "<group>"; };
 		E78AF7A11AA92A11009B16C3 /* maps_mh4_polar_field_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_polar_field_mini.png; sourceTree = "<group>"; };
-		E78AF7A21AA92A11009B16C3 /* maps_mh4_primal_forest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_primal_forest.png; sourceTree = "<group>"; };
 		E78AF7A31AA92A11009B16C3 /* maps_mh4_primal_forest_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_primal_forest_mini.png; sourceTree = "<group>"; };
 		E78AF7A41AA92A11009B16C3 /* maps_mh4_sanctuary.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_sanctuary.png; sourceTree = "<group>"; };
 		E78AF7A51AA92A11009B16C3 /* maps_mh4_sanctuary_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_sanctuary_mini.png; sourceTree = "<group>"; };
@@ -1483,11 +1490,9 @@
 		E78AF7A71AA92A11009B16C3 /* maps_mh4_slayground_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_slayground_mini.png; sourceTree = "<group>"; };
 		E78AF7A81AA92A11009B16C3 /* maps_mh4_speartip_crag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_speartip_crag.png; sourceTree = "<group>"; };
 		E78AF7A91AA92A11009B16C3 /* maps_mh4_speartip_crag_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_speartip_crag_mini.png; sourceTree = "<group>"; };
-		E78AF7AA1AA92A11009B16C3 /* maps_mh4_sunken_hollow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_sunken_hollow.png; sourceTree = "<group>"; };
 		E78AF7AB1AA92A11009B16C3 /* maps_mh4_sunken_hollow_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_sunken_hollow_mini.png; sourceTree = "<group>"; };
 		E78AF7AC1AA92A11009B16C3 /* maps_mh4_tower_summit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_tower_summit.png; sourceTree = "<group>"; };
 		E78AF7AD1AA92A11009B16C3 /* maps_mh4_tower_summit_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_tower_summit_mini.png; sourceTree = "<group>"; };
-		E78AF7AE1AA92A11009B16C3 /* maps_mh4_volcanic_hollow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_volcanic_hollow.png; sourceTree = "<group>"; };
 		E78AF7AF1AA92A11009B16C3 /* maps_mh4_volcanic_hollow_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maps_mh4_volcanic_hollow_mini.png; sourceTree = "<group>"; };
 		E78AF7B11AA92A11009B16C3 /* MH4U-Akantor_Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MH4U-Akantor_Icon.png"; sourceTree = "<group>"; };
 		E78AF7B21AA92A11009B16C3 /* MH4U-Altaroth_Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MH4U-Altaroth_Icon.png"; sourceTree = "<group>"; };
@@ -1979,6 +1984,8 @@
 				E703EF7A1AE1828D00B2C9E6 /* ArmorSetDetailViewController.m */,
 				E72AAF981AF99A8B00318F74 /* ArmorSetDelegates.h */,
 				E72AAF991AF99A8B00318F74 /* ArmorSetDelegates.m */,
+				40FA94CA1B7A9F3300D817EB /* TalismanCreatorViewController.h */,
+				40FA94CB1B7A9F3300D817EB /* TalismanCreatorViewController.m */,
 			);
 			name = "ArmorSet Builder";
 			sourceTree = "<group>";
@@ -2569,7 +2576,7 @@
 		E78AF7871AA92A11009B16C3 /* icons_location */ = {
 			isa = PBXGroup;
 			children = (
-				E78AF7881AA92A11009B16C3 /* maps_mh4_ancestral_steppe.png */,
+				40FA94BA1B7A6CF100D817EB /* maps_mh4_ancestral_steppe.png */,
 				E78AF7891AA92A11009B16C3 /* maps_mh4_ancestral_steppe_mini.png */,
 				E78AF78A1AA92A11009B16C3 /* maps_mh4_arena.png */,
 				E78AF78B1AA92A11009B16C3 /* maps_mh4_arena_mini.png */,
@@ -2577,25 +2584,25 @@
 				E78AF78D1AA92A11009B16C3 /* maps_mh4_battlequarters_mini.png */,
 				E78AF78E1AA92A11009B16C3 /* maps_mh4_castle_schrade.png */,
 				E78AF78F1AA92A11009B16C3 /* maps_mh4_castle_schrade_mini.png */,
-				E78AF7901AA92A11009B16C3 /* maps_mh4_dunes_day.png */,
+				40FA94C61B7A6EF000D817EB /* maps_mh4_dunes_day.png */,
 				E78AF7911AA92A11009B16C3 /* maps_mh4_dunes_day_mini.png */,
-				E78AF7921AA92A11009B16C3 /* maps_mh4_dunes_night.png */,
+				40FA94C81B7A6FA200D817EB /* maps_mh4_dunes_night.png */,
 				E78AF7931AA92A11009B16C3 /* maps_mh4_dunes_night_mini.png */,
 				E78AF7941AA92A11009B16C3 /* maps_mh4_everwood.png */,
 				E78AF7951AA92A11009B16C3 /* maps_mh4_everwood_mini.png */,
-				E78AF7961AA92A11009B16C3 /* maps_mh4_frozen_seaway.png */,
+				40FA94C21B7A6E6100D817EB /* maps_mh4_frozen_seaway.png.png */,
 				E78AF7971AA92A11009B16C3 /* maps_mh4_frozen_seaway_mini.png */,
 				E78AF7981AA92A11009B16C3 /* maps_mh4_great_desert.png */,
 				E78AF7991AA92A11009B16C3 /* maps_mh4_great_desert_mini.png */,
 				E78AF79A1AA92A11009B16C3 /* maps_mh4_great_sea.png */,
 				E78AF79B1AA92A11009B16C3 /* maps_mh4_great_sea_mini.png */,
-				E78AF79C1AA92A11009B16C3 /* maps_mh4_heavens_mount.png */,
+				40FA94C41B7A6ED000D817EB /* maps_mh4_heavens_mount.png */,
 				E78AF79D1AA92A11009B16C3 /* maps_mh4_heavens_mount_mini.png */,
 				E78AF79E1AA92A11009B16C3 /* maps_mh4_ingle_isle.png */,
 				E78AF79F1AA92A11009B16C3 /* maps_mh4_ingle_isle_mini.png */,
 				E78AF7A01AA92A11009B16C3 /* maps_mh4_polar_field.png */,
 				E78AF7A11AA92A11009B16C3 /* maps_mh4_polar_field_mini.png */,
-				E78AF7A21AA92A11009B16C3 /* maps_mh4_primal_forest.png */,
+				40FA94C01B7A6DF600D817EB /* maps_mh4_primal_forest.png */,
 				E78AF7A31AA92A11009B16C3 /* maps_mh4_primal_forest_mini.png */,
 				E78AF7A41AA92A11009B16C3 /* maps_mh4_sanctuary.png */,
 				E78AF7A51AA92A11009B16C3 /* maps_mh4_sanctuary_mini.png */,
@@ -2603,11 +2610,11 @@
 				E78AF7A71AA92A11009B16C3 /* maps_mh4_slayground_mini.png */,
 				E78AF7A81AA92A11009B16C3 /* maps_mh4_speartip_crag.png */,
 				E78AF7A91AA92A11009B16C3 /* maps_mh4_speartip_crag_mini.png */,
-				E78AF7AA1AA92A11009B16C3 /* maps_mh4_sunken_hollow.png */,
+				40FA94BC1B7A6D3600D817EB /* maps_mh4_sunken_hollow.png */,
 				E78AF7AB1AA92A11009B16C3 /* maps_mh4_sunken_hollow_mini.png */,
 				E78AF7AC1AA92A11009B16C3 /* maps_mh4_tower_summit.png */,
 				E78AF7AD1AA92A11009B16C3 /* maps_mh4_tower_summit_mini.png */,
-				E78AF7AE1AA92A11009B16C3 /* maps_mh4_volcanic_hollow.png */,
+				40FA94BE1B7A6D9B00D817EB /* maps_mh4_volcanic_hollow.png */,
 				E78AF7AF1AA92A11009B16C3 /* maps_mh4_volcanic_hollow_mini.png */,
 			);
 			path = icons_location;
@@ -3125,7 +3132,7 @@
 			isa = PBXGroup;
 			children = (
 				E7FDCD1F1AE336E100EE162E /* Other Icons */,
-				E749EABC1AC50F5000E10DFF /* mh4u.db */,
+				E749EABC1AC50F5000E10DFF /* old_mh4u.db */,
 				E7FDCD281AE3401400EE162E /* ArmorBuilder.db */,
 				E7460C921AB613AD006C7CD3 /* Menu Icons */,
 				E7EB7DF21AA6AC96007C05E0 /* AppDelegate.h */,
@@ -3162,6 +3169,7 @@
 		E7FDCD1F1AE336E100EE162E /* Other Icons */ = {
 			isa = PBXGroup;
 			children = (
+				40FA94B41B7A6B4F00D817EB /* mh4u.db */,
 				E7FDCD241AE33E3700EE162E /* circle.png */,
 				E7FDCD221AE336F000EE162E /* dash.jpg */,
 			);
@@ -3256,6 +3264,7 @@
 				E78AF9CF1AA92A12009B16C3 /* Herb-Red.png in Resources */,
 				E78AFADA1AA92A12009B16C3 /* maps_mh4_dunes_day_mini.png in Resources */,
 				E78AFC0E1AA92A12009B16C3 /* switch_axe8.png in Resources */,
+				40FA94C31B7A6E6100D817EB /* maps_mh4_frozen_seaway.png.png in Resources */,
 				E78AFBDE1AA92A12009B16C3 /* insect_glaive1.png in Resources */,
 				E78AFB021AA92A12009B16C3 /* MH4U-Apex_Tigrex_Icon.png in Resources */,
 				E78AFABB1AA92A12009B16C3 /* Traptool-Green.png in Resources */,
@@ -3344,6 +3353,7 @@
 				E78AF8FB1AA92A12009B16C3 /* head5.png in Resources */,
 				E78AF9DF1AA92A12009B16C3 /* Hide-Yellow.png in Resources */,
 				E78AFC191AA92A12009B16C3 /* sword_and_shield9.png in Resources */,
+				40FA94C91B7A6FA200D817EB /* maps_mh4_dunes_night.png in Resources */,
 				E78AFB2B1AA92A12009B16C3 /* MH4U-Hermitaur_Icon.png in Resources */,
 				E78AF9CE1AA92A12009B16C3 /* Herb-Purple.png in Resources */,
 				E78AF9971AA92A12009B16C3 /* Coin-Purple.png in Resources */,
@@ -3355,7 +3365,7 @@
 				E7460C9F1AB613CA006C7CD3 /* Items.png in Resources */,
 				E78AFBBF1AA92A12009B16C3 /* gunlance9.png in Resources */,
 				E78AF9131AA92A12009B16C3 /* waist9.png in Resources */,
-				E78AFAE51AA92A12009B16C3 /* maps_mh4_heavens_mount.png in Resources */,
+				40FA94B51B7A6B4F00D817EB /* mh4u.db in Resources */,
 				E78AF9921AA92A12009B16C3 /* Coin-Cyan.png in Resources */,
 				E78AFB8D1AA92A12009B16C3 /* bow1.png in Resources */,
 				E78AFC061AA92A12009B16C3 /* switch_axe1.png in Resources */,
@@ -3488,7 +3498,7 @@
 				E78AFA521AA92A12009B16C3 /* Sac-Pink.png in Resources */,
 				E78AF9751AA92A12009B16C3 /* Bug-Pink.png in Resources */,
 				E78AF9FC1AA92A12009B16C3 /* Liquid-Purple.png in Resources */,
-				E749EABD1AC5118800E10DFF /* mh4u.db in Resources */,
+				E749EABD1AC5118800E10DFF /* old_mh4u.db in Resources */,
 				E78AF91A1AA92A12009B16C3 /* Note.white.png in Resources */,
 				E78AFAF01AA92A12009B16C3 /* maps_mh4_slayground_mini.png in Resources */,
 				E78AF93E1AA92A12009B16C3 /* Barrel-Yellow.png in Resources */,
@@ -3504,6 +3514,7 @@
 				E78AFAC71AA92A12009B16C3 /* Webbing-White.png in Resources */,
 				E78AFBC91AA92A12009B16C3 /* hammer9.png in Resources */,
 				E78AFB001AA92A12009B16C3 /* MH4U-Apex_Seregios_Icon.png in Resources */,
+				40FA94BD1B7A6D3600D817EB /* maps_mh4_sunken_hollow.png in Resources */,
 				E78AFBD91AA92A12009B16C3 /* hunting_horn5.png in Resources */,
 				E78AF9721AA92A12009B16C3 /* Bug-Green.png in Resources */,
 				E78AFAD21AA92A12009B16C3 /* maps_mh4_ancestral_steppe_mini.png in Resources */,
@@ -3524,7 +3535,6 @@
 				E78AFA321AA92A12009B16C3 /* Nectar-Pink.png in Resources */,
 				E78AFA821AA92A12009B16C3 /* Shell-Grey.png in Resources */,
 				E78AFB491AA92A12009B16C3 /* MH4U-Ruby_Basarios_Icon.png in Resources */,
-				E78AFAD91AA92A12009B16C3 /* maps_mh4_dunes_day.png in Resources */,
 				E78AFADC1AA92A12009B16C3 /* maps_mh4_dunes_night_mini.png in Resources */,
 				E78AFBC51AA92A12009B16C3 /* hammer5.png in Resources */,
 				E78AF9F11AA92A12009B16C3 /* Knife-Red.png in Resources */,
@@ -3652,7 +3662,6 @@
 				E78AFC041AA92A12009B16C3 /* long_sword8.png in Resources */,
 				E78AFB351AA92A12009B16C3 /* MH4U-Konchu_Icon.png in Resources */,
 				E78AFA051AA92A12009B16C3 /* Mantle-Green.png in Resources */,
-				E78AFAD11AA92A12009B16C3 /* maps_mh4_ancestral_steppe.png in Resources */,
 				E78AF9081AA92A12009B16C3 /* legs8.png in Resources */,
 				E78AF9451AA92A12009B16C3 /* Bomb-Blue.png in Resources */,
 				E78AFC051AA92A12009B16C3 /* long_sword9.png in Resources */,
@@ -3682,8 +3691,8 @@
 				E78AFB211AA92A12009B16C3 /* MH4U-Furious_Rajang_Icon.png in Resources */,
 				E78AFB231AA92A12009B16C3 /* MH4U-Gendrome_Icon.png in Resources */,
 				E78AF9171AA92A12009B16C3 /* Note.orange.png in Resources */,
+				40FA94C11B7A6DF600D817EB /* maps_mh4_primal_forest.png in Resources */,
 				E78AF9BF1AA92A12009B16C3 /* Flute-Green.png in Resources */,
-				E78AFADB1AA92A12009B16C3 /* maps_mh4_dunes_night.png in Resources */,
 				E78AFAA91AA92A12009B16C3 /* Ticket-Blue.png in Resources */,
 				E7E57F631AED827B00CF7D19 /* WyporiumCell.xib in Resources */,
 				E78AFAE21AA92A12009B16C3 /* maps_mh4_great_desert_mini.png in Resources */,
@@ -3700,6 +3709,7 @@
 				E78AF9731AA92A12009B16C3 /* Bug-Grey.png in Resources */,
 				E78AFA091AA92A12009B16C3 /* Mantle-Purple.png in Resources */,
 				E78AFB0B1AA92A12009B16C3 /* MH4U-Blue_Yian_Kut-Ku_Icon.png in Resources */,
+				40FA94BF1B7A6D9B00D817EB /* maps_mh4_volcanic_hollow.png in Resources */,
 				E78AF9391AA92A12009B16C3 /* Barrel-Bomb-White.png in Resources */,
 				E78AFA9F1AA92A12009B16C3 /* Sphere-Cyan.png in Resources */,
 				E78AFAF41AA92A12009B16C3 /* maps_mh4_sunken_hollow_mini.png in Resources */,
@@ -3746,7 +3756,6 @@
 				E78AF9611AA92A12009B16C3 /* Book-White.png in Resources */,
 				E78AFB251AA92A12009B16C3 /* MH4U-Gogmazios_Icon.png in Resources */,
 				E78AF9A91AA92A12009B16C3 /* Fang-Grey.png in Resources */,
-				E78AFAF71AA92A12009B16C3 /* maps_mh4_volcanic_hollow.png in Resources */,
 				E78AFBCF1AA92A12009B16C3 /* heavy_bowgun5.png in Resources */,
 				E78AFB551AA92A12009B16C3 /* MH4U-Stygian_Zinogre_Icon.png in Resources */,
 				E78AF9271AA92A12009B16C3 /* Bag-Blue.png in Resources */,
@@ -3843,7 +3852,6 @@
 				E78AFB5C1AA92A12009B16C3 /* MH4U-Velocidrome_Icon.png in Resources */,
 				E78AFBD61AA92A12009B16C3 /* hunting_horn2.png in Resources */,
 				E78AFBDB1AA92A12009B16C3 /* hunting_horn7.png in Resources */,
-				E78AFAF31AA92A12009B16C3 /* maps_mh4_sunken_hollow.png in Resources */,
 				E78AFBE21AA92A12009B16C3 /* insect_glaive4.png in Resources */,
 				E78AF9861AA92A12009B16C3 /* Carapace-Red.png in Resources */,
 				E78AFBB01AA92A12009B16C3 /* great_sword5.png in Resources */,
@@ -3864,7 +3872,6 @@
 				E78AFBE81AA92A12009B16C3 /* lance1.png in Resources */,
 				E78AFB9D1AA92A12009B16C3 /* charge_blade6.png in Resources */,
 				E78AF9F21AA92A12009B16C3 /* Knife-White.png in Resources */,
-				E78AFADF1AA92A12009B16C3 /* maps_mh4_frozen_seaway.png in Resources */,
 				E78AF93C1AA92A12009B16C3 /* Barrel-Red.png in Resources */,
 				E78AFBDA1AA92A12009B16C3 /* hunting_horn6.png in Resources */,
 				E78AF9BA1AA92A12009B16C3 /* Fish-Red.png in Resources */,
@@ -3891,7 +3898,6 @@
 				E78AF9FA1AA92A12009B16C3 /* Liquid-Orange.png in Resources */,
 				E78AFB161AA92A12009B16C3 /* MH4U-Dah'ren_Mohran_Icon.png in Resources */,
 				E78AFA161AA92A12009B16C3 /* Meat-Red.png in Resources */,
-				E78AFAEB1AA92A12009B16C3 /* maps_mh4_primal_forest.png in Resources */,
 				E78AF9F31AA92A12009B16C3 /* Knife-Yellow.png in Resources */,
 				E78AF9201AA92A12009B16C3 /* Ammo-Orange.png in Resources */,
 				E78AFA0A1AA92A12009B16C3 /* Mantle-Red.png in Resources */,
@@ -3971,6 +3977,7 @@
 				E78AFC0F1AA92A12009B16C3 /* switch_axe9.png in Resources */,
 				E78AFA511AA92A12009B16C3 /* Sac-Orange.png in Resources */,
 				E78AFBFB1AA92A12009B16C3 /* light_bowgun9.png in Resources */,
+				40FA94BB1B7A6CF100D817EB /* maps_mh4_ancestral_steppe.png in Resources */,
 				E78AFA141AA92A12009B16C3 /* Meat-Pink.png in Resources */,
 				E78AF9431AA92A12009B16C3 /* BBQSpit-Yellow.png in Resources */,
 				E78AF8E21AA92A12009B16C3 /* arms1.png in Resources */,
@@ -3978,6 +3985,7 @@
 				E78AF9361AA92A12009B16C3 /* Barrel-Bomb-Blue.png in Resources */,
 				E78AF9B11AA92A12009B16C3 /* Fang-YellowGreen.png in Resources */,
 				E78AF9301AA92A12009B16C3 /* Bait-Grey.png in Resources */,
+				40FA94C71B7A6EF000D817EB /* maps_mh4_dunes_day.png in Resources */,
 				E78AFA6D1AA92A12009B16C3 /* Scraps-Orange.png in Resources */,
 				E7EB7DFF1AA6AC96007C05E0 /* Images.xcassets in Resources */,
 				E78AF9661AA92A12009B16C3 /* Bottle-Cyan.png in Resources */,
@@ -4031,6 +4039,7 @@
 				E78AF9D01AA92A12009B16C3 /* Herb-Teal.png in Resources */,
 				E78AFA261AA92A12009B16C3 /* Mushroom-Cyan.png in Resources */,
 				E78AFBC71AA92A12009B16C3 /* hammer7.png in Resources */,
+				40FA94C51B7A6ED000D817EB /* maps_mh4_heavens_mount.png in Resources */,
 				E78AF94C1AA92A12009B16C3 /* Bomb-Red.png in Resources */,
 				E78AF95D1AA92A12009B16C3 /* Book-Grey.png in Resources */,
 				E78AFBFD1AA92A12009B16C3 /* long_sword10.png in Resources */,
@@ -4156,6 +4165,7 @@
 				E726FF4B1B00060A002BCF07 /* DecorationTableView.m in Sources */,
 				E7AD31F71ADEF77E00E8FBA4 /* BaseViewController.m in Sources */,
 				E7A00DF81AAFBDB90037BE61 /* MonstersViewController.m in Sources */,
+				40FA94CC1B7A9F3300D817EB /* TalismanCreatorViewController.m in Sources */,
 				E7C600891AAFA9D200EC6E84 /* ArmorDetailViewController.m in Sources */,
 				E72AAF9A1AF99A8B00318F74 /* ArmorSetDelegates.m in Sources */,
 				E749BA971AB3D22F003860E8 /* WeaponsTableViewController.m in Sources */,

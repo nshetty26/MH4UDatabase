@@ -646,7 +646,7 @@
         decoration.name = [s stringForColumn:@"name"];
         decoration.icon = [s stringForColumn:@"icon_name"];
         decoration.slotsRequired = [s intForColumn:@"num_slots"];
-        decoration.skillArray = [self getSkillTreesForDecorationID:decoration.itemID];
+        //decoration.skillArray = [self getSkillTreesForDecorationID:decoration.itemID];
         [decorationArray addObject:decoration];
     }
     
