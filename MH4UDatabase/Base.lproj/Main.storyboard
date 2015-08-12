@@ -75,7 +75,7 @@
                                     <segment title="3"/>
                                 </segments>
                                 <connections>
-                                    <action selector="slotValueChanged:" destination="f7i-mS-G9K" eventType="valueChanged" id="68e-wg-5dl"/>
+                                    <action selector="valueChanged:" destination="f7i-mS-G9K" eventType="valueChanged" id="tzf-Gf-lT2"/>
                                 </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Slots:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ht-bC-Hic">
@@ -90,7 +90,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Skill 2:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S5c-iW-c1q">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Skill 2:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S5c-iW-c1q">
                                 <rect key="frame" x="16" y="175" width="51" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -108,7 +108,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tap Here" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fom-nj-TRR">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tap Here" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fom-nj-TRR">
                                 <rect key="frame" x="75" y="175" width="161" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -127,28 +127,39 @@
                                     <action selector="addSkillButton:" destination="f7i-mS-G9K" eventType="touchUpInside" id="2Tv-ub-CeU"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wiT-fX-1pD">
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wiT-fX-1pD">
                                 <rect key="frame" x="244" y="130" width="50" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <action selector="editingDidBegin:" destination="f7i-mS-G9K" eventType="editingDidBegin" id="o8l-8I-g0y"/>
                                     <action selector="editingDidEnd:" destination="f7i-mS-G9K" eventType="editingDidEnd" id="5n7-aq-JqZ"/>
+                                    <action selector="valueChanged:" destination="f7i-mS-G9K" eventType="valueChanged" id="EzC-hD-15d"/>
                                     <outlet property="delegate" destination="f7i-mS-G9K" id="SVj-rW-vcj"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bcp-BJ-0yX">
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bcp-BJ-0yX">
                                 <rect key="frame" x="244" y="168" width="50" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <action selector="editingDidBegin:" destination="f7i-mS-G9K" eventType="editingDidBegin" id="HvI-54-Ma5"/>
                                     <action selector="editingDidEnd:" destination="f7i-mS-G9K" eventType="editingDidEnd" id="5r1-ez-KKl"/>
+                                    <action selector="valueChanged:" destination="f7i-mS-G9K" eventType="valueChanged" id="TNG-8i-xeO"/>
                                     <outlet property="delegate" destination="f7i-mS-G9K" id="YmZ-lj-YIp"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rZp-dr-QbG">
-                                <rect key="frame" x="55" y="171" width="163" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eD0-qe-3lA">
+                                <rect key="frame" x="99" y="430" width="122" height="30"/>
+                                <state key="normal" title="Create Talisman">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="createButtonTouched:" destination="f7i-mS-G9K" eventType="touchUpInside" id="uYE-8F-xxq"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rZp-dr-QbG">
+                                <rect key="frame" x="58" y="171" width="163" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -162,12 +173,15 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
+                        <outlet property="createButton" destination="eD0-qe-3lA" id="fNZ-8a-fo3"/>
+                        <outlet property="createTalisman" destination="eD0-qe-3lA" id="QHg-s0-AMh"/>
                         <outlet property="label1Button" destination="UeB-3j-jgV" id="sDK-Ho-QOR"/>
                         <outlet property="label2Button" destination="rZp-dr-QbG" id="sAb-hE-t0d"/>
                         <outlet property="skill1TitleLabel" destination="hpp-zn-4Pl" id="d0Z-I9-EIV"/>
                         <outlet property="skill1Value" destination="wiT-fX-1pD" id="M4g-G2-Xa6"/>
                         <outlet property="skill2TitleLabel" destination="Fom-nj-TRR" id="Zqg-lL-J8Y"/>
                         <outlet property="skill2Value" destination="Bcp-BJ-0yX" id="KbG-dK-tQ5"/>
+                        <outlet property="skill2label" destination="S5c-iW-c1q" id="f52-eQ-4ah"/>
                         <outlet property="slotsSegmentedControl" destination="YD0-eM-gpl" id="Rwt-WY-KGG"/>
                         <outlet property="typePicker" destination="3W0-Rb-SEp" id="KvN-oB-0hk"/>
                     </connections>
@@ -412,6 +426,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="xvP-hv-RQE"/>
+        <segue reference="vol-AY-Wqp"/>
     </inferredMetricsTieBreakers>
 </document>

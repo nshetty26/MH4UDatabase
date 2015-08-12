@@ -20,6 +20,7 @@
 @class Location;
 @class ArmorSet;
 @class Decoration;
+@class Talisman;
 
 @interface MH4UDBEngine : NSObject
 
@@ -82,6 +83,8 @@
 -(BOOL)deleteAllDecorationsForArmorSetWithID:(NSNumber *)setID andSetItem:(Item *)setItem;
 
 -(NSArray *)getAllWyporiumTrades;
+-(BOOL)insertNewTalismanIntoDatabase:(Talisman *)newTalisman;
+-(BOOL)addTalisman:(Talisman *)talisman toArmorSet:(ArmorSet *)set;
 
 @end
 

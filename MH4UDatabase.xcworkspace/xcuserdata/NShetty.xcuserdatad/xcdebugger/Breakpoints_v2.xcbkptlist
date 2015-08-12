@@ -42,75 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/TalismanCreatorViewController.m"
-            timestampString = "461026785.169283"
+            timestampString = "461114222.079292"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
-            landmarkName = "-pickerView:didSelectRow:inComponent:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MH4UDatabase/TalismanCreatorViewController.m"
-            timestampString = "461026785.169283"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
-            landmarkName = "-slotValueChanged:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MH4UDatabase/TalismanCreatorViewController.m"
-            timestampString = "461027872.512591"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MH4UDatabase/TalismanCreatorViewController.m"
-            timestampString = "461026785.169283"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MH4UDatabase/TalismanCreatorViewController.m"
-            timestampString = "461026785.169283"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
-            landmarkType = "5">
+            startingLineNumber = "256"
+            endingLineNumber = "256">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -120,11 +56,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/TalismanCreatorViewController.m"
-            timestampString = "461027872.512591"
+            timestampString = "461114222.079292"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176">
+            startingLineNumber = "257"
+            endingLineNumber = "257">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -134,12 +70,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/TalismanCreatorViewController.m"
-            timestampString = "461026785.169283"
+            timestampString = "461114081.350056"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
-            landmarkName = "-editingDidBegin:"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
+            landmarkName = "-valueChanged:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -150,12 +86,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/TalismanCreatorViewController.m"
-            timestampString = "461026785.169283"
+            timestampString = "461113891.91208"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
-            landmarkName = "-editingDidEnd:"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
+            landmarkName = "-textFieldShouldReturn:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MH4UDatabase/ArmorSetDetailViewController.m"
+            timestampString = "461114038.215957"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "332"
+            endingLineNumber = "332"
+            landmarkName = "-setUpArmorSetView"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MH4UDatabase/TalismanCreatorViewController.m"
+            timestampString = "461114081.74493"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "202"
+            endingLineNumber = "202"
+            landmarkName = "-valueChanged:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

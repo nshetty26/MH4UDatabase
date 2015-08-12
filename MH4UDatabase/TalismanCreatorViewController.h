@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @class MH4UDBEngine;
+@class ArmorSet;
 
 @interface TalismanCreatorViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
-- (IBAction)slotValueChanged:(id)sender;
+
 
 @property (nonatomic) MH4UDBEngine *dbEngine;
+@property (nonatomic) ArmorSet *selectedSet;
 
 @end

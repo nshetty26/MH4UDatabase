@@ -9,8 +9,11 @@
 #import "TalismanCreatorViewController.h"
 #import "SkillTreeViewController.h"
 #import "MH4UDBEngine.h"
+#import "MH4UDBEntity.h"
 
 @interface TalismanCreatorViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *skill2label;
+@property (weak, nonatomic) IBOutlet UIButton *createButton;
 @property (weak, nonatomic) IBOutlet UIPickerView *typePicker;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *slotsSegmentedControl;
 @property (weak, nonatomic) IBOutlet UILabel *skill1TitleLabel;
@@ -18,7 +21,7 @@
 @property (nonatomic) NSArray *talismanTypes;
 @property (nonatomic) NSArray *allSkillTrees;
 @property (nonatomic) NSString *selectedType;
-@property (nonatomic) NSUInteger slots;
+@property (nonatomic) NSInteger slots;
 - (IBAction)addSkillButton:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *skill1Value;
 @property (weak, nonatomic) IBOutlet UITextField *skill2Value;
@@ -28,10 +31,19 @@
 @property (nonatomic) NSInteger skill1ID;
 @property (nonatomic) NSInteger skill2ID;
 @property (nonatomic) NSInteger *skillID;
+@property (nonatomic) BOOL skill1ValueBool;
+@property (nonatomic) BOOL skill2ValueBool;
+@property (nonatomic) BOOL typeReady;
+
+@property (nonatomic) BOOL skill1Ready;
+@property (nonatomic) BOOL skill2Ready;
 
 - (IBAction)editingDidBegin:(id)sender;
 - (IBAction)editingDidEnd:(id)sender;
-- (IBAction)touchUpOutside:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *createTalisman;
+- (IBAction)valueChanged:(id)sender;
+- (IBAction)createButtonTouched:(id)sender;
+
 @property (nonatomic) UILabel *labelToEdit;
 @end
 
@@ -40,21 +52,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _slots = -1;
+    _skill1ID = -1;
+    _skill2ID = -1;
+    
     _talismanTypes = @[@"Pawn", @"Bishop", @"Knight", @"Rook", @"Queen", @"King", @"Dragon", @"Unknowable", @"Mystic", @"Hero", @"Legend", @"Creator", @"Sage", @"Miracle"];
     
     // Do any additional setup after loading the view.
     _typePicker.frame = CGRectMake(_typePicker.frame.origin.x, _typePicker.frame.origin.y, 160, 80);
     _typePicker.delegate = self;
     _typePicker.dataSource = self;
-    
-//    UIToolbar* numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
-//    numberToolbar.barStyle = UIBarStyleBlackTranslucent;
-//    numberToolbar.items = @[[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelNumberPad)],
-//                            [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-//                            [[UIBarButtonItem alloc]initWithTitle:@"Apply" style:UIBarButtonItemStyleDone target:self action:@selector(doneWithNumberPad)]];
-//    [numberToolbar sizeToFit];
-//    _skill1Value.inputAccessoryView = numberToolbar;
-//    _skill2Value.inputAccessoryView = numberToolbar;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,6 +108,13 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *skill = _allSkillTrees[indexPath.row];
     _labelToEdit.text = [skill objectForKey:@"skillTreeName"];
+    
+    if ([_labelToEdit isEqual:_skill1TitleLabel]) {
+        _skill1Value.hidden = FALSE;
+    } else if ([_labelToEdit isEqual:_skill2TitleLabel]) {
+        _skill2Value.hidden = FALSE;
+    }
+    
     *_skillID = [[skill objectForKey:@"skillTreeID"] integerValue];
     [tableView removeFromSuperview];
 }
@@ -120,11 +134,10 @@
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     _selectedType = _talismanTypes[row];
+    _typeReady = YES;
+    [self enableCreateButton];
 }
 
-- (IBAction)slotValueChanged:(id)sender {
-    _slots = _slotsSegmentedControl.selectedSegmentIndex;
-}
 
 -(void)cancelNumberPad{
     [_editingTextField resignFirstResponder];
@@ -145,16 +158,29 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    NSCharacterSet *alphaNums = [NSCharacterSet decimalDigitCharacterSet];
+    
+    NSMutableCharacterSet *alphaNumsNeg = [[NSMutableCharacterSet alloc] init];
+    [alphaNumsNeg addCharactersInString:@"-1234567890"];
     
     NSCharacterSet *inStringSet = [NSCharacterSet characterSetWithCharactersInString:textField.text];
     
-    BOOL valid = [alphaNums isSupersetOfSet:inStringSet];
+    BOOL valid = [alphaNumsNeg isSupersetOfSet:inStringSet];
     
     if (valid) {
         NSInteger value = [textField.text integerValue];
         if (value < 21 && value > -21) {
             [textField resignFirstResponder];
+            if ([textField isEqual:_skill1Value]) {
+                _skill1ValueBool = YES;
+                _skill2label.hidden = FALSE;
+                _skill2TitleLabel.hidden = FALSE;
+                _label2Button.enabled = TRUE;
+                [self enableCreateButton];
+            } else {
+                _skill2ValueBool = YES;
+                [self enableCreateButton];
+
+            }
             return YES;
         } else {
             [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please pick between -20 and 20" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
@@ -171,4 +197,59 @@
 }
 
 
+- (IBAction)valueChanged:(id)sender {
+    if ([sender isEqual:_slotsSegmentedControl]) {
+        _slots = _slotsSegmentedControl.selectedSegmentIndex;
+    }
+
+    [self enableCreateButton];
+}
+
+- (IBAction)createButtonTouched:(id)sender {
+    Talisman *newTalisman = [[Talisman alloc] init];
+    NSMutableArray *skillDictionary = [[NSMutableArray alloc] init];
+    newTalisman.numSlots = _slots;
+    newTalisman.name = @"TestTalisman";
+    newTalisman.slot = @"Talisman";
+    
+    newTalisman.talismanType = _selectedType;
+    if (_skill1Ready) {
+        newTalisman.skill1ID = _skill1ID;
+        newTalisman.skill1Name = _skill1TitleLabel.text;
+        newTalisman.skill1Value = [_skill1Value.text integerValue];
+        [skillDictionary addObject:@{@"skillTreeID" : [NSNumber numberWithInt:newTalisman.skill1ID], @"skillTreeName" : newTalisman.skill1Name, @"skillTreePointValue" : [NSNumber numberWithInt:newTalisman.skill1Value]}];
+    }
+    
+    if (_skill2Ready) {
+        newTalisman.skill2ID = _skill2ID;
+        newTalisman.skill2Name = _skill2TitleLabel.text;
+        newTalisman.skill2Value = [_skill2Value.text integerValue];
+        [skillDictionary addObject:@{@"skillTreeID" : [NSNumber numberWithInt:newTalisman.skill2ID], @"skillTreeName" : newTalisman.skill2Name, @"skillTreePointValue" : [NSNumber numberWithInt:newTalisman.skill2Value]}];
+    }
+    
+    BOOL successful = [_dbEngine insertNewTalismanIntoDatabase:newTalisman];
+    
+    if (successful) {
+        _selectedSet.talisman = newTalisman;
+        [_dbEngine addTalisman:newTalisman toArmorSet:_selectedSet];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+
+    
+}
+
+
+-(void)enableCreateButton {
+    if (_skill1ValueBool && _skill1ID > -1) {
+        _skill1Ready = YES;
+    }
+    
+    if (_skill2Value && _skill2ID > -1) {
+        _skill2Ready = YES;
+    }
+    
+    if (_slots >= 0 && (_skill1Ready || _skill2Ready) && _typeReady) {
+        _createButton.enabled = TRUE;
+    }
+}
 @end

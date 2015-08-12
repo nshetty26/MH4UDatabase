@@ -215,6 +215,18 @@
 
 @end
 
+@interface Talisman : Armor
+@property (nonatomic) NSString *talismanType;
+@property (nonatomic) int skill1ID;
+@property (nonatomic) NSString *skill1Name;
+@property (nonatomic) int skill1Value;
+@property (nonatomic) int skill2ID;
+@property (nonatomic) NSString *skill2Name;
+@property (nonatomic) int skill2Value;
+
+
+@end
+
 
 #pragma mark - Armor Set
 @interface ArmorSet : NSObject
@@ -226,7 +238,7 @@
 @property (nonatomic) Armor *arms;
 @property (nonatomic) Armor *waist;
 @property (nonatomic) Armor *legs;
-@property (nonatomic) Armor *talisman;
+@property (nonatomic) Talisman *talisman;
 
 -(NSArray *)returnNonNullSetItems;
 -(Item *)returnItemForSlot:(NSString *)slot;
@@ -234,4 +246,6 @@
 -(NSDictionary *)sumAllStats;
 
 @end
+
+
 

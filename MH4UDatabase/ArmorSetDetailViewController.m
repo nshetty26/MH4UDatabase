@@ -54,6 +54,7 @@
 @property (strong, nonatomic) NSArray *armsDecorationViews;
 @property (strong, nonatomic) NSArray *waistDecorationViews;
 @property (strong, nonatomic) NSArray *legsDecorationViews;
+@property (strong, nonatomic) NSArray *talismanDecorationViews;
 
 @property (strong, nonatomic) NSMutableArray *allDecorations;
 @property (strong, nonatomic) NSArray *displayedDecorations;
@@ -88,6 +89,7 @@
     _armsDecorationViews = @[_armsSlot1, _armsSlot2, _armsSlot3];
     _waistDecorationViews = @[_waistSlot1, _waistSlot2, _waistSlot3];
     _legsDecorationViews = @[_legsSlot1, _legsSlot2, _legsSlot3];
+    _talismanDecorationViews = @[_talismanSlot1, _talismanSlot2, _talismanSlot3];
     
     CGRect vcFrame = self.view.frame;
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + [self returnHeightDifference], vcFrame.size.width, 49);
@@ -243,6 +245,8 @@
         imageViewArray = _waistDecorationViews;
     } else if ([armorSlot isEqualToString:@"Legs"]) {
         imageViewArray = _legsDecorationViews;
+    } else if ([armorSlot isEqualToString:@"Talisman"]) {
+        imageViewArray = _talismanDecorationViews;
     } else if ([armorSlot isEqualToString:@"Weapon"]) {
         imageViewArray = _weaponDecorationViews;
     } else {
@@ -324,6 +328,9 @@
     
     _legImage.image = [UIImage imageNamed:_armorSet.legs.icon];
     _legLabel.text = _armorSet.legs.name;
+    
+    _talismanImage.image = [UIImage imageNamed:_armorSet.arms.icon];
+    _talismanLabel.text = _armorSet.talisman.name;
     
     
     [_armorStatSheet populateStatsWithArmorSet:_armorSet];
@@ -602,6 +609,7 @@
 - (IBAction)launchTalismanVC:(id)sender {
     TalismanCreatorViewController *tCVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"talismanCreatorVC"];
     tCVC.dbEngine = _dbEngine;
+    tCVC.selectedSet = _armorSet;
     //UINavigationController *nC = (UINavigationController *)_baseVC.centerViewController;
     [self.navigationController pushViewController:tCVC animated:YES];
 }

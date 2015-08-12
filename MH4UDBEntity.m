@@ -260,6 +260,8 @@
         return self.waist;
     } else if ([slot isEqualToString:@"Legs"]) {
         return self.legs;
+    }else if ([slot isEqualToString:@"Talisman"]) {
+            return self.talisman;
     } else if ([slot isEqualToString:@"Weapon"]){
         return self.weapon;
     } else {
@@ -311,3 +313,6 @@
 
 @end
 
+@implementation Talisman
+
+@end

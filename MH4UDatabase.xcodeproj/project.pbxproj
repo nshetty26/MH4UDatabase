@@ -43,7 +43,6 @@
 		E749BA971AB3D22F003860E8 /* WeaponsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E749BA961AB3D22F003860E8 /* WeaponsTableViewController.m */; };
 		E749EAB81AC4E49F00E10DFF /* DecorationTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E749EAB71AC4E49F00E10DFF /* DecorationTableCell.xib */; };
 		E749EABB1AC4EB4900E10DFF /* ItemTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E749EABA1AC4EB4900E10DFF /* ItemTableView.m */; };
-		E749EABD1AC5118800E10DFF /* old_mh4u.db in Resources */ = {isa = PBXBuildFile; fileRef = E749EABC1AC50F5000E10DFF /* old_mh4u.db */; };
 		E75C3AF21AB1189B00C0D155 /* SkillDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E75C3AF11AB1189B00C0D155 /* SkillDetailViewController.m */; };
 		E76B24801AB3E4790063615B /* DetailedWeaponView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E76B247F1AB3E4790063615B /* DetailedWeaponView.xib */; };
 		E76B24831AB3EC6F0063615B /* WeaponDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E76B24821AB3EC6F0063615B /* WeaponDetailViewController.m */; };
@@ -954,7 +953,6 @@
 		E749EAB71AC4E49F00E10DFF /* DecorationTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DecorationTableCell.xib; sourceTree = "<group>"; };
 		E749EAB91AC4EB4900E10DFF /* ItemTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemTableView.h; sourceTree = "<group>"; };
 		E749EABA1AC4EB4900E10DFF /* ItemTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemTableView.m; sourceTree = "<group>"; };
-		E749EABC1AC50F5000E10DFF /* old_mh4u.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = old_mh4u.db; sourceTree = "<group>"; };
 		E75C3AF01AB1189B00C0D155 /* SkillDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillDetailViewController.h; sourceTree = "<group>"; };
 		E75C3AF11AB1189B00C0D155 /* SkillDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillDetailViewController.m; sourceTree = "<group>"; };
 		E76B247F1AB3E4790063615B /* DetailedWeaponView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailedWeaponView.xib; sourceTree = "<group>"; };
@@ -3132,7 +3130,7 @@
 			isa = PBXGroup;
 			children = (
 				E7FDCD1F1AE336E100EE162E /* Other Icons */,
-				E749EABC1AC50F5000E10DFF /* old_mh4u.db */,
+				40FA94B41B7A6B4F00D817EB /* mh4u.db */,
 				E7FDCD281AE3401400EE162E /* ArmorBuilder.db */,
 				E7460C921AB613AD006C7CD3 /* Menu Icons */,
 				E7EB7DF21AA6AC96007C05E0 /* AppDelegate.h */,
@@ -3169,7 +3167,6 @@
 		E7FDCD1F1AE336E100EE162E /* Other Icons */ = {
 			isa = PBXGroup;
 			children = (
-				40FA94B41B7A6B4F00D817EB /* mh4u.db */,
 				E7FDCD241AE33E3700EE162E /* circle.png */,
 				E7FDCD221AE336F000EE162E /* dash.jpg */,
 			);
@@ -3498,7 +3495,6 @@
 				E78AFA521AA92A12009B16C3 /* Sac-Pink.png in Resources */,
 				E78AF9751AA92A12009B16C3 /* Bug-Pink.png in Resources */,
 				E78AF9FC1AA92A12009B16C3 /* Liquid-Purple.png in Resources */,
-				E749EABD1AC5118800E10DFF /* old_mh4u.db in Resources */,
 				E78AF91A1AA92A12009B16C3 /* Note.white.png in Resources */,
 				E78AFAF01AA92A12009B16C3 /* maps_mh4_slayground_mini.png in Resources */,
 				E78AF93E1AA92A12009B16C3 /* Barrel-Yellow.png in Resources */,
