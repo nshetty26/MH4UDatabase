@@ -84,6 +84,8 @@
 
 -(NSArray *)getAllWyporiumTrades;
 -(NSArray *)getAllVeggieElderTrades;
+-(NSArray *)getAlLCanteenCombinations;
+-(NSArray *)getAllFelyneSkills;
 
 -(NSArray *)getAllTalismans;
 -(BOOL)insertNewTalismanIntoDatabase:(Talisman *)newTalisman;
