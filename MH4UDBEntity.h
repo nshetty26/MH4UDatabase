@@ -74,7 +74,9 @@
 
 
 -(NSString *)getElementalDescription;
+-(NSAttributedString *)returnAttributedAmmoStringFromAmmoString:(NSString *)bowGunAmmoString;
 -(void)drawSharpness:(NSString *)sharpnessString inView:(UIView *)sharpnessView;
+-(void)drawBowCoatings:(NSString *)ammoString inView:(UIView *)coatingView;
 
 @end
 
@@ -182,8 +184,8 @@
 @end
 
 #pragma mark - Skill Collection
-@interface SkillCollection : NSObject
-@property (nonatomic) NSArray *skillArray;
+@interface SkillTreeCollection : NSObject
+@property (nonatomic) NSArray *skillDescriptionArray;
 @property (nonatomic) NSArray *headArray;
 @property (nonatomic) NSArray *bodyArray;
 @property (nonatomic) NSArray *armArray;
@@ -213,6 +215,20 @@
 
 @end
 
+@interface Talisman : Armor
+@property (nonatomic) NSString *talismanType;
+@property (nonatomic) int skill1ID;
+@property (nonatomic) NSString *skill1Name;
+@property (nonatomic) int skill1Value;
+@property (nonatomic) int skill2ID;
+@property (nonatomic) NSString *skill2Name;
+@property (nonatomic) int skill2Value;
+
+-(NSString *)getIconString;
+
+
+@end
+
 
 #pragma mark - Armor Set
 @interface ArmorSet : NSObject
@@ -224,7 +240,7 @@
 @property (nonatomic) Armor *arms;
 @property (nonatomic) Armor *waist;
 @property (nonatomic) Armor *legs;
-@property (nonatomic) Armor *talisman;
+@property (nonatomic) Talisman *talisman;
 
 -(NSArray *)returnNonNullSetItems;
 -(Item *)returnItemForSlot:(NSString *)slot;
@@ -232,4 +248,6 @@
 -(NSDictionary *)sumAllStats;
 
 @end
+
+
 

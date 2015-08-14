@@ -158,34 +158,88 @@
     if ([tableView isEqual:_questTable]) {
         switch (section + 1) {
             case 1:
-                return @"1 *";
+                if (_questTypeTab.selectedItem.tag == 1) {
+                    return @"1 *";
+                } else if (_questTypeTab.selectedItem.tag == 2){
+                    return @"HR1 *";
+                } else if (_questTypeTab.selectedItem.tag == 3){
+                    return @"DLC1 *";
+                }
                 break;
             case 2:
-                return @"2 **";
+                if (_questTypeTab.selectedItem.tag == 1) {
+                    return @"2 **";
+                } else if (_questTypeTab.selectedItem.tag == 2){
+                    return @"HR2 **";
+                } else if (_questTypeTab.selectedItem.tag == 3){
+                    return @"DLC2 **";
+                }
                 break;
             case 3:
-                return @"3 ***";
+                if (_questTypeTab.selectedItem.tag == 1) {
+                    return @"3 ***";
+                } else if (_questTypeTab.selectedItem.tag == 2){
+                    return @"HR3 ***";
+                } else if (_questTypeTab.selectedItem.tag == 3){
+                    return @"DLC3 ***";
+                }
                 break;
             case 4:
-                return @"4 ****";
+                if (_questTypeTab.selectedItem.tag == 1) {
+                    return @"4 ****";
+                } else if (_questTypeTab.selectedItem.tag == 2){
+                    return @"HR4 ****";
+                } else if (_questTypeTab.selectedItem.tag == 3){
+                    return @"DLC4 ****";
+                }
                 break;
             case 5:
-                return @"5 *****";
+                if (_questTypeTab.selectedItem.tag == 1) {
+                    return @"5 *****";
+                } else if (_questTypeTab.selectedItem.tag == 2){
+                    return @"HR5 *****";
+                } else if (_questTypeTab.selectedItem.tag == 3){
+                    return @"DLC5 *****";
+                }
                 break;
             case 6:
-                return @"6 ******";
+                if (_questTypeTab.selectedItem.tag == 1) {
+                    return @"6 ******";
+                } else if (_questTypeTab.selectedItem.tag == 2){
+                    return @"HR6 ******";
+                } else if (_questTypeTab.selectedItem.tag == 3){
+                    return @"DLC6 ******";
+                }
                 break;
             case 7:
-                return @"7 *******";
+                if (_questTypeTab.selectedItem.tag == 1) {
+                    return @"7 *******";
+                } else if (_questTypeTab.selectedItem.tag == 2){
+                    return @"HR7 *******";
+                } else if (_questTypeTab.selectedItem.tag == 3){
+                    return @"DLC7 *******";
+                }
                 break;
             case 8:
-                return @"8 ********";
+                if (_questTypeTab.selectedItem.tag == 1) {
+                    return @"8 ********";
+                } else {
+                    return @"G1";
+                }
                 break;
             case 9:
-                return @"9 *********";
+                if (_questTypeTab.selectedItem.tag == 1) {
+                    return @"9 *********";
+                } else {
+                    return @"G2";
+                }
                 break;
             case 10:
-                return @"10 **********";
+                if (_questTypeTab.selectedItem.tag == 1) {
+                    return @"10 **********";
+                } else {
+                    return @"G3";
+                }
                 break;
             default:
                 break;

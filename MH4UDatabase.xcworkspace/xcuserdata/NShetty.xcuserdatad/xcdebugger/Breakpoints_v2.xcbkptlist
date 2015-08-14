@@ -123,7 +123,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "330"
             endingLineNumber = "330"
-            landmarkName = "-tabBar:didSelectItem:"
+            landmarkName = "-setUpArmorSetView"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -139,7 +139,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1416"
             endingLineNumber = "1416"
-            landmarkName = "-returnDBTypeForArmorSlot:"
+            landmarkName = "-insertNewTalismanIntoDatabase:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -283,8 +283,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "618"
             endingLineNumber = "618"
-            landmarkName = "staminaValue"
-            landmarkType = "19">
+            landmarkName = "-launchTalismanVC:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -299,7 +299,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "558"
             endingLineNumber = "558"
-            landmarkName = "-reDrawEverything"
+            landmarkName = "-viewDidLayoutSubviews"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -379,7 +379,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1315"
             endingLineNumber = "1315"
-            landmarkName = "-checkArmorSetForSlotsWithSetID:"
+            landmarkName = "-addDecoration:ToSlot:andArmorSetWithID:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -427,7 +427,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1122"
             endingLineNumber = "1122"
-            landmarkName = "-getAllArmorSets"
+            landmarkName = "-getArmorSetForSetID:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -443,7 +443,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1124"
             endingLineNumber = "1124"
-            landmarkName = "-getAllArmorSets"
+            landmarkName = "-getArmorSetForSetID:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -459,7 +459,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1093"
             endingLineNumber = "1093"
-            landmarkName = "-populateResultsWithSearch:"
+            landmarkName = "-getAllArmorSets"
             landmarkType = "5">
             <Locations>
                <Location
@@ -507,7 +507,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1121"
             endingLineNumber = "1121"
-            landmarkName = "-getAllArmorSets"
+            landmarkName = "-getArmorSetForSetID:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -570,7 +570,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1537"
-            endingLineNumber = "1537">
+            endingLineNumber = "1537"
+            landmarkName = "-getTalismanForID:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -584,7 +586,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1634"
-            endingLineNumber = "1634">
+            endingLineNumber = "1634"
+            landmarkName = "-checkTalismanTable"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -598,7 +602,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1623"
-            endingLineNumber = "1623">
+            endingLineNumber = "1623"
+            landmarkName = "-checkTalismanTable"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -628,7 +634,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1624"
-            endingLineNumber = "1624">
+            endingLineNumber = "1624"
+            landmarkName = "-checkTalismanTable"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -691,7 +699,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1358"
             endingLineNumber = "1358"
-            landmarkName = "-deleteDecoration:FromSetItemWithItemID:SetWithID:"
+            landmarkName = "-getDecorationsForArmorSet:andSetItem:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -707,7 +715,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1357"
             endingLineNumber = "1357"
-            landmarkName = "-deleteDecoration:FromSetItemWithItemID:SetWithID:"
+            landmarkName = "-getDecorationsForArmorSet:andSetItem:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -723,7 +731,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1366"
             endingLineNumber = "1366"
-            landmarkName = "-deleteAllDecorationsForArmorSetWithID:andSetItem:"
+            landmarkName = "-getDecorationsForArmorSet:andSetItem:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -738,7 +746,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1619"
-            endingLineNumber = "1619">
+            endingLineNumber = "1619"
+            landmarkName = "-checkTalismanTable"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -188,6 +188,3 @@
 @end
 
 
-@implementation ItemTableCell
-
-@end

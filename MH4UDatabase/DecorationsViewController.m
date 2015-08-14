@@ -11,10 +11,10 @@
 #import "ItemDetailViewController.h"
 #import "MH4UDBEntity.h"
 #import "MH4UDBEngine.h"
-#import "MenuViewController.h"
+#import "DecorationTableView.h"
 
 @interface DecorationsViewController ()
-@property (nonatomic) UITableView *decorationsTableView;
+@property (nonatomic) DecorationTableView *decorationsTableView;
 @property (nonatomic) UISearchBar *decorationsSearchBar;
 @property (nonatomic) NSArray *displayedDecorations;
 
@@ -37,9 +37,8 @@
     _decorationsSearchBar.delegate = self;
     
     CGRect tableWithSearch = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + searchBarFrame.size.height, vcFrame.size.width, vcFrame.size.height);
-    _decorationsTableView = [[UITableView alloc] initWithFrame:tableWithSearch];
-    _decorationsTableView.dataSource = self;
-    _decorationsTableView.delegate = self;
+    _decorationsTableView = [[DecorationTableView alloc] initWithFrame:tableWithSearch andNavigationController:self.navigationController andDBEngine:_dbEngine];
+    _decorationsTableView.displayedDecorations = _displayedDecorations;
 
     [self.view addSubview:_decorationsTableView];
     [self.view addSubview:_decorationsSearchBar];
@@ -54,14 +53,13 @@
     else {
         NSArray *searchedItems = [_allDecorations filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObjected, NSDictionary *userInfo){
             Decoration *decoration = (Decoration *)evaluatedObjected;
-            NSArray *skillArray = decoration.skillArray;
             BOOL shouldBeDisplayed = FALSE;
             if (!([decoration.name.lowercaseString rangeOfString:searchText.lowercaseString].location == NSNotFound)) {
                 shouldBeDisplayed = TRUE;
             }
             
-            for (NSArray *skillTree in skillArray) {
-                NSString *skillName = skillTree[1];
+            for (NSDictionary *skillTree in decoration.skillArray) {
+                NSString *skillName = [skillTree valueForKey:@"skillTreeName"];
                 if (!([skillName.lowercaseString rangeOfString:searchText.lowercaseString].location == NSNotFound)) {
                     shouldBeDisplayed = TRUE;
                 }
@@ -69,13 +67,13 @@
             return shouldBeDisplayed;
         }]];
         
-        _displayedDecorations = searchedItems;
+        _decorationsTableView.displayedDecorations = searchedItems;
         [_decorationsTableView reloadData];
     }
 }
 
 -(void)showAllItems {
-    _displayedDecorations = _allDecorations;
+    _decorationsTableView.displayedDecorations = _allDecorations;
     [_decorationsTableView reloadData];
 }
 
@@ -91,63 +89,63 @@
 }
 
 #pragma mark - Table View Methods
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _displayedDecorations.count;
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    ItemTableCell *itemCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
-    
-    if (!itemCell) {
-        [tableView registerNib:[UINib nibWithNibName:@"ItemTableCell"  bundle:nil] forCellReuseIdentifier:@"itemCell"];
-        itemCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
-    }
-    return itemCell;
-}
-
--(void)tableView:(UITableView *)tableView willDisplayCell:(ItemTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if ([tableView isEqual:_decorationsTableView]) {
-        Decoration *decoration = _displayedDecorations[indexPath.row];
-        cell.itemImageView.image = [UIImage imageNamed:decoration.icon];
-        cell.itemLabel.text = decoration.name;
-        
-        if (decoration.skillArray.count == 1) {
-            cell.itemAccessoryLabel1.hidden = YES;
-            cell.itemAccessoryLabel3.hidden = YES;
-            cell.itemAccessoryLabel2.hidden = NO;
-            NSArray *skill1 = decoration.skillArray[0];
-            cell.itemAccessoryLabel2.text = [NSString stringWithFormat:@"%@ %@", skill1[1], skill1[2]];
-        } else if (decoration.skillArray.count == 2) {
-            cell.itemAccessoryLabel1.hidden = NO;
-            cell.itemAccessoryLabel3.hidden = NO;
-            cell.itemAccessoryLabel2.hidden = YES;
-            NSArray *skill1 = decoration.skillArray[0];
-            NSArray *skill2 = decoration.skillArray[1];
-            cell.itemAccessoryLabel1.text = [NSString stringWithFormat:@"%@ %@", skill1[1], skill1[2]];
-            cell.itemAccessoryLabel3.text = [NSString stringWithFormat:@"%@ %@", skill2[1], skill2[2]];
-        }
-        
-        if (decoration.componentArray < 0) {
-            cell.itemSubLabel.text = @"Relic Decoration";
-        }
-        
-        cell.itemSubLabel.hidden = YES;
-    }
-    
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    Decoration *decoration= _displayedDecorations[indexPath.row];
-    decoration.componentArray = [_dbEngine getComponentsfor:decoration.itemID];
-    DecorationsDetailViewController *dDVC = [[DecorationsDetailViewController alloc] init];
-    dDVC.heightDifference = _heightDifference;
-    dDVC.dbEngine = _dbEngine;
-    dDVC.selectedDecoration = decoration;
-    [self.navigationController pushViewController:dDVC animated:YES];
-    
-}
+//-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    return _displayedDecorations.count;
+//}
+//
+//-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//    DecorationTableCell *itemCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
+//    
+//    if (!itemCell) {
+//        [tableView registerNib:[UINib nibWithNibName:@"ItemTableCell"  bundle:nil] forCellReuseIdentifier:@"itemCell"];
+//        itemCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
+//    }
+//    return itemCell;
+//}
+//
+//-(void)tableView:(UITableView *)tableView willDisplayCell:(DecorationTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//    if ([tableView isEqual:_decorationsTableView]) {
+//        Decoration *decoration = _displayedDecorations[indexPath.row];
+//        cell.itemImageView.image = [UIImage imageNamed:decoration.icon];
+//        cell.itemLabel.text = decoration.name;
+//        
+//        if (decoration.skillArray.count == 1) {
+//            cell.itemAccessoryLabel1.hidden = YES;
+//            cell.itemAccessoryLabel3.hidden = YES;
+//            cell.itemAccessoryLabel2.hidden = NO;
+//            NSDictionary *skill1 = decoration.skillArray[0];
+//            cell.itemAccessoryLabel2.text = [NSString stringWithFormat:@"%@ %@", [skill1 valueForKey:@"skillTreeName"], [skill1 valueForKey:@"skillTreePointValue"]];
+//        } else if (decoration.skillArray.count == 2) {
+//            cell.itemAccessoryLabel1.hidden = NO;
+//            cell.itemAccessoryLabel3.hidden = NO;
+//            cell.itemAccessoryLabel2.hidden = YES;
+//            NSArray *skill1 = decoration.skillArray[0];
+//            NSArray *skill2 = decoration.skillArray[1];
+//            cell.itemAccessoryLabel1.text = [NSString stringWithFormat:@"%@ %@", [skill1 valueForKey:@"skillTreeName"], [skill1 valueForKey:@"skillTreePointValue"]];
+//            cell.itemAccessoryLabel3.text = [NSString stringWithFormat:@"%@ %@", [skill2 valueForKey:@"skillTreeName"], [skill2 valueForKey:@"skillTreePointValue"]];
+//        }
+//        
+//        if (decoration.componentArray < 0) {
+//            cell.itemSubLabel.text = @"Relic Decoration";
+//        }
+//        
+//        cell.itemSubLabel.hidden = YES;
+//    }
+//    
+//}
+//
+//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    Decoration *decoration= _displayedDecorations[indexPath.row];
+//    decoration.componentArray = [_dbEngine getComponentsfor:decoration.itemID];
+//    DecorationsDetailViewController *dDVC = [[DecorationsDetailViewController alloc] init];
+//    dDVC.heightDifference = _heightDifference;
+//    dDVC.dbEngine = _dbEngine;
+//    dDVC.selectedDecoration = decoration;
+//    [self.navigationController pushViewController:dDVC animated:YES];
+//    
+//}
 
 #pragma mark - Helper Methods
 - (void)didReceiveMemoryWarning {

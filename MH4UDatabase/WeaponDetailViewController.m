@@ -78,7 +78,7 @@
     NSMutableArray *allViews = [[NSMutableArray alloc] init];
     
     _detailedView = [[[NSBundle mainBundle] loadNibNamed:@"DetailedWeaponView" owner:self options:nil] firstObject];
-    [_detailedView populateWeapon:_selectedWeapon];
+    [_detailedView populateViewWithWeapon:_selectedWeapon];
     _detailedView.frame = tableFrame;
     [allViews addObject:_detailedView];
     
@@ -144,10 +144,10 @@
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"hornCell"];
         }
-        NSArray *hornMelody = _hornMelodies[indexPath.row];
-        cell.textLabel.text =[NSString stringWithFormat:@"%@: Dur:%@\\Ext:%@",hornMelody[0], hornMelody[3], hornMelody[4]];
+        NSDictionary *hornMelody = _hornMelodies[indexPath.row];
+        cell.textLabel.text =[NSString stringWithFormat:@"%@: Dur:%@\\Ext:%@",[hornMelody valueForKey:@"song"], [hornMelody valueForKey:@"duration"], [hornMelody valueForKey:@"extension"]];
 
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@\\%@",hornMelody[1], hornMelody[2]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@\\%@",[hornMelody valueForKey:@"effect1"], [hornMelody valueForKey:@"effect2"]];
         return cell;
     }
     
@@ -202,7 +202,7 @@
 
 @implementation DetailedWeaponView
 
--(void)populateWeapon:(Weapon *)weapon {
+-(void)populateViewWithWeapon:(Weapon *)weapon {
     _icon.image = [UIImage imageNamed:weapon.icon];
     _nameLabel.text = weapon.name;
     _attackLabel.text = [NSString stringWithFormat:@"%i", weapon.attack];
@@ -274,6 +274,11 @@
         _auxiliaryValue3.hidden = NO;
         _auxiliaryLabel3.text = @"Steadiness";
         _auxiliaryValue3.text = weapon.deviation;
+        _sharpnessBackground.hidden = YES;
+        NSAttributedString *ammoString = [weapon returnAttributedAmmoStringFromAmmoString:weapon.ammo];
+        [_ammoTextView setAttributedText:ammoString];
+        _ammoTextView.hidden = NO;
+        
     } else if ([weapon.type isEqualToString:@"Bow"]) {
         NSArray *chargeArray = [weapon.charges componentsSeparatedByString:@"|"];
         NSArray *auxiliaryLabels = @[@[_auxiliaryLabel2, _auxiliaryValue2], @[_auxiliaryLabel3,_auxiliaryValue3], @[_auxiliaryLabel4, _auxiliaryValue4], @[_auxiliaryLabel5, _auxiliaryValue5]];
@@ -292,15 +297,28 @@
             auxiliaryLabel.text = [NSString stringWithFormat:@"Charge %i:", i];
             auxiliaryValue.text = [NSString stringWithFormat:@"%@", chargeArray[i]];
         }
+        
+        _sharpnessView1.hidden = YES;
+        _sharpnessView2.hidden = YES;
+        _sharpnessBackground.hidden = NO;
+        _sharpnessBackground.backgroundColor = [UIColor whiteColor];
+        [weapon drawBowCoatings:weapon.coatings inView:_sharpnessBackground];
 
     }
     
     if (([weapon.type rangeOfString:@"Bow"].location == NSNotFound)) {
         [self drawSharpnessRectWithWeapon:weapon];
     } else {
-        _sharpnessBackground.hidden = YES;
+        
         _sharpnessView1.hidden = YES;
         _sharpnessView2.hidden = YES;
+    }
+    
+    if (!([weapon.type rangeOfString:@"Gunlance"].location == NSNotFound)) {
+        _auxiliaryLabel1.hidden = NO;
+        _auxiliaryValue1.hidden = NO;
+        _auxiliaryLabel1.text = @"Shelling: ";
+        _auxiliaryValue1.text = weapon.shellingType;
     }
 
     _rarityLabel.text = [NSString stringWithFormat:@"%i", weapon.rarity];

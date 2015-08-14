@@ -40,7 +40,7 @@
 
 @end
 
-@implementation SkillCollection
+@implementation SkillTreeCollection
 
 @end
 
@@ -68,6 +68,87 @@
     }
     
     return elementString;
+}
+
+
+
+-(NSAttributedString *)returnAttributedAmmoStringFromAmmoString:(NSString *)bowGunAmmoString {
+    NSArray *ammoArray = [bowGunAmmoString componentsSeparatedByString:@"|"];
+    NSMutableAttributedString *ammoString = [[NSMutableAttributedString alloc] initWithString:@""];
+    for (int i = 0; i < ammoArray.count; ++i) {
+        NSMutableAttributedString *ammo = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ ", ammoArray[i]]];
+        
+        if (!([ammoArray[i] rangeOfString:@"*"].location == NSNotFound)) {
+            [ammo addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(0, ammo.length)];
+        }
+        
+        if (i % 3 == 0 && i != 0) {
+            [ammo insertAttributedString:[[NSMutableAttributedString alloc] initWithString:@"\n"] atIndex:0];
+            [ammoString appendAttributedString:ammo];
+        } else {
+            
+            [ammoString appendAttributedString:ammo];
+        }
+        
+    }
+
+    return ammoString;
+}
+
+-(void)drawBowCoatings:(NSString *)coatingString inView:(UIView *)coatingView {
+    //ammoString = @"Power|Poison|Para|Sleep|-|Paint|-|-@";
+    NSArray *coatingSplit = [coatingString componentsSeparatedByString:@"|"];
+    NSArray *coatingArray = [coatingSplit filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSString *coatingString, NSDictionary *userInfo){
+        if ([coatingString isEqualToString:@"-"]) {
+            return false;
+        } else {
+            return true;
+        }
+    }]];
+    float width = coatingView.frame.size.width / coatingArray.count;
+    
+    for (int i = 0; i < coatingArray.count; i++) {
+        NSString *coating = coatingArray[i];
+        UIImage *coatingImage = [self returnImageForCoating:coating];
+        UIImageView *coatingImageView = [[UIImageView alloc] initWithImage:coatingImage];
+        coatingImageView.frame = CGRectMake(i * width, 0, 30, 30);
+        [coatingView addSubview:coatingImageView];
+    }
+}
+
+-(UIImage *)returnImageForCoating:(NSString *)coating {
+    if ([coating isEqualToString:@"Power"]) {
+        return [UIImage imageNamed:@"Bottle-Red.png"];
+    }
+    
+    else if ([coating isEqualToString:@"Para"]) {
+        return [UIImage imageNamed:@"Bottle-Yellow.png"];
+    }
+    
+    else if ([coating isEqualToString:@"C. Range"]) {
+        return [UIImage imageNamed:@"Bottle-White.png"];
+    }
+    
+    else if ([coating isEqualToString:@"Exhaust"]) {
+        return [UIImage imageNamed:@"Bottle-Blue.png"];
+    }
+    
+    else if ([coating isEqualToString:@"Paint"]) {
+        return [UIImage imageNamed:@"Bottle-Pink.png"];
+    }
+    
+    else if ([coating isEqualToString:@"Poison"]) {
+        return [UIImage imageNamed:@"Bottle-Purple.png"];
+    }
+    
+    else if ([coating isEqualToString:@"Sleep"]) {
+        return [UIImage imageNamed:@"Bottle-Cyan.png"];
+    }
+    
+    else if ([coating isEqualToString:@"Blast"]) {
+        return [UIImage imageNamed:@"Bottle-Orange.png"];
+    }
+    return nil;
 }
 
 -(void)drawSharpness:(NSString *)sharpnessString inView:(UIView *)sharpnessView {
@@ -179,6 +260,8 @@
         return self.waist;
     } else if ([slot isEqualToString:@"Legs"]) {
         return self.legs;
+    }else if ([slot isEqualToString:@"Talisman"]) {
+            return self.talisman;
     } else if ([slot isEqualToString:@"Weapon"]){
         return self.weapon;
     } else {
@@ -230,3 +313,18 @@
 
 @end
 
+@implementation Talisman
+
+-(NSString *)getIconString {
+    if (!_talismanType) {
+        return @"QuestionMark-White.png";
+    }
+    
+    if ([_talismanType isEqualToString:@"Sage"] || [_talismanType isEqualToString:@"Miracle"] || [_talismanType isEqualToString:@"Creator"]) {
+        return @"Talisman-Sage.png";
+    } else {
+        return [NSString stringWithFormat:@"Talisman-%@.png", _talismanType];
+    }
+}
+
+@end

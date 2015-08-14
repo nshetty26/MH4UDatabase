@@ -18,14 +18,5 @@
 
 @end
 
-@interface ItemTableCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *itemImageView;
-@property (weak, nonatomic) IBOutlet UILabel *itemLabel;
-@property (weak, nonatomic) IBOutlet UILabel *itemAccessoryLabel1;
-@property (weak, nonatomic) IBOutlet UILabel *itemAccessoryLabel2;
-@property (weak, nonatomic) IBOutlet UILabel *itemAccessoryLabel3;
-@property (weak, nonatomic) IBOutlet UILabel *itemSubLabel;
-
-@end
 
 

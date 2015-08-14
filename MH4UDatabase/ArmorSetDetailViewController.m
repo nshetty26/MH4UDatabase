@@ -7,6 +7,7 @@
 //
 
 #import "MH4UDBEntity.h"
+#import "DecorationTableView.h"
 #import "MenuViewController.h"
 #import "MH4UDBEngine.h"
 #import "ArmorSetDetailViewController.h"
@@ -15,6 +16,8 @@
 #import "ItemDetailViewController.h"
 #import "WeaponDetailViewController.h"
 #import "ArmorDetailViewController.h"
+#import "TalismanCreatorViewController.h"
+#import "TalismanTableViewController.h"
 
 @interface ArmorSetDetailViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *weaponImage;
@@ -52,6 +55,7 @@
 @property (strong, nonatomic) NSArray *armsDecorationViews;
 @property (strong, nonatomic) NSArray *waistDecorationViews;
 @property (strong, nonatomic) NSArray *legsDecorationViews;
+@property (strong, nonatomic) NSArray *talismanDecorationViews;
 
 @property (strong, nonatomic) NSMutableArray *allDecorations;
 @property (strong, nonatomic) NSArray *displayedDecorations;
@@ -65,6 +69,7 @@
 
 - (IBAction)launchDetailVC:(id)sender;
 
+- (IBAction)launchTalismanVC:(id)sender;
 
 @end
 
@@ -85,6 +90,7 @@
     _armsDecorationViews = @[_armsSlot1, _armsSlot2, _armsSlot3];
     _waistDecorationViews = @[_waistSlot1, _waistSlot2, _waistSlot3];
     _legsDecorationViews = @[_legsSlot1, _legsSlot2, _legsSlot3];
+    _talismanDecorationViews = @[_talismanSlot1, _talismanSlot2, _talismanSlot3];
     
     CGRect vcFrame = self.view.frame;
     CGRect tabBarFrame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + [self returnHeightDifference], vcFrame.size.width, 49);
@@ -210,23 +216,20 @@
 -(void)displayAllEmptySlots {    
     if ([_armorSet returnNonNullSetItems].count > 0) {
         for (Item *setItem in [_armorSet returnNonNullSetItems]) {
-            if (setItem.numSlots > 0) {
-                NSArray *imageViewArray = [self returnImageViewArrayForArmorSlot:setItem.slot];
-                NSMutableArray *slotImages = [[NSMutableArray alloc] init];
-                for (int i = 0; i  < setItem.numSlots; i++) {
-                    [slotImages addObject:imageViewArray[i]];
-                    [self displayEmptySlotsFromImageViewArray:slotImages];
-                }
+            NSArray *imageViewArray = [self returnImageViewArrayForArmorSlot:setItem.slot];
+                for (int i = 0; i  < 3; i++) {
+                    UIImageView *imageView = imageViewArray[i];
+                    if (i + 1 <= setItem.numSlots) {
+                        imageView.image = [UIImage imageNamed:@"circle.png"];
+                    } else {
+                        imageView.image = [UIImage imageNamed:@"dash.jpg"];
+                    }
+                    [imageView reloadInputViews];
             }
         }
     }
 }
 
--(void)displayEmptySlotsFromImageViewArray:(NSArray *)imageViewArray {
-    for (UIImageView *imageView in imageViewArray) {
-        imageView.image = [UIImage imageNamed:@"circle.png"];
-    }
-}
 
 -(NSArray *)returnImageViewArrayForArmorSlot:(NSString *)armorSlot {
     NSArray *imageViewArray;
@@ -240,6 +243,8 @@
         imageViewArray = _waistDecorationViews;
     } else if ([armorSlot isEqualToString:@"Legs"]) {
         imageViewArray = _legsDecorationViews;
+    } else if ([armorSlot isEqualToString:@"Talisman"]) {
+        imageViewArray = _talismanDecorationViews;
     } else if ([armorSlot isEqualToString:@"Weapon"]) {
         imageViewArray = _weaponDecorationViews;
     } else {
@@ -290,14 +295,14 @@
 }
 
 -(void)combineSkillsArray:(NSArray *)skillArray {
-    for (NSArray *skill in skillArray) {
-        if (![_skillDictionary objectForKey:skill[0]]) {
-            [_skillDictionary setObject:[[NSMutableArray alloc] initWithArray:@[skill[1], skill[2]]] forKey:skill[0]];
+    for (NSDictionary *skill in skillArray) {
+        if (![_skillDictionary objectForKey:[skill valueForKey:@"skillTreeID"]]) {
+            [_skillDictionary setObject:[[NSMutableArray alloc] initWithArray:@[[skill valueForKey:@"skillTreeName"], [skill valueForKey:@"skillTreePointValue"]]] forKey:[skill valueForKey:@"skillTreeID"]];
         } else {
-            NSMutableArray *nameAndValue = [_skillDictionary objectForKey:skill[0]];
+            NSMutableArray *nameAndValue = [_skillDictionary objectForKey:[skill valueForKey:@"skillTreeID"]];
             NSNumber *originalValue = nameAndValue[1];
-            NSNumber *addedSkillValue = skill[2];
-            int newValue = [originalValue intValue] + [addedSkillValue intValue];
+            NSNumber *additionalSkillValue = [skill valueForKey:@"skillTreePointValue"];
+            int newValue = [originalValue intValue] + [additionalSkillValue intValue];
             nameAndValue[1] = [NSNumber numberWithInt:newValue];
         }
     }
@@ -321,6 +326,16 @@
     
     _legImage.image = [UIImage imageNamed:_armorSet.legs.icon];
     _legLabel.text = _armorSet.legs.name;
+    
+    if (_armorSet.talisman) {
+        _talismanImage.image = [UIImage imageNamed:[_armorSet.talisman getIconString]];
+        _talismanLabel.text = _armorSet.talisman.name;
+    } else {
+        _talismanImage.image = NULL;
+        _talismanLabel.text = @"Press To Add Talisman";
+    }
+
+    
     
     [_armorStatSheet populateStatsWithArmorSet:_armorSet];
 }
@@ -386,57 +401,59 @@
         }];
 
         NSArray *nameAndValue = sortedValuesArray[indexPath.row];
-        
-        cell.textLabel.text = nameAndValue[0];
         CGRect cellFrame = cell.frame;
         CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 50, 20);
         UILabel *acessoryText = [[UILabel alloc] initWithFrame:textView];
         acessoryText.textAlignment =  NSTextAlignmentRight;
-        
-        
-        acessoryText.text = [NSString stringWithFormat:@"%@", nameAndValue[1]];
         [cell addSubview:acessoryText];
         [cell setAccessoryView: acessoryText];
-        return cell;
-    } else if ([tableView isEqual:_socketedTable]){
-        ItemTableCell *itemCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
         
-        if (!itemCell) {
-            [tableView registerNib:[UINib nibWithNibName:@"ItemTableCell"  bundle:nil] forCellReuseIdentifier:@"itemCell"];
-            itemCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
+        
+        cell.textLabel.text = nameAndValue[0];
+        acessoryText.text = [NSString stringWithFormat:@"%@", nameAndValue[1]];
+        return cell;
+        
+    } else if ([tableView isEqual:_socketedTable]){
+        DecorationTableCell *decorationCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
+        
+        if (!decorationCell) {
+            [tableView registerNib:[UINib nibWithNibName:@"DecorationTableCell"  bundle:nil] forCellReuseIdentifier:@"itemCell"];
+            decorationCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
         }
-        return itemCell;
+        return decorationCell;
 
     } else {
         return nil;
     }
 
 }
--(void)tableView:(UITableView *)tableView willDisplayCell:(ItemTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(DecorationTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if ([tableView isEqual:_socketedTable]) {
         Decoration *decoration = _displayedDecorations[indexPath.row];
         cell.itemImageView.image = [UIImage imageNamed:decoration.icon];
         cell.itemLabel.text = decoration.name;
-        UIFont *font = [cell.itemLabel.font fontWithSize:14];
-        cell.itemLabel.font = font;
         
         if (decoration.skillArray.count == 1) {
             cell.itemAccessoryLabel1.hidden = YES;
             cell.itemAccessoryLabel3.hidden = YES;
             cell.itemAccessoryLabel2.hidden = NO;
-            NSArray *skill1 = decoration.skillArray[0];
-            cell.itemAccessoryLabel2.text = [NSString stringWithFormat:@"%@ %@", skill1[1], skill1[2]];
+            NSDictionary *skill1 = decoration.skillArray[0];
+            cell.itemAccessoryLabel2.text = [NSString stringWithFormat:@"%@ %@", [skill1 valueForKey:@"skillTreeName"], [skill1 valueForKey:@"skillTreePointValue"]];
         } else if (decoration.skillArray.count == 2) {
             cell.itemAccessoryLabel1.hidden = NO;
             cell.itemAccessoryLabel3.hidden = NO;
             cell.itemAccessoryLabel2.hidden = YES;
-            NSArray *skill1 = decoration.skillArray[0];
-            NSArray *skill2 = decoration.skillArray[1];
-            cell.itemAccessoryLabel1.text = [NSString stringWithFormat:@"%@ %@", skill1[1], skill1[2]];
-            cell.itemAccessoryLabel3.text = [NSString stringWithFormat:@"%@ %@", skill2[1], skill2[2]];
+            NSDictionary *skill1 = decoration.skillArray[0];
+            NSDictionary *skill2 = decoration.skillArray[1];
+            cell.itemAccessoryLabel1.text = [NSString stringWithFormat:@"%@ %@", [skill1 valueForKey:@"skillTreeName"], [skill1 valueForKey:@"skillTreePointValue"]];
+            cell.itemAccessoryLabel3.text = [NSString stringWithFormat:@"%@ %@", [skill2 valueForKey:@"skillTreeName"], [skill2 valueForKey:@"skillTreePointValue"]];
         }
         
+        if (decoration.componentArray < 0) {
+            cell.itemSubLabel.text = @"Relic Decoration";
+        }
         
         cell.itemSubLabel.hidden = YES;
     }
@@ -523,7 +540,7 @@
     _armorSetTab.frame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + [self returnHeightDifference], vcFrame.size.width, 49);
     _armorStatSheet.frame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _armorSetTab.frame.size.height + [self returnHeightDifference], vcFrame.size.width, vcFrame.size.height - [self returnHeightDifference] - _armorSetTab.frame.size.height);
     _statTableView.frame = CGRectMake(vcFrame.origin.x, vcFrame.origin.y + _armorSetTab.frame.size.height + [self returnHeightDifference], vcFrame.size.width, vcFrame.size.height - (_armorSetTab.frame.size.height + [self returnHeightDifference]));
-    _equipmentSocketTab.frame = CGRectMake(self.view.frame.origin.x, _legImage.frame.origin.y + _legImage.frame.size.height + 10, _baseVC.rightDrawerViewController.view.frame.size.width, 49);
+    _equipmentSocketTab.frame = CGRectMake(self.view.frame.origin.x, _talismanImage.frame.origin.y + _talismanImage.frame.size.height + 10, _baseVC.rightDrawerViewController.view.frame.size.width, 49);
     _socketedTable.frame = CGRectMake(vcFrame.origin.x, _equipmentSocketTab.frame.origin.y + _equipmentSocketTab.frame.size.height, _baseVC.rightDrawerViewController.view.frame.size.width, vcFrame.size.height - (_armorSetTab.frame.size.height + [self returnHeightDifference]));
     
     self.navigationItem.rightBarButtonItems = nil;
@@ -537,9 +554,13 @@
         }
         
     }
+   
     
-    [self setUpArmorSetView];
+    [self displayAllEmptySlots];
     [self drawDecorationForArmorSet];
+    [self setUpArmorSetView];
+    [self calculateSkillsForSelectedArmorSet];
+
     
 }
 
@@ -593,6 +614,26 @@
 
 }
 
+- (IBAction)launchTalismanVC:(id)sender {
+    NSArray *talismanArray = [_dbEngine getAllTalismans];
+    _leftASDVC = YES;
+    
+    if (talismanArray.count > 0) {
+        TalismanTableViewController *ttVC = [[TalismanTableViewController alloc] init];
+        ttVC.selectedSet = _armorSet;
+        ttVC.dbEngine = _dbEngine;
+        ttVC.talismanArray = talismanArray;
+        ttVC.asDVC = self;
+        [self.navigationController pushViewController:ttVC animated:YES];
+    } else {
+        TalismanCreatorViewController *tCVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"talismanCreatorVC"];
+        tCVC.asDVC = self;
+        tCVC.dbEngine = _dbEngine;
+        tCVC.selectedSet = _armorSet;
+        [self.navigationController pushViewController:tCVC animated:YES];
+    }
+}
+
 #pragma mark - Clone Current Set Methods
 -(void)promptToCopy {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"This Set Is Going to Be Duplicated" message:@"Please Give This New Set a Name" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Continue", nil];
@@ -639,12 +680,21 @@
     if (armorSet.weapon) {
         if (![armorSet.weapon.sharpness isEqualToString:@""]) {
             [self drawSharpnessRectWithWeapon:armorSet.weapon];
-        } else {
-            _sharpnessLabel.hidden = YES;
-            _sharpnessBackground.hidden = YES;
+        } else if ([armorSet.weapon.type isEqualToString:@"Bow"]) {
             _sharpnessView1.hidden = YES;
             _sharpnessView2.hidden = YES;
+            _sharpnessBackground.hidden = NO;
+            _sharpnessLabel.text = @"Coatings: ";
+            _sharpnessBackground.backgroundColor = [UIColor whiteColor];
+            [armorSet.weapon drawBowCoatings:armorSet.weapon.coatings inView:_sharpnessBackground];
+            
+        } else {
+            _sharpnessView1.hidden = YES;
+            _sharpnessView2.hidden = YES;
+            _sharpnessBackground.hidden = YES;
+            _sharpnessLabel.hidden = YES;
         }
+
     } else {
         _sharpnessLabel.hidden = YES;
         _sharpnessBackground.hidden = YES;

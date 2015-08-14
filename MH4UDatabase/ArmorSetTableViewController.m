@@ -87,10 +87,10 @@
 
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *set = _allSets[indexPath.row];
+    NSDictionary *set = _allSets[indexPath.row];
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        [_dbEngine deleteArmorSetWithID:set[0]];
+        [_dbEngine deleteArmorSetWithID:set[@"setID"]];
         _allSets = [_dbEngine getAllArmorSets];
         //[self.tableView reloadData];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];

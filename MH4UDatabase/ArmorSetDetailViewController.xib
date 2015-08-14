@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ArmorSetDetailViewController">
@@ -31,6 +31,11 @@
                 <outlet property="legsSlot1" destination="p7v-1R-G92" id="3I1-S9-vWn"/>
                 <outlet property="legsSlot2" destination="bHR-5w-yjb" id="wpm-vb-4VI"/>
                 <outlet property="legsSlot3" destination="Jpm-vW-JlE" id="1O2-wJ-DEn"/>
+                <outlet property="talismanImage" destination="eYt-9g-zaP" id="Zwb-tj-knU"/>
+                <outlet property="talismanLabel" destination="5AA-2s-Dme" id="xx0-dB-PJ5"/>
+                <outlet property="talismanSlot1" destination="3QL-Oh-hvU" id="cqV-Sf-RN7"/>
+                <outlet property="talismanSlot2" destination="Uo1-nY-5Xg" id="bpA-gX-vsI"/>
+                <outlet property="talismanSlot3" destination="orE-Ol-obi" id="iu1-B3-bFb"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="waistButton" destination="S8V-Ci-X8R" id="fnT-8i-cwg"/>
                 <outlet property="waistImage" destination="vqO-ep-tCr" id="rdM-8B-KC3"/>
@@ -208,12 +213,39 @@
                         <action selector="launchDetailVC:" destination="-1" eventType="touchUpInside" id="t8c-29-IF3"/>
                     </connections>
                 </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eYt-9g-zaP">
+                    <rect key="frame" x="8" y="329" width="30" height="30"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="3QL-Oh-hvU">
+                    <rect key="frame" x="222" y="341" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Uo1-nY-5Xg">
+                    <rect key="frame" x="242" y="341" width="15" height="16"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dash.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="orE-Ol-obi">
+                    <rect key="frame" x="261" y="341" width="15" height="16"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Press To Add Talisman" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5AA-2s-Dme">
+                    <rect key="frame" x="56" y="338" width="158" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Arms Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IwT-q6-tbY">
                     <rect key="frame" x="56" y="234" width="158" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xIh-bZ-DFP">
+                    <rect key="frame" x="8" y="331" width="146" height="30"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="launchTalismanVC:" destination="-1" eventType="touchUpInside" id="LyU-NG-EbE"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
