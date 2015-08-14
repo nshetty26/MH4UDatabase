@@ -3,6 +3,9 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,43 +16,71 @@
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Jxw-mq-aik" id="Nvg-lT-rcR">
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Vegetable" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Itp-pd-t8a">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Vegetable" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Itp-pd-t8a">
                         <rect key="frame" x="6" y="17" width="145" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Skill1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="caF-4v-PmM">
-                        <rect key="frame" x="159" y="3" width="153" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Skill2" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AIc-wh-epM">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Skill2" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AIc-wh-epM">
                         <rect key="frame" x="159" y="19" width="153" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Skill3" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dcd-hi-B4G">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Skill3" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dcd-hi-B4G">
                         <rect key="frame" x="159" y="36" width="153" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Method" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gsJ-5K-TKG">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Method" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gsJ-5K-TKG">
                         <rect key="frame" x="6" y="-2" width="57" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bonus" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KAC-uF-zOk">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Bonus" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KAC-uF-zOk">
                         <rect key="frame" x="6" y="38" width="132" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Skill1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="caF-4v-PmM">
+                        <rect key="frame" x="159" y="3" width="153" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="bpc-TO-VlQ"/>
+                            <constraint firstAttribute="width" constant="153" id="k7W-5X-376"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottomMargin" secondItem="KAC-uF-zOk" secondAttribute="bottom" constant="-7.5" id="8CI-ep-Snf"/>
+                    <constraint firstItem="KAC-uF-zOk" firstAttribute="top" secondItem="Itp-pd-t8a" secondAttribute="bottom" id="8z0-FU-ubP"/>
+                    <constraint firstItem="AIc-wh-epM" firstAttribute="centerY" secondItem="Nvg-lT-rcR" secondAttribute="centerY" id="9rl-JI-YsM"/>
+                    <constraint firstItem="caF-4v-PmM" firstAttribute="leading" secondItem="Itp-pd-t8a" secondAttribute="trailing" constant="8" symbolic="YES" id="AoC-qF-KsI"/>
+                    <constraint firstItem="KAC-uF-zOk" firstAttribute="top" secondItem="gsJ-5K-TKG" secondAttribute="bottom" constant="19" id="Iws-vp-b2p"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="caF-4v-PmM" secondAttribute="trailing" constant="-7" id="J6z-pR-dZC"/>
+                    <constraint firstItem="AIc-wh-epM" firstAttribute="top" secondItem="Nvg-lT-rcR" secondAttribute="topMargin" constant="11" id="Jc8-k5-v3L"/>
+                    <constraint firstItem="gsJ-5K-TKG" firstAttribute="top" secondItem="Nvg-lT-rcR" secondAttribute="topMargin" constant="-10" id="Mjc-2t-iWe"/>
+                    <constraint firstItem="caF-4v-PmM" firstAttribute="leading" secondItem="gsJ-5K-TKG" secondAttribute="trailing" constant="96" id="OHw-3n-W5g"/>
+                    <constraint firstItem="Itp-pd-t8a" firstAttribute="top" secondItem="Nvg-lT-rcR" secondAttribute="topMargin" constant="9" id="PYG-9l-hlf"/>
+                    <constraint firstItem="gsJ-5K-TKG" firstAttribute="leading" secondItem="Nvg-lT-rcR" secondAttribute="leadingMargin" constant="-9" id="Sym-yP-EzZ"/>
+                    <constraint firstItem="Dcd-hi-B4G" firstAttribute="top" secondItem="caF-4v-PmM" secondAttribute="bottom" constant="12" id="UR4-eR-sFD"/>
+                    <constraint firstItem="gsJ-5K-TKG" firstAttribute="leading" secondItem="Itp-pd-t8a" secondAttribute="leading" id="WJ7-3e-wWc"/>
+                    <constraint firstItem="caF-4v-PmM" firstAttribute="trailing" secondItem="AIc-wh-epM" secondAttribute="trailing" id="Zv8-1G-znW"/>
+                    <constraint firstItem="Dcd-hi-B4G" firstAttribute="leading" secondItem="KAC-uF-zOk" secondAttribute="trailing" constant="21" id="anA-Rh-JeV"/>
+                    <constraint firstItem="caF-4v-PmM" firstAttribute="top" secondItem="Nvg-lT-rcR" secondAttribute="topMargin" constant="-5" id="bzG-xT-IY6"/>
+                    <constraint firstItem="caF-4v-PmM" firstAttribute="leading" secondItem="AIc-wh-epM" secondAttribute="leading" id="e4d-69-0QS"/>
+                    <constraint firstItem="KAC-uF-zOk" firstAttribute="leading" secondItem="Itp-pd-t8a" secondAttribute="leading" id="gWf-k2-0HG"/>
+                    <constraint firstItem="caF-4v-PmM" firstAttribute="firstBaseline" secondItem="gsJ-5K-TKG" secondAttribute="baseline" id="rdz-5U-due"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Dcd-hi-B4G" secondAttribute="bottom" constant="-5.5" id="sYO-PK-RMH"/>
+                    <constraint firstItem="caF-4v-PmM" firstAttribute="leading" secondItem="Dcd-hi-B4G" secondAttribute="leading" id="tBF-KT-3m0"/>
+                    <constraint firstItem="caF-4v-PmM" firstAttribute="trailing" secondItem="Dcd-hi-B4G" secondAttribute="trailing" id="vXK-UA-1jA"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="bonus" destination="KAC-uF-zOk" id="CNc-ts-94V"/>
