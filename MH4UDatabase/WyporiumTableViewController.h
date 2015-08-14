@@ -11,6 +11,7 @@
 @class MH4UDBEngine;
 @class Quest;
 @class Item;
+@class Location;
 
 @interface WyporiumTableViewController : UITableViewController <UISearchBarDelegate>
 
@@ -22,6 +23,7 @@
 @property (weak, nonatomic) Item *itemIn;
 @property (weak, nonatomic) Item *itemOut;
 @property (weak, nonatomic) Quest *unlockQuest;
+@property (weak, nonatomic) Location *tradeLocation;
 @property (weak, nonatomic) UINavigationController *navigationController;
 @property (weak, nonatomic) IBOutlet UIButton *inButton;
 @property (weak, nonatomic) IBOutlet UIButton *outButton;

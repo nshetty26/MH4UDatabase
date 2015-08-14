@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461202658.069921"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1416"
-            endingLineNumber = "1416"
+            startingLineNumber = "1437"
+            endingLineNumber = "1437"
             landmarkName = "-insertNewTalismanIntoDatabase:"
             landmarkType = "5">
          </BreakpointContent>
@@ -378,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461202658.069921"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1315"
-            endingLineNumber = "1315"
+            startingLineNumber = "1336"
+            endingLineNumber = "1336"
             landmarkName = "-addDecoration:ToSlot:andArmorSetWithID:"
             landmarkType = "5">
          </BreakpointContent>
@@ -394,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461202658.069921"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1328"
-            endingLineNumber = "1328"
+            startingLineNumber = "1349"
+            endingLineNumber = "1349"
             landmarkName = "-addDecoration:ToSlot:andArmorSetWithID:"
             landmarkType = "5">
          </BreakpointContent>
@@ -426,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461202658.069921"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1122"
-            endingLineNumber = "1122"
+            startingLineNumber = "1143"
+            endingLineNumber = "1143"
             landmarkName = "-getArmorSetForSetID:"
             landmarkType = "5">
          </BreakpointContent>
@@ -442,11 +442,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461202658.069921"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1124"
-            endingLineNumber = "1124"
+            startingLineNumber = "1145"
+            endingLineNumber = "1145"
             landmarkName = "-getArmorSetForSetID:"
             landmarkType = "5">
          </BreakpointContent>
@@ -458,11 +458,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461202658.069921"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1093"
-            endingLineNumber = "1093"
+            startingLineNumber = "1114"
+            endingLineNumber = "1114"
             landmarkName = "-getAllArmorSets"
             landmarkType = "5">
             <Locations>
@@ -506,11 +506,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461202658.069921"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1121"
-            endingLineNumber = "1121"
+            startingLineNumber = "1142"
+            endingLineNumber = "1142"
             landmarkName = "-getArmorSetForSetID:"
             landmarkType = "5">
          </BreakpointContent>
@@ -554,11 +554,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461202658.069921"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1320"
-            endingLineNumber = "1320"
+            startingLineNumber = "1341"
+            endingLineNumber = "1341"
             landmarkName = "-addDecoration:ToSlot:andArmorSetWithID:"
             landmarkType = "5">
          </BreakpointContent>
@@ -570,11 +570,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461266239.95953"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1531"
-            endingLineNumber = "1531"
+            startingLineNumber = "1552"
+            endingLineNumber = "1552"
             landmarkName = "-getTalismanForID:"
             landmarkType = "5">
          </BreakpointContent>
@@ -586,11 +586,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461266239.95953"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1628"
-            endingLineNumber = "1628"
+            startingLineNumber = "1649"
+            endingLineNumber = "1649"
             landmarkName = "-checkTalismanTable"
             landmarkType = "5">
          </BreakpointContent>
@@ -602,11 +602,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461266239.95953"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1617"
-            endingLineNumber = "1617"
+            startingLineNumber = "1638"
+            endingLineNumber = "1638"
             landmarkName = "-checkTalismanTable"
             landmarkType = "5">
          </BreakpointContent>
@@ -618,11 +618,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461202658.069921"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1127"
-            endingLineNumber = "1127"
+            startingLineNumber = "1148"
+            endingLineNumber = "1148"
             landmarkName = "-getArmorSetForSetID:"
             landmarkType = "5">
          </BreakpointContent>
@@ -634,11 +634,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461266239.95953"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1618"
-            endingLineNumber = "1618"
+            startingLineNumber = "1639"
+            endingLineNumber = "1639"
             landmarkName = "-checkTalismanTable"
             landmarkType = "5">
          </BreakpointContent>
@@ -698,11 +698,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461202658.069921"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1358"
-            endingLineNumber = "1358"
+            startingLineNumber = "1379"
+            endingLineNumber = "1379"
             landmarkName = "-getDecorationsForArmorSet:andSetItem:"
             landmarkType = "5">
          </BreakpointContent>
@@ -714,11 +714,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461202658.069921"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1357"
-            endingLineNumber = "1357"
+            startingLineNumber = "1378"
+            endingLineNumber = "1378"
             landmarkName = "-getDecorationsForArmorSet:andSetItem:"
             landmarkType = "5">
          </BreakpointContent>
@@ -730,11 +730,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461202658.069921"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1366"
-            endingLineNumber = "1366"
+            startingLineNumber = "1387"
+            endingLineNumber = "1387"
             landmarkName = "-getDecorationsForArmorSet:andSetItem:"
             landmarkType = "5">
          </BreakpointContent>
@@ -746,11 +746,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MH4UDatabase/MH4UDBEngine.m"
-            timestampString = "461266239.95953"
+            timestampString = "461270599.306014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1613"
-            endingLineNumber = "1613"
+            startingLineNumber = "1634"
+            endingLineNumber = "1634"
             landmarkName = "-checkTalismanTable"
             landmarkType = "5">
          </BreakpointContent>
@@ -848,6 +848,22 @@
             startingLineNumber = "573"
             endingLineNumber = "573"
             landmarkName = "-initializeAllViews"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MH4UDatabase/MH4UDBEngine.m"
+            timestampString = "461270599.306014"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1096"
+            endingLineNumber = "1096"
+            landmarkName = "-getAllVeggieElderTrades"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

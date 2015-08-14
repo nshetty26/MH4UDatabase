@@ -1081,6 +1081,27 @@
     return everythingArray;
 }
 
+#pragma mark - MISC TableViewController Queries
+
+-(NSArray *)getAllVeggieElderTrades {
+    
+    NSMutableArray *veggieElderTrades = [[NSMutableArray alloc] init];
+    
+    NSString *query = @"select veggie_elder._id, locations._id as locationID, offerItem._id as offerID, veggie_elder.quantity, receiveItem._id as receiveID from veggie_elder inner join items as offerItem on veggie_elder.offer_item_id = offerItem._id inner join locations on veggie_elder.location_id = locations._id inner join items as receiveItem on veggie_elder.receive_item_id = receiveItem._id";
+    
+    FMResultSet *s = [self DBquery:query];
+    while ([s next]) {
+        int veggieID = [s intForColumn:@"_id"];
+        Location *veggieLocation = [[self getAllLocations:[NSNumber numberWithInt:[s intForColumn:@"locationID"]]] firstObject];
+        Item *offerItem = [self getItemForID:[s intForColumn:@"offerID"]];
+        Item *receiveItem = [self getItemForID:[s intForColumn:@"receiveID"]];
+        int quantity = [s intForColumn:@"quantity"];
+        [veggieElderTrades addObject:@{@"veggieID": [NSNumber numberWithInt:veggieID], @"location" : veggieLocation, @"offerItem": offerItem, @"receiveItem" : receiveItem, @"quantity" : [NSNumber numberWithInt:quantity]}];
+    }
+    
+    return veggieElderTrades;
+}
+
 #pragma mark - Armor Set Builder Queries
 #pragma mark Pulling / Adding / Deleting The Whole Armor Set
 -(NSArray *)getAllArmorSets {

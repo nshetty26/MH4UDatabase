@@ -851,6 +851,8 @@
 		40C1D0A41B7D1F1F00259B45 /* sword_and_shield8.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C1CD591B7D1F1F00259B45 /* sword_and_shield8.png */; };
 		40C1D0A51B7D1F1F00259B45 /* sword_and_shield9.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C1CD5A1B7D1F1F00259B45 /* sword_and_shield9.png */; };
 		40C1D0A81B7D229400259B45 /* TalismanTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C1D0A71B7D229400259B45 /* TalismanTableViewController.m */; };
+		40F024BC1B7E6AFC009379A0 /* VeggieElderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40F024BB1B7E6AFC009379A0 /* VeggieElderTableViewController.m */; };
+		40F024BE1B7E7498009379A0 /* Veggie Elder.png in Resources */ = {isa = PBXBuildFile; fileRef = 40F024BD1B7E7498009379A0 /* Veggie Elder.png */; };
 		40FA94B51B7A6B4F00D817EB /* mh4u.db in Resources */ = {isa = PBXBuildFile; fileRef = 40FA94B41B7A6B4F00D817EB /* mh4u.db */; };
 		40FA94CC1B7A9F3300D817EB /* TalismanCreatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40FA94CB1B7A9F3300D817EB /* TalismanCreatorViewController.m */; };
 		499F66047D4F8AC8382E0904 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D81653FF5EF53FDB102D0403 /* libPods.a */; };
@@ -1778,6 +1780,9 @@
 		40C1CD5A1B7D1F1F00259B45 /* sword_and_shield9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sword_and_shield9.png; sourceTree = "<group>"; };
 		40C1D0A61B7D229400259B45 /* TalismanTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TalismanTableViewController.h; sourceTree = "<group>"; };
 		40C1D0A71B7D229400259B45 /* TalismanTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TalismanTableViewController.m; sourceTree = "<group>"; };
+		40F024BA1B7E6AFC009379A0 /* VeggieElderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VeggieElderTableViewController.h; sourceTree = "<group>"; };
+		40F024BB1B7E6AFC009379A0 /* VeggieElderTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VeggieElderTableViewController.m; sourceTree = "<group>"; };
+		40F024BD1B7E7498009379A0 /* Veggie Elder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Veggie Elder.png"; sourceTree = "<group>"; };
 		40FA94B41B7A6B4F00D817EB /* mh4u.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = mh4u.db; sourceTree = "<group>"; };
 		40FA94CA1B7A9F3300D817EB /* TalismanCreatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TalismanCreatorViewController.h; sourceTree = "<group>"; };
 		40FA94CB1B7A9F3300D817EB /* TalismanCreatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TalismanCreatorViewController.m; sourceTree = "<group>"; };
@@ -2953,6 +2958,15 @@
 			path = icons_sword_and_shield;
 			sourceTree = "<group>";
 		};
+		40F024B91B7E6AE2009379A0 /* Veggie Elder */ = {
+			isa = PBXGroup;
+			children = (
+				40F024BA1B7E6AFC009379A0 /* VeggieElderTableViewController.h */,
+				40F024BB1B7E6AFC009379A0 /* VeggieElderTableViewController.m */,
+			);
+			name = "Veggie Elder";
+			sourceTree = "<group>";
+		};
 		D1CEF9968D44CA6F70ECFB76 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -3102,6 +3116,7 @@
 		E7460C921AB613AD006C7CD3 /* Menu Icons */ = {
 			isa = PBXGroup;
 			children = (
+				40F024BD1B7E7498009379A0 /* Veggie Elder.png */,
 				E7E57F5F1AED81D600CF7D19 /* Wyporium.png */,
 				E7460CAD1AB617D0006C7CD3 /* Quests.png */,
 				E7460CB11AB61966006C7CD3 /* MH4ULogoBlack.png */,
@@ -3191,6 +3206,7 @@
 		E7EB7DED1AA6AC96007C05E0 /* MH4UDatabase */ = {
 			isa = PBXGroup;
 			children = (
+				40F024B91B7E6AE2009379A0 /* Veggie Elder */,
 				E72AAF971AF99A6800318F74 /* ArmorSet Builder */,
 				E7E57F611AED824500CF7D19 /* Wyporium */,
 				E7CC137D1AD4C20000F10AB5 /* Universal Search */,
@@ -4046,6 +4062,7 @@
 				40C1CE201B7D1F1F00259B45 /* Fang-Gold.png in Resources */,
 				40C1CD7F1B7D1F1F00259B45 /* legs6.png in Resources */,
 				40C1D0291B7D1F1F00259B45 /* charge_blade6.png in Resources */,
+				40F024BE1B7E7498009379A0 /* Veggie Elder.png in Resources */,
 				40C1CE8D1B7D1F1F00259B45 /* Meat-Orange.png in Resources */,
 				E76B24801AB3E4790063615B /* DetailedWeaponView.xib in Resources */,
 				40C1CFB61B7D1F1F00259B45 /* MH4U-Jaggia_Icon.png in Resources */,
@@ -4300,6 +4317,7 @@
 				E703EF7C1AE1828D00B2C9E6 /* ArmorSetDetailViewController.m in Sources */,
 				E7EB7DF11AA6AC96007C05E0 /* main.m in Sources */,
 				E734F05A1AB0F9DA0037E684 /* SkillTreeViewController.m in Sources */,
+				40F024BC1B7E6AFC009379A0 /* VeggieElderTableViewController.m in Sources */,
 				E7AB48B71AB2903200060D7E /* QuestsViewController.m in Sources */,
 				E7788E261AB37625006DCDCD /* LocationsViewController.m in Sources */,
 			);

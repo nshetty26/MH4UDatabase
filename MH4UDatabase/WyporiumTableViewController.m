@@ -10,6 +10,7 @@
 #import "UIViewController+UIViewController_MenuButton.h"
 #import "QuestDetailViewController.h"
 #import "ItemDetailViewController.h"
+#import "LocationDetailViewController.h"
 #import "MH4UDBEngine.h"
 #import "MH4UDBEntity.h"
 
@@ -187,12 +188,20 @@
 - (IBAction)launchDetailedVC:(id)sender {
     UIButton *button = (UIButton *)sender;
     if ([button isEqual:_questButton]) {
-        Quest *quest = _unlockQuest;
-        QuestDetailViewController *qDVC = [[QuestDetailViewController alloc] init];
-        qDVC.dbEngine = _dbEngine;
-        qDVC.heightDifference = _heightDifference;
-        qDVC.selectedQuest = quest;
-        [_navigationController pushViewController:qDVC animated:YES];
+        if (_unlockQuest) {
+            QuestDetailViewController *qDVC = [[QuestDetailViewController alloc] init];
+            qDVC.dbEngine = _dbEngine;
+            qDVC.heightDifference = _heightDifference;
+            qDVC.selectedQuest = _unlockQuest;
+            [_navigationController pushViewController:qDVC animated:YES];
+        } else if (_tradeLocation) {
+            LocationDetailViewController *lDVC = [[LocationDetailViewController alloc] init];
+            lDVC.dbEngine = _dbEngine;
+            lDVC.heightDifference = _heightDifference;
+            lDVC.selectedLocation = _tradeLocation;
+            [_navigationController pushViewController:lDVC animated:YES];
+        }
+
     } else {
         Item *item;
         if ([button isEqual:_inButton]) {

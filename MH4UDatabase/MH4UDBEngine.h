@@ -83,6 +83,7 @@
 -(BOOL)deleteAllDecorationsForArmorSetWithID:(NSNumber *)setID andSetItem:(Item *)setItem;
 
 -(NSArray *)getAllWyporiumTrades;
+-(NSArray *)getAllVeggieElderTrades;
 
 -(NSArray *)getAllTalismans;
 -(BOOL)insertNewTalismanIntoDatabase:(Talisman *)newTalisman;

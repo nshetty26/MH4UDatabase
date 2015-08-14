@@ -20,6 +20,7 @@
 #import "CombiningViewController.h"
 #import "UniversalSearchTableViewController.h"
 #import "WyporiumTableViewController.h"
+#import "VeggieElderTableViewController.h"
 #import "MH4UDBEngine.h"
 #import <MMDrawerBarButtonItem.h>
 
@@ -51,7 +52,7 @@
 
     _dbEngine = [[MH4UDBEngine alloc] init];
     if (!_menuOptions) {
-        _menuOptions = [NSArray arrayWithObjects:@"Monsters", @"Weapons", @"Armor", @"Quests", @"Items", @"Combining", @"Locations", @"Decorations", @"Skill Tree",@"Wyporium", nil];
+        _menuOptions = [NSArray arrayWithObjects:@"Monsters", @"Weapons", @"Armor", @"Quests", @"Items", @"Combining", @"Locations", @"Decorations", @"Skill Tree",@"Wyporium", @"Veggie Elder", nil];
     }
     UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, 80)];
     logo.backgroundColor = [UIColor grayColor];
@@ -160,6 +161,10 @@
         WyporiumTableViewController *wTC = [[WyporiumTableViewController alloc] init];
         wTC.dbEngine = _dbEngine;
         [nC setViewControllers:@[wTC]];
+    } else if ([menuOption isEqualToString:@"Veggie Elder"]) {
+        VeggieElderTableViewController *veTVC = [[VeggieElderTableViewController alloc] init];
+        veTVC.dbEngine = _dbEngine;
+        [nC setViewControllers:@[veTVC]];
     }
     
 }
