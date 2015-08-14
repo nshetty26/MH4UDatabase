@@ -315,4 +315,16 @@
 
 @implementation Talisman
 
+-(NSString *)getIconString {
+    if (!_talismanType) {
+        return @"QuestionMark-White.png";
+    }
+    
+    if ([_talismanType isEqualToString:@"Sage"] || [_talismanType isEqualToString:@"Miracle"] || [_talismanType isEqualToString:@"Creator"]) {
+        return @"Talisman-Sage.png";
+    } else {
+        return [NSString stringWithFormat:@"Talisman-%@.png", _talismanType];
+    }
+}
+
 @end

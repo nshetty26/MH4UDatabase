@@ -44,6 +44,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *talismanSlot1;
 @property (weak, nonatomic) IBOutlet UIImageView *talismanSlot2;
 @property (weak, nonatomic) IBOutlet UIImageView *talismanSlot3;
+@property (nonatomic) BOOL leftASDVC;
 
 
 -(void)calculateSkillsForSelectedArmorSet;

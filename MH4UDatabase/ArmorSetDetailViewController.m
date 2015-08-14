@@ -17,6 +17,7 @@
 #import "WeaponDetailViewController.h"
 #import "ArmorDetailViewController.h"
 #import "TalismanCreatorViewController.h"
+#import "TalismanTableViewController.h"
 
 @interface ArmorSetDetailViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *weaponImage;
@@ -215,23 +216,20 @@
 -(void)displayAllEmptySlots {    
     if ([_armorSet returnNonNullSetItems].count > 0) {
         for (Item *setItem in [_armorSet returnNonNullSetItems]) {
-            if (setItem.numSlots > 0) {
-                NSArray *imageViewArray = [self returnImageViewArrayForArmorSlot:setItem.slot];
-                NSMutableArray *slotImages = [[NSMutableArray alloc] init];
-                for (int i = 0; i  < setItem.numSlots; i++) {
-                    [slotImages addObject:imageViewArray[i]];
-                    [self displayEmptySlotsFromImageViewArray:slotImages];
-                }
+            NSArray *imageViewArray = [self returnImageViewArrayForArmorSlot:setItem.slot];
+                for (int i = 0; i  < 3; i++) {
+                    UIImageView *imageView = imageViewArray[i];
+                    if (i + 1 <= setItem.numSlots) {
+                        imageView.image = [UIImage imageNamed:@"circle.png"];
+                    } else {
+                        imageView.image = [UIImage imageNamed:@"dash.jpg"];
+                    }
+                    [imageView reloadInputViews];
             }
         }
     }
 }
 
--(void)displayEmptySlotsFromImageViewArray:(NSArray *)imageViewArray {
-    for (UIImageView *imageView in imageViewArray) {
-        imageView.image = [UIImage imageNamed:@"circle.png"];
-    }
-}
 
 -(NSArray *)returnImageViewArrayForArmorSlot:(NSString *)armorSlot {
     NSArray *imageViewArray;
@@ -329,8 +327,14 @@
     _legImage.image = [UIImage imageNamed:_armorSet.legs.icon];
     _legLabel.text = _armorSet.legs.name;
     
-    _talismanImage.image = [UIImage imageNamed:_armorSet.arms.icon];
-    _talismanLabel.text = _armorSet.talisman.name;
+    if (_armorSet.talisman) {
+        _talismanImage.image = [UIImage imageNamed:[_armorSet.talisman getIconString]];
+        _talismanLabel.text = _armorSet.talisman.name;
+    } else {
+        _talismanImage.image = NULL;
+        _talismanLabel.text = @"Press To Add Talisman";
+    }
+
     
     
     [_armorStatSheet populateStatsWithArmorSet:_armorSet];
@@ -550,9 +554,13 @@
         }
         
     }
+   
     
-    [self setUpArmorSetView];
+    [self displayAllEmptySlots];
     [self drawDecorationForArmorSet];
+    [self setUpArmorSetView];
+    [self calculateSkillsForSelectedArmorSet];
+
     
 }
 
@@ -607,11 +615,23 @@
 }
 
 - (IBAction)launchTalismanVC:(id)sender {
-    TalismanCreatorViewController *tCVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"talismanCreatorVC"];
-    tCVC.dbEngine = _dbEngine;
-    tCVC.selectedSet = _armorSet;
-    //UINavigationController *nC = (UINavigationController *)_baseVC.centerViewController;
-    [self.navigationController pushViewController:tCVC animated:YES];
+    NSArray *talismanArray = [_dbEngine getAllTalismans];
+    _leftASDVC = YES;
+    
+    if (talismanArray.count > 0) {
+        TalismanTableViewController *ttVC = [[TalismanTableViewController alloc] init];
+        ttVC.selectedSet = _armorSet;
+        ttVC.dbEngine = _dbEngine;
+        ttVC.talismanArray = talismanArray;
+        ttVC.asDVC = self;
+        [self.navigationController pushViewController:ttVC animated:YES];
+    } else {
+        TalismanCreatorViewController *tCVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"talismanCreatorVC"];
+        tCVC.asDVC = self;
+        tCVC.dbEngine = _dbEngine;
+        tCVC.selectedSet = _armorSet;
+        [self.navigationController pushViewController:tCVC animated:YES];
+    }
 }
 
 #pragma mark - Clone Current Set Methods

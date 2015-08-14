@@ -7,6 +7,8 @@
 //
 
 #import "TalismanCreatorViewController.h"
+#import "ArmorSetDetailViewController.h"
+#import "TalismanTableViewController.h"
 #import "SkillTreeViewController.h"
 #import "MH4UDBEngine.h"
 #import "MH4UDBEntity.h"
@@ -21,6 +23,7 @@
 @property (nonatomic) NSArray *talismanTypes;
 @property (nonatomic) NSArray *allSkillTrees;
 @property (nonatomic) NSString *selectedType;
+@property (nonatomic) NSString *name;
 @property (nonatomic) NSInteger slots;
 - (IBAction)addSkillButton:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *skill1Value;
@@ -206,10 +209,31 @@
 }
 
 - (IBAction)createButtonTouched:(id)sender {
+    UIAlertView *nameAlert = [[UIAlertView alloc] initWithTitle:@"Name Your Talisman" message:@"Please Give your talisman a name so that you can remember it later" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Continue", nil];
+    nameAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [nameAlert show];
+
+    
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        _name = [alertView textFieldAtIndex:0].text;
+        if (_name.length > 20) {
+            [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please keep name shorter than 20 Characters" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+        } else {
+            [self addTalismanToDatabase];
+        }
+        
+        
+    }
+}
+
+-(void)addTalismanToDatabase{
     Talisman *newTalisman = [[Talisman alloc] init];
     NSMutableArray *skillDictionary = [[NSMutableArray alloc] init];
     newTalisman.numSlots = _slots;
-    newTalisman.name = @"TestTalisman";
+    newTalisman.name = _name;
     newTalisman.slot = @"Talisman";
     
     newTalisman.talismanType = _selectedType;
@@ -232,10 +256,9 @@
     if (successful) {
         _selectedSet.talisman = newTalisman;
         [_dbEngine addTalisman:newTalisman toArmorSet:_selectedSet];
-        [self.navigationController popViewControllerAnimated:YES];
+        _asDVC.leftASDVC = YES;
+        [self.navigationController popToViewController:_asDVC animated:YES];
     }
-
-    
 }
 
 

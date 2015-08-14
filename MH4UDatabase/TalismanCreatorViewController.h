@@ -10,10 +10,12 @@
 
 @class MH4UDBEngine;
 @class ArmorSet;
+@class ArmorSetDetailViewController;
 
-@interface TalismanCreatorViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+@interface TalismanCreatorViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIAlertViewDelegate>
 
 
+@property (nonatomic) ArmorSetDetailViewController *asDVC;
 @property (nonatomic) MH4UDBEngine *dbEngine;
 @property (nonatomic) ArmorSet *selectedSet;
 

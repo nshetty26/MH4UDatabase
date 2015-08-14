@@ -18,6 +18,8 @@
 @interface MH4UDBEngine ()
 @property (nonatomic) NSString *mhDBPath;
 @property (nonatomic) FMDatabase *mh4DB;
+@property (nonatomic) NSString *asbDBPath;
+@property (nonatomic) BOOL talismanCreated;
 @end
 
 @implementation MH4UDBEngine
@@ -1083,33 +1085,48 @@
 #pragma mark Pulling / Adding / Deleting The Whole Armor Set
 -(NSArray *)getAllArmorSets {
     NSMutableArray *allSets = [[NSMutableArray alloc] init];
-    FMDatabase *armorDatabase = [self openDatabase];
+    [self checkTalismanTable];
+    //FMDatabase *armorDatabase = [self openDatabase];
+    [self openDatabase];
+    FMDatabaseQueue *queue = [[FMDatabaseQueue alloc] initWithPath:_asbDBPath];
     
-    if (![armorDatabase open]) {
-        return nil;
-    } else {
+    [queue inDatabase:^(FMDatabase *db) {
         NSString *query = @"SELECT * from ArmorSet";
-        FMResultSet *s = [armorDatabase executeQuery:query];
+        FMResultSet *s = [db executeQuery:query];
         while ([s next]) {
             NSNumber *setID = [NSNumber numberWithInt:[s intForColumn:@"_id"]];
             NSString *setName = [s stringForColumn:@"name"];
             [allSets addObject:@{@"setID" : setID, @"setName" : setName}];
-            
         }
+    }];
+        
         return allSets;
-    }
+    
+//    if (![armorDatabase open]) {
+//        return nil;
+//    } else {
+//        NSString *query = @"SELECT * from ArmorSet";
+//        FMResultSet *s = [armorDatabase executeQuery:query];
+//        while ([s next]) {
+//            NSNumber *setID = [NSNumber numberWithInt:[s intForColumn:@"_id"]];
+//            NSString *setName = [s stringForColumn:@"name"];
+//            [allSets addObject:@{@"setID" : setID, @"setName" : setName}];
+//            
+//        }
+//        return allSets;
+//    }
 }
 
 -(ArmorSet *)getArmorSetForSetID:(NSNumber *)setID {
     ArmorSet *armorSet = [[ArmorSet alloc] init];
-    FMDatabase *armorDatabase = [self openDatabase];
+    //FMDatabase *armorDatabase = [self openDatabase];
     
-    if (![armorDatabase open]) {
-        return nil;
-    } else {
+    FMDatabaseQueue *queue = [[FMDatabaseQueue alloc] initWithPath:_asbDBPath];
+    
+    [queue inDatabase:^(FMDatabase *db) {
         NSString *query = [NSString stringWithFormat:@"SELECT * from ArmorSet where _id = %i", [setID intValue]];
-        FMResultSet *s = [armorDatabase executeQuery:query];
-        while ([s next]) {
+        FMResultSet *s = [db executeQuery:query];
+        if ([s next]) {
             if (![s columnIsNull:@"weapon_id"]) {
                 armorSet.weapon = [self getWeaponForWeaponID:[s intForColumn:@"weapon_id"]];
             }
@@ -1132,10 +1149,12 @@
                 armorSet.talisman = [self getTalismanForID:[s intForColumn:@"talisman_id"]];
             }
             
+            [s close];
+            
         }
-        [armorDatabase close];
-        return armorSet;
-    }
+    }];
+    
+    return armorSet;
 }
 
 -(BOOL)insertNewArmorSetWithName:(NSString *)name {
@@ -1216,6 +1235,8 @@
         armorType = @"legs_id";
     } else if ([setItem.slot isEqualToString:@"Weapon"]) {
         armorType = @"weapon_id";
+    } else if ([setItem.slot isEqualToString:@"Talisman"]) {
+        armorType = @"talisman_id";
     } else {
         armorType = @"";
     }
@@ -1261,30 +1282,29 @@
 #pragma mark Pulling / Adding / Deleting Decorations from Set Items
 -(NSArray *)checkArmorSetForSlotsWithSetID:(NSNumber *)setID {
     NSMutableArray *availableSlotsInEquipment = [[NSMutableArray alloc] init];
+    
+    FMDatabaseQueue *queue = [[FMDatabaseQueue alloc] initWithPath:_asbDBPath];
+    
     ArmorSet *armorSet = [self getArmorSetForSetID:setID];
     
-    for (Item *setItem in [armorSet returnNonNullSetItems]) {
-        if (setItem.numSlots > 0) {
-            FMDatabase *armorDatabase = [self openDatabase];
-            if (![armorDatabase open]) {
-                return FALSE;
-            } else {
+    [queue inDatabase:^(FMDatabase *db) {
+        for (Item *setItem in [armorSet returnNonNullSetItems]) {
+            if (setItem.numSlots > 0) {
                 NSString *query = [NSString stringWithFormat:@"select * from Decorations where ArmorSet_id = %i and item_id = %i" , [setID intValue], setItem.itemID];
-                FMResultSet *s = [armorDatabase executeQuery:query];
+                FMResultSet *s = [db executeQuery:query];
                 int slotsUsed = 0;
                 while ([s next]) {
                     Decoration *decoration = [[self getAllDecorations:[NSNumber numberWithInt:[s intForColumn:@"decoration_id"]]] firstObject];
                     slotsUsed += decoration.slotsRequired;
+                        
+                    }
+                setItem.slotsUsed = slotsUsed;
                     
                 }
-                setItem.slotsUsed = slotsUsed;
-                
-            }
             int availableSlots = setItem.numSlots - setItem.slotsUsed;
             [availableSlotsInEquipment addObject:@[setItem.slot, [NSNumber numberWithInt:availableSlots], [NSNumber numberWithInt:setItem.numSlots]]];
-        }
-
-    }
+            }
+    }];
     
     return availableSlotsInEquipment;
 
@@ -1292,35 +1312,78 @@
 
 -(BOOL)addDecoration:(Decoration *)decoration ToSlot:(NSString *)slot andArmorSetWithID:(NSNumber *)setID {
     ArmorSet *armorSet = [self getArmorSetForSetID:setID];
-    FMDatabase *armorDatabase = [self openDatabase];
     
-    Item *setItem = [armorSet returnItemForSlot:slot];
+    FMDatabaseQueue *queue = [[FMDatabaseQueue alloc] initWithPath:_asbDBPath];
+    __block BOOL successful = false;
     
-    if (![armorDatabase open]) {
-        return FALSE;
-    } else {
-         NSString *query = [NSString stringWithFormat:@"insert into Decorations (ArmorSet_id, item_id, decoration_id) Values (%i, %i, %i)", [setID intValue], setItem.itemID, decoration.itemID];
-        return [armorDatabase executeUpdate:query];
-    }
+    [queue inDatabase:^(FMDatabase *db) {
+        Item *setItem;
+            if ([slot isEqualToString:@"Talisman"]) {
+                setItem = armorSet.talisman;
+            } else {
+               setItem = [armorSet returnItemForSlot:slot];
+            }
+        
+            NSString *query = [NSString stringWithFormat:@"insert into Decorations (ArmorSet_id, item_id, decoration_id) Values (%i, %i, %i)", [setID intValue], setItem.itemID, decoration.itemID];
+           successful = [db executeUpdate:query];
+    }];
+    
+    return successful;
 
-    return FALSE;
 }
+    
+    
+//    FMDatabase *armorDatabase = [self openDatabase];
+//    
+//    Item *setItem;
+//    if ([slot isEqualToString:@"Talisman"]) {
+//        setItem = armorSet.talisman;
+//    } else {
+//       setItem = [armorSet returnItemForSlot:slot];
+//    }
+//    
+//    
+//    if (![armorDatabase open]) {
+//        return FALSE;
+//    } else {
+//         NSString *query = [NSString stringWithFormat:@"insert into Decorations (ArmorSet_id, item_id, decoration_id) Values (%i, %i, %i)", [setID intValue], setItem.itemID, decoration.itemID];
+//        return [armorDatabase executeUpdate:query];
+//    }
+//
+//    return FALSE;
+//}
 
 -(NSArray *)getDecorationsForArmorSet:(NSNumber *)setID andSetItem:(Item *)setItem {
     NSMutableArray *decorations = [[NSMutableArray alloc] init];
-    FMDatabase *armorDatabase = [self openDatabase];
-    if (![armorDatabase open]) {
-        return FALSE;
-    } else {
+    
+    FMDatabaseQueue *queue = [[FMDatabaseQueue alloc] initWithPath:_asbDBPath];
+    //__block BOOL successful = false;
+    
+    [queue inDatabase:^(FMDatabase *db) {
         NSString *query = [NSString stringWithFormat:@"select _id, ArmorSet_id, item_id, decoration_id from Decorations where ArmorSet_id = %i and item_id = %i" , [setID intValue], setItem.itemID];
-        FMResultSet *s = [armorDatabase executeQuery:query];
+        FMResultSet *s = [db executeQuery:query];
         while ([s next]) {
             int decorationID = [s intForColumn:@"decoration_id"];
             Decoration *decoration = [[self getAllDecorations:[NSNumber numberWithInt:decorationID]]  firstObject];
+            decoration.skillArray = [self getSkillTreesForDecorationID:decoration.itemID];
             [decorations addObject:decoration];
         }
-        
-    }
+
+    }];
+    
+//    FMDatabase *armorDatabase = [self openDatabase];
+//    if (![armorDatabase open]) {
+//        return FALSE;
+//    } else {
+//        NSString *query = [NSString stringWithFormat:@"select _id, ArmorSet_id, item_id, decoration_id from Decorations where ArmorSet_id = %i and item_id = %i" , [setID intValue], setItem.itemID];
+//        FMResultSet *s = [armorDatabase executeQuery:query];
+//        while ([s next]) {
+//            int decorationID = [s intForColumn:@"decoration_id"];
+//            Decoration *decoration = [[self getAllDecorations:[NSNumber numberWithInt:decorationID]]  firstObject];
+//            [decorations addObject:decoration];
+//        }
+//        
+//    }
     
     return decorations;
 
@@ -1351,7 +1414,6 @@
 #pragma mark - Talisman Queries
 
 -(BOOL)insertNewTalismanIntoDatabase:(Talisman *)newTalisman {
-    [self checkTalismanTable];
     FMDatabase *armorDatabase = [self openDatabase];
     
     if (![armorDatabase open]) {
@@ -1380,21 +1442,69 @@
     return false;
 }
 
--(Talisman *)getTalismanForID:(int)talismanID {
+-(NSArray *)getAllTalismans {
     FMDatabase *armorDatabase = [self openDatabase];
-    
+    NSMutableArray *talismanArray = [[NSMutableArray alloc] init];
     if (![armorDatabase open]) {
         return NULL;
     } else {
-        NSString *query = [NSString stringWithFormat:@"SELECT * FROM charms where _id = %i", talismanID];
+        NSString *query = [NSString stringWithFormat:@"SELECT * FROM charms"];
         FMResultSet *s = [armorDatabase executeQuery:query];
         
-        if ([s next]) {
+        while ([s next]) {
             Talisman *talisman = [[Talisman alloc] init];
+            talisman.itemID = [s intForColumn:@"_id"];
+            talisman.numSlots = [s intForColumn:@"num_slots"];
+            talisman.name = [s stringForColumn:@"talisman_name"];
+            talisman.talismanType = [s stringForColumn:@"talisman_type"];
+            talisman.skill1ID = [s intForColumn:@"skill_tree_1_id"];
+            talisman.skill1Value = [s intForColumn:@"skill_tree_1_amount"];
+            talisman.skill2ID = [s intForColumn:@"skill_tree_2_id"];
+            talisman.skill2Value = [s intForColumn:@"skill_tree_2_amount"];
+            talisman.slot = @"Talisman";
+            
+            NSMutableArray *skillArray = [[NSMutableArray alloc] init];
+            
+            if (talisman.skill1ID != 0) {
+                FMResultSet *s = [self DBquery:[NSString stringWithFormat:@"select name from skill_trees where _id = %i", talisman.skill1ID]];
+                if ([s next]){
+                    talisman.skill1Name = [s stringForColumn:@"name"];
+                    [skillArray addObject:@{@"skillTreeID" : [NSNumber numberWithInt:talisman.skill1ID], @"skillTreeName" : talisman.skill1Name, @"skillTreePointValue" : [NSNumber numberWithInt:talisman.skill1Value]}];
+                }
+                
+            }
+            
+            if (talisman.skill2ID != 0) {
+                FMResultSet *s = [self DBquery:[NSString stringWithFormat:@"select name from skill_trees where _id = %i", talisman.skill2ID]];
+                if ([s next]){
+                    talisman.skill2Name = [s stringForColumn:@"name"];
+                    [skillArray addObject:@{@"skillTreeID" : [NSNumber numberWithInt:talisman.skill2ID], @"skillTreeName" : talisman.skill2Name, @"skillTreePointValue" : [NSNumber numberWithInt:talisman.skill2Value]}];
+                }
+                
+            }
+            talisman.skillsArray = skillArray;
+            [talismanArray addObject:talisman];
+        }
+    }
+    return talismanArray;
+}
+
+
+-(Talisman *)getTalismanForID:(int)talismanID {
+    //FMDatabase *armorDatabase = [self openDatabase];
+    
+    FMDatabaseQueue *queue = [[FMDatabaseQueue alloc] initWithPath:_asbDBPath];
+    Talisman *talisman = [[Talisman alloc] init];
+    
+    [queue inDatabase:^(FMDatabase *db) {
+        NSString *query = [NSString stringWithFormat:@"SELECT * FROM charms where _id = %i", talismanID];
+        FMResultSet *s = [db executeQuery:query];
+        
+        if ([s next]) {
             talisman.itemID = talismanID;
             talisman.numSlots = [s intForColumn:@"num_slots"];
             talisman.name = [s stringForColumn:@"talisman_name"];
-            talisman.type = [s stringForColumn:@"talisman_type"];
+            talisman.talismanType = [s stringForColumn:@"talisman_type"];
             talisman.skill1ID = [s intForColumn:@"skill_tree_1_id"];
             talisman.skill1Value = [s intForColumn:@"skill_tree_1_amount"];
             talisman.skill2ID = [s intForColumn:@"skill_tree_2_id"];
@@ -1416,17 +1526,99 @@
                 if ([s next]){
                     [skillArray addObject:@{@"skillTreeID" : [NSNumber numberWithInt:talisman.skill2ID], @"skillTreeName" : [s stringForColumn:@"name"], @"skillTreePointValue" : [NSNumber numberWithInt:talisman.skill2Value]}];
                 }
-
+                
             }
             talisman.skillsArray = skillArray;
-            
-            return talisman;
+            [s close];
         }
+
+        }];
+    
+    return talisman;
+}
+//
+//    if (![armorDatabase open]) {
+//        return NULL;
+//    } else {
+//        NSString *query = [NSString stringWithFormat:@"SELECT * FROM charms where _id = %i", talismanID];
+//        FMResultSet *s = [armorDatabase executeQuery:query];
+//        
+//        if ([s next]) {
+//            Talisman *talisman = [[Talisman alloc] init];
+//            talisman.itemID = talismanID;
+//            talisman.numSlots = [s intForColumn:@"num_slots"];
+//            talisman.name = [s stringForColumn:@"talisman_name"];
+//            talisman.talismanType = [s stringForColumn:@"talisman_type"];
+//            talisman.skill1ID = [s intForColumn:@"skill_tree_1_id"];
+//            talisman.skill1Value = [s intForColumn:@"skill_tree_1_amount"];
+//            talisman.skill2ID = [s intForColumn:@"skill_tree_2_id"];
+//            talisman.skill2Value = [s intForColumn:@"skill_tree_2_amount"];
+//            talisman.slot = @"Talisman";
+//            
+//            NSMutableArray *skillArray = [[NSMutableArray alloc] init];
+//            
+//            if (talisman.skill1ID != 0) {
+//                FMResultSet *s = [self DBquery:[NSString stringWithFormat:@"select name from skill_trees where _id = %i", talisman.skill1ID]];
+//                if ([s next]){
+//                    [skillArray addObject:@{@"skillTreeID" : [NSNumber numberWithInt:talisman.skill1ID], @"skillTreeName" : [s stringForColumn:@"name"], @"skillTreePointValue" : [NSNumber numberWithInt:talisman.skill1Value]}];
+//                }
+//                
+//            }
+//            
+//            if (talisman.skill2ID != 0) {
+//                FMResultSet *s = [self DBquery:[NSString stringWithFormat:@"select name from skill_trees where _id = %i", talisman.skill1ID]];
+//                if ([s next]){
+//                    [skillArray addObject:@{@"skillTreeID" : [NSNumber numberWithInt:talisman.skill2ID], @"skillTreeName" : [s stringForColumn:@"name"], @"skillTreePointValue" : [NSNumber numberWithInt:talisman.skill2Value]}];
+//                }
+//
+//            }
+//            talisman.skillsArray = skillArray;
+//            
+//            return talisman;
+//        }
+//    }
+
+
+-(BOOL)deleteTalisman:(Talisman *)talisman {
+    FMDatabase *armorDatabase = [self openDatabase];
+    
+    if (![armorDatabase open]) {
+        return false;
+    } else {
+        NSString *selectQuery = [NSString stringWithFormat:@"Select _id from ArmorSet where talisman_id = %i", talisman.itemID];
+        
+        FMResultSet *s = [armorDatabase executeQuery:selectQuery];
+        NSMutableArray *setIDs = [[NSMutableArray alloc] init];
+        while ([s next]) {
+            [setIDs addObject:[NSNumber numberWithInt:[s intForColumn:@"_id"]]];
+        }
+        
+        [armorDatabase close];
+        
+        for (int i = 0; i < setIDs.count; i++) {
+            [self deleteAllDecorationsForArmorSetWithID:setIDs[i] andSetItem:talisman];
+        }
+        
+        [armorDatabase open];
+        
+        
+        NSString *updateQuery = [NSString stringWithFormat:@"Update ArmorSet set talisman_id = NULL where talisman_id = %i", talisman.itemID];
+        
+        [armorDatabase executeUpdate:updateQuery];
+        
+        NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM charms where _id = %i", talisman.itemID];
+        
+        return [armorDatabase executeUpdate:deleteQuery];
     }
-    return NULL;
+    
+    return false;
 }
 
 -(BOOL)checkTalismanTable {
+    
+    if (_talismanCreated) {
+        return YES;
+    }
     
     FMDatabase *armorDatabase = [self openDatabase];
     
@@ -1436,11 +1628,18 @@
         FMResultSet *tableCheck = [armorDatabase executeQuery:@"SELECT name FROM sqlite_master WHERE type='table' AND name='charms'"];
         if ([tableCheck next]) {
             [armorDatabase close];
+            _talismanCreated = YES;
             return TRUE;
         } else {
            BOOL createTable = [armorDatabase executeUpdate:@"CREATE TABLE `charms` (`_id` integer primary key autoincrement,`num_slots` integer NOT NULL,`talisman_name` TEXT, `talisman_type` TEXT,`skill_tree_1_id` integer NOT NULL,`skill_tree_1_amount` integer NOT NULL,`skill_tree_2_id` integer DEFAULT NULL,`skill_tree_2_amount` integer DEFAULT NULL)"];
+            BOOL addTestTalisman;
+            if (createTable) {
+                addTestTalisman = [armorDatabase executeUpdate:[NSString stringWithFormat:@"INSERT INTO CHARMS (_id, num_slots,talisman_name, talisman_type, skill_tree_1_id, skill_tree_1_amount, skill_tree_2_id, skill_tree_2_amount) values (%i, %i,'%@', '%@', %i, %i, %i, %i)",300000, 3, @"Test Talisman", @"Pawn", 3, 10, 20, -5]];
+            }
+
             [armorDatabase close];
-            return createTable;
+            _talismanCreated = YES;
+            return addTestTalisman;
         }
     }
 }
@@ -1466,9 +1665,11 @@
             [fm copyItemAtPath:template_path toPath:db_path error:nil];
         }
     }
+    
+    _asbDBPath = db_path;
     FMDatabase *db = [FMDatabase databaseWithPath:db_path];
-    if (![db open])
-        NSLog(@"Failed to open database!");
+    //if (![db open])
+    //    NSLog(@"Failed to open database!");
     return db;
 }
 

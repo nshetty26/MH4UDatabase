@@ -224,6 +224,8 @@
 @property (nonatomic) NSString *skill2Name;
 @property (nonatomic) int skill2Value;
 
+-(NSString *)getIconString;
+
 
 @end
 

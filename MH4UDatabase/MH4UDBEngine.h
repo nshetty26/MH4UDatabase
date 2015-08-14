@@ -83,8 +83,11 @@
 -(BOOL)deleteAllDecorationsForArmorSetWithID:(NSNumber *)setID andSetItem:(Item *)setItem;
 
 -(NSArray *)getAllWyporiumTrades;
+
+-(NSArray *)getAllTalismans;
 -(BOOL)insertNewTalismanIntoDatabase:(Talisman *)newTalisman;
 -(BOOL)addTalisman:(Talisman *)talisman toArmorSet:(ArmorSet *)set;
+-(BOOL)deleteTalisman:(Talisman *)talisman ;
 
 @end
 
