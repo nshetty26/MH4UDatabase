@@ -19,5 +19,4 @@
 @property (nonatomic) ArmorSet *selectedSet;
 @property (nonatomic) NSArray *talismanArray;
 
--(void)updateTalismanArray;
 @end

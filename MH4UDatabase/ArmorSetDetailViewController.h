@@ -50,7 +50,6 @@
 -(void)calculateSkillsForSelectedArmorSet;
 -(void)setTabBarItemsForEquipmentTabBar;
 -(void)populateArmorSet;
--(void)reDrawEverything;
 
 @end
 

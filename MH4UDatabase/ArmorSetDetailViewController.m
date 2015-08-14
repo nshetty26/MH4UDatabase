@@ -79,6 +79,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _baseVC.aSDVC = self;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeAllDecorationsFromView:) name:@"kItemDeletedFromArmorSet" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initializeAllViews) name:@"kSomethingHasChanged" object:nil];
     self.title = _setName;
     _buttonArray = @[_weaponButton, _headButton, _bodyButton, _armsButton, _waistButton, _legsButton];
     _skillDictionary = [[NSMutableDictionary alloc] init];
@@ -112,6 +114,8 @@
     _socketedTable.delegate = self;
     _socketedTable.dataSource = self;
     [self.view addSubview:_socketedTable];
+    
+    
     if ([_armorSet returnItemsWithDecorations].count > 0) {
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
         NSArray *firstItemWithDecorations = [[_armorSet returnItemsWithDecorations] firstObject];
@@ -210,6 +214,13 @@
 
         }
 
+    }
+}
+
+-(void)removeAllDecorationsFromView:(Item *)itemDeleted {
+    NSArray *imageViews = [self returnImageViewArrayForArmorSlot:itemDeleted.slot];
+    for (UIImageView *imageView in imageViews) {
+        imageView.image = [UIImage imageNamed:@"dash.jpg"];
     }
 }
 
@@ -554,29 +565,43 @@
         }
         
     }
-   
     
+}
+
+-(void)initializeAllViews {
+    // Do any additional setup after loading the view from its nib.
+    [self populateArmorSet];
     [self displayAllEmptySlots];
     [self drawDecorationForArmorSet];
     [self setUpArmorSetView];
-    [self calculateSkillsForSelectedArmorSet];
-
+    [self setUpEquipmentTabBar];
     
-}
-
--(void)reDrawEverything {
-    [self viewDidLayoutSubviews];
-    
-    if (_equipmentSocketTab.selectedItem) {
-        NSArray *itemsWithDecorations = [_armorSet returnItemsWithDecorations];
-        NSArray *itemWithDecoration = itemsWithDecorations[_equipmentSocketTab.selectedItem.tag - 1];
-        _displayedDecorations = itemWithDecoration[1];
-        [_socketedTable reloadData];
+    if ([_armorSet returnItemsWithDecorations].count > 0) {
+        self.navigationItem.rightBarButtonItem = self.editButtonItem;
+        NSArray *firstItemWithDecorations = [[_armorSet returnItemsWithDecorations] firstObject];
+        _displayedDecorations = firstItemWithDecorations[1];
+        
     } else {
-        [self setTabBarItemsForEquipmentTabBar];
+        _displayedDecorations = NULL;
     }
     
+    [_socketedTable reloadData];
+    [self calculateSkillsForSelectedArmorSet];
 }
+
+//-(void)reDrawEverything {
+//    [self viewDidLayoutSubviews];
+//    
+//    if (_equipmentSocketTab.selectedItem) {
+//        NSArray *itemsWithDecorations = [_armorSet returnItemsWithDecorations];
+//        NSArray *itemWithDecoration = itemsWithDecorations[_equipmentSocketTab.selectedItem.tag - 1];
+//        _displayedDecorations = itemWithDecoration[1];
+//        [_socketedTable reloadData];
+//    } else {
+//        [self setTabBarItemsForEquipmentTabBar];
+//    }
+//    
+//}
 
 
 - (IBAction)launchDetailVC:(id)sender {

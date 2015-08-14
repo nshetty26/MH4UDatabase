@@ -466,7 +466,7 @@
 		40C1CF231B7D1F1F00259B45 /* Sphere-YellowGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C1CBC61B7D1F1F00259B45 /* Sphere-YellowGreen.png */; };
 		40C1CF241B7D1F1F00259B45 /* Spider-Web.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C1CBC71B7D1F1F00259B45 /* Spider-Web.png */; };
 		40C1CF251B7D1F1F00259B45 /* Sprout.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C1CBC81B7D1F1F00259B45 /* Sprout.png */; };
-		40C1CF261B7D1F1F00259B45 /* Unknowable-Blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C1CBC91B7D1F1F00259B45 /* Unknowable-Blue.png */; };
+		40C1CF261B7D1F1F00259B45 /* Talisman-Unknowable.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C1CBC91B7D1F1F00259B45 /* Talisman-Unknowable.png */; };
 		40C1CF271B7D1F1F00259B45 /* Talisman-King.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C1CBCA1B7D1F1F00259B45 /* Talisman-King.png */; };
 		40C1CF281B7D1F1F00259B45 /* Talisman-Queen.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C1CBCB1B7D1F1F00259B45 /* Talisman-Queen.png */; };
 		40C1CF291B7D1F1F00259B45 /* Talisman-Sage.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C1CBCC1B7D1F1F00259B45 /* Talisman-Sage.png */; };
@@ -1392,7 +1392,7 @@
 		40C1CBC61B7D1F1F00259B45 /* Sphere-YellowGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Sphere-YellowGreen.png"; sourceTree = "<group>"; };
 		40C1CBC71B7D1F1F00259B45 /* Spider-Web.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Spider-Web.png"; sourceTree = "<group>"; };
 		40C1CBC81B7D1F1F00259B45 /* Sprout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sprout.png; sourceTree = "<group>"; };
-		40C1CBC91B7D1F1F00259B45 /* Unknowable-Blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Unknowable-Blue.png"; sourceTree = "<group>"; };
+		40C1CBC91B7D1F1F00259B45 /* Talisman-Unknowable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Talisman-Unknowable.png"; sourceTree = "<group>"; };
 		40C1CBCA1B7D1F1F00259B45 /* Talisman-King.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Talisman-King.png"; sourceTree = "<group>"; };
 		40C1CBCB1B7D1F1F00259B45 /* Talisman-Queen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Talisman-Queen.png"; sourceTree = "<group>"; };
 		40C1CBCC1B7D1F1F00259B45 /* Talisman-Sage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Talisman-Sage.png"; sourceTree = "<group>"; };
@@ -2425,7 +2425,7 @@
 				40C1CBC61B7D1F1F00259B45 /* Sphere-YellowGreen.png */,
 				40C1CBC71B7D1F1F00259B45 /* Spider-Web.png */,
 				40C1CBC81B7D1F1F00259B45 /* Sprout.png */,
-				40C1CBC91B7D1F1F00259B45 /* Unknowable-Blue.png */,
+				40C1CBC91B7D1F1F00259B45 /* Talisman-Unknowable.png */,
 				40C1CBCA1B7D1F1F00259B45 /* Talisman-King.png */,
 				40C1CBCB1B7D1F1F00259B45 /* Talisman-Queen.png */,
 				40C1CBCC1B7D1F1F00259B45 /* Talisman-Sage.png */,
@@ -4114,7 +4114,7 @@
 				40C1CE541B7D1F1F00259B45 /* Hide-Pink.png in Resources */,
 				40C1CEEF1B7D1F1F00259B45 /* Scraps-Yellow.png in Resources */,
 				40C1CF451B7D1F1F00259B45 /* Traptool-Yellow.png in Resources */,
-				40C1CF261B7D1F1F00259B45 /* Unknowable-Blue.png in Resources */,
+				40C1CF261B7D1F1F00259B45 /* Talisman-Unknowable.png in Resources */,
 				40C1CE501B7D1F1F00259B45 /* Hide-Gold.png in Resources */,
 				40C1CFE81B7D1F1F00259B45 /* MH4U-Zamite_Icon.png in Resources */,
 				40C1CE171B7D1F1F00259B45 /* Egg-Cyan.png in Resources */,

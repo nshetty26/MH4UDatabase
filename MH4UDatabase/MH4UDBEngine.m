@@ -1430,16 +1430,10 @@
     if (![armorDatabase open]) {
         return false;
     } else {
-        NSString *query = [NSString stringWithFormat:@"SELECT * FROM CHARMS WHERE num_slots = %i and talisman_name = '%@' and talisman_type = '%@' AND skill_tree_1_id = %i AND skill_tree_1_amount = %i AND skill_tree_2_id = %i AND skill_tree_2_amount = %i", newTalisman.numSlots, newTalisman.name, newTalisman.talismanType, newTalisman.skill1ID, newTalisman.skill1Value, newTalisman.skill2ID, newTalisman.skill2Value];
-        FMResultSet *s = [armorDatabase executeQuery:query];
-        
-        if ([s next]) {
-            NSString *query = [NSString stringWithFormat:@"UPDATE ArmorSet SET %@ = '%i' where _id = %i", @"talisman_id", [s intForColumn:@"_id"], set.setID];
-            return [armorDatabase executeUpdate:query];
-        }
+        NSString *query = [NSString stringWithFormat:@"UPDATE ArmorSet SET %@ = '%i' where _id = %i", @"talisman_id", newTalisman.itemID, set.setID];
+        return [armorDatabase executeUpdate:query];
     }
-    
-    return false;
+
 }
 
 -(NSArray *)getAllTalismans {

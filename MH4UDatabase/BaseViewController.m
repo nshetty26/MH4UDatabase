@@ -58,14 +58,7 @@
 
 -(void)openArmorBuilder {
     UINavigationController *nC = (UINavigationController *)self.rightDrawerViewController;
-    UIViewController *vC = nC.visibleViewController;
-    if ([vC isEqual:_aSDVC]) {
-        _aSDVC.armorSet = [_aSDVC.dbEngine getArmorSetForSetID:_aSDVC.setID];
-        [_aSDVC reDrawEverything];
-        [_aSDVC calculateSkillsForSelectedArmorSet];
-    } else if ([vC isEqual:_aSTVC]) {
-        [_aSTVC refreshTableView];
-    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kSomethingHasChanged" object:nil];
     [self toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
 }
 

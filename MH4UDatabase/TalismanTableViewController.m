@@ -23,12 +23,13 @@
     if(!_talismanArray){
         _talismanArray = [_dbEngine getAllTalismans];
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTableView) name:@"kTalismanCreated" object:nil];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(launchTalismanCreator)];
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(launchTalismanCreator)];
     self.navigationItem.rightBarButtonItems = @[addButton, self.editButtonItem];
 }
 
@@ -94,9 +95,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Talisman *talisman = _talismanArray[indexPath.row];
-    [_dbEngine addTalisman:talisman toArmorSet:_selectedSet];
+    bool successful = [_dbEngine addTalisman:talisman toArmorSet:_selectedSet];
     _selectedSet.talisman = talisman;
-    _asDVC.leftASDVC = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kSomethingHasChanged" object:nil];
     [self.navigationController popToViewController:_asDVC animated:YES];
     
 }
@@ -131,6 +132,7 @@
         _talismanArray = [_dbEngine getAllTalismans];
         
         if (_selectedSet.talisman.itemID == talismanToDelete.itemID) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kItemDeletedFromArmorSet" object:talismanToDelete];
             _selectedSet.talisman = NULL;
         }
         
@@ -140,6 +142,10 @@
     }   
 }
 
+-(void)refreshTableView {
+    _talismanArray = [_dbEngine getAllTalismans];
+    [self.tableView reloadData];
+}
 
 /*
 // Override to support rearranging the table view.

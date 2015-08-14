@@ -253,12 +253,13 @@
     
     BOOL successful = [_dbEngine insertNewTalismanIntoDatabase:newTalisman];
     
-    if (successful) {
-        _selectedSet.talisman = newTalisman;
-        [_dbEngine addTalisman:newTalisman toArmorSet:_selectedSet];
-        _asDVC.leftASDVC = YES;
-        [self.navigationController popToViewController:_asDVC animated:YES];
-    }
+//    if (successful) {
+//        _selectedSet.talisman = newTalisman;
+//        [_dbEngine addTalisman:newTalisman toArmorSet:_selectedSet];
+//        _asDVC.leftASDVC = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kTalismanCreated" object:self];
+        [self.navigationController popViewControllerAnimated:YES];
+//    }
 }
 
 
