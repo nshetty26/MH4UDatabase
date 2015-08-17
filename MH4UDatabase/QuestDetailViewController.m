@@ -19,6 +19,8 @@
 @property (nonatomic) ItemTableView *rewardTable;
 @property (nonatomic) UITabBar *questDetailTab;
 @property (nonatomic) DetailedQuestView *detailedView;
+@property (nonatomic) UITableView *questPreReqTable;
+@property (nonatomic) NSArray *preReqs;
 @end
 
 @implementation QuestDetailViewController
@@ -28,6 +30,7 @@
     [super viewDidLoad];
     [self setUpMenuButton];
     [_dbEngine getQuestInfoforQuest:_selectedQuest];
+    _preReqs = [_dbEngine getAllPreReqsForQuest:_selectedQuest];
     // Do any additional setup after loading the view from its nib.
     self.title = NSLocalizedString(_selectedQuest.name, _selectedQuest.name);
     
@@ -51,9 +54,10 @@
         UITabBarItem *detailView = [[UITabBarItem alloc] initWithTitle:@"Detail" image:nil tag:1];
         UITabBarItem *monster = [[UITabBarItem alloc] initWithTitle:@"Monster" image:nil tag:2];
         UITabBarItem *reward = [[UITabBarItem alloc] initWithTitle:@"Reward" image:nil tag:3];
+        UITabBarItem *preReqs = [[UITabBarItem alloc] initWithTitle:@"PreReqs" image:nil tag:4];
         
         _questDetailTab.delegate = self;
-        [_questDetailTab setItems:@[detailView, monster, reward]];
+        [_questDetailTab setItems:@[detailView, monster, reward, preReqs]];
         [_questDetailTab setSelectedItem:detailView];
     }
 }
@@ -67,10 +71,14 @@
     _rewardTable.allItems = _selectedQuest.rewards;
     _rewardTable.accessoryType = @"Percentage";
     
+    _questPreReqTable = [[UITableView alloc] initWithFrame:tableFrame];
+    _questPreReqTable.dataSource = self;
+    _questPreReqTable.delegate = self;
+    
     _detailedView = [[[NSBundle mainBundle] loadNibNamed:@"DetailedQuestView" owner:self options:nil] lastObject];
     _detailedView.frame = tableFrame;
     [_detailedView populateViewWithQuest:_selectedQuest];
-    _allViews = @[_detailedView, _monsterTable, _rewardTable];
+    _allViews = @[_detailedView, _monsterTable, _rewardTable, _questPreReqTable];
 }
 
 
@@ -88,6 +96,9 @@
             case 3:
                 [self.view addSubview:_rewardTable];
                 break;
+            case 4:
+                [self.view addSubview:_questPreReqTable];
+                break;
             default:
                 break;
         }
@@ -101,25 +112,49 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([tableView isEqual:_monsterTable]) {
         return _selectedQuest.monsters.count;
-    } else  {
+    } else if ([tableView isEqual:_questPreReqTable])  {
+        return _preReqs.count;
+    } else {
         return 0;
     }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"armorCell"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"armorCell"];
-    }
-    
     if ([tableView isEqual:_monsterTable]) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"monsterCell"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"monsterCell"];
+        }
+        
         Monster *monster = _selectedQuest.monsters[indexPath.row];
         cell.textLabel.text = monster.monsterName;
         cell.imageView.image = [UIImage imageNamed:monster.iconName];
         return cell;
+    } else if ([tableView isEqual:_questPreReqTable]) {
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"preReqCell"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"preReqCell"];
+        }
+        
+        Quest *quest = _preReqs[(_preReqs.count -1) - indexPath.row];
+        cell.textLabel.text = quest.name;
+        CGRect cellFrame = cell.frame;
+        CGRect textView = CGRectMake(cellFrame.size.width - 50, cellFrame.size.height - 10, 30, 20);
+        UILabel *accessoryText = [[UILabel alloc] initWithFrame:textView];
+        [cell addSubview:accessoryText];
+        accessoryText.textAlignment =  NSTextAlignmentRight;
+        accessoryText.text = [quest.type isEqualToString:@"Key"] ? @"Key" : @"";
+        UIFont *font = [accessoryText.font fontWithSize:12];
+        accessoryText.font = font;
+        cell.accessoryView = accessoryText;
+        return cell;
+
     }
-    return cell;
+    
+    
+    return NULL;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -130,7 +165,13 @@
         mDVC.selectedMonster = monster;
         mDVC.dbEngine = _dbEngine;
         [self.navigationController pushViewController:mDVC animated:YES];
-        
+    } else if ([tableView isEqual:_questPreReqTable]) {
+        Quest *quest = _preReqs[(_preReqs.count -1) - indexPath.row];
+        QuestDetailViewController *qDVC = [[QuestDetailViewController alloc] init];
+        qDVC.dbEngine = _dbEngine;
+        qDVC.heightDifference = _heightDifference;
+        qDVC.selectedQuest = quest;
+        [self.navigationController pushViewController:qDVC animated:YES];
     }
 }
 

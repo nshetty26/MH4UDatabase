@@ -87,6 +87,8 @@
 -(NSArray *)getAlLCanteenCombinations;
 -(NSArray *)getAllFelyneSkills;
 
+-(NSArray *)getAllPreReqsForQuest:(Quest *)quest;
+
 -(NSArray *)getAllTalismans;
 -(BOOL)insertNewTalismanIntoDatabase:(Talisman *)newTalisman;
 -(BOOL)addTalisman:(Talisman *)talisman toArmorSet:(ArmorSet *)set;

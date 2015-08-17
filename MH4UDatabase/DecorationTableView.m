@@ -63,6 +63,7 @@
     decoration.skillArray = [_dbEngine getSkillTreesForDecorationID:decoration.itemID];
     cell.itemImageView.image = [UIImage imageNamed:decoration.icon];
     cell.itemLabel.text = decoration.name;
+    //cell.itemSubLabel.text = [NSString stringWithFormat:@"%i slots", decoration.numSlots];
     
     if (decoration.skillArray.count == 1) {
         cell.itemAccessoryLabel1.hidden = YES;

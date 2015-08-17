@@ -37,6 +37,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *subQuestRewardLabel;
 @property (weak, nonatomic) IBOutlet UILabel *subQuestRewardValue;
 
+
 -(void)populateViewWithQuest:(Quest *)quest;
 
 @end

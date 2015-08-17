@@ -693,6 +693,29 @@
     return questArray;
 }
 
+-(NSArray *)getAllPreReqsForQuest:(Quest *)quest {
+    NSMutableArray *preReqQuests = [[NSMutableArray alloc] init];
+    NSNumber *questToCheck = [NSNumber numberWithInt:quest.questID];
+    while (questToCheck) {
+        [preReqQuests addObject:[[self getAllQuests:questToCheck] firstObject]];
+        questToCheck = [self getQuestPreReqsForQuest:questToCheck];
+    }
+    
+    return preReqQuests;
+    
+}
+
+-(NSNumber *)getQuestPreReqsForQuest:(NSNumber *)questID{
+    NSString *query = [NSString stringWithFormat:@"select * from quest_prereqs where quest_id = %i", [questID integerValue]];
+    
+    FMResultSet *s = [self DBquery:query];
+    if ([s next]) {
+        return [NSNumber numberWithInt:[s intForColumn:@"prereq_id"]];
+    } else {
+        return NULL;
+    }
+}
+
 
 
 -(void)getQuestInfoforQuest:(Quest*)quest {

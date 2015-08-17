@@ -124,6 +124,7 @@
 @property (nonatomic) NSString *subQuest;
 @property (nonatomic) int subQuestReward;
 @property (nonatomic) int subHRP;
+@property (nonatomic) NSNumber *preReqID;
 @property (nonatomic) NSArray *monsters;
 @property (nonatomic) NSArray *rewards;
 @end
